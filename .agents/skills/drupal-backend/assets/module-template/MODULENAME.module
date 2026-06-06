@@ -1,0 +1,22 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for MODULELABEL module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function MODULENAME_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.MODULENAME':
+      $output = '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Description of what this module does.') . '</p>';
+      return $output;
+
+    default:
+  }
+}

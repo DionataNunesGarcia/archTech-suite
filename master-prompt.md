@@ -1,15 +1,16 @@
-Analise com cuidado todos os detalhes do @archtech-prd-enhanced.xml, do design system documentado em Storybook (se disponível em @frontend/design-system/storybook/index.html ou similar), e do código, implementações e padrões já realizados no projeto.
-
-Em seguida, execute a "Fase 2 - Setup de Infraestrutura e CI/CD" descrita na sessão "<phases><phase number=\"2\" name=\"Setup de Infraestrutura e CI/CD\">" do @archtech-prd-enhanced.xml.
-
-Para cada tarefa dentro desta fase, marque com [X] nas tarefas conforme finalize, as mesmas. Ignore tarefas já marcadas com [X].
+# Mude apenas esta linha para executar a fase desejada:
+PHASE=2
 
 ---
 
-## Fase 2 - Setup de Infraestrutura e CI/CD (Checklist)
+Analise todos os detalhes da **Fase ${PHASE}** no `@archtech-prd.md` (seção "Fase ${PHASE}"), além do código, implementações e padrões já realizados no projeto.
 
-- [ ] Provisionamento de infraestrutura (Cloud, Kubernetes, Banco de Dados Gerenciado) via IaC.
-- [ ] Configuração de CI/CD pipelines para Backend e Frontend.
-- [ ] Configuração de ambiente de desenvolvimento local (DDEV/Lando).
-- [ ] Implementação de base de segurança (WAF, DDoS, Secret Management).
-- [ ] Configuração de ferramentas de Observabilidade (Logging, Monitoring, Alerting).
+Em seguida, execute todas as tarefas da fase.
+
+Para cada tarefa, marque com `[X]` conforme finalizar. Ignore tarefas já marcadas com `[X]`. Se encontrar impedimentos, registre-os ao final com o status atual.
+
+---
+
+## Fase ${PHASE} — Checklist
+
+Extraia do `@archtech-prd.md` a seção "Fase ${PHASE}" e liste aqui as tarefas numeradas, skills, ferramentas, entregáveis e Definition of Done correspondentes. Marque o progresso abaixo.

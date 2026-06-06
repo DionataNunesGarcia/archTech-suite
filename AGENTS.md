@@ -3,7 +3,7 @@
 ## Projeto
 
 ArchTech Suite — ecossistema de IA para escritórios de arquitetura.
-Backend Drupal 11 headless, frontend Next.js 15, 9 bounded contexts, 19 agentes de IA.
+Backend Drupal 11 headless, frontend Next.js 15, 9 bounded contexts, 24 skills de IA.
 
 ## Documentação
 
@@ -49,7 +49,14 @@ Backend Drupal 11 headless, frontend Next.js 15, 9 bounded contexts, 19 agentes 
 | `ia-bim-twin-integrator` | Processamento IFC |
 | `ia-bim-twin-optimizer` | Análise de performance |
 
-### Skills de Workflow (`.ai/skills/`)
+### Skills de Desenvolvimento Drupal (`.agents/skills/`)
+
+| Skill | Descrição |
+|-------|-----------|
+| `drupal-backend` | Desenvolvimento de módulos, hooks, APIs, PHP |
+| `drupal-frontend` | Desenvolvimento de temas, Twig, CSS/JS |
+
+### Skills de Workflow (`.agents/skills/`)
 
 | Skill | Descrição |
 |-------|-----------|

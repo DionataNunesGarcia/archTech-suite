@@ -75,6 +75,26 @@
     "ia-bim-twin-optimizer": {
       "path": ".agents/skills/ia-bim-twin-optimizer/SKILL.md",
       "description": "Digital twin performance analysis agent"
+    },
+    "drupal-backend": {
+      "path": ".agents/skills/drupal-backend/SKILL.md",
+      "description": "Drupal custom module development, hooks, APIs, PHP"
+    },
+    "drupal-frontend": {
+      "path": ".agents/skills/drupal-frontend/SKILL.md",
+      "description": "Drupal theme development, Twig templates, CSS/JS"
+    },
+    "find-skills": {
+      "path": ".agents/skills/find-skills/SKILL.md",
+      "description": "Discover and install agent skills from the ecosystem"
+    },
+    "frontend-design": {
+      "path": ".agents/skills/frontend-design/SKILL.md",
+      "description": "Create production-grade frontend interfaces with high design quality"
+    },
+    "skill-creator": {
+      "path": ".agents/skills/skill-creator/SKILL.md",
+      "description": "Create, modify, and optimize agent skills with evals"
     }
   }
 }

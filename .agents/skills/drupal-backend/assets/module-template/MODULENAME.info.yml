@@ -1,0 +1,10 @@
+name: MODULELABEL
+description: 'Description of what this module does.'
+type: module
+core_version_requirement: ^9 || ^10 || ^11
+package: Custom
+
+# Add dependencies as needed
+# dependencies:
+#   - drupal:node
+#   - drupal:views

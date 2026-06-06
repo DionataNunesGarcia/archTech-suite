@@ -1,0 +1,8 @@
+# Example route - customize or remove as needed
+MODULENAME.example:
+  path: '/MODULENAME/example'
+  defaults:
+    _controller: '\Drupal\MODULENAME\Controller\ExampleController::content'
+    _title: 'Example Page'
+  requirements:
+    _permission: 'access content'
