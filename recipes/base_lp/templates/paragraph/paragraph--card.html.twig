@@ -1,0 +1,46 @@
+{% set card_type = content.field_card_type[0]['#markup'] ?? '' %}
+{% set card_detail_color = content.field_detail_color[0]['#markup'] ?? '' %}
+
+{%
+  set classes = [
+    'paragraph--type--' ~ paragraph.bundle|clean_class,
+    not paragraph.isPublished() ? 'paragraph--unpublished',
+    card_type ? 'card-type-' ~ card_type,
+    card_type == 'icon' ? 'border-' ~ card_detail_color : '',
+    'card-hover'
+  ]
+%}
+
+{% block paragraph %}
+  <div{{ attributes.addClass(classes) }}>
+    {% if paragraph.field_icon.value is not empty %}
+      <div class="icon bg-{{ card_detail_color }}">
+        {{ iconify_field(paragraph.field_icon.value) }}
+      </div>
+    {% endif %}
+    {% if content.field_image is not empty %}
+      {{ content.field_image }}
+    {% endif %}
+    {% if content.field_title[0]['#context']['value'] is defined %}
+      <h3 class="title auto-animate">
+        {{ content.field_title[0]['#context']['value'] }}
+      </h3>
+    {% endif %}
+    {% if content.field_subtitle[0]['#context']['value'] is defined %}
+      <p class="subtitle">
+        {{ content.field_subtitle[0]['#context']['value'] }}
+      </p>
+    {% endif %}
+    
+    <div class="content-text text-{{ card_detail_color }}">
+      {% if content.field_body is not empty %}
+        {{ content.field_body }}
+      {% endif %}
+      {% if content.field_link is not empty %}
+        <a class="link" href="{{ content.field_link[0]['#url'].toString() }}">
+          {{ content.field_link[0]['#title'] }}
+        </a>
+      {% endif %}
+    </div>
+  </div>
+{% endblock paragraph %}

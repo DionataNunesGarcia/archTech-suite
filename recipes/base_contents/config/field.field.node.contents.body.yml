@@ -1,0 +1,23 @@
+langcode: pt-br
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - node.type.contents
+  module:
+    - text
+id: node.contents.body
+field_name: body
+entity_type: node
+bundle: contents
+label: Body
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: true
+  required_summary: false
+  allowed_formats: {  }
+field_type: text_with_summary

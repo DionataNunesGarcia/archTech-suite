@@ -1,0 +1,13 @@
+{
+    "name": "archtech/base",
+    "description": "ArchTech Base Platform Recipe",
+    "type": "drupal-recipe",
+    "require": {
+        "drupal/core-recipe-unpack": "^11.0",
+        "drupal/jsonapi_extras": "^4",
+        "drupal/graphql": "^4",
+        "drupal/simple_oauth": "^6",
+        "drupal/rabbitmq": "^3",
+        "drupal/key": "^1"
+    }
+}

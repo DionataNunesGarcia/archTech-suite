@@ -1,0 +1,24 @@
+
+<div class="bg-white border border-neutral-200 overflow-hidden hover:border-neutral-900 transition-colors">
+  <button class="w-full p-6 lg:p-8 flex items-center justify-between gap-4 text-left hover:bg-neutral-50 transition-colors accordion-trigger animate-fade-up" style="transition-delay: 3.35s; translate: none; rotate: none; scale: none; opacity: 1; transform: translate(0px, 0px);">
+    <div class="flex items-center gap-6">
+      <div class="w-12 h-12 rounded-full bg-emerald-700 text-white flex items-center justify-center flex-shrink-0">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-play">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polygon points="10 8 16 12 10 16 10 8"></polygon>
+        </svg>
+      </div>
+      <div>
+        <div class="font-serif text-xl lg:text-2xl tracking-tight">
+          {{ content.field_title }}
+        </div>
+      </div>
+    </div>
+    <span class="accordion-icon">+</span>
+  </button>
+  <div class="accordion-content text-content-editor hidden p-6 lg:p-8 text-neutral-600 leading-relaxed border-t border-emerald-700/20 pt-4">
+    <p>
+      {{ content.field_body | raw }}
+    </p>
+  </div>
+</div>

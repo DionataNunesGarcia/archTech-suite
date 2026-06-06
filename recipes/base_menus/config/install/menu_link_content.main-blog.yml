@@ -1,0 +1,14 @@
+langcode: pt-br
+status: true
+dependencies:
+  module:
+    - menu_link_content
+id: main-blog
+title: 'Blog'
+description: ''
+link:
+  uri: 'internal:/blog'
+  options: {}
+menu_name: main
+weight: 3
+expanded: false

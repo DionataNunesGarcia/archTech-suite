@@ -1,0 +1,41 @@
+{
+    "_hash": "7359a99df8624b08d4ac41a9538b8e2d316d8b135562a459d2c5ddb3c20a26dd",
+    "patches": {
+        "drupal/core": [
+            {
+                "package": "drupal/core",
+                "description": "Warning: Undefined array key 1 in Drupal doGetDependencies()",
+                "url": "https://www.drupal.org/files/issues/2022-12-26/3329660-2.patch",
+                "sha256": "a1a156b1635f0363020173a665103a4e90265bc13a2f1fc145e775a3e6b42e6a",
+                "depth": 2,
+                "extra": {
+                    "provenance": "root"
+                }
+            }
+        ],
+        "drupal/iconify_field": [
+            {
+                "package": "drupal/iconify_field",
+                "description": "Fix division by zero in IconResolver",
+                "url": "assets/patches/iconify-field-division-by-zero.patch",
+                "sha256": "03abe9d6485d635579ebfdf5da5534989c46b8df8701fe82e42b03982b85ed44",
+                "depth": 1,
+                "extra": {
+                    "provenance": "root"
+                }
+            }
+        ],
+        "drupal/pathauto": [
+            {
+                "package": "drupal/pathauto",
+                "description": "Fix ContextNotFoundException not found",
+                "url": "assets/patches/pathauto-context-exception-fix.patch",
+                "sha256": "ebe3bc6d64a155e18a3eba8b6e15c267d888883b47fcd92945a6b33343e95e6e",
+                "depth": 1,
+                "extra": {
+                    "provenance": "root"
+                }
+            }
+        ]
+    }
+}

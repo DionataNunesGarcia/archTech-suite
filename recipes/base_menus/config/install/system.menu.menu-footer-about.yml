@@ -1,0 +1,5 @@
+langcode: pt-br
+id: menu-footer-about
+description: 'Menu do rodapé sobre a empresa'
+label: 'Sobre'
+locked: false

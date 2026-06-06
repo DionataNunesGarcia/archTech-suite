@@ -1,0 +1,40 @@
+{%
+  set classes = [
+    'container mx-auto px-6 2xl:px-0 py-20 lg:py-32 max-w-[1400px]',
+    'paragraph',
+    'paragraph--type--' ~ paragraph.bundle|clean_class,
+    view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
+    not paragraph.isPublished() ? 'paragraph--unpublished'
+  ]
+%}
+
+{% set view_name = 'list_featured_courses' %}
+{% set view_block = 'block_1' %}
+
+{% set results = drupal_view_result(view_name, view_block) %}
+
+{% if results|length > 0 %}
+  <section
+    {{ attributes
+      .addClass(classes)
+      .addClass('relative overflow-hidden', 'auto-animate')
+      .setAttribute('data-animate', 'fade-up')
+    }}
+  >
+    <div class="w-16 h-1 bg-amber-600 mb-6"></div>
+    <h3 class="font-serif text-4xl lg:text-5xl tracking-tight mb-6 font-semibold">
+      {{ content.field_section_title[0]['#context']['value'] }}
+    </h3>
+    {% if content.field_text[0]['#context']['value'] is defined %}
+      <p class="max-w-[1177px]">
+        {{ content.field_text[0]['#context']['value'] }}
+      </p>
+    {% endif %}
+    {{ drupal_view(view_name, view_block) }}
+    <div class="flex justify-center">
+      <a href="/cursos" class="mt-10 inline-block px-6 py-4 bg-emerald-800 text-white font-medium hover:bg-emerald-700 transition-colors">
+        {{ 'Ver todos os cursos'|t}}
+      </a>
+    </div>  
+  </section>
+{% endif %}

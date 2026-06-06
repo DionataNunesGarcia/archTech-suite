@@ -1,0 +1,8 @@
+langcode: pt-br
+status: true
+dependencies: {  }
+name: 'Content Category - Subject'
+vid: content_topic
+description: null
+weight: 0
+new_revision: false

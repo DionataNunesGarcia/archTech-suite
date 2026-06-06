@@ -1,0 +1,30 @@
+langcode: pt-br
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.texto_full_html.field_body
+    - field.field.paragraph.texto_full_html.field_section_title
+    - paragraphs.paragraphs_type.texto_full_html
+  module:
+    - text
+id: paragraph.texto_full_html.default
+targetEntityType: paragraph
+bundle: texto_full_html
+mode: default
+content:
+  field_body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_section_title:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden: {  }

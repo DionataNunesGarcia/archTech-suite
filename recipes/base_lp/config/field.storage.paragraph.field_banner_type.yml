@@ -1,0 +1,32 @@
+langcode: pt-br
+status: true
+dependencies:
+  module:
+    - options
+    - paragraphs
+id: paragraph.field_banner_type
+field_name: field_banner_type
+entity_type: paragraph
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: default
+      label: Padrão
+    -
+      value: default_with_image
+      label: 'Padrão com imagem'
+    -
+      value: banner_text_and_side_buttons
+      label: 'Banner textos e botões laterais'
+    -
+      value: slider
+      label: Slider
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

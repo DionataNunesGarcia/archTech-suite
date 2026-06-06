@@ -1,0 +1,30 @@
+langcode: pt-br
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_featured_image
+    - media.type.image
+    - media.type.responsive_image
+    - node.type.contents
+id: node.contents.field_featured_image
+field_name: field_featured_image
+entity_type: node
+bundle: contents
+label: 'Featured Image'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      image: image
+      responsive_image: responsive_image
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: image
+field_type: entity_reference

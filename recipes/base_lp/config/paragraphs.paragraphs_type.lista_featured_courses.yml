@@ -1,0 +1,9 @@
+langcode: pt-br
+status: true
+dependencies: {  }
+id: lista_featured_courses
+label: 'Seção - Lista de Cursos em Destaque'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

@@ -1,0 +1,24 @@
+<?php
+
+use Drupal\language\Entity\ConfigurableLanguage;
+
+function base_i18n_install() {
+  $languages = [
+    'pt-br' => 'Português (Brasil)',
+    'es'    => 'Español',
+    'en'    => 'English',
+  ];
+
+  foreach ($languages as $langcode => $label) {
+    $existing = \Drupal::entityTypeManager()
+      ->getStorage('configurable_language')
+      ->load($langcode);
+
+    if (!$existing) {
+      ConfigurableLanguage::create([
+        'id'    => $langcode,
+        'label' => $label,
+      ])->save();
+    }
+  }
+}

@@ -1,0 +1,22 @@
+langcode: pt-br
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_line_above_title
+    - paragraphs.paragraphs_type.section_simple_header
+  module:
+    - options
+id: paragraph.section_simple_header.field_line_above_title
+field_name: field_line_above_title
+entity_type: paragraph
+bundle: section_simple_header
+label: 'Linha acima do título'
+description: ''
+required: true
+translatable: false
+default_value:
+  -
+    value: bg-red-950
+default_value_callback: ''
+settings: {  }
+field_type: list_string

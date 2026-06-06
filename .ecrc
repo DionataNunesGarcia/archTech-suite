@@ -1,0 +1,12 @@
+vendor
+node_modules
+dist
+web/core
+web/modules/contrib
+web/themes/contrib
+web/sites/simpletest
+*.css
+*.js
+*.lock
+composer.lock
+package-lock.json

@@ -1,0 +1,7 @@
+// scaffold/tailwind/src/scss/components/_page.scss
+.page-layout {
+	&__messages { @apply container mx-auto; }
+	&__main     { @apply bg-white text-black min-h-screen; }
+	&__inner    { @apply pt-0; }
+	&__hero     { @apply mb-16; }
+}

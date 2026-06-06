@@ -1,0 +1,39 @@
+
+{% set side = content.field_side_of_the_image[0]['#markup'] %}
+{% set background = content.field_class_background[0]['#markup'] %}
+{% set text_color = content.field_text_color[0]['#markup'] %}
+{% set line_above_title = content.field_line_above_title[0]['#markup'] %}
+
+<div class="{{ background }}">
+  {%
+    set classes = [
+      'container-fluid pt-32 pb-20 px-6 lg:px-12 bg-emerald-900',
+      'paragraph',
+      'paragraph--type--' ~ paragraph.bundle|clean_class,
+      view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
+      not paragraph.isPublished() ? 'paragraph--unpublished',
+    ]
+  %}
+  {% block paragraph %}
+    <section
+      {{ attributes
+        .addClass(classes)
+        .addClass('relative overflow-hidden', 'auto-animate')
+        .setAttribute('data-animate', 'fade-up')
+      }}
+    >
+    <section class="relative text-{{ text_color }} overflow-hidden">
+			<div class="max-w-[1400px] mx-auto relative z-10">
+				<div class="max-w-3xl" >
+					<div class="w-16 h-1 {{ line_above_title }} mb-6" ></div>
+					<h1 class="font-serif text-5xl lg:text-7xl leading-[1.1] tracking-tight mb-6">
+						{{ content.field_section_title[0]['#context']['value'] }}
+					</h1>
+					<p class="text-xl text-{{ text_color }}/90 leading-relaxed">
+						{{ content.field_text }}
+					</p>
+				</div>
+			</div>
+    </section>
+  {% endblock paragraph %}
+</div>

@@ -1,0 +1,20 @@
+langcode: pt-br
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.section_team_full_list.field_class_background
+    - paragraphs.paragraphs_type.section_team_full_list
+id: paragraph.section_team_full_list.default
+targetEntityType: paragraph
+bundle: section_team_full_list
+mode: default
+content:
+  field_class_background:
+    type: options_select
+    weight: 6
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

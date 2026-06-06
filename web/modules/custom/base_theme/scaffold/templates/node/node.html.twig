@@ -1,0 +1,23 @@
+{%
+  set classes = [
+    'container mx-auto px-6 2xl:px-0 py-20 lg:py-32 max-w-[1400px]',
+    'py-20 lg:py-32 relative'
+  ]
+%}
+
+<article
+  {{ attributes
+    .addClass(classes)
+    .addClass('relative overflow-hidden', 'auto-animate')
+    .setAttribute('data-animate', 'fade-up')
+  }}
+>
+  {{ title_prefix }}
+  <h1 class="hidden">{{ label }}</h1>
+  {{ title_suffix }}
+
+  <div class="content">
+    {{ content }}
+  </div>
+
+</article>

@@ -1,0 +1,9 @@
+name: 'ArchTech Supplier Management'
+description: 'Supplier management bounded context. Supplier registration, ratings, SLA monitoring.'
+type: 'Site'
+recipes:
+  - archtech_base
+install:
+  - archtech_suppliers
+config:
+  strict: false

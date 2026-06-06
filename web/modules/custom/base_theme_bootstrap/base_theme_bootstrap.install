@@ -1,0 +1,125 @@
+<?php
+
+/**
+ * @file
+ * Install functions for base_theme_bootstrap (Bootstrap 5).
+ */
+
+use Drupal\Core\File\FileSystemInterface;
+
+/**
+ * Implements hook_install().
+ */
+function base_theme_bootstrap_install() {
+  $module_path = \Drupal::service('extension.list.module')->getPath('base_theme_bootstrap');
+  $scaffold_dir = $module_path . '/scaffold';
+
+  // Read theme name from .env (defaults to front_theme).
+  $theme_name = 'front_theme';
+  $env_file = dirname(DRUPAL_ROOT) . '/.env';
+  if (file_exists($env_file)) {
+    $env_content = file_get_contents($env_file);
+    preg_match('/CUSTOM_THEME_NAME=(.*)/', $env_content, $matches);
+    if (!empty($matches[1])) {
+      $theme_name = trim($matches[1]);
+    }
+  }
+
+  $theme_dir = DRUPAL_ROOT . '/themes/custom/' . $theme_name;
+  $file_system = \Drupal::service('file_system');
+
+  // Scaffold the theme from the scaffold directory.
+  $file_system->prepareDirectory($theme_dir, FileSystemInterface::CREATE_DIRECTORY);
+  _base_theme_bootstrap_copy_recursive($scaffold_dir, $theme_dir, $file_system);
+
+  // Ensure dist directories exist for build output.
+  $dirs = [
+    $theme_dir . '/dist/css',
+    $theme_dir . '/dist/js',
+    $theme_dir . '/src/scss',
+    $theme_dir . '/src/js',
+    $theme_dir . '/src/images',
+  ];
+  foreach ($dirs as $dir) {
+    $file_system->prepareDirectory($dir, FileSystemInterface::CREATE_DIRECTORY);
+  }
+
+  // Rename scaffold files and replace internal references to the chosen theme name.
+  _base_theme_bootstrap_rename_files($theme_dir, 'front_theme', $theme_name);
+  _base_theme_bootstrap_replace_in_files($theme_dir, 'front_theme', $theme_name);
+
+  // Register and activate the theme.
+  \Drupal::service('theme_installer')->install([$theme_name]);
+
+  // Set the default logo path.
+  \Drupal::configFactory()
+    ->getEditable($theme_name . '.settings')
+    ->set('logo.path', 'themes/custom/' . $theme_name . '/src/images/logo.png')
+    ->set('logo.use_default', FALSE)
+    ->save();
+
+  \Drupal::messenger()->addStatus(
+    t('Bootstrap theme "@theme" scaffolded. Run "npm install && npm run build" inside web/themes/custom/@theme.', [
+      '@theme' => $theme_name,
+    ])
+  );
+}
+
+/**
+ * Copy recursively from $source to $destination.
+ * Directories are merged; existing files are not overwritten.
+ */
+function _base_theme_bootstrap_copy_recursive(string $source, string $destination, $file_system): void {
+  if (!is_dir($source)) {
+    return;
+  }
+
+  $file_system->prepareDirectory($destination, FileSystemInterface::CREATE_DIRECTORY);
+
+  foreach (scandir($source) as $item) {
+    if ($item === '.' || $item === '..') {
+      continue;
+    }
+
+    $src  = $source . '/' . $item;
+    $dest = $destination . '/' . $item;
+
+    if (is_dir($src)) {
+      _base_theme_bootstrap_copy_recursive($src, $dest, $file_system);
+    }
+    elseif (!file_exists($dest)) {
+      copy($src, $dest);
+    }
+  }
+}
+
+/**
+ * Rename top-level scaffold files that contain the default theme name.
+ */
+function _base_theme_bootstrap_rename_files(string $theme_dir, string $old_name, string $new_name): void {
+  foreach (scandir($theme_dir) as $item) {
+    if ($item === '.' || $item === '..') {
+      continue;
+    }
+
+    if (strpos($item, $old_name) !== false) {
+      rename($theme_dir . '/' . $item, $theme_dir . '/' . str_replace($old_name, $new_name, $item));
+    }
+  }
+}
+
+/**
+ * Replace theme name references inside scaffold files.
+ */
+function _base_theme_bootstrap_replace_in_files(string $theme_dir, string $old_name, string $new_name): void {
+  $extensions = ['yml', 'yaml', 'json', 'js', 'theme', 'scss', 'php'];
+
+  $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($theme_dir));
+
+  foreach ($iterator as $file) {
+    if ($file->isFile() && in_array($file->getExtension(), $extensions)) {
+      $content = file_get_contents($file->getPathname());
+      file_put_contents($file->getPathname(), str_replace($old_name, $new_name, $content));
+    }
+  }
+}

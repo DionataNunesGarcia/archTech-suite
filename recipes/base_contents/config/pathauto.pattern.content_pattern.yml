@@ -1,0 +1,21 @@
+langcode: pt-br
+status: true
+dependencies:
+  module:
+    - node
+    - pathauto
+id: content_pattern
+label: 'Contents Pattern'
+type: 'canonical_entities:node'
+pattern: '/[node:field_category:entity:name]/[node:title]'
+selection_criteria:
+  d8833ba8-8e75-4d69-8540-9f9713a0cc68:
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: node
+    bundles:
+      contents: contents
+selection_logic: and
+weight: -5
+relationships: {  }

@@ -1,0 +1,29 @@
+langcode: pt-br
+status: true
+dependencies:
+  module:
+    - options
+    - paragraphs
+id: paragraph.field_card_type
+field_name: field_card_type
+entity_type: paragraph
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: default
+      label: Padrão
+    -
+      value: big_numbers
+      label: 'Números Grandes'
+    -
+      value: icon
+      label: Ícone
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

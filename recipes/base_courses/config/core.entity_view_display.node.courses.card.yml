@@ -1,0 +1,121 @@
+langcode: pt-br
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.card
+    - field.field.node.courses.body
+    - field.field.node.courses.field_certificate
+    - field.field.node.courses.field_course_category
+    - field.field.node.courses.field_course_featured_image
+    - field.field.node.courses.field_course_format
+    - field.field.node.courses.field_course_includes
+    - field.field.node.courses.field_course_level
+    - field.field.node.courses.field_course_type
+    - field.field.node.courses.field_final_date
+    - field.field.node.courses.field_highlights
+    - field.field.node.courses.field_initial_date
+    - field.field.node.courses.field_intro_video
+    - field.field.node.courses.field_learning_objectives
+    - field.field.node.courses.field_location
+    - field.field.node.courses.field_meta_tag
+    - field.field.node.courses.field_price
+    - field.field.node.courses.field_professors
+    - field.field.node.courses.field_requirements
+    - field.field.node.courses.field_sections
+    - field.field.node.courses.field_syllabus
+    - field.field.node.courses.field_target_audience
+    - field.field.node.courses.field_week_duration
+    - field.field.node.courses.field_workload
+    - node.type.courses
+  module:
+    - datetime
+    - options
+    - text
+    - user
+id: node.courses.card
+targetEntityType: node
+bundle: courses
+mode: card
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_course_category:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_course_featured_image:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_course_type:
+    type: list_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 6
+    region: content
+  field_final_date:
+    type: datetime_default
+    label: hidden
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_initial_date:
+    type: datetime_default
+    label: hidden
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_price:
+    type: number_decimal
+    label: hidden
+    settings:
+      thousand_separator: ''
+      decimal_separator: .
+      scale: 2
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 7
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden:
+  field_certificate: true
+  field_course_format: true
+  field_course_includes: true
+  field_course_level: true
+  field_highlights: true
+  field_intro_video: true
+  field_learning_objectives: true
+  field_location: true
+  field_meta_tag: true
+  field_professors: true
+  field_requirements: true
+  field_sections: true
+  field_syllabus: true
+  field_target_audience: true
+  field_week_duration: true
+  field_workload: true
+  langcode: true

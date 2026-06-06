@@ -1,0 +1,43 @@
+// =============================================================================
+// front_theme — Bootstrap 5 entry point
+//
+// Bootstrap 5 internally uses @import (not @use), so we import via its
+// official entry point. Deprecation warnings are suppressed with
+// --quiet-deps in the build script (they come from Bootstrap's own source,
+// not from this file).
+//
+// To override Bootstrap variables, uncomment and edit the section below
+// BEFORE the @import "bootstrap" line.
+// =============================================================================
+
+// 1. Bootstrap functions (required before variable overrides)
+@import "bootstrap/scss/functions";
+
+// 2. Variable overrides — customize before importing Bootstrap
+// $primary:          #2d6a4f;
+// $font-family-base: 'Inter', sans-serif;
+// $border-radius:    0.375rem;
+
+// 3. Full Bootstrap source
+@import "bootstrap/scss/bootstrap";
+
+// 4. Bootstrap Icons
+@import "bootstrap-icons/font/bootstrap-icons";
+
+
+// Common styles from shared SCSS (local to theme)
+@import "tokens/colors";
+@import "tokens/typography";
+@import "tokens/spacing";
+@import "tokens/effects";
+
+@import "base/fonts";
+@import "base/reset";
+@import "base/headings";
+
+@import "components/header";
+@import "components/pager";
+@import "components/modal-search";
+@import "components/page";
+
+@import "helpers/helpers";

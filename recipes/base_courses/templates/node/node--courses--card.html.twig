@@ -1,0 +1,78 @@
+{#
+/**
+ * Node Card - Courses
+ */
+#}
+
+<article class="course-card h-full">
+
+  {# Imagem #}
+  {% if node.field_course_featured_image.entity %}
+    {% set media = node.field_course_featured_image.entity %}
+    {% set image = media.field_media_image.entity %}
+
+    <div class="course-image">
+      <div class="course-accent accent-emerald"></div>
+      <img
+        src="{{ file_url(image.uri.value) }}"
+        alt="{{ image.alt }}"
+        class="w-full h-full object-cover"
+      >
+    </div>
+  {% endif %}
+
+  <div class="course-content">
+
+    {# Categoria #}
+    {% if content.field_course_category %}
+      <div class="course-meta">
+        <span>{{ content.field_course_category }}</span>
+      </div>
+    {% endif %}
+
+    {# Título #}
+    <a href="{{ url }}" class="hover:underline">
+      <h3 class="course-title font-serif font-normal">
+        {{ label[0]['#context']['value'] }}
+      </h3>
+    </a>
+
+    {# Descrição #}
+    {% if content.body %}
+      <div class="course-description">
+        {{ content.body }}
+      </div>
+    {% endif %}
+
+    <div class="mt-auto">
+
+      {# Datas #}
+      {% set data_inicio = node.field_initial_date.value %}
+      {% set data_fim = node.field_final_date.value %}
+
+      <div class="course-meta mb-4">
+        {% if data_inicio %}
+          <span>{{ 'Início' }}: {{ data_inicio|date("D, d M Y \\\à\\\s H:i") }} hs</span>
+        {% endif %}
+      </div>
+
+      {# Tipo + preço #}
+      <div class="course-meta">
+        {% set price = node.field_price.value|default(0) %}
+
+        <span>
+          {% if price <= 0 %}
+            Gratuito
+          {% else %}
+            R$ {{ price|number_format(2, ',', '.') }}
+          {% endif %}
+        </span>
+      </div>
+
+      <a href="{{ url }}" class="course-link">
+        {{'Ver detalhes'|t}} →
+      </a>
+    </div>
+  </div>
+
+</article>

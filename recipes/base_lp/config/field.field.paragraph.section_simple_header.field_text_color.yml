@@ -1,0 +1,22 @@
+langcode: pt-br
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_text_color
+    - paragraphs.paragraphs_type.section_simple_header
+  module:
+    - options
+id: paragraph.section_simple_header.field_text_color
+field_name: field_text_color
+entity_type: paragraph
+bundle: section_simple_header
+label: 'Cor do texto'
+description: ''
+required: true
+translatable: false
+default_value:
+  -
+    value: black
+default_value_callback: ''
+settings: {  }
+field_type: list_string

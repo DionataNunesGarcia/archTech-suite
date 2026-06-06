@@ -1,0 +1,12 @@
+langcode: en
+status: true
+id: media_desktop
+label: "Media Desktop (1280px)"
+effects:
+  uuid_desktop:
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 1280
+      height: 720
+      anchor: "center-center"

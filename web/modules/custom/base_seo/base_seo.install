@@ -1,0 +1,21 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for base_seo.
+ */
+
+function base_seo_install() {
+  // Simple Sitemap settings (installed separately before this recipe).
+  if (\Drupal::moduleHandler()->moduleExists('simple_sitemap')) {
+    \Drupal::configFactory()
+      ->getEditable('simple_sitemap.settings')
+      ->set('max_links', 2000)
+      ->set('cron_generate', TRUE)
+      ->set('cron_generate_interval', 1)
+      ->set('remove_duplicates', TRUE)
+      ->set('skip_untranslated', FALSE)
+      ->set('default_variant', 'default')
+      ->save();
+  }
+}

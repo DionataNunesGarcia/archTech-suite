@@ -1,0 +1,7 @@
+id: openai
+label: OpenAI
+provider: openai
+status: true
+config:
+  api_key: openai_api
+  default_model: gpt-4o-mini

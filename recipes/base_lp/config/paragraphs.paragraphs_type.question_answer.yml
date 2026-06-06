@@ -1,0 +1,9 @@
+langcode: pt-br
+status: true
+dependencies: {  }
+id: question_answer
+label: 'Componente - Pergunta e Resposta'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

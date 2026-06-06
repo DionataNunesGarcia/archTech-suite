@@ -1,0 +1,52 @@
+langcode: pt-br
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.section_simple_header.field_class_background
+    - field.field.paragraph.section_simple_header.field_line_above_title
+    - field.field.paragraph.section_simple_header.field_section_title
+    - field.field.paragraph.section_simple_header.field_text
+    - field.field.paragraph.section_simple_header.field_text_color
+    - paragraphs.paragraphs_type.section_simple_header
+id: paragraph.section_simple_header.default
+targetEntityType: paragraph
+bundle: section_simple_header
+mode: default
+content:
+  field_class_background:
+    type: options_select
+    weight: 6
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_line_above_title:
+    type: options_select
+    weight: 7
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_section_title:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_text:
+    type: string_textarea
+    weight: 2
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_text_color:
+    type: options_select
+    weight: 7
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

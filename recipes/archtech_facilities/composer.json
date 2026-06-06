@@ -1,0 +1,8 @@
+{
+    "name": "archtech/facilities",
+    "description": "ArchTech Facilities Bounded Context",
+    "type": "drupal-recipe",
+    "require": {
+        "archtech/base": "*"
+    }
+}

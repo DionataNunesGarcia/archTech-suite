@@ -1,0 +1,106 @@
+<footer class="py-5 px-3 px-lg-5 bg-dark text-white position-relative overflow-hidden">
+
+  <!-- Background pattern (mantido) -->
+  <div class="position-absolute top-0 start-0 w-100 h-100 opacity-10" style="pointer-events:none;">
+    <svg class="w-100 h-100 text-white" viewBox="0 0 200 200" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <pattern id="trianglePattern" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+          <path d="M20,0 L40,40 L0,40 Z" fill="currentColor" opacity="0.03"></path>
+          <path d="M0,0 L20,0 L0,20 Z" fill="currentColor" opacity="0.03"></path>
+          <path d="M40,0 L40,20 L20,0 Z" fill="currentColor" opacity="0.03"></path>
+        </pattern>
+      </defs>
+      <rect width="200" height="200" fill="url(#trianglePattern)"></rect>
+    </svg>
+  </div>
+
+  <div class="container position-relative" style="max-width: 1400px; z-index:10;">
+    
+    <div class="row g-4 mb-5">
+
+      <!-- Logo + texto -->
+      <div class="col-12 col-md-6 col-lg-3">
+        <div class="mb-3 d-flex align-items-center gap-3">
+          <img src="/themes/custom/front_theme/src/images/logo-white.png" class="img-fluid" style="max-width:100px;" alt="{{ site_name }}">
+          <img src="/themes/custom/front_theme/src/images/logo-secondary.png" class="img-fluid" style="max-height:100px;" alt="{{ site_name }}">
+        </div>
+
+        <p class="text-light">
+          {{'Loren ipsum'}}
+        </p>
+
+        <div class="d-flex gap-2">
+          <div style="width:30px;height:4px;" class="bg-success"></div>
+          <div style="width:30px;height:4px;" class="bg-danger"></div>
+          <div style="width:30px;height:4px;" class="bg-warning"></div>
+        </div>
+      </div>
+
+      <!-- Quick links -->
+      <div class="col-6 col-lg-3">
+        <h6 class="text-uppercase mb-3 text-light"> {{'Quick links'|t}} </h6>
+        <ul class="list-unstyled">
+          {% for item in menu_footer_programs %}
+            <li class="mb-2">
+              <a href="{{ item.url }}" class="text-decoration-none text-light {{ item.classes }}" target="{{ item.target }}">
+                {{ item.title }}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <!-- About -->
+      <div class="col-6 col-lg-3">
+        <h6 class="text-uppercase mb-3 text-light"> {{'About us'|t}} </h6>
+        <ul class="list-unstyled">
+          {% for item in menu_footer_about %}
+            <li class="mb-2">
+              <a href="{{ item.url }}" class="text-decoration-none text-light {{ item.classes }}" target="{{ item.target }}">
+                {{ item.title }}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <!-- Social + newsletter -->
+      <div class="col-12 col-lg-3">
+        <h6 class="text-uppercase mb-3 text-light">CONNECT</h6>
+
+        <div class="d-flex gap-3 mb-4">
+          <a href="#" class="text-light">FB</a>
+          <a href="#" class="text-light">TW</a>
+          <a href="#" class="text-light">IG</a>
+          <a href="#" class="text-light">IN</a>
+        </div>
+
+        <p class="small mb-2">Subscribe to our newsletter</p>
+
+        <div class="input-group input-group-sm">
+          <input type="email" class="form-control bg-dark text-white border-secondary" placeholder="Your email">
+          <button class="btn btn-success">→</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom -->
+    <div class="border-top border-secondary pt-4 d-flex flex-column flex-md-row justify-content-between align-items-center gap-3 small">
+      
+      <div>
+        © {{ "now"|date("Y") }} {{ site_name }}. {{'All rights reserved.'|t}}
+      </div>
+
+      <div class="d-flex gap-3">
+        {% for item in menu_footer_privacy_terms %}
+          <a href="{{ item.url }}" class="text-decoration-none text-light {{ item.classes }}" target="{{ item.target }}">
+            {{ item.title }}
+          </a>
+        {% endfor %}
+      </div>
+
+    </div>
+
+  </div>
+</footer>

@@ -1,0 +1,49 @@
+langcode: pt-br
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.testimonials.field_body
+    - field.field.paragraph.testimonials.field_image
+    - field.field.paragraph.testimonials.field_name
+    - field.field.paragraph.testimonials.field_profession
+    - paragraphs.paragraphs_type.testimonials
+  module:
+    - text
+id: paragraph.testimonials.default
+targetEntityType: paragraph
+bundle: testimonials
+mode: default
+content:
+  field_body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_image:
+    type: entity_reference_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_name:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_profession:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
+hidden: {  }

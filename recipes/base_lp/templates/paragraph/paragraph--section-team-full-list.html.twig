@@ -1,0 +1,18 @@
+{%
+  set classes = [
+    'container px-6 2xl:px-0 mx-auto max-w-[1400px]',
+    'paragraph',
+    'paragraph--type--' ~ paragraph.bundle|clean_class,
+    view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
+    not paragraph.isPublished() ? 'paragraph--unpublished'
+  ]
+%}
+{% set view_name = 'full_team' %}
+{% set view_block = 'block_1' %}
+{% block paragraph %}
+  <div{{ attributes.addClass(classes) }}>
+    {% block content %}
+      {{ drupal_view(view_name, view_block) }}
+    {% endblock %}
+  </div>
+{% endblock paragraph %}

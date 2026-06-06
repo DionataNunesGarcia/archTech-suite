@@ -1,0 +1,45 @@
+{#
+/**
+ * @file
+ * Pagination with Icons and Numbers, hiding "First" and "Last".
+ */
+#}
+{% if items %}
+	<nav class="flex justify-center items-center mt-12 space-x-1" role="navigation" aria-labelledby="pagination-heading">
+		<h4 id="pagination-heading" class="sr-only">{{ 'Pagination'|t }}</h4>
+
+		{# Previous Button (Icon) #}
+		{% if items.previous %}
+			<a href="{{ items.previous.href }}" class="flex items-center justify-center w-10 h-10 bg-gray-100 text-gray-700 rounded hover:bg-emerald-500 hover:text-white transition-colors" title="{{ 'Anterior'|t }}">
+				<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+				</svg>
+			</a>
+		{% endif %}
+
+		{# Page Number List #}
+		{% for key, item in items.pages %}
+			{% if current == key %}
+				{# Active Page #}
+				<span class="flex items-center justify-center w-10 h-10 bg-emerald-600 text-white font-bold rounded">
+					{{ key }}
+				</span>
+			{% else %}
+				{# Other Pages #}
+				<a href="{{ item.href }}" class="flex items-center justify-center w-10 h-10 bg-white border border-gray-200 text-gray-600 rounded hover:bg-gray-100 transition-colors">
+					{{ key }}
+				</a>
+			{% endif %}
+		{% endfor %}
+
+		{# Next Button (Icon) #}
+		{% if items.next %}
+			<a href="{{ items.next.href }}" class="flex items-center justify-center w-10 h-10 bg-gray-100 text-gray-700 rounded hover:bg-emerald-500 hover:text-white transition-colors" title="{{ 'Próximo'|t }}">
+				<svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+				</svg>
+			</a>
+		{% endif %}
+
+	</nav>
+{% endif %}

@@ -1,0 +1,9 @@
+langcode: pt-br
+status: true
+dependencies: {  }
+id: section_columns
+label: 'Seção - Colunas'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

@@ -1,0 +1,14 @@
+langcode: pt-br
+status: true
+dependencies:
+  module:
+    - menu_link_content
+id: main-home
+title: 'Home'
+description: ''
+link:
+  uri: 'internal:/'
+  options: {}
+menu_name: main
+weight: 0
+expanded: false

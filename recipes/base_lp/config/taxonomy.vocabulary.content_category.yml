@@ -1,0 +1,8 @@
+langcode: pt-br
+status: true
+dependencies: {  }
+name: 'Categoria de Conteúdos Principal'
+vid: content_category
+description: 'Tipo de categoria para usar em conteúdos.'
+weight: 0
+new_revision: false

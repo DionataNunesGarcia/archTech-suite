@@ -1,0 +1,9 @@
+langcode: pt-br
+status: true
+dependencies: { }
+id: highlights_courses
+label: 'Cursos - Destaques / diferenciais'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: { }

@@ -1,0 +1,90 @@
+langcode: pt-br
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_highlights
+    - node.type.courses
+    - paragraphs.paragraphs_type.highlights_courses
+  module:
+    - entity_reference_revisions
+id: node.courses.field_highlights
+field_name: field_highlights
+entity_type: node
+bundle: courses
+label: 'What you will learn'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      highlights_courses: highlights_courses
+    negate: 0
+    target_bundles_drag_drop:
+      card:
+        weight: 22
+        enabled: false
+      column:
+        weight: 23
+        enabled: false
+      gallery:
+        weight: 24
+        enabled: false
+      highlights_courses:
+        weight: 25
+        enabled: true
+      lista_featured_courses:
+        weight: 26
+        enabled: false
+      question_answer:
+        weight: 27
+        enabled: false
+      section_banner:
+        weight: 28
+        enabled: false
+      section_cards_carousel:
+        weight: 29
+        enabled: false
+      section_cards_grid:
+        weight: 30
+        enabled: false
+      section_columns:
+        weight: 31
+        enabled: false
+      section_content_list_by_category:
+        weight: 32
+        enabled: false
+      section_fluid_title_and_text:
+        weight: 33
+        enabled: false
+      section_image_and_sidebar_text:
+        weight: 34
+        enabled: false
+      section_questions_answers:
+        weight: 35
+        enabled: false
+      section_sliders:
+        weight: 36
+        enabled: false
+      section_team_carousel:
+        weight: 37
+        enabled: false
+      section_testimonials:
+        weight: 38
+        enabled: false
+      slider:
+        weight: 39
+        enabled: false
+      syllabus:
+        weight: 40
+        enabled: false
+      testimonials:
+        weight: 41
+        enabled: false
+      texto_full_html:
+        weight: 42
+        enabled: false
+field_type: entity_reference_revisions

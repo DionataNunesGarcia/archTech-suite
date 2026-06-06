@@ -1,0 +1,14 @@
+langcode: pt-br
+status: true
+dependencies:
+  module:
+    - menu_link_content
+id: footer-about-contact
+title: 'Fale Conosco'
+description: ''
+link:
+  uri: 'internal:/fale-conosco'
+  options: {}
+menu_name: menu-footer-about
+weight: 2
+expanded: false

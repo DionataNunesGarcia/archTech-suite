@@ -1,0 +1,23 @@
+langcode: pt-br
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.slider.field_slider_image
+    - paragraphs.paragraphs_type.slider
+  module:
+    - media_library
+id: paragraph.slider.default
+targetEntityType: paragraph
+bundle: slider
+mode: default
+content:
+  field_slider_image:
+    type: media_library_widget
+    weight: 0
+    region: content
+    settings:
+      media_types: {  }
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

@@ -1,0 +1,9 @@
+name: 'ArchTech CRM'
+description: 'Architecture CRM bounded context. Lead management, pipeline, opportunities, contracts, scoring.'
+type: 'Site'
+recipes:
+  - archtech_base
+install:
+  - archtech_crm
+config:
+  strict: false

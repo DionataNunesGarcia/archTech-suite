@@ -1,0 +1,24 @@
+langcode: pt-br
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_icon
+    - paragraphs.paragraphs_type.card
+  module:
+    - iconify_field
+id: paragraph.card.field_icon
+field_name: field_icon
+entity_type: paragraph
+bundle: card
+label: Icone
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  value: ''
+  classes: ''
+  decorative: true
+  arialabel: ''
+field_type: iconify_field_icon

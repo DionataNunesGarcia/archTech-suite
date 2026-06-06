@@ -1,0 +1,35 @@
+langcode: pt-br
+status: true
+dependencies:
+  module:
+    - options
+    - paragraphs
+id: paragraph.field_class_background
+field_name: field_class_background
+entity_type: paragraph
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: bg-emerald-700
+      label: 'Verde Esmeralda'
+    -
+      value: bg-amber-500
+      label: Laranja
+    -
+      value: bg-slate-500
+      label: 'Textura Cinzenta'
+    -
+      value: bg-neutral-800
+      label: 'Cinza Neutro'
+    -
+      value: bg-red-950
+      label: Vermelho
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,0 +1,72 @@
+{%
+  set classes = [
+    'container-fluid py-20 lg:py-32 bg-stone-50',
+    'paragraph',
+    'paragraph--type--' ~ paragraph.bundle|clean_class,
+    view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
+    not paragraph.isPublished() ? 'paragraph--unpublished'
+  ]
+%}
+{% set side = content.field_side_of_the_image[0]['#markup'] %}
+{% block paragraph %}
+  <section
+    {{ attributes
+      .addClass(classes)
+      .addClass('relative overflow-hidden', 'auto-animate')
+      .setAttribute('data-animate', 'fade-up')
+    }}
+  >
+    {% block content %}
+      <div class="container px-6 2xl:px-0 mx-auto max-w-[1400px] ">
+        <div class="flex flex-col md:flex-row gap-10 items-start">
+
+          {# TEXTO + IMAGEM #}
+          <div class="
+            w-full md:w-1/2
+            {{ side == 'left' ? 'md:order-1' : 'md:order-2' }}
+          ">
+
+            <div class="w-16 h-1 bg-red-800 mb-6"></div>
+            <h3 class="font-serif text-4xl lg:text-5xl tracking-tight mb-6 font-semibold">
+              {{ content.field_section_title[0]['#context']['value'] }}
+            </h3>
+
+            {% if content.field_text %}
+              <div class="mb-6">
+                {{ content.field_text }}
+              </div>
+            {% endif %}
+
+            {% if content.field_image %}
+              <div class="mb-6 rounded-lg overflow-hidden">
+                {{ content.field_image }}
+              </div>
+            {% endif %}
+
+            {% if content.field_link[0] %}
+              <div class="mt-10">
+                <a class="px-8 py-4 border-2 border-emerald-800 text-emerald-800 tracking-wide hover:bg-emerald-800 hover:text-white transition-colors" href="{{ content.field_link[0]['#url'].toString() }}">
+                  {{ content.field_link[0]['#title'] }}
+                </a>
+              </div>
+            {% endif %}
+
+          </div>
+
+          {# ACCORDION #}
+          <div class="
+            w-full md:w-1/2
+            {{ side == 'left' ? 'md:order-2' : 'md:order-1' }}
+          ">
+
+            <div class="space-y-4 gap-4">
+              {{ content.field_questions_answers }}
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    {% endblock %}
+  </section>
+{% endblock paragraph %}

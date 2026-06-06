@@ -1,0 +1,9 @@
+langcode: pt-br
+status: true
+dependencies: {  }
+id: section_banner
+label: 'Seção - Banner'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

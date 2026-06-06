@@ -1,0 +1,21 @@
+langcode: pt-br
+status: true
+dependencies:
+  module:
+    - node
+id: landing_page
+label: 'Pattern Landing Page'
+type: 'canonical_entities:node'
+pattern: '/[node:title]'
+selection_criteria:
+  bebcb651-251a-49f1-8717-1d43a908ba59:
+    id: 'entity_bundle:node'
+    negate: false
+    uuid: bebcb651-251a-49f1-8717-1d43a908ba59
+    context_mapping:
+      node: node
+    bundles:
+      landing_page: landing_page
+selection_logic: and
+weight: -10
+relationships: { }

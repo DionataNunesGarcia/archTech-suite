@@ -1,0 +1,278 @@
+<article{{attributes.addClass('container-fluid')}}>
+	<section class="container mx-auto relative z-10 py-20 lg:py-32 px-6 2xl:px-0 max-w-[1400px]">
+		<a class="inline-flex items-center gap-2 mb-8 text-sm tracking-wide hover:opacity-70 transition-opacity" href="/cursos" data-discover="true">
+			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left">
+				<path d="m12 19-7-7 7-7"></path>
+				<path d="M19 12H5"></path>
+			</svg>
+			{{'Voltar para todos os cursos'|t}}
+		</a>
+		<div class="grid lg:grid-cols-5 gap-12 lg:gap-16">
+			<div class="lg:col-span-3 space-y-8">
+				<div class="space-y-6">
+					<div class="flex items-center gap-4 text-sm tracking-wide text-neutral-600">
+						<span class="px-3 py-1 bg-emerald-700 text-white uppercase text-xs tracking-widest">
+							{{ content.field_course_level[0]['#markup'] }}
+						</span>
+						<span>
+							{{ node.field_workload.value }}
+							{{ 'horas'|t }}
+						</span>
+					</div>
+					<h1 class="font-serif text-5xl lg:text-7xl leading-[1.1] tracking-tight">
+						{{ label }}
+					</h1>
+					<p class="text-xl text-neutral-600 leading-relaxed">
+						{{ content.body }}
+					</p>
+				</div>
+				<div class="flex flex-wrap gap-6 py-6 border-y border-neutral-200">
+					<div class="flex items-center gap-3">
+						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock text-emerald-700">
+							<circle cx="12" cy="12" r="10"></circle>
+							<polyline points="12 6 12 12 16 14"></polyline>
+						</svg>
+						<div>
+							<div class="text-sm text-neutral-500">
+								{{'Duração'|t}}
+							</div>
+							<div class="tracking-wide">
+								{{ content.field_week_duration[0]['#markup'] }}
+								{{ 'semanas'|t }}
+							</div>
+						</div>
+					</div>
+					<div class="flex items-center gap-3">
+						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chart-column text-emerald-700">
+							<path d="M3 3v16a2 2 0 0 0 2 2h16"></path>
+							<path d="M18 17V9"></path>
+							<path d="M13 17V5"></path>
+							<path d="M8 17v-3"></path>
+						</svg>
+						<div>
+							<div class="text-sm text-neutral-500">
+								{{'Nível'|t}}
+							</div>
+							<div class="tracking-wide">
+								{{ content.field_course_level[0]['#markup'] }}
+							</div>
+						</div>
+					</div>
+					{# <div class="flex items-center gap-3">
+					            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users text-emerald-700">
+					              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+					              <circle cx="9" cy="7" r="4"></circle>
+					              <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+					              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+					            </svg>
+					            <div>
+					              <div class="text-sm text-neutral-500">Matriculados</div>
+					              <div class="tracking-wide">247 students</div>
+					            </div>
+					          </div> #}
+				</div>
+				<div
+					class="bg-stone-50 hover:bg-stone-100 transition-colors group p-6">
+					{# PROFESSORES #}
+					{% if node.field_professors|length %}
+						<h3 class="font-serif text-2xl lg:text-3xl tracking-tight mb-6 font-semibold animate-fade-up" style="transition-delay: 0.6s; translate: none; rotate: none; scale: none; opacity: 1; transform: translate(0px, 0px);">
+							{{ 'Professores' |t }}
+						</h3>
+						<div class="flex flex-col items-center justify-start gap-4">
+							{{ content.field_professors }}
+						</div>
+					{% endif %}
+				</div>
+			</div>
+			<div class="lg:col-span-2">
+				<div class="top-32 border-2 border-neutral-900 p-8 space-y-6">
+					<div class="aspect-[4/3] overflow-hidden bg-neutral-100 -mt-8 -mx-8 mb-8">
+						{% if node.field_course_featured_image.entity %}
+							<img src="{{ file_url(content.field_course_featured_image[0]['#media'].field_media_image.entity.uri.value)}}" alt="{{ label[0]['#context']['value'] }}" class="w-full h-full object-cover">
+						{% endif %}
+					</div>
+					<div>
+						{% if node.field_course_category.entity %}
+							<div class="text-sm text-neutral-500 mb-2">
+								{{ content.field_course_category }}
+							</div>
+						{% endif %}
+						{% if node.field_price.value %}
+							<div class="font-serif text-4xl tracking-tight mb-4">
+								{{ 'R$'|t }}
+								{{ content.field_price['#items'].value|number_format(2, ',', '.') }}
+							</div>
+						{% else %}
+							<div class="font-serif text-4xl tracking-tight mb-4">
+								{{ 'Gratuito'|t }}
+							</div>
+						{% endif %}
+						<div class="text-sm text-neutral-600">
+							{{'Inicio:'|t}}
+							{{ content.field_initial_date }}
+						</div>
+						<div class="text-sm text-neutral-600">
+							{{'Formato:'|t}}
+							{{ content.field_course_format }}
+						</div>
+						<div class="text-sm text-neutral-600">
+							{{'Tipo de curso:'|t}}
+							{{ content.field_course_type }}
+						</div>
+						{% if content.field_location[0] %}
+							<div class="text-sm text-neutral-600">
+								{{'Localização:'|t}}
+								{{ content.field_location[0]['#context']['value'] }}
+							</div>
+						{% endif %}
+					</div>
+					<button class="w-full py-4 bg-emerald-700 text-white tracking-wide hover:bg-emerald-800 transition-colors modal-subscription-trigger">
+						{{ 'Inscreva-se agora'|t }}
+					</button>
+					<div class="pt-6 border-t border-neutral-200 space-y-3 text-sm">
+						{{ content.field_course_includes }}
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="container-fluid py-20 lg:py-32 px-6 lg:px-12 bg-stone-50">
+		<div class="max-w-[1400px] mx-auto">
+			<div class="grid lg:grid-cols-2 gap-12 lg:gap-20">
+				<div>
+					<div class="w-16 h-1 bg-emerald-700 mb-6"></div>
+					<h2 class="font-serif text-4xl lg:text-5xl tracking-tight mb-6">
+						{{ 'O que você vai aprender'|t }}
+					</h2>
+					<p class="text-lg text-neutral-600 leading-relaxed">
+						{{ 'Ao final deste curso, os alunos serão capazes de:' |t }}
+					</p>
+				</div>
+				<div class="space-y-4">
+					{{ content.field_highlights }}
+				</div>
+			</div>
+		</div>
+	</section>
+	{% if node.field_target_audience.value or node.field_requirements.value or node.field_learning_objectives.value %}
+		<section class="container-fluid mx-auto py-20 lg:py-32 bg-emerald-700 text-white paragraph paragraph--type--section-columns paragraph--view-mode--default relative overflow-hidden auto-animate" data-animate="fade-up">
+
+			<div class="container mx-auto px-6 2xl:px-0 max-w-[1400px]">
+
+				<div
+					class="grid grid-cols-1 lg:grid-cols-3 gap-0 columns-wrapper">
+
+					{# PÚBLICO-ALVO #}
+					{% if node.field_target_audience.value %}
+						<div class="flex flex-col animate-fade-up px-4 pt-6 lg:pt-10 border-b lg:border-b-transparent lg:border-e border-white">
+
+							<h4 class="font-serif text-2xl lg:text-4xl mb-4 column-title text-white text-center">
+								Público-alvo
+							</h4>
+
+							<div class="text-1xl leading-relaxed column-body text-white" style="text-align: left !important;">
+								{{ content.field_target_audience }}
+							</div>
+
+						</div>
+					{% endif %}
+
+					{# PRÉ-REQUISITOS #}
+					{% if node.field_requirements.value %}
+						<div class="flex flex-col animate-fade-up px-8 pt-6 lg:pt-10 border-b lg:border-b-transparent lg:border-e border-white">
+
+							<h4 class="font-serif text-2xl lg:text-4xl mb-4 column-title text-white text-center">
+								Pré-requisitos
+							</h4>
+
+							<div class="text-base leading-relaxed column-body text-white">
+								{{ content.field_requirements }}
+							</div>
+
+						</div>
+					{% endif %}
+
+					{# OBJETIVOS #}
+					{% if node.field_learning_objectives.value %}
+						<div class=" flex flex-col animate-fade-up px-8 pt-6 lg:pt-10">
+
+							<h4 class="font-serif text-2xl lg:text-4xl mb-4 column-title text-white text-center">
+								Objetivos
+							</h4>
+
+							<div class="text-base leading-relaxed column-body text-white">
+								{{ content.field_learning_objectives }}
+							</div>
+
+						</div>
+					{% endif %}
+
+				</div>
+
+			</div>
+
+		</section>
+	{% endif %}
+
+	<section class="py-20 lg:py-32 px-6 lg:px-12 relative">
+		<div class="absolute bottom-0 left-0 w-32 h-32 opacity-10 pointer-events-none">
+			<svg viewbox="0 0 100 100" class="text-emerald-800">
+				<path d="M0,0 L50,0 L25,43.3 Z" fill="currentColor"></path>
+				<path d="M50,0 L100,0 L75,43.3 Z" fill="currentColor" opacity="0.6"></path>
+				<path d="M25,43.3 L75,43.3 L50,86.6 Z" fill="currentColor" opacity="0.4"></path>
+			</svg>
+		</div>
+		<div class="max-w-[1400px] mx-auto">
+			<div class="max-w-2xl mb-16">
+				<div class="w-16 h-1 bg-emerald-700 mb-6"></div>
+				<h2 class="font-serif text-4xl lg:text-5xl tracking-tight mb-6">
+					{{ 'Conteúdo programático'|t }}
+				</h2>
+				<p class="text-lg text-neutral-600 leading-relaxed">
+					{{ node.field_week_duration.value }}
+					{{ 'semanas de estudo intensivo, sessões ao vivo e prática reflexiva.'|t}}
+				</p>
+			</div>
+			<div class="space-y-3">
+				{{ content.field_syllabus }}
+			</div>
+		</div>
+	</section>
+	{{ content.field_sections }}
+	<section class="py-20 lg:py-32 px-6 lg:px-12 bg-emerald-700 text-white relative overflow-hidden">
+		<div class="absolute inset-0 pointer-events-none opacity-10">
+			<svg class="w-full h-full text-white" viewbox="0 0 200 200" preserveaspectratio="xMidYMid slice">
+				<defs data-fg-gev8="1.22:1.3594:/src/app/components/AfricanPattern.tsx:17:9:932:481:e:defs:e">
+					<pattern id="circlePattern" x="0" y="0" width="40" height="40" patternunits="userSpaceOnUse">
+						<circle cx="20" cy="20" r="8" fill="none" stroke="currentColor" stroke-width="0.5" opacity="0.05"></circle>
+						<circle cx="0" cy="0" r="8" fill="none" stroke="currentColor" stroke-width="0.5" opacity="0.05"></circle>
+						<circle cx="40" cy="40" r="8" fill="none" stroke="currentColor" stroke-width="0.5" opacity="0.05"></circle>
+					</pattern>
+				</defs>
+				<rect width="200" height="200" fill="url(#circlePattern)"></rect>
+			</svg>
+		</div>
+		<div class="max-w-[1400px] mx-auto text-center relative z-10">
+			<h2 class="font-serif text-4xl lg:text-5xl tracking-tight mb-6">
+				{{ 'Pronto para transformar sua prática clínica?'|t }}
+			</h2>
+			<p class="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+				{{ 'Inscreva-se agora e comece sua jornada de aprendizado e crescimento profissional.'|t }}
+			</p>
+			<button class="px-12 py-5 bg-white text-black tracking-wide hover:bg-neutral-100 transition-colors modal-subscription-trigger" @click="open = true">
+				{{ 'Inscreva-se agora'|t }}
+				—
+				{% if node.field_price.value %}
+					{{ 'R$'|t }}
+					{{ content.field_price['#items'].value|number_format(2, ',', '.') }}
+				{% else %}
+					{{ 'Gratuito'|t }}
+				{% endif %}
+			</button>
+		</div>
+	</section>
+</article>
+
+<!-- Modal -->
+{% include '@front_theme/includes/modal-form-course.twig' %}

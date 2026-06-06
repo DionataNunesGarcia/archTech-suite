@@ -1,0 +1,29 @@
+front_theme.xs:
+  label: 'Extra small (mobile)'
+  mediaQuery: '(max-width: 575.98px)'
+  weight: 0
+
+front_theme.sm:
+  label: 'Small (mobile landscape)'
+  mediaQuery: '(min-width: 576px)'
+  weight: 1
+
+front_theme.md:
+  label: 'Medium (tablet)'
+  mediaQuery: '(min-width: 768px)'
+  weight: 2
+
+front_theme.lg:
+  label: 'Large (desktop)'
+  mediaQuery: '(min-width: 992px)'
+  weight: 3
+
+front_theme.xl:
+  label: 'Extra large'
+  mediaQuery: '(min-width: 1200px)'
+  weight: 4
+
+front_theme.xxl:
+  label: 'Extra extra large'
+  mediaQuery: '(min-width: 1400px)'
+  weight: 5

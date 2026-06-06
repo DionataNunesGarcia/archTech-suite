@@ -1,0 +1,21 @@
+# Repository settings for Drupal Recipes Base
+# Managed via GitHub Actions - Settings Sync
+
+repository:
+  name: "drupal-recipes-base"
+  description: "Drupal base configuration with Composer and recipes"
+  private: false
+  has_issues: true
+  has_wiki: false
+  has_projects: false
+  has_downloads: true
+
+# Default branch settings
+default_branch: main
+
+# Branch protection is configured via branch_protection.yml
+
+# Collaborators and teams can be added here
+collaborators:
+  - username: DionataNunesGarcia
+    permission: admin

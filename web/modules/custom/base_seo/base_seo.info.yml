@@ -1,0 +1,18 @@
+name: 'Base SEO'
+type: module
+description: 'SEO configurations and enhancements for the site'
+core_version_requirement: ^10 || ^11
+package: 'Custom'
+
+dependencies:
+  - drupal:path
+  - drupal:path_alias
+  - pathauto:pathauto
+  - token:token
+  - metatag:metatag
+  - metatag:metatag_open_graph
+  - metatag:metatag_twitter_cards
+  - redirect:redirect
+  - redirect:redirect_404
+  - simple_sitemap:simple_sitemap
+  - robotstxt:robotstxt

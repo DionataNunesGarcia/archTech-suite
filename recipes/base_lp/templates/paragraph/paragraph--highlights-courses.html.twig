@@ -1,0 +1,19 @@
+<div class="flex flex-col gap-4 p-6 bg-white border-l-4" style="border-color: rgb(6, 95, 70);">
+  <button class="w-full text-left font-medium flex justify-between items-center accordion-trigger animate-fade-up" style="transition-delay: 3.35s; translate: none; rotate: none; scale: none; opacity: 1; transform: translate(0px, 0px);">
+    <div class="flex justify-start gap-4 items-center">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big text-emerald-700 flex-shrink-0 mt-1">
+        <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
+        <path d="m9 11 3 3L22 4"></path>
+      </svg>
+      <span class="leading-relaxed">
+        {{ content.field_title }}
+      </span>
+    </div>
+    <span class="accordion-icon">+</span>
+  </button>
+  <div class="accordion-content text-content-editor hidden pb-6 lg:pb-8 text-neutral-600 leading-relaxed border-t border-emerald-700/20 pt-4">
+    <p>
+      {{ content.field_text[0]['#context']['value'] }}
+    </p>
+  </div>
+</div>

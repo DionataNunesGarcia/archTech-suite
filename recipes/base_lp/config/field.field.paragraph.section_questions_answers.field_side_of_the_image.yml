@@ -1,0 +1,22 @@
+langcode: pt-br
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_side_of_the_image
+    - paragraphs.paragraphs_type.section_questions_answers
+  module:
+    - options
+id: paragraph.section_questions_answers.field_side_of_the_image
+field_name: field_side_of_the_image
+entity_type: paragraph
+bundle: section_questions_answers
+label: 'Lado dos textos'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: left
+default_value_callback: ''
+settings: {  }
+field_type: list_string

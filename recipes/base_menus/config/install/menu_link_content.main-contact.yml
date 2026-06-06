@@ -1,0 +1,14 @@
+langcode: pt-br
+status: true
+dependencies:
+  module:
+    - menu_link_content
+id: main-contact
+title: 'Contato'
+description: ''
+link:
+  uri: 'internal:/contato'
+  options: {}
+menu_name: main
+weight: 4
+expanded: false

@@ -1,0 +1,41 @@
+{%
+  set classes = [
+    'media',
+    'media--image',
+    media.bundle.0.entity.label ? 'media--' ~ media.bundle.0.entity.label|clean_class,
+  ]
+%}
+
+<div{{ attributes.addClass(classes) }}>
+  {% if media.field_media_image.entity %}
+    <picture>
+      {# Mobile #}
+      {% if media.field_image_mobile.entity %}
+        <source
+          media="(max-width: 767px)"
+          srcset="{{ file_url(media.field_image_mobile.entity.uri.value) }}">
+      {% endif %}
+
+      {# Tablet #}
+      {% if media.field_image_tablet.entity %}
+        <source
+          media="(min-width: 768px) and (max-width: 1024px)"
+          srcset="{{ file_url(media.field_image_tablet.entity.uri.value) }}">
+      {% endif %}
+
+      {# Desktop Large #}
+      {% if media.field_image_desktop_large.entity %}
+        <source
+          media="(min-width: 1440px)"
+          srcset="{{ file_url(media.field_image_desktop_large.entity.uri.value) }}">
+      {% endif %}
+
+      {# Fallback — campo principal (SEO + acessibilidade) #}
+      <img
+        src="{{ file_url(media.field_media_image.entity.uri.value) }}"
+        alt="{{ media.field_media_image.alt }}"
+        loading="lazy"
+        class="w-full h-auto block">
+    </picture>
+  {% endif %}
+</div>

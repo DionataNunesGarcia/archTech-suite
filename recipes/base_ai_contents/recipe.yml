@@ -1,0 +1,13 @@
+name: AI Contents
+description: IA para conteúdo - geração, sugestões e tradução
+type: site
+
+install:
+  - ai_content_suggestions
+  - ai_translate
+
+recipes:
+  - base_ai
+
+config:
+  strict: false

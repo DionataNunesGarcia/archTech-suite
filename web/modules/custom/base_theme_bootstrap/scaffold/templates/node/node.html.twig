@@ -1,0 +1,26 @@
+{%
+  set classes = [
+    'container',
+    'py-5',
+    'py-lg-5',
+    'position-relative'
+  ]
+%}
+
+<article
+  {{ attributes
+    .addClass(classes)
+    .addClass('overflow-hidden')
+  }}
+>
+  {{ title_prefix }}
+
+  <h1 class="visually-hidden">{{ label }}</h1>
+
+  {{ title_suffix }}
+
+  <div class="content">
+    {{ content }}
+  </div>
+
+</article>

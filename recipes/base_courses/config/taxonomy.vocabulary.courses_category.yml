@@ -1,0 +1,8 @@
+langcode: pt-br
+status: true
+dependencies: {  }
+name: 'Course Category'
+vid: courses_category
+description: 'Categorias para ser usada dentro de cursos'
+weight: 0
+new_revision: false

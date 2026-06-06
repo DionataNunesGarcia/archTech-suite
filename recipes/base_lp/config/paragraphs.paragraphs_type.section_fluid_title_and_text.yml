@@ -1,0 +1,9 @@
+langcode: pt-br
+status: true
+dependencies: {  }
+id: section_fluid_title_and_text
+label: 'Seção - Título e texto Fluido'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

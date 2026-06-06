@@ -1,0 +1,52 @@
+langcode: pt-br
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.section_form_text_columns.field_body
+    - field.field.paragraph.section_form_text_columns.field_section_title
+    - field.field.paragraph.section_form_text_columns.field_subtitle
+    - field.field.paragraph.section_form_text_columns.field_webform
+    - paragraphs.paragraphs_type.section_form_text_columns
+  module:
+    - text
+    - webform
+id: paragraph.section_form_text_columns.default
+targetEntityType: paragraph
+bundle: section_form_text_columns
+mode: default
+content:
+  field_body:
+    type: text_textarea
+    weight: 2
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_section_title:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_subtitle:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_webform:
+    type: webform_entity_reference_select
+    weight: 3
+    region: content
+    settings:
+      default_data: true
+      webforms: {  }
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

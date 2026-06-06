@@ -1,0 +1,16 @@
+name: "Base ES"
+description: "Configura espanhol como idioma padrão"
+type: "Site"
+
+recipes:
+  - base_i18n
+
+install:
+  - base_lang_single
+
+config:
+  actions:
+    system.site:
+      simple_config_update:
+        default_langcode: es
+        langcode: es

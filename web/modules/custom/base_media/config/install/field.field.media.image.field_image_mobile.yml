@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_image_mobile
+  module:
+    - media
+id: media.image.field_image_mobile
+field_name: field_image_mobile
+entity_type: media
+bundle: image
+label: 'Image Mobile'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:file'
+  handler_settings: {  }
+field_type: image

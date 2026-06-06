@@ -1,0 +1,10 @@
+services:
+  custom_menu.menu_service:
+    class: Drupal\custom_menu\Service\MenuService
+    arguments: ["@menu.link_tree"]
+
+  custom_menu.commands:
+    class: Drupal\custom_menu\Commands\CustomMenuCommands
+    arguments: ["@entity_type.manager"]
+    tags:
+      - { name: drush.command }

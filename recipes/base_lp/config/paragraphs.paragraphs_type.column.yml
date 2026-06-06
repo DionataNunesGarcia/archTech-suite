@@ -1,0 +1,9 @@
+langcode: pt-br
+status: true
+dependencies: {  }
+id: column
+label: 'Componente - Coluna'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

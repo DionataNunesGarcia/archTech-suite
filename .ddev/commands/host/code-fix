@@ -1,0 +1,9 @@
+#!/bin/bash
+## Description: Runs all fix utilities (phpcbf, eslint, stylelint).
+## Usage: code-fix [file|directory]
+set -euo pipefail
+
+.commands.sh "$@"
+
+ddev phpcbf "$@" || true
+echo "Code fix complete."

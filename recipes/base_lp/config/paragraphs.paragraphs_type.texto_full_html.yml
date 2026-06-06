@@ -1,0 +1,9 @@
+langcode: pt-br
+status: true
+dependencies: {  }
+id: texto_full_html
+label: 'Seção - Texto Full HTML'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

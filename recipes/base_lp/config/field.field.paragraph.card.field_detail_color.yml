@@ -1,0 +1,20 @@
+langcode: pt-br
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_detail_color
+    - paragraphs.paragraphs_type.card
+  module:
+    - options
+id: paragraph.card.field_detail_color
+field_name: field_detail_color
+entity_type: paragraph
+bundle: card
+label: 'Cor dos detalhes'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

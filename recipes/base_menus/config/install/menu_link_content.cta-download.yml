@@ -1,0 +1,18 @@
+langcode: pt-br
+status: true
+dependencies:
+  module:
+    - menu_link_content
+id: cta-download
+title: 'Download Catálogo'
+description: ''
+link:
+  uri: 'internal:/download-catalogo'
+  options:
+    attributes:
+      class:
+        - 'btn'
+        - 'btn-secondary'
+menu_name: menus-cta
+weight: 1
+expanded: false

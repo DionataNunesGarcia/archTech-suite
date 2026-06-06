@@ -1,0 +1,54 @@
+langcode: pt-br
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.section_simple_header.field_class_background
+    - field.field.paragraph.section_simple_header.field_line_above_title
+    - field.field.paragraph.section_simple_header.field_section_title
+    - field.field.paragraph.section_simple_header.field_text
+    - field.field.paragraph.section_simple_header.field_text_color
+    - paragraphs.paragraphs_type.section_simple_header
+  module:
+    - options
+id: paragraph.section_simple_header.default
+targetEntityType: paragraph
+bundle: section_simple_header
+mode: default
+content:
+  field_class_background:
+    type: list_key
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_line_above_title:
+    type: list_key
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_section_title:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_text:
+    type: basic_string
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_text_color:
+    type: list_key
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden: {  }

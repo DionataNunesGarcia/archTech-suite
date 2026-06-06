@@ -1,0 +1,12 @@
+langcode: en
+status: true
+id: media_desktop_large
+label: "Media Desktop Large (1920px)"
+effects:
+  uuid_desktop_large:
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 1920
+      height: 1080
+      anchor: "center-center"

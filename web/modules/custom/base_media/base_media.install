@@ -1,0 +1,100 @@
+<?php
+
+use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\field\Entity\FieldConfig;
+use Drupal\Core\Entity\Entity\EntityFormDisplay;
+use Drupal\Core\Entity\Entity\EntityViewDisplay;
+
+/**
+ * Implements hook_install().
+ */
+function base_media_install() {
+  _base_media_create_fields();
+  _base_media_configure_displays();
+}
+
+/**
+ * Cria os campos de imagem por breakpoint no tipo media image.
+ */
+function _base_media_create_fields() {
+  $fields = [
+    'field_image_mobile' => [
+      'label' => 'Image Mobile',
+      'description' => 'Used on screens up to 767px',
+    ],
+    'field_image_tablet' => [
+      'label' => 'Image Tablet',
+      'description' => 'Used on screens 768px to 1024px',
+    ],
+    'field_image_desktop_large' => [
+      'label' => 'Image Desktop Large',
+      'description' => 'Used on screens 1440px and above',
+    ],
+  ];
+
+  foreach ($fields as $field_name => $config) {
+    // Cria field storage se não existir
+    if (!FieldStorageConfig::loadByName('media', $field_name)) {
+      FieldStorageConfig::create([
+        'field_name'  => $field_name,
+        'entity_type' => 'media',
+        'type'        => 'image',
+        'cardinality' => 1,
+      ])->save();
+    }
+
+    // Cria field instance no bundle image se não existir
+    if (!FieldConfig::loadByName('media', 'image', $field_name)) {
+      FieldConfig::create([
+        'field_name'  => $field_name,
+        'entity_type' => 'media',
+        'bundle'      => 'image',
+        'label'       => $config['label'],
+        'description' => $config['description'],
+        'required'    => FALSE,
+        'settings'    => [
+          'alt_field'          => 0,
+          'alt_field_required' => 0,
+        ],
+      ])->save();
+    }
+  }
+}
+
+/**
+ * Configura form display e view display para os novos campos.
+ */
+function _base_media_configure_displays() {
+  $field_names = [
+    'field_image_mobile',
+    'field_image_tablet',
+    'field_image_desktop_large',
+  ];
+
+  // Form display
+  $form_display = EntityFormDisplay::load('media.image.media_library')
+    ?? EntityFormDisplay::load('media.image.default');
+
+  if ($form_display) {
+    foreach ($field_names as $field_name) {
+      $form_display->setComponent($field_name, [
+        'type'     => 'image_image',
+        'weight'   => 10,
+        'settings' => [
+          'preview_image_style' => 'thumbnail',
+          'progress_indicator'  => 'throbber',
+        ],
+      ]);
+    }
+    $form_display->save();
+  }
+
+  // View display default
+  $view_display = EntityViewDisplay::load('media.image.default');
+  if ($view_display) {
+    foreach ($field_names as $field_name) {
+      $view_display->removeComponent($field_name);
+    }
+    $view_display->save();
+  }
+}

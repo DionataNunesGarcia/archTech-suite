@@ -1,0 +1,1992 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  =====================================================================
+  ArchTech Suite — productFeatures v1.0
+  Novos Bounded Contexts de Produto
+  Arquivo para inclusão dentro de <productFeatures> no archtech-prd-enhanced.xml
+
+  INSTRUÇÃO DE MERGE:
+  Adicione o conteúdo desta tag <productFeatures> dentro do <project>
+  do archtech-prd-enhanced.xml. Cada <feature> é um Bounded Context
+  independente que segue as regras arquiteturais definidas no PRD base:
+    - Módulos de squad nunca importam outros módulos de squad diretamente
+    - Comunicação cross-squad via domain events (archtech_events)
+    - APIs definidas Contract-First (OpenAPI 3.1)
+    - Todo agente referencia um prompt versionado no Prompt Registry
+  =====================================================================
+-->
+
+<productFeatures>
+
+  <!-- ==============================================================
+       FEATURE 01 — Portal do Cliente (Client Portal)
+       Bounded Context: client_portal
+       Módulo Drupal: ia_client_portal
+       Owner: Squad Client Portal
+       ============================================================== -->
+  <feature id="F01" name="Portal do Cliente" boundedContext="client_portal" module="ia_client_portal" status="roadmap">
+
+    <businessProblem>
+      Centralizar comunicação, aprovações e acompanhamento de projetos para clientes,
+      reduzindo carga administrativa no escritório e aumentando satisfação e transparência.
+    </businessProblem>
+
+    <personas>
+      <persona role="primary">Cliente Final (Proprietário)</persona>
+      <persona role="secondary">Gerente de Projeto (Escritório)</persona>
+    </personas>
+
+    <operationalFlow>
+      <step order="1">Cliente recebe convite por email com link de acesso seguro (OAuth2 + MFA opcional)</step>
+      <step order="2">Visualiza timeline do projeto com status de cada fase</step>
+      <step order="3">Faz download/upload de documentos de projeto</step>
+      <step order="4">Recebe solicitação de aprovação de etapa e responde (aprovar/rejeitar com comentário)</step>
+      <step order="5">Acompanha histórico de revisões e versões de documentos</step>
+      <step order="6">Visualiza extrato financeiro: parcelas, pagamentos realizados, próximos vencimentos</step>
+      <step order="7">Assina digitalmente documentos (proposta, contrato, aditivos)</step>
+      <step order="8">Recebe notificações por email, SMS e push no app</step>
+    </operationalFlow>
+
+    <contentTypes>
+      <contentType name="ProjectTimelineItem">
+        <fields>
+          <field name="project_id"       type="reference"  target="Project"  required="true"/>
+          <field name="titulo"           type="string"     required="true"/>
+          <field name="descricao"        type="text"/>
+          <field name="fase"             type="select"     options="briefing,conceito,anteprojeto,projeto_executivo,obra,entrega"/>
+          <field name="status"           type="select"     options="pendente,em_andamento,aguardando_aprovacao,aprovado,concluido"/>
+          <field name="data_inicio"      type="date"/>
+          <field name="data_prevista"    type="date"/>
+          <field name="data_conclusao"   type="date"/>
+          <field name="percentual"       type="integer"    range="0-100"/>
+          <field name="visivel_cliente"  type="boolean"    default="true"/>
+        </fields>
+      </contentType>
+
+      <contentType name="ClientApprovalRequest">
+        <fields>
+          <field name="project_id"       type="reference"  target="Project"   required="true"/>
+          <field name="timeline_item_id" type="reference"  target="ProjectTimelineItem"/>
+          <field name="client_id"        type="reference"  target="Client"    required="true"/>
+          <field name="titulo"           type="string"     required="true"/>
+          <field name="descricao"        type="text"/>
+          <field name="arquivos"         type="file"       multiple="true"/>
+          <field name="status"           type="select"     options="pendente,aprovado,rejeitado,revisao"/>
+          <field name="comentario"       type="text"       note="Comentário do cliente na resposta"/>
+          <field name="data_solicitacao" type="datetime"/>
+          <field name="data_resposta"    type="datetime"/>
+          <field name="prazo_resposta"   type="datetime"/>
+        </fields>
+      </contentType>
+
+      <contentType name="DocumentUpload">
+        <fields>
+          <field name="project_id"       type="reference"  target="Project"   required="true"/>
+          <field name="client_id"        type="reference"  target="Client"/>
+          <field name="titulo"           type="string"     required="true"/>
+          <field name="arquivo"          type="file"       required="true"/>
+          <field name="tipo"             type="select"     options="projeto,contrato,ata,imagem,relatorio,outro"/>
+          <field name="versao"           type="string"     note="Semver: 1.0.0"/>
+          <field name="origem"           type="select"     options="escritorio,cliente"/>
+          <field name="acesso"           type="select"     options="publico,restrito,confidencial"/>
+          <field name="historico"        type="json"       note="Array de versões anteriores"/>
+        </fields>
+      </contentType>
+
+      <contentType name="FinancialStatement">
+        <fields>
+          <field name="project_id"       type="reference"  target="Project"   required="true"/>
+          <field name="client_id"        type="reference"  target="Client"    required="true"/>
+          <field name="parcelas"         type="json"       note="Array: numero, valor, vencimento, status, data_pagamento"/>
+          <field name="valor_total"      type="decimal"/>
+          <field name="valor_pago"       type="decimal"/>
+          <field name="valor_pendente"   type="decimal"/>
+          <field name="ultima_atualizacao" type="datetime"/>
+        </fields>
+      </contentType>
+    </contentTypes>
+
+    <entities>
+      <entity name="Client">
+        <relationships>
+          <relationship type="hasMany"    target="Project"/>
+          <relationship type="hasMany"    target="ClientApprovalRequest"/>
+          <relationship type="hasMany"    target="DocumentUpload"/>
+          <relationship type="hasMany"    target="FinancialStatement"/>
+        </relationships>
+      </entity>
+      <entity name="Project">
+        <relationships>
+          <relationship type="hasMany"    target="ProjectTimelineItem"/>
+          <relationship type="hasMany"    target="ClientApprovalRequest"/>
+          <relationship type="hasMany"    target="DocumentUpload"/>
+          <relationship type="hasOne"     target="FinancialStatement"/>
+        </relationships>
+      </entity>
+    </entities>
+
+    <apis>
+      <endpoint method="GET"    path="/api/v1/client-portal/projects/{id}/timeline"
+                description="Retorna a timeline completa do projeto visível ao cliente autenticado"/>
+      <endpoint method="POST"   path="/api/v1/client-portal/projects/{id}/approve"
+                description="Registra aprovação ou rejeição de uma etapa pelo cliente"/>
+      <endpoint method="POST"   path="/api/v1/client-portal/documents/upload"
+                description="Upload de documento pelo cliente (ex: fotos, plantas fornecidas)"/>
+      <endpoint method="GET"    path="/api/v1/client-portal/projects/{id}/financial"
+                description="Retorna extrato financeiro do projeto para o cliente"/>
+      <endpoint method="POST"   path="/api/v1/client-portal/documents/{id}/sign"
+                description="Solicita ou registra assinatura digital de documento"/>
+      <endpoint method="GET"    path="/api/v1/client-portal/projects/{id}/documents"
+                description="Lista documentos disponíveis para o cliente no projeto"/>
+    </apis>
+
+    <agents>
+      <agent name="IA_ClientNotifier">
+        <skill>Client Communication — notificações contextuais e personalizadas sobre atualizações do projeto</skill>
+        <promptRef>ia-client-portal/notifier@1.0.0</promptRef>
+        <promptTemplate>
+          Notifique o cliente {clientName} sobre a atualização do projeto {projectName}: {updateDetails}.
+          Adapte o tom para ser profissional e tranquilizador. Destaque o que foi concluído e o próximo passo.
+        </promptTemplate>
+        <trigger>Evento ProjectTimelineItemUpdated no RabbitMQ</trigger>
+        <channels>email, sms, push_notification, in_app</channels>
+      </agent>
+
+      <agent name="IA_ApprovalReminder">
+        <skill>Approval Nudging — lembretes inteligentes com contexto para reduzir tempo de aprovação</skill>
+        <promptRef>ia-client-portal/approval-reminder@1.0.0</promptRef>
+        <promptTemplate>
+          Envie um lembrete ao cliente {clientName} para aprovar a etapa {stageName} do projeto {projectName}.
+          O prazo vence em {daysUntilDeadline} dias. Inclua um resumo do que está sendo aprovado e o link direto.
+        </promptTemplate>
+        <trigger>Cron: ClientApprovalRequest com status=pendente há mais de 48h</trigger>
+        <humanInLoop>false — envio automático até 3 lembretes; escalação para PM após o 3º</humanInLoop>
+      </agent>
+    </agents>
+
+    <workflows>
+      <workflow name="Workflow_ClientOnboarding" tool="n8n">
+        <description>Cria acesso do cliente ao portal, envia email de boas-vindas com tutorial e configura notificações.</description>
+        <trigger>Evento ProjectCreated com client_id definido</trigger>
+        <steps>
+          <step>1. Cria usuário cliente no Drupal com role client_portal</step>
+          <step>2. Envia email de boas-vindas com link de acesso e tutorial PDF (IA_ClientNotifier)</step>
+          <step>3. Configura preferências de notificação padrão</step>
+          <step>4. Cria ProjectTimelineItem inicial para cada fase do projeto</step>
+        </steps>
+      </workflow>
+
+      <workflow name="Workflow_DocumentApproval" tool="n8n">
+        <description>Gerencia o ciclo de vida de uma solicitação de aprovação: criação, lembretes, resposta e notificação à equipe.</description>
+        <trigger>POST /api/v1/client-portal/projects/{id}/approve</trigger>
+        <steps>
+          <step>1. Cria ClientApprovalRequest com status=pendente</step>
+          <step>2. Notifica cliente via email + push (IA_ClientNotifier)</step>
+          <step>3. Agenda lembretes automáticos (IA_ApprovalReminder) em D+2, D+5</step>
+          <step>4. Ao receber resposta: atualiza status, notifica PM, publica ApprovalResponded event</step>
+          <step>5. Se rejeitado: cria task para revisão no Squad Projetos via ProjectRevisionRequested event</step>
+        </steps>
+      </workflow>
+    </workflows>
+
+    <queues>
+      <queue name="client_notifications_queue"  exchange="archtech.client_portal" type="topic"
+             description="Notificações para clientes: updates de projeto, aprovações, documentos"/>
+      <queue name="approval_requests_queue"     exchange="archtech.client_portal" type="topic"
+             description="Solicitações e respostas de aprovação de etapas"/>
+    </queues>
+
+    <domainEvents>
+      <event name="ClientPortalAccessGranted"   emits="ia_client_portal"/>
+      <event name="ApprovalRequested"           emits="ia_client_portal"   consumes="ia_projetos"/>
+      <event name="ApprovalResponded"           emits="ia_client_portal"   consumes="ia_projetos, ia_suporte"/>
+      <event name="DocumentUploadedByClient"    emits="ia_client_portal"   consumes="ia_projetos"/>
+    </domainEvents>
+
+    <dashboards>
+      <dashboard name="ClientProjectOverview">
+        <description>Visão do cliente: timeline visual, status de aprovações pendentes, próximos vencimentos financeiros.</description>
+        <audience>Cliente Final</audience>
+        <components>timeline_gantt, approval_status_cards, financial_summary, document_list</components>
+      </dashboard>
+      <dashboard name="ApprovalStatusDashboard">
+        <description>Visão interna da equipe: todas as aprovações pendentes, tempo médio de resposta, gargalos por projeto.</description>
+        <audience>Gerente de Projeto</audience>
+        <components>approval_kanban, avg_response_time_chart, overdue_alerts</components>
+      </dashboard>
+    </dashboards>
+
+    <kpis>
+      <kpi name="ClientSatisfactionScore"   target="≥ 4.5/5.0"   measurement="NPS survey pós-etapa"/>
+      <kpi name="ApprovalCycleTime"         target="≤ 3 dias úteis" measurement="datetime(resposta) - datetime(solicitação)"/>
+      <kpi name="DocumentUploadRate"        target="≥ 80% dos docs enviados pelo escritório acessados em 48h"/>
+      <kpi name="PortalEngagementRate"      target="≥ 70% clientes ativos por mês"/>
+    </kpis>
+
+    <roadmap>
+      <phase name="MVP">
+        <feature>Timeline do projeto com status por fase</feature>
+        <feature>Upload e download de documentos</feature>
+        <feature>Aprovações básicas (aprovar/rejeitar com comentário)</feature>
+        <feature>Notificações por email</feature>
+      </phase>
+      <phase name="Growth">
+        <feature>Histórico financeiro com parcelas e pagamentos</feature>
+        <feature>Assinaturas digitais (DocuSign ou similar)</feature>
+        <feature>Chat integrado com PM do projeto</feature>
+        <feature>Notificações por SMS e push notification</feature>
+      </phase>
+      <phase name="Enterprise">
+        <feature>Integração com sistemas de contabilidade do cliente (ERP)</feature>
+        <feature>Customização avançada de portal (branding por escritório)</feature>
+        <feature>Relatórios executivos automatizados para o cliente</feature>
+        <feature>Assinatura em lote de documentos</feature>
+      </phase>
+    </roadmap>
+  </feature>
+
+
+  <!-- ==============================================================
+       FEATURE 02 — CRM Especializado para Arquitetura
+       Bounded Context: architecture_crm
+       Módulo Drupal: ia_crm
+       Owner: Squad CRM
+       ============================================================== -->
+  <feature id="F02" name="CRM Especializado para Arquitetura" boundedContext="architecture_crm" module="ia_crm" status="roadmap">
+
+    <businessProblem>
+      Gerenciar o pipeline de vendas e o relacionamento com leads e clientes desde o primeiro contato
+      até o pós-obra, otimizando conversão e retenção com dados específicos do setor.
+    </businessProblem>
+
+    <personas>
+      <persona role="primary">Arquiteto Comercial</persona>
+      <persona role="secondary">Gerente de Vendas</persona>
+      <persona role="secondary">CEO</persona>
+    </personas>
+
+    <operationalFlow>
+      <step order="1">Lead entra pelo portal, referência, evento ou cold outreach</step>
+      <step order="2">IA_LeadScorer avalia e pontua automaticamente o lead (1–10)</step>
+      <step order="3">Lead qualificado avança para briefing inicial</step>
+      <step order="4">Briefing gera Opportunity associada ao lead</step>
+      <step order="5">Equipe comercial negocia e elabora proposta comercial</step>
+      <step order="6">Proposta aprovada gera contrato (integração com F03 — Propostas)</step>
+      <step order="7">Contrato assinado avança para Squad Projetos (ProjectCreated event)</step>
+      <step order="8">Durante e após obra: acompanhamento de satisfação, NPS e cross-sell</step>
+    </operationalFlow>
+
+    <contentTypes>
+      <contentType name="Lead">
+        <note>Extensão do Lead do ia_atendimento. O CRM adiciona campos comerciais ao modelo base.</note>
+        <fields>
+          <field name="contact_id"        type="reference"  target="Contact"   required="true"/>
+          <field name="fonte"             type="select"     options="inbound,outbound,referencia,evento,parceiro,ads"/>
+          <field name="score_crm"         type="integer"    range="1-10"       note="Score comercial pelo IA_LeadScorer"/>
+          <field name="stage"             type="select"     options="novo,contato,qualificado,briefing,proposta,negociacao,ganho,perdido"/>
+          <field name="motivo_perda"      type="select"     options="preco,concorrencia,sem_orcamento,desistencia,sem_resposta,outro"/>
+          <field name="valor_estimado"    type="decimal"/>
+          <field name="probabilidade"     type="integer"    range="0-100"/>
+          <field name="data_fechamento_prev" type="date"/>
+          <field name="responsavel_id"    type="reference"  target="User"/>
+          <field name="tags"              type="json"/>
+          <field name="notas"             type="text"/>
+        </fields>
+      </contentType>
+
+      <contentType name="Briefing">
+        <fields>
+          <field name="lead_id"           type="reference"  target="Lead"      required="true"/>
+          <field name="tipo_projeto"      type="select"     options="residencial,comercial,corporativo,hospitalar,urbanismo,interiores,reforma"/>
+          <field name="area_estimada"     type="decimal"    unit="m²"/>
+          <field name="localizacao"       type="string"/>
+          <field name="orcamento_range"   type="select"     options="ate_100k,100k_500k,500k_1m,acima_1m"/>
+          <field name="prazo_desejado"    type="select"     options="urgente,3_meses,6_meses,1_ano,sem_pressa"/>
+          <field name="estilo_preferido"  type="json"       note="Array de estilos: moderno, clássico, minimalista, etc."/>
+          <field name="necessidades"      type="text"/>
+          <field name="arquivos_referencia" type="file"     multiple="true"/>
+          <field name="concorrentes"      type="json"       note="Outros escritórios que estão cotando"/>
+        </fields>
+      </contentType>
+
+      <contentType name="Opportunity">
+        <fields>
+          <field name="lead_id"           type="reference"  target="Lead"      required="true"/>
+          <field name="project_id"        type="reference"  target="Project"/>
+          <field name="briefing_id"       type="reference"  target="Briefing"/>
+          <field name="nome"              type="string"     required="true"/>
+          <field name="valor"             type="decimal"/>
+          <field name="status"            type="select"     options="aberta,ganha,perdida,suspensa"/>
+          <field name="data_abertura"     type="date"/>
+          <field name="data_fechamento"   type="date"/>
+          <field name="historico_atividades" type="json"    note="Timeline de interações, calls, emails, reuniões"/>
+        </fields>
+      </contentType>
+
+      <contentType name="Contract">
+        <fields>
+          <field name="opportunity_id"    type="reference"  target="Opportunity" required="true"/>
+          <field name="client_id"         type="reference"  target="Client"      required="true"/>
+          <field name="numero"            type="string"     unique="true"/>
+          <field name="valor_total"       type="decimal"/>
+          <field name="data_assinatura"   type="date"/>
+          <field name="data_vigencia_fim" type="date"/>
+          <field name="arquivo_contrato"  type="file"/>
+          <field name="status"            type="select"     options="rascunho,enviado,assinado,vigente,encerrado,cancelado"/>
+          <field name="assinaturas"       type="json"       note="Array: signatário, data, método"/>
+        </fields>
+      </contentType>
+    </contentTypes>
+
+    <entities>
+      <entity name="Lead">
+        <relationships>
+          <relationship type="belongsTo" target="Contact"/>
+          <relationship type="hasOne"    target="Briefing"/>
+          <relationship type="hasMany"   target="Opportunity"/>
+        </relationships>
+      </entity>
+      <entity name="Opportunity">
+        <relationships>
+          <relationship type="belongsTo" target="Lead"/>
+          <relationship type="hasOne"    target="Project"/>
+          <relationship type="hasMany"   target="Contract"/>
+        </relationships>
+      </entity>
+    </entities>
+
+    <apis>
+      <endpoint method="POST"  path="/api/v1/crm/leads"                   description="Cria novo lead no CRM"/>
+      <endpoint method="GET"   path="/api/v1/crm/leads/{id}"              description="Detalhes do lead com histórico de atividades"/>
+      <endpoint method="PUT"   path="/api/v1/crm/opportunities/{id}/status" description="Atualiza stage da oportunidade no pipeline"/>
+      <endpoint method="POST"  path="/api/v1/crm/briefings"               description="Registra briefing vinculado a lead"/>
+      <endpoint method="GET"   path="/api/v1/crm/pipeline"                description="Retorna pipeline completo com métricas por stage"/>
+      <endpoint method="POST"  path="/api/v1/crm/activities"              description="Registra atividade (call, email, reunião) em lead/opportunity"/>
+    </apis>
+
+    <agents>
+      <agent name="IA_LeadScorer">
+        <skill>Commercial Lead Scoring — pontua leads de 1 a 10 com base em fit, orçamento, urgência e perfil</skill>
+        <promptRef>ia-crm/lead-scorer@1.0.0</promptRef>
+        <promptTemplate>
+          Avalie o lead {leadId} com base nos critérios: tipo de projeto ({tipo_projeto}),
+          orçamento ({orcamento_range}), prazo ({prazo_desejado}), fonte ({fonte}) e perfil do contato.
+          Atribua uma pontuação de 1 a 10 e justifique os 3 principais fatores.
+          Responda apenas em JSON: {"score": N, "justificativa": "...", "acoes_sugeridas": ["...", "..."]}.
+        </promptTemplate>
+        <trigger>Evento LeadCreated ou BriefingCreated no RabbitMQ</trigger>
+      </agent>
+
+      <agent name="IA_FollowUpScheduler">
+        <skill>Follow-up Scheduling — sugere melhor momento e canal para próximo contato com base em histórico</skill>
+        <promptRef>ia-crm/followup-scheduler@1.0.0</promptRef>
+        <promptTemplate>
+          Sugira a melhor data e hora para follow-up com {leadName} sobre o projeto {projectName}.
+          Considere o histórico de interações: {interactionHistory}, o score atual ({score}) e o stage ({stage}).
+          Responda em JSON: {"data_sugerida": "ISO8601", "canal": "email|whatsapp|telefone|reuniao", "mensagem_sugerida": "..."}.
+        </promptTemplate>
+        <trigger>Opportunity sem atividade há mais de 5 dias úteis (cron)</trigger>
+      </agent>
+    </agents>
+
+    <workflows>
+      <workflow name="Workflow_LeadNurturing" tool="n8n">
+        <description>Sequência de nutrição automatizada para leads não-convertidos com conteúdo personalizado por tipo de projeto.</description>
+        <trigger>Lead com score ≥ 5 e stage=qualificado sem avanço por 7 dias</trigger>
+        <steps>
+          <step>1. IA_FollowUpScheduler define próxima ação e canal</step>
+          <step>2. Envia conteúdo personalizado (case study do tipo de projeto, artigo técnico)</step>
+          <step>3. Aguarda 3 dias; se sem resposta, escala para arquiteto responsável</step>
+          <step>4. Registra todas as interações no histórico da Opportunity</step>
+        </steps>
+      </workflow>
+
+      <workflow name="Workflow_SalesProcessAutomation" tool="n8n">
+        <description>Automatiza notificações e tarefas ao longo do funil de vendas.</description>
+        <trigger>Mudança de stage em Opportunity</trigger>
+        <steps>
+          <step>1. Notifica time comercial sobre mudança de stage</step>
+          <step>2. Se stage=proposta: integra com F03 para geração automática de proposta</step>
+          <step>3. Se stage=ganho: publica OpportunityWon event → Squad Projetos cria projeto</step>
+          <step>4. Se stage=perdido: solicita preenchimento de motivo_perda + agenda follow-up em 90 dias</step>
+        </steps>
+      </workflow>
+    </workflows>
+
+    <queues>
+      <queue name="crm_events_queue"         exchange="archtech.crm" type="topic"
+             description="Eventos do funil: lead criado, stage alterado, briefing registrado"/>
+      <queue name="sales_notifications_queue" exchange="archtech.crm" type="topic"
+             description="Notificações para equipe comercial: alertas de follow-up, novos leads"/>
+    </queues>
+
+    <domainEvents>
+      <event name="BriefingCreated"     emits="ia_crm"   consumes="ia_atendimento, ia_marketing"/>
+      <event name="OpportunityWon"      emits="ia_crm"   consumes="ia_projetos, ia_client_portal"/>
+      <event name="OpportunityLost"     emits="ia_crm"   consumes="ia_marketing, ia_insights"/>
+      <event name="ContractSigned"      emits="ia_crm"   consumes="ia_projetos, ia_financeiro"/>
+    </domainEvents>
+
+    <dashboards>
+      <dashboard name="SalesPipelineDashboard">
+        <description>Funil de vendas visual (Kanban) com valor total por stage, win rate e velocidade de ciclo.</description>
+        <audience>Arquiteto Comercial, Gerente de Vendas</audience>
+        <components>pipeline_kanban, stage_conversion_funnel, revenue_forecast, activity_feed</components>
+      </dashboard>
+      <dashboard name="LeadConversionRate">
+        <description>Análise de conversão por fonte, tipo de projeto, período e responsável.</description>
+        <audience>CEO, Gerente de Vendas</audience>
+        <components>conversion_by_source_chart, avg_cycle_time, lost_reason_breakdown, top_performers</components>
+      </dashboard>
+    </dashboards>
+
+    <kpis>
+      <kpi name="LeadConversionRate"      target="≥ 25%"           measurement="(Leads ganhos / Total leads) × 100"/>
+      <kpi name="SalesCycleLength"        target="≤ 45 dias"       measurement="data_fechamento - data_abertura (média)"/>
+      <kpi name="CustomerLifetimeValue"   target="baseline S1"     measurement="Receita total por cliente ao longo do relacionamento"/>
+      <kpi name="FollowUpResponseRate"    target="≥ 40%"           measurement="Respostas recebidas / Follow-ups enviados"/>
+    </kpis>
+
+    <roadmap>
+      <phase name="MVP">
+        <feature>Gestão de leads com pipeline Kanban</feature>
+        <feature>Briefing estruturado vinculado a lead</feature>
+        <feature>Oportunidades com histórico de atividades</feature>
+        <feature>Score automático por IA</feature>
+      </phase>
+      <phase name="Growth">
+        <feature>Automação de follow-ups por sequência</feature>
+        <feature>Relatórios de vendas avançados com cohort analysis</feature>
+        <feature>Integração com Gmail/Outlook para log automático de emails</feature>
+        <feature>Previsão de fechamento por IA</feature>
+      </phase>
+      <phase name="Enterprise">
+        <feature>Integração com ERP para sincronização de contratos e receitas</feature>
+        <feature>Previsão de vendas com IA (forecast trimestral)</feature>
+        <feature>Multi-escritório com pipeline consolidado</feature>
+      </phase>
+    </roadmap>
+  </feature>
+
+
+  <!-- ==============================================================
+       FEATURE 03 — Propostas Comerciais
+       Bounded Context: commercial_proposals
+       Módulo Drupal: ia_proposals
+       Owner: Squad Comercial
+       ============================================================== -->
+  <feature id="F03" name="Propostas Comerciais" boundedContext="commercial_proposals" module="ia_proposals" status="roadmap">
+
+    <businessProblem>
+      Agilizar a criação, gestão e aprovação de propostas comerciais, garantindo padronização,
+      profissionalismo e rastreabilidade de versões.
+    </businessProblem>
+
+    <personas>
+      <persona role="primary">Arquiteto Comercial</persona>
+      <persona role="secondary">Gerente de Projeto</persona>
+      <persona role="secondary">Cliente</persona>
+    </personas>
+
+    <operationalFlow>
+      <step order="1">Arquiteto seleciona template adequado ao tipo de projeto</step>
+      <step order="2">IA_ProposalGenerator preenche proposta com dados do briefing automaticamente</step>
+      <step order="3">Arquiteto revisa, ajusta escopo, valores e condições</step>
+      <step order="4">Proposta passa por aprovação interna (gerente/sócio) se valor > threshold</step>
+      <step order="5">Proposta é enviada ao cliente via portal ou email com link de visualização</step>
+      <step order="6">Cliente aprova, rejeita ou solicita revisão</step>
+      <step order="7">Aprovada: IA_ContractReviewer revisa termos e gera contrato</step>
+      <step order="8">Assinatura digital por todas as partes</step>
+    </operationalFlow>
+
+    <contentTypes>
+      <contentType name="ProposalTemplate">
+        <fields>
+          <field name="nome"              type="string"     required="true"/>
+          <field name="tipo_projeto"      type="select"     options="residencial,comercial,corporativo,hospitalar,urbanismo,interiores,reforma"/>
+          <field name="conteudo"          type="rich_text"  note="Template com variáveis: {{clientName}}, {{projectScope}}, etc."/>
+          <field name="secoes"            type="json"       note="Seções: apresentação, escopo, metodologia, honorários, condições"/>
+          <field name="versao"            type="string"/>
+          <field name="ativa"             type="boolean"    default="true"/>
+          <field name="aprovada_por"      type="reference"  target="User"/>
+        </fields>
+      </contentType>
+
+      <contentType name="CommercialProposal">
+        <fields>
+          <field name="opportunity_id"    type="reference"  target="Opportunity" required="true"/>
+          <field name="client_id"         type="reference"  target="Client"      required="true"/>
+          <field name="template_id"       type="reference"  target="ProposalTemplate"/>
+          <field name="numero"            type="string"     unique="true"        note="AUTO: PROP-2025-001"/>
+          <field name="titulo"            type="string"/>
+          <field name="conteudo"          type="rich_text"/>
+          <field name="valor_total"       type="decimal"/>
+          <field name="condicoes_pagamento" type="json"     note="Array: percentual, descrição, vencimento"/>
+          <field name="validade"          type="date"/>
+          <field name="versao"            type="integer"    default="1"/>
+          <field name="status"            type="select"     options="rascunho,revisao_interna,enviada,visualizada,aprovada,rejeitada,expirada"/>
+          <field name="revisoes"          type="json"       note="Histórico de versões anteriores"/>
+          <field name="gerada_por_ia"     type="boolean"/>
+          <field name="prompt_version"    type="string"/>
+        </fields>
+      </contentType>
+
+      <contentType name="DigitalSignature">
+        <fields>
+          <field name="document_id"       type="reference"  required="true"      note="CommercialProposal ou Contract"/>
+          <field name="document_type"     type="select"     options="proposta,contrato,aditivo,ata"/>
+          <field name="signatarios"       type="json"       note="Array: nome, email, role, data_assinatura, ip, hash"/>
+          <field name="status"            type="select"     options="pendente,parcial,completo,cancelado"/>
+          <field name="provider"          type="select"     options="docusign,clicksign,d4sign,zapsign"/>
+          <field name="documento_final"   type="file"       note="PDF assinado com certificação"/>
+          <field name="hash_documento"    type="string"     note="SHA-256 do documento original"/>
+        </fields>
+      </contentType>
+    </contentTypes>
+
+    <apis>
+      <endpoint method="POST"  path="/api/v1/proposals"                   description="Cria nova proposta (manual ou via IA)"/>
+      <endpoint method="GET"   path="/api/v1/proposals/{id}"              description="Retorna proposta com histórico de versões"/>
+      <endpoint method="GET"   path="/api/v1/proposals/{id}/pdf"          description="Gera e retorna PDF da proposta"/>
+      <endpoint method="POST"  path="/api/v1/proposals/{id}/sign"         description="Inicia fluxo de assinatura digital"/>
+      <endpoint method="POST"  path="/api/v1/proposals/{id}/revision"     description="Cria nova versão da proposta"/>
+      <endpoint method="GET"   path="/api/v1/proposal-templates"          description="Lista templates disponíveis por tipo de projeto"/>
+    </apis>
+
+    <agents>
+      <agent name="IA_ProposalGenerator">
+        <skill>Proposal Generation — cria propostas completas e personalizadas a partir de dados de briefing</skill>
+        <promptRef>ia-proposals/generator@1.0.0</promptRef>
+        <promptTemplate>
+          Gere uma proposta comercial para o projeto {projectName} com base nos dados de briefing: {briefingData}.
+          Use o template {templateName}. Inclua: apresentação do escritório, escopo detalhado, metodologia,
+          honorários (baseado em {valorBase}), condições de pagamento e prazo estimado.
+          Adapte o tom para o perfil do cliente: {clientProfile}. Retorne o conteúdo em Markdown estruturado.
+        </promptTemplate>
+        <trigger>Manual via dashboard ou automático pelo Workflow_SalesProcessAutomation</trigger>
+        <humanInLoop>true — proposta gerada entra como rascunho, requer revisão humana antes de envio</humanInLoop>
+      </agent>
+
+      <agent name="IA_ContractReviewer">
+        <skill>Contract Review — identifica cláusulas de risco, inconsistências e sugere melhorias em contratos</skill>
+        <promptRef>ia-proposals/contract-reviewer@1.0.0</promptRef>
+        <promptTemplate>
+          Revise o contrato {contractId} referente ao projeto {projectName} para o cliente {clientName}.
+          Identifique: (1) cláusulas de risco para o escritório, (2) inconsistências com a proposta aprovada,
+          (3) termos ambíguos, (4) ausência de cláusulas essenciais (rescisão, propriedade intelectual, reajuste).
+          Responda em JSON: {"riscos": [...], "inconsistencias": [...], "sugestoes": [...], "aprovado_para_envio": bool}.
+        </promptTemplate>
+        <trigger>Manual: chamado antes do envio de todo contrato ao cliente</trigger>
+        <humanInLoop>true — revisão é apresentada ao responsável; envio requer aprovação explícita</humanInLoop>
+      </agent>
+    </agents>
+
+    <workflows>
+      <workflow name="Workflow_ProposalApproval" tool="n8n">
+        <description>Fluxo de aprovação interna de propostas acima do threshold de valor configurável.</description>
+        <trigger>CommercialProposal com valor_total acima do threshold e status=revisao_interna</trigger>
+        <steps>
+          <step>1. Notifica aprovador interno (sócio/gerente) com link para revisão</step>
+          <step>2. Aguarda resposta (prazo: 24h úteis)</step>
+          <step>3. Se aprovado: status=enviada, envia para cliente via portal + email</step>
+          <step>4. Se rejeitado/revisão: notifica criador com comentários</step>
+        </steps>
+      </workflow>
+
+      <workflow name="Workflow_DigitalSignature" tool="n8n">
+        <description>Orquestra o processo de assinatura digital via provider configurado.</description>
+        <trigger>POST /api/v1/proposals/{id}/sign</trigger>
+        <steps>
+          <step>1. Gera PDF final da proposta/contrato</step>
+          <step>2. Envia para provider de assinatura digital (DocuSign/ClickSign/D4Sign)</step>
+          <step>3. Notifica cada signatário na ordem configurada</step>
+          <step>4. Monitora status; envia lembretes automáticos a cada 48h</step>
+          <step>5. Ao concluir: armazena PDF assinado no Drupal Media Library</step>
+          <step>6. Publica ProposalSigned event → Squad CRM atualiza Opportunity</step>
+        </steps>
+      </workflow>
+    </workflows>
+
+    <queues>
+      <queue name="proposal_events_queue"     exchange="archtech.proposals" type="topic"
+             description="Eventos de ciclo de vida da proposta"/>
+      <queue name="signature_requests_queue"  exchange="archtech.proposals" type="topic"
+             description="Solicitações e status de assinaturas digitais"/>
+    </queues>
+
+    <domainEvents>
+      <event name="ProposalCreated"    emits="ia_proposals"  consumes="ia_crm"/>
+      <event name="ProposalSent"       emits="ia_proposals"  consumes="ia_crm, ia_client_portal"/>
+      <event name="ProposalApproved"   emits="ia_proposals"  consumes="ia_crm, ia_financeiro"/>
+      <event name="ProposalSigned"     emits="ia_proposals"  consumes="ia_crm, ia_projetos, ia_financeiro"/>
+    </domainEvents>
+
+    <dashboards>
+      <dashboard name="ProposalStatusDashboard">
+        <description>Status em tempo real de todas as propostas: em rascunho, enviadas, aguardando assinatura.</description>
+        <audience>Arquiteto Comercial, Gerente de Projeto</audience>
+        <components>proposal_status_kanban, expiring_proposals_alert, signature_pending_list</components>
+      </dashboard>
+      <dashboard name="ProposalConversionRate">
+        <description>Taxa de conversão de propostas por tipo de projeto, valor, template e período.</description>
+        <audience>CEO, Gerente de Vendas</audience>
+        <components>conversion_rate_by_type, avg_approval_time, revenue_won_lost_chart</components>
+      </dashboard>
+    </dashboards>
+
+    <kpis>
+      <kpi name="ProposalGenerationTime"   target="≤ 2h com IA"   measurement="datetime(enviada) - datetime(briefing_recebido)"/>
+      <kpi name="ProposalApprovalRate"     target="≥ 60%"          measurement="(Propostas aprovadas / Propostas enviadas) × 100"/>
+      <kpi name="ProposalConversionRate"   target="≥ 40%"          measurement="(Propostas que viraram contrato / Enviadas) × 100"/>
+      <kpi name="SignatureCycleTime"       target="≤ 5 dias úteis" measurement="datetime(todas_assinaturas) - datetime(envio)"/>
+    </kpis>
+
+    <roadmap>
+      <phase name="MVP">
+        <feature>Geração de propostas com templates customizáveis</feature>
+        <feature>Versionamento de propostas</feature>
+        <feature>Envio por email com link de visualização</feature>
+      </phase>
+      <phase name="Growth">
+        <feature>Assinatura digital integrada (D4Sign/ClickSign)</feature>
+        <feature>Fluxo de aprovação interna configurável</feature>
+        <feature>Geração automática via IA a partir do briefing</feature>
+      </phase>
+      <phase name="Enterprise">
+        <feature>Integração com sistemas jurídicos</feature>
+        <feature>Análise preditiva de sucesso de propostas por IA</feature>
+        <feature>Biblioteca de cláusulas contratuais com versionamento</feature>
+      </phase>
+    </roadmap>
+  </feature>
+
+
+  <!-- ==============================================================
+       FEATURE 04 — Gestão Financeira
+       Bounded Context: financial_management
+       Módulo Drupal: ia_financeiro
+       Owner: Squad Financeiro
+       ============================================================== -->
+  <feature id="F04" name="Gestão Financeira" boundedContext="financial_management" module="ia_financeiro" status="roadmap">
+
+    <businessProblem>
+      Oferecer controle financeiro completo para escritórios de arquitetura — contas a pagar/receber,
+      centros de custo, fluxo de caixa e forecast — otimizando saúde financeira e visibilidade para tomada de decisão.
+    </businessProblem>
+
+    <personas>
+      <persona role="primary">Gerente Financeiro</persona>
+      <persona role="secondary">CEO</persona>
+      <persona role="secondary">Contador</persona>
+    </personas>
+
+    <operationalFlow>
+      <step order="1">Contrato assinado (evento ContractSigned) cria automaticamente parcelas no Contas a Receber</step>
+      <step order="2">Compras de obra aprovadas criam lançamentos no Contas a Pagar</step>
+      <step order="3">Gerente financeiro monitora vencimentos e aprovaçōes de pagamento</step>
+      <step order="4">IA_CashFlowPredictor gera previsão para próximos 3/6/12 meses</step>
+      <step order="5">IA_CollectionAgent automatiza cobranças de faturas vencidas</step>
+      <step order="6">Dashboard de margem por projeto e centro de custo</step>
+      <step order="7">Exportação para contabilidade (SPED, OFX, CSV)</step>
+    </operationalFlow>
+
+    <contentTypes>
+      <contentType name="AccountReceivable">
+        <fields>
+          <field name="client_id"         type="reference"  target="Client"    required="true"/>
+          <field name="project_id"        type="reference"  target="Project"   required="true"/>
+          <field name="contract_id"       type="reference"  target="Contract"/>
+          <field name="descricao"         type="string"/>
+          <field name="valor"             type="decimal"    required="true"/>
+          <field name="data_vencimento"   type="date"       required="true"/>
+          <field name="data_pagamento"    type="date"/>
+          <field name="status"            type="select"     options="pendente,pago,vencido,cancelado,em_negociacao"/>
+          <field name="forma_pagamento"   type="select"     options="pix,ted,boleto,cartao,cheque"/>
+          <field name="comprovante"       type="file"/>
+          <field name="numero_parcela"    type="integer"/>
+          <field name="total_parcelas"    type="integer"/>
+          <field name="centro_custo_id"   type="reference"  target="CostCenter"/>
+        </fields>
+      </contentType>
+
+      <contentType name="AccountPayable">
+        <fields>
+          <field name="supplier_id"       type="reference"  target="Supplier"/>
+          <field name="project_id"        type="reference"  target="Project"/>
+          <field name="descricao"         type="string"     required="true"/>
+          <field name="categoria"         type="select"     options="material,mao_de_obra,servico,honorario,despesa_escritorio,imposto"/>
+          <field name="valor"             type="decimal"    required="true"/>
+          <field name="data_vencimento"   type="date"       required="true"/>
+          <field name="data_pagamento"    type="date"/>
+          <field name="status"            type="select"     options="pendente,pago,vencido,cancelado,aprovacao"/>
+          <field name="nota_fiscal"       type="file"/>
+          <field name="aprovado_por"      type="reference"  target="User"/>
+          <field name="centro_custo_id"   type="reference"  target="CostCenter"/>
+        </fields>
+      </contentType>
+
+      <contentType name="CostCenter">
+        <fields>
+          <field name="nome"              type="string"     required="true"/>
+          <field name="codigo"            type="string"     unique="true"/>
+          <field name="tipo"              type="select"     options="projeto,departamento,overhead,investimento"/>
+          <field name="project_id"        type="reference"  target="Project"   note="Null para centros de custo do escritório"/>
+          <field name="orcamento_mensal"  type="decimal"/>
+          <field name="ativo"             type="boolean"    default="true"/>
+        </fields>
+      </contentType>
+
+      <contentType name="FinancialContract">
+        <fields>
+          <field name="contract_id"       type="reference"  target="Contract"  required="true"/>
+          <field name="valor_total"       type="decimal"/>
+          <field name="valor_recebido"    type="decimal"/>
+          <field name="margem_estimada"   type="decimal"    unit="%"/>
+          <field name="parcelas"          type="json"       note="Array de AccountReceivable IDs"/>
+          <field name="status_financeiro" type="select"     options="adimplente,inadimplente,quitado,cancelado"/>
+        </fields>
+      </contentType>
+
+      <contentType name="Installment">
+        <note>Representa uma parcela de pagamento, seja de recebível ou pagável.</note>
+        <fields>
+          <field name="parent_type"       type="select"     options="receivable,payable"/>
+          <field name="parent_id"         type="integer"/>
+          <field name="numero"            type="integer"/>
+          <field name="valor"             type="decimal"/>
+          <field name="data_vencimento"   type="date"/>
+          <field name="status"            type="select"     options="pendente,pago,vencido"/>
+        </fields>
+      </contentType>
+    </contentTypes>
+
+    <apis>
+      <endpoint method="POST"  path="/api/v1/finance/receivables"          description="Cria conta a receber"/>
+      <endpoint method="POST"  path="/api/v1/finance/payables"             description="Cria conta a pagar"/>
+      <endpoint method="GET"   path="/api/v1/finance/cashflow"             description="Retorna fluxo de caixa por período"/>
+      <endpoint method="GET"   path="/api/v1/finance/projects/{id}/margin" description="Retorna margem de lucro do projeto"/>
+      <endpoint method="GET"   path="/api/v1/finance/forecast"             description="Previsão de caixa para N meses (via IA)"/>
+      <endpoint method="POST"  path="/api/v1/finance/collection/{id}"      description="Aciona cobrança automática para recebível vencido"/>
+    </apis>
+
+    <agents>
+      <agent name="IA_CashFlowPredictor">
+        <skill>Cash Flow Forecasting — previsão de fluxo de caixa com base em histórico e contratos vigentes</skill>
+        <promptRef>ia-financeiro/cashflow-predictor@1.0.0</promptRef>
+        <promptTemplate>
+          Preveja o fluxo de caixa para os próximos {months} meses com base nos dados financeiros atuais:
+          Recebíveis pendentes: {receivablesSummary}. Pagamentos previstos: {payablesSummary}.
+          Projetos em andamento: {activeProjects}. Sazonalidade histórica: {seasonalityData}.
+          Retorne em JSON: {"meses": [{"mes": "YYYY-MM", "receita_prevista": N, "despesa_prevista": N, "saldo": N}], "alertas": [...]}.
+        </promptTemplate>
+        <trigger>Semanal (segunda-feira 7h) + on-demand via dashboard</trigger>
+      </agent>
+
+      <agent name="IA_CollectionAgent">
+        <skill>Automated Collection — gera comunicações de cobrança personalizadas e escalona conforme atraso</skill>
+        <promptRef>ia-financeiro/collection-agent@1.0.0</promptRef>
+        <promptTemplate>
+          Gere uma notificação de cobrança para {clientName} referente à fatura {invoiceId}
+          vencida há {daysOverdue} dias no valor de R$ {value}.
+          Nível de cobrança: {level} (1=lembrete amigável, 2=cobrança formal, 3=aviso jurídico).
+          Mantenha o relacionamento e ofereça opções de regularização.
+        </promptTemplate>
+        <trigger>Cron diário: AccountReceivable com status=vencido</trigger>
+        <humanInLoop>true para nível 3 (aviso jurídico)</humanInLoop>
+      </agent>
+    </agents>
+
+    <workflows>
+      <workflow name="Workflow_InvoiceProcessing" tool="n8n">
+        <description>Processa automaticamente notas fiscais recebidas via email ou upload, extraindo dados via OCR e criando lançamentos.</description>
+        <trigger>Upload de nota fiscal ou email com NF-e anexada</trigger>
+        <steps>
+          <step>1. OCR extrai dados da NF-e (valor, CNPJ emitente, vencimento)</step>
+          <step>2. Identifica fornecedor e projeto pelo CNPJ e código de referência</step>
+          <step>3. Cria AccountPayable com status=aprovacao se valor > threshold</step>
+          <step>4. Notifica gerente financeiro para aprovação</step>
+        </steps>
+      </workflow>
+
+      <workflow name="Workflow_PaymentReminders" tool="n8n">
+        <description>Sequência automática de lembretes de vencimento e cobrança.</description>
+        <trigger>Cron diário verificando datas de vencimento</trigger>
+        <steps>
+          <step>D-3: Lembrete preventivo por email ao cliente (tom amigável)</step>
+          <step>D+1: Cobrança nível 1 via email + WhatsApp (IA_CollectionAgent)</step>
+          <step>D+7: Cobrança nível 2 via email formal (IA_CollectionAgent)</step>
+          <step>D+15: Cobrança nível 3 com aprovação manual obrigatória</step>
+        </steps>
+      </workflow>
+    </workflows>
+
+    <queues>
+      <queue name="financial_transactions_queue" exchange="archtech.financial" type="topic"
+             description="Criação e atualização de transações financeiras"/>
+      <queue name="payment_reminders_queue"      exchange="archtech.financial" type="topic"
+             description="Lembretes de pagamento e cobranças automatizadas"/>
+    </queues>
+
+    <domainEvents>
+      <event name="InvoiceCreated"      emits="ia_financeiro"  consumes="ia_suporte"/>
+      <event name="PaymentReceived"     emits="ia_financeiro"  consumes="ia_crm, ia_client_portal"/>
+      <event name="InvoiceOverdue"      emits="ia_financeiro"  consumes="ia_suporte"/>
+      <event name="BudgetDeviationFinancial" emits="ia_financeiro" consumes="ia_obras, ia_insights"/>
+    </domainEvents>
+
+    <dashboards>
+      <dashboard name="CashFlowDashboard">
+        <description>Fluxo de caixa realizado e previsto, contas vencendo nos próximos 30/60/90 dias.</description>
+        <audience>Gerente Financeiro, CEO</audience>
+        <components>cashflow_waterfall_chart, receivables_aging, payables_calendar, ai_forecast_chart</components>
+      </dashboard>
+      <dashboard name="ProfitabilityDashboard">
+        <description>Margem de lucro por projeto, por tipo de serviço e por período.</description>
+        <audience>CEO, Gerente Financeiro</audience>
+        <components>margin_by_project_chart, cost_center_breakdown, revenue_vs_cost_timeline</components>
+      </dashboard>
+    </dashboards>
+
+    <kpis>
+      <kpi name="CashFlow"                   target="Positivo em 100% dos meses"    measurement="Saldo mensal realizado"/>
+      <kpi name="ProfitMargin"               target="≥ 30% por projeto"             measurement="(Receita - Custo) / Receita × 100"/>
+      <kpi name="AccountsReceivableAging"    target="≤ 15% vencido > 30 dias"       measurement="% do total de recebíveis em atraso"/>
+      <kpi name="CollectionEfficiency"       target="≥ 90% recuperado em 30 dias"   measurement="Valor recuperado / Valor vencido"/>
+    </kpis>
+
+    <roadmap>
+      <phase name="MVP">
+        <feature>Contas a pagar e receber com parcelas</feature>
+        <feature>Fluxo de caixa básico (realizado)</feature>
+        <feature>Lembretes de vencimento automatizados</feature>
+      </phase>
+      <phase name="Growth">
+        <feature>Centros de custo por projeto</feature>
+        <feature>Margem de lucro por projeto em tempo real</feature>
+        <feature>Cobrança automatizada em 3 níveis</feature>
+        <feature>Forecast de caixa por IA</feature>
+      </phase>
+      <phase name="Enterprise">
+        <feature>Integração com bancos (Open Finance / OFX)</feature>
+        <feature>Contabilidade completa com exportação SPED</feature>
+        <feature>Forecast avançado com IA e cenários</feature>
+        <feature>Integração com ERP do escritório</feature>
+      </phase>
+    </roadmap>
+  </feature>
+
+
+  <!-- ==============================================================
+       FEATURE 05 — Biblioteca Técnica
+       Bounded Context: technical_library
+       Módulo Drupal: ia_library
+       Owner: Squad Conhecimento
+       ============================================================== -->
+  <feature id="F05" name="Biblioteca Técnica" boundedContext="technical_library" module="ia_library" status="roadmap">
+
+    <businessProblem>
+      Centralizar o conhecimento técnico (NBRs, normas, checklists, memoriais) facilitando acesso,
+      aplicação em projetos e consultas inteligentes via RAG (Retrieval-Augmented Generation).
+    </businessProblem>
+
+    <personas>
+      <persona role="primary">Arquiteto Projetista</persona>
+      <persona role="secondary">Engenheiro</persona>
+      <persona role="secondary">Estagiário</persona>
+    </personas>
+
+    <contentTypes>
+      <contentType name="TechnicalDocument">
+        <fields>
+          <field name="titulo"            type="string"     required="true"/>
+          <field name="tipo"              type="select"     options="nbr,abnt,lei,decreto,instrucao_normativa,manual,checklist,memorial,template"/>
+          <field name="categoria_id"      type="reference"  target="Category"/>
+          <field name="tags"              type="json"/>
+          <field name="arquivo"           type="file"       extensions="pdf,docx"/>
+          <field name="conteudo_indexado" type="text"       note="Texto extraído via OCR para busca full-text"/>
+          <field name="embedding_vector"  type="json"       note="Vetor 1536d para busca semântica (pgvector)"/>
+          <field name="numero_norma"      type="string"     note="Ex: NBR 9050:2020"/>
+          <field name="data_publicacao"   type="date"/>
+          <field name="data_revisao"      type="date"       note="Próxima revisão prevista"/>
+          <field name="vigente"           type="boolean"    default="true"/>
+          <field name="substituida_por"   type="reference"  target="TechnicalDocument"/>
+        </fields>
+      </contentType>
+
+      <contentType name="Standard">
+        <fields>
+          <field name="codigo"            type="string"     required="true" unique="true"/>
+          <field name="titulo"            type="string"/>
+          <field name="orgao_emissor"     type="select"     options="ABNT,INMETRO,CREA,CAU,Prefeitura,Federal,Estadual,Municipal"/>
+          <field name="documento_id"      type="reference"  target="TechnicalDocument"/>
+          <field name="municipios"        type="json"       note="Array de municípios onde se aplica"/>
+          <field name="status"            type="select"     options="vigente,revogada,em_revisao"/>
+        </fields>
+      </contentType>
+
+      <contentType name="Checklist">
+        <fields>
+          <field name="titulo"            type="string"     required="true"/>
+          <field name="tipo_projeto"      type="json"       note="Tipos de projeto onde se aplica"/>
+          <field name="fase_projeto"      type="select"     options="conceito,anteprojeto,executivo,obra,entrega,pos_obra"/>
+          <field name="itens"             type="json"       note="Array: item, descricao, norma_ref, obrigatorio"/>
+          <field name="versao"            type="string"/>
+          <field name="aprovado_por"      type="reference"  target="User"/>
+        </fields>
+      </contentType>
+    </contentTypes>
+
+    <apis>
+      <endpoint method="POST"  path="/api/v1/library/documents"            description="Upload e indexação de novo documento técnico"/>
+      <endpoint method="GET"   path="/api/v1/library/search"               description="Busca semântica: ?query={query}&amp;tipo={tipo}&amp;municipio={municipio}"/>
+      <endpoint method="GET"   path="/api/v1/library/ask"                  description="Consulta RAG: ?question={question} — resposta fundamentada nos documentos"/>
+      <endpoint method="GET"   path="/api/v1/library/documents/{id}"       description="Detalhe do documento com chunks relevantes"/>
+      <endpoint method="GET"   path="/api/v1/library/checklists/{type}"    description="Retorna checklist para tipo e fase de projeto"/>
+    </apis>
+
+    <agents>
+      <agent name="IA_KnowledgeRetriever">
+        <skill>RAG-based Knowledge Retrieval — responde perguntas técnicas fundamentadas nos documentos da biblioteca</skill>
+        <promptRef>ia-library/knowledge-retriever@1.0.0</promptRef>
+        <promptTemplate>
+          Responda à pergunta '{question}' utilizando APENAS informações da biblioteca técnica.
+          Documentos relevantes recuperados: {retrievedChunks}.
+          Cite a fonte (norma/documento) para cada afirmação.
+          Se a resposta não estiver na biblioteca, informe explicitamente: "Esta informação não está disponível na biblioteca técnica."
+          Seja preciso e objetivo. Inclua referências a artigos/seções específicas das normas.
+        </promptTemplate>
+        <trigger>GET /api/v1/library/ask</trigger>
+        <ragConfig>
+          <embeddingModel>text-embedding-3-large</embeddingModel>
+          <vectorStore>pgvector (cosine distance, top-K=5)</vectorStore>
+          <chunkSize>512 tokens com overlap de 50 tokens</chunkSize>
+        </ragConfig>
+      </agent>
+
+      <agent name="IA_DocumentClassifier">
+        <skill>Document Classification — categoriza e extrai metadados de novos documentos técnicos automaticamente</skill>
+        <promptRef>ia-library/document-classifier@1.0.0</promptRef>
+        <promptTemplate>
+          Classifique o documento '{documentTitle}' (preview: {documentPreview}) nas categorias existentes da biblioteca.
+          Extraia: tipo (NBR/lei/manual/etc), número da norma (se aplicável), órgão emissor, data de publicação,
+          municípios de aplicação, tags relevantes e fase de projeto onde se aplica.
+          Retorne apenas JSON com os campos extraídos.
+        </promptTemplate>
+        <trigger>Evento DocumentUploaded no RabbitMQ (processamento assíncrono)</trigger>
+      </agent>
+    </agents>
+
+    <workflows>
+      <workflow name="Workflow_DocumentIngestion" tool="n8n">
+        <description>Pipeline completo de ingestão: upload → OCR → embedding → classificação → indexação.</description>
+        <trigger>POST /api/v1/library/documents</trigger>
+        <steps>
+          <step>1. Extrai texto via OCR (para PDFs escaneados)</step>
+          <step>2. Divide em chunks (512 tokens com overlap)</step>
+          <step>3. Gera embeddings via text-embedding-3-large para cada chunk</step>
+          <step>4. Armazena vetores no pgvector</step>
+          <step>5. IA_DocumentClassifier extrai metadados e categoriza</step>
+          <step>6. Publica DocumentIndexed event</step>
+        </steps>
+      </workflow>
+
+      <workflow name="Workflow_KnowledgeUpdate" tool="n8n">
+        <description>Monitora fontes externas (ABNT, diários oficiais) e alerta sobre novas normas ou revisões.</description>
+        <trigger>Semanal (sábado 6h) + RSS feeds de órgãos normativos</trigger>
+        <steps>
+          <step>1. Verifica feeds RSS de ABNT, INMETRO, diários oficiais dos estados</step>
+          <step>2. Se nova norma ou revisão detectada: cria task para upload no Drupal</step>
+          <step>3. Notifica equipe técnica via Slack com resumo da mudança</step>
+          <step>4. Marca documentos substituídos como vigente=false</step>
+        </steps>
+      </workflow>
+    </workflows>
+
+    <queues>
+      <queue name="document_ingestion_queue"  exchange="archtech.library" type="topic"
+             description="Pipeline de ingestão de novos documentos técnicos"/>
+      <queue name="knowledge_query_queue"     exchange="archtech.library" type="topic"
+             description="Consultas RAG assíncronas para documentos grandes"/>
+    </queues>
+
+    <domainEvents>
+      <event name="DocumentIndexed"      emits="ia_library"  consumes="ia_projetos, ia_suporte"/>
+      <event name="StandardUpdated"      emits="ia_library"  consumes="ia_projetos, ia_suporte"/>
+    </domainEvents>
+
+    <dashboards>
+      <dashboard name="DocumentUsageAnalytics">
+        <description>Documentos mais consultados, perguntas frequentes ao RAG, gaps de conhecimento identificados.</description>
+        <audience>Gerente Técnico, Arquiteto Sênior</audience>
+        <components>top_documents_chart, rag_query_log, unanswered_questions_list</components>
+      </dashboard>
+      <dashboard name="KnowledgeGapAnalysis">
+        <description>Perguntas ao RAG sem resposta na biblioteca, indicando necessidade de novos documentos.</description>
+        <audience>Gerente Técnico</audience>
+        <components>gap_topics_wordcloud, missing_standards_list, coverage_by_project_type</components>
+      </dashboard>
+    </dashboards>
+
+    <kpis>
+      <kpi name="DocumentRetrievalTime"    target="≤ 2s para busca semântica"    measurement="Latência P90 do endpoint /library/search"/>
+      <kpi name="KnowledgeBaseCoverage"    target="≥ 95% das NBRs aplicáveis indexadas" measurement="Normas indexadas / Normas identificadas como necessárias"/>
+      <kpi name="RAGAnswerRate"            target="≥ 85% das perguntas respondidas" measurement="Respostas com fonte / Total de queries"/>
+    </kpis>
+
+    <roadmap>
+      <phase name="MVP">
+        <feature>Upload e busca full-text de documentos</feature>
+        <feature>Categorização manual por tipo e fase de projeto</feature>
+        <feature>Checklists por tipo de projeto</feature>
+      </phase>
+      <phase name="Growth">
+        <feature>Busca semântica com RAG via pgvector</feature>
+        <feature>Classificação automática de documentos por IA</feature>
+        <feature>Chat com a biblioteca técnica (perguntas em linguagem natural)</feature>
+      </phase>
+      <phase name="Enterprise">
+        <feature>Integração com sistemas externos de normas (ABNT Coleção)</feature>
+        <feature>Geração automática de resumos de normas</feature>
+        <feature>Alertas automáticos de revisão de normas por projeto</feature>
+      </phase>
+    </roadmap>
+  </feature>
+
+
+  <!-- ==============================================================
+       FEATURE 06 — Aprovação em Prefeitura
+       Bounded Context: permit_approval
+       Módulo Drupal: ia_permits
+       Owner: Squad Regulatório
+       ============================================================== -->
+  <feature id="F06" name="Aprovação em Prefeitura" boundedContext="permit_approval" module="ia_permits" status="roadmap">
+
+    <businessProblem>
+      Simplificar e acelerar o processo de aprovação de projetos em órgãos públicos,
+      reduzindo burocracia, erros de documentação e tempo de espera.
+    </businessProblem>
+
+    <personas>
+      <persona role="primary">Arquiteto Urbanista</persona>
+      <persona role="secondary">Despachante</persona>
+      <persona role="secondary">Fiscal de Prefeitura</persona>
+    </personas>
+
+    <contentTypes>
+      <contentType name="PermitProcess">
+        <fields>
+          <field name="project_id"        type="reference"  target="Project"   required="true"/>
+          <field name="municipio"         type="string"     required="true"/>
+          <field name="tipo_licenca"      type="select"     options="alvara_construcao,habite_se,reforma,demolicao,regularizacao,subdivisao"/>
+          <field name="numero_processo"   type="string"     note="Número no sistema da prefeitura"/>
+          <field name="status"            type="select"     options="preparacao,protocolado,em_analise,exigencia,aprovado,indeferido,arquivado"/>
+          <field name="data_protocolo"    type="date"/>
+          <field name="data_previsao"     type="date"/>
+          <field name="responsavel_id"    type="reference"  target="User"/>
+          <field name="historico"         type="json"       note="Timeline de eventos do processo"/>
+          <field name="observacoes"       type="text"/>
+        </fields>
+      </contentType>
+
+      <contentType name="Requirement">
+        <fields>
+          <field name="permit_process_id" type="reference"  target="PermitProcess" required="true"/>
+          <field name="descricao"         type="text"       required="true"/>
+          <field name="origem"            type="select"     options="prefeitura,bombeiros,concessionaria,outros"/>
+          <field name="prazo"             type="date"/>
+          <field name="status"            type="select"     options="pendente,em_atendimento,atendida,contestada"/>
+          <field name="documentos"        type="file"       multiple="true"  note="Documentação de atendimento à exigência"/>
+          <field name="responsavel_id"    type="reference"  target="User"/>
+        </fields>
+      </contentType>
+
+      <contentType name="OfficialDocument">
+        <fields>
+          <field name="permit_process_id" type="reference"  target="PermitProcess" required="true"/>
+          <field name="tipo"              type="select"     options="formulario,planta,memorial_descritivo,art,rrt,certidao,comprovante,laudo"/>
+          <field name="titulo"            type="string"/>
+          <field name="arquivo"           type="file"       required="true"/>
+          <field name="versao"            type="string"/>
+          <field name="status"            type="select"     options="rascunho,pronto,protocolado,aprovado"/>
+          <field name="gerado_por_ia"     type="boolean"/>
+        </fields>
+      </contentType>
+    </contentTypes>
+
+    <apis>
+      <endpoint method="POST"  path="/api/v1/permits/process"                    description="Cria novo processo de aprovação"/>
+      <endpoint method="GET"   path="/api/v1/permits/process/{id}/requirements"  description="Lista exigências pendentes do processo"/>
+      <endpoint method="POST"  path="/api/v1/permits/process/{id}/requirement"   description="Adiciona nova exigência ao processo"/>
+      <endpoint method="POST"  path="/api/v1/permits/documents/generate"         description="Gera documento padrão via IA para o processo"/>
+      <endpoint method="GET"   path="/api/v1/permits/advisor"                    description="Consulta requisitos para tipo e município: ?type={type}&amp;city={city}"/>
+    </apis>
+
+    <agents>
+      <agent name="IA_PermitAdvisor">
+        <skill>Permit Advisory — orienta sobre requisitos atualizados por município e tipo de projeto</skill>
+        <promptRef>ia-permits/advisor@1.0.0</promptRef>
+        <promptTemplate>
+          Quais são os requisitos para aprovação de um projeto {projectType} na prefeitura de {city}?
+          Considere: zoneamento ({zoningType}), área ({area}m²), uso ({usage}).
+          Base de conhecimento: {libraryContext}. Liste os documentos necessários, prazos típicos e principais exigências.
+          Alerte sobre mudanças recentes na legislação municipal se houver.
+        </promptTemplate>
+        <trigger>GET /api/v1/permits/advisor</trigger>
+        <ragConfig>
+          <source>ia_library (normas municipais, leis de zoneamento)</source>
+        </ragConfig>
+      </agent>
+
+      <agent name="IA_DocumentGenerator">
+        <skill>Official Document Generation — gera formulários e memoriais padronizados para processos de aprovação</skill>
+        <promptRef>ia-permits/document-generator@1.0.0</promptRef>
+        <promptTemplate>
+          Gere o {documentType} para o projeto {projectName} em {municipality}.
+          Dados do projeto: {projectData}. Responsável técnico: {responsibleEngineer}.
+          Siga rigorosamente o modelo exigido pela prefeitura de {municipality} (template: {templateRef}).
+          Preencha todos os campos obrigatórios. Sinaliza campos que precisam de revisão manual com [REVISAR].
+        </promptTemplate>
+        <trigger>POST /api/v1/permits/documents/generate</trigger>
+        <humanInLoop>true — documento gerado requer revisão e assinatura do responsável técnico (ART/RRT)</humanInLoop>
+      </agent>
+    </agents>
+
+    <workflows>
+      <workflow name="Workflow_PermitSubmission" tool="n8n">
+        <description>Organiza e valida toda a documentação antes do protocolo, garantindo completude.</description>
+        <trigger>PermitProcess com status=preparacao marcado como pronto para protocolo</trigger>
+        <steps>
+          <step>1. IA_PermitAdvisor valida lista de documentos contra requisitos do município</step>
+          <step>2. Gera checklist de documentos faltantes ou com status=rascunho</step>
+          <step>3. Notifica responsável com lista de pendências</step>
+          <step>4. Após completude: gera sumário do protocolo e instrui responsável sobre submissão</step>
+        </steps>
+      </workflow>
+
+      <workflow name="Workflow_RequirementManagement" tool="n8n">
+        <description>Gerencia o ciclo de vida de exigências: notificação, prazo, escalonamento.</description>
+        <trigger>Requirement criada com status=pendente</trigger>
+        <steps>
+          <step>1. Notifica responsável via email + Slack com detalhes da exigência e prazo</step>
+          <step>2. Cria task no board do Squad Projetos</step>
+          <step>3. Em D-3 do prazo: lembrete de urgência</step>
+          <step>4. Em D+0: escalonamento para sócio responsável se não atendida</step>
+        </steps>
+      </workflow>
+    </workflows>
+
+    <queues>
+      <queue name="permit_process_queue"     exchange="archtech.permits" type="topic"
+             description="Eventos de criação e atualização de processos de aprovação"/>
+      <queue name="requirement_updates_queue" exchange="archtech.permits" type="topic"
+             description="Novas exigências e atualizações de status"/>
+    </queues>
+
+    <domainEvents>
+      <event name="PermitProcessCreated"     emits="ia_permits"  consumes="ia_projetos"/>
+      <event name="RequirementReceived"      emits="ia_permits"  consumes="ia_projetos, ia_suporte"/>
+      <event name="PermitApproved"           emits="ia_permits"  consumes="ia_projetos, ia_obras, ia_client_portal"/>
+    </domainEvents>
+
+    <dashboards>
+      <dashboard name="PermitStatusDashboard">
+        <description>Status de todos os processos ativos por município, tipo e responsável.</description>
+        <audience>Arquiteto Urbanista, Gerente de Projetos</audience>
+        <components>process_kanban, deadline_timeline, overdue_requirements_alert</components>
+      </dashboard>
+      <dashboard name="ApprovalBottleneckAnalysis">
+        <description>Análise de onde os processos travam mais: tipo de exigência, município, fase.</description>
+        <audience>Gestor, CEO</audience>
+        <components>bottleneck_heatmap, avg_time_by_stage, requirement_type_breakdown</components>
+      </dashboard>
+    </dashboards>
+
+    <kpis>
+      <kpi name="PermitApprovalTime"         target="Baseline S1 por município"  measurement="data_aprovado - data_protocolo (média)"/>
+      <kpi name="RequirementResolutionRate"  target="≥ 90% atendidas no prazo"   measurement="Exigências no prazo / Total exigências"/>
+      <kpi name="DocumentReworkRate"         target="≤ 10%"                      measurement="Documentos que precisaram de reenvio"/>
+    </kpis>
+
+    <roadmap>
+      <phase name="MVP">
+        <feature>Acompanhamento manual de processos com timeline</feature>
+        <feature>Gestão de exigências com prazos e alertas</feature>
+        <feature>Checklist de documentação por tipo de licença</feature>
+      </phase>
+      <phase name="Growth">
+        <feature>Geração automática de formulários padrão por município</feature>
+        <feature>Integração com portais de prefeituras (scraping monitorado)</feature>
+        <feature>Consulta de requisitos via IA (RAG com biblioteca técnica)</feature>
+      </phase>
+      <phase name="Enterprise">
+        <feature>Análise preditiva de probabilidade de aprovação</feature>
+        <feature>Integração via API com sistemas de prefeituras (onde disponível)</feature>
+        <feature>Otimização automática de projetos para conformidade regulatória</feature>
+      </phase>
+    </roadmap>
+  </feature>
+
+
+  <!-- ==============================================================
+       FEATURE 07 — Gestão de Fornecedores
+       Bounded Context: supplier_management
+       Módulo Drupal: ia_suppliers
+       Owner: Squad Compras
+       ============================================================== -->
+  <feature id="F07" name="Gestão de Fornecedores" boundedContext="supplier_management" module="ia_suppliers" status="roadmap">
+
+    <businessProblem>
+      Otimizar seleção, relacionamento e avaliação de fornecedores, garantindo qualidade,
+      prazos e custos competitivos com base em histórico de performance.
+    </businessProblem>
+
+    <personas>
+      <persona role="primary">Gerente de Compras</persona>
+      <persona role="secondary">Gerente de Projeto</persona>
+      <persona role="secondary">Fornecedor</persona>
+    </personas>
+
+    <contentTypes>
+      <contentType name="Supplier">
+        <fields>
+          <field name="razao_social"      type="string"     required="true"/>
+          <field name="cnpj"              type="string"     unique="true"/>
+          <field name="tipo"              type="select"     options="material,servico,consultoria,locacao,tecnologia"/>
+          <field name="categorias"        type="json"       note="Array de categorias de fornecimento"/>
+          <field name="contato_nome"      type="string"/>
+          <field name="contato_email"     type="email"/>
+          <field name="contato_telefone"  type="phone"/>
+          <field name="endereco"          type="json"/>
+          <field name="regiao_atendimento" type="json"      note="Array de estados/municípios"/>
+          <field name="status"            type="select"     options="prospecto,ativo,inativo,bloqueado"/>
+          <field name="score_geral"       type="decimal"    range="0-10" note="Calculado automaticamente"/>
+          <field name="documentos"        type="file"       multiple="true" note="CNPJ, alvarás, certidões"/>
+          <field name="notas"             type="text"/>
+        </fields>
+      </contentType>
+
+      <contentType name="SupplierRating">
+        <fields>
+          <field name="supplier_id"       type="reference"  target="Supplier"  required="true"/>
+          <field name="project_id"        type="reference"  target="Project"   required="true"/>
+          <field name="avaliador_id"      type="reference"  target="User"      required="true"/>
+          <field name="qualidade"         type="integer"    range="1-10"/>
+          <field name="prazo"             type="integer"    range="1-10"/>
+          <field name="preco"             type="integer"    range="1-10"/>
+          <field name="comunicacao"       type="integer"    range="1-10"/>
+          <field name="score_total"       type="decimal"    note="Média ponderada dos critérios"/>
+          <field name="comentario"        type="text"/>
+          <field name="data_avaliacao"    type="date"/>
+        </fields>
+      </contentType>
+
+      <contentType name="ServiceLevelAgreement">
+        <fields>
+          <field name="supplier_id"       type="reference"  target="Supplier"  required="true"/>
+          <field name="project_id"        type="reference"  target="Project"/>
+          <field name="tipo_servico"      type="string"/>
+          <field name="prazo_entrega_dias" type="integer"/>
+          <field name="qualidade_minima"  type="integer"    range="1-10"/>
+          <field name="penalidade_atraso" type="text"/>
+          <field name="vigencia_inicio"   type="date"/>
+          <field name="vigencia_fim"      type="date"/>
+          <field name="status"            type="select"     options="ativo,encerrado,suspenso"/>
+        </fields>
+      </contentType>
+    </contentTypes>
+
+    <apis>
+      <endpoint method="POST"  path="/api/v1/suppliers"                    description="Cadastra novo fornecedor"/>
+      <endpoint method="GET"   path="/api/v1/suppliers/{id}/ratings"       description="Histórico de avaliações do fornecedor"/>
+      <endpoint method="POST"  path="/api/v1/suppliers/{id}/ratings"       description="Registra nova avaliação pós-serviço"/>
+      <endpoint method="GET"   path="/api/v1/suppliers/recommend"          description="Sugestão de fornecedores: ?service={type}&amp;location={loc}"/>
+      <endpoint method="GET"   path="/api/v1/suppliers/{id}/sla"           description="Status de SLA do fornecedor no projeto"/>
+    </apis>
+
+    <agents>
+      <agent name="IA_SupplierRecommender">
+        <skill>Supplier Recommendation — sugere melhores fornecedores por tipo de serviço, localização e score histórico</skill>
+        <promptRef>ia-suppliers/recommender@1.0.0</promptRef>
+        <promptTemplate>
+          Sugira os 3 melhores fornecedores para {serviceType} na região de {location}
+          com base nos critérios: score médio (peso 40%), histórico de prazo (peso 30%),
+          preço competitivo (peso 20%) e número de projetos concluídos (peso 10%).
+          Dados disponíveis: {supplierScores}. Exclua fornecedores com status=bloqueado.
+          Retorne JSON: {"recomendacoes": [{"supplier_id": N, "justificativa": "...", "score": N}]}.
+        </promptTemplate>
+        <trigger>GET /api/v1/suppliers/recommend</trigger>
+      </agent>
+
+      <agent name="IA_SLA_Monitor">
+        <skill>SLA Monitoring — monitora cumprimento de SLAs e alerta proativamente sobre riscos</skill>
+        <promptRef>ia-suppliers/sla-monitor@1.0.0</promptRef>
+        <promptTemplate>
+          Verifique se o fornecedor {supplierName} está cumprindo o SLA para o projeto {projectName}.
+          Dados de entrega: {deliveryData}. SLA acordado: {slaTerms}.
+          Identifique desvios, calcule impacto no cronograma e sugira ações corretivas.
+          Retorne JSON: {"status": "ok|risco|violado", "desvios": [...], "acoes": [...]}.
+        </promptTemplate>
+        <trigger>Cron diário verificando prazos de entrega de ServiceLevelAgreement ativos</trigger>
+      </agent>
+    </agents>
+
+    <workflows>
+      <workflow name="Workflow_SupplierOnboarding" tool="n8n">
+        <description>Valida documentação de novos fornecedores e ativa cadastro após aprovação.</description>
+        <trigger>Supplier criado com status=prospecto</trigger>
+        <steps>
+          <step>1. Solicita documentos obrigatórios via email ao fornecedor</step>
+          <step>2. Verifica CNPJ na Receita Federal e status de certidões</step>
+          <step>3. Notifica gerente de compras para aprovação manual</step>
+          <step>4. Se aprovado: status=ativo, envia email de boas-vindas ao fornecedor</step>
+        </steps>
+      </workflow>
+
+      <workflow name="Workflow_SLA_Compliance" tool="n8n">
+        <description>Monitora SLAs ativos e escala alertas conforme severidade do desvio.</description>
+        <trigger>Cron diário + evento de entrega registrado</trigger>
+        <steps>
+          <step>1. IA_SLA_Monitor avalia todos os SLAs ativos</step>
+          <step>2. Status=risco: notificação ao PM e ao fornecedor (aviso preventivo)</step>
+          <step>3. Status=violado: alerta urgente ao PM + gerente de compras</step>
+          <step>4. Registra violação no histórico do fornecedor (impacta score)</step>
+        </steps>
+      </workflow>
+    </workflows>
+
+    <queues>
+      <queue name="supplier_events_queue"  exchange="archtech.suppliers" type="topic"
+             description="Eventos de cadastro, atualização e avaliação de fornecedores"/>
+      <queue name="sla_alerts_queue"       exchange="archtech.suppliers" type="topic"
+             description="Alertas de violação ou risco de SLA"/>
+    </queues>
+
+    <domainEvents>
+      <event name="SupplierActivated"    emits="ia_suppliers"  consumes="ia_obras"/>
+      <event name="SLAViolated"          emits="ia_suppliers"  consumes="ia_obras, ia_suporte, ia_financeiro"/>
+      <event name="SupplierRated"        emits="ia_suppliers"  consumes="ia_insights"/>
+    </domainEvents>
+
+    <dashboards>
+      <dashboard name="SupplierPerformanceDashboard">
+        <description>Score histórico de cada fornecedor por critério, projetos realizados e evolução ao longo do tempo.</description>
+        <audience>Gerente de Compras, Gerente de Projeto</audience>
+        <components>supplier_score_radar, delivery_history_chart, cost_evolution_chart</components>
+      </dashboard>
+      <dashboard name="PreferredSupplierList">
+        <description>Lista curada de fornecedores preferidos por categoria, com score e disponibilidade.</description>
+        <audience>Time de Projetos e Obras</audience>
+        <components>preferred_by_category_table, sla_compliance_rate, cost_comparison</components>
+      </dashboard>
+    </dashboards>
+
+    <kpis>
+      <kpi name="SupplierRating"         target="≥ 7.5/10 (média do portfólio ativo)"   measurement="Média ponderada de SupplierRating"/>
+      <kpi name="OnTimeDeliveryRate"     target="≥ 85%"                                  measurement="Entregas no prazo / Total entregas"/>
+      <kpi name="CostSavings"            target="≥ 5% vs. mercado"                       measurement="Preço médio pago vs. preço de mercado"/>
+      <kpi name="SLAComplianceRate"      target="≥ 90%"                                  measurement="SLAs sem violação / Total SLAs ativos"/>
+    </kpis>
+
+    <roadmap>
+      <phase name="MVP">
+        <feature>Cadastro e busca de fornecedores com filtros</feature>
+        <feature>Avaliação manual pós-projeto (1–10 por critério)</feature>
+        <feature>Lista de fornecedores preferidos por categoria</feature>
+      </phase>
+      <phase name="Growth">
+        <feature>Gestão de SLA com alertas automáticos</feature>
+        <feature>Histórico de serviços e análise de tendência de score</feature>
+        <feature>Recomendação automática por IA</feature>
+      </phase>
+      <phase name="Enterprise">
+        <feature>Cotações automatizadas com múltiplos fornecedores</feature>
+        <feature>Análise preditiva de risco de fornecedor (inadimplência, falência)</feature>
+        <feature>Portal do fornecedor para auto-atendimento de pedidos</feature>
+      </phase>
+    </roadmap>
+  </feature>
+
+
+  <!-- ==============================================================
+       FEATURE 08 — Facilities e Pós-Obra
+       Bounded Context: facilities_post_construction
+       Módulo Drupal: ia_facilities
+       Owner: Squad Facilities
+       ============================================================== -->
+  <feature id="F08" name="Facilities e Pós-Obra" boundedContext="facilities_post_construction" module="ia_facilities" status="roadmap">
+
+    <businessProblem>
+      Gerenciar garantias, manutenções e reformas futuras após entrega, criando receita recorrente
+      e fidelizando o cliente através do relacionamento pós-obra.
+    </businessProblem>
+
+    <personas>
+      <persona role="primary">Gerente de Facilities</persona>
+      <persona role="secondary">Cliente</persona>
+      <persona role="secondary">Equipe de Manutenção</persona>
+    </personas>
+
+    <contentTypes>
+      <contentType name="Warranty">
+        <fields>
+          <field name="project_id"        type="reference"  target="Project"   required="true"/>
+          <field name="item"              type="string"     required="true"    note="Ex: estrutura, impermeabilização, esquadrias"/>
+          <field name="categoria"         type="select"     options="estrutural,impermeabilizacao,instalacoes,revestimentos,esquadrias,equipamentos"/>
+          <field name="prazo_anos"        type="integer"    note="Prazo de garantia em anos"/>
+          <field name="data_inicio"       type="date"       note="Data de entrega/habite-se"/>
+          <field name="data_vencimento"   type="date"       note="Calculada automaticamente"/>
+          <field name="fornecedor_id"     type="reference"  target="Supplier"  note="Fornecedor responsável"/>
+          <field name="documento"         type="file"       note="Termo de garantia assinado"/>
+          <field name="status"            type="select"     options="vigente,vencida,acionada,encerrada"/>
+          <field name="observacoes"       type="text"/>
+        </fields>
+      </contentType>
+
+      <contentType name="MaintenanceSchedule">
+        <fields>
+          <field name="project_id"        type="reference"  target="Project"   required="true"/>
+          <field name="titulo"            type="string"     required="true"/>
+          <field name="tipo"              type="select"     options="preventiva,corretiva,preditiva,inspecao"/>
+          <field name="frequencia"        type="select"     options="mensal,trimestral,semestral,anual,sob_demanda"/>
+          <field name="data_proxima"      type="date"/>
+          <field name="responsavel_id"    type="reference"  target="User"/>
+          <field name="fornecedor_id"     type="reference"  target="Supplier"/>
+          <field name="itens"             type="json"       note="Checklist de itens a verificar"/>
+          <field name="status"            type="select"     options="agendada,em_andamento,concluida,cancelada"/>
+          <field name="custo_estimado"    type="decimal"/>
+        </fields>
+      </contentType>
+
+      <contentType name="InspectionReport">
+        <fields>
+          <field name="project_id"        type="reference"  target="Project"   required="true"/>
+          <field name="maintenance_id"    type="reference"  target="MaintenanceSchedule"/>
+          <field name="data_vistoria"     type="datetime"   required="true"/>
+          <field name="inspetor_id"       type="reference"  target="User"/>
+          <field name="itens_verificados" type="json"       note="Array: item, status, observacao, foto"/>
+          <field name="fotos"             type="file"       multiple="true"/>
+          <field name="resultado"         type="select"     options="aprovado,reprovado,pendencias"/>
+          <field name="pendencias"        type="json"/>
+          <field name="custo_real"        type="decimal"/>
+        </fields>
+      </contentType>
+
+      <contentType name="RenovationProposal">
+        <fields>
+          <field name="project_id"        type="reference"  target="Project"   required="true"/>
+          <field name="client_id"         type="reference"  target="Client"    required="true"/>
+          <field name="titulo"            type="string"/>
+          <field name="descricao"         type="text"/>
+          <field name="tipo"              type="select"     options="reforma_parcial,reforma_total,ampliacao,modernizacao,manutencao_corretiva"/>
+          <field name="valor_estimado"    type="decimal"/>
+          <field name="motivador"         type="select"     options="degradacao,modernizacao,ampliacao,novo_uso"/>
+          <field name="status"            type="select"     options="identificada,proposta_enviada,em_negociacao,aprovada,descartada"/>
+          <field name="gerada_por_ia"     type="boolean"/>
+        </fields>
+      </contentType>
+    </contentTypes>
+
+    <apis>
+      <endpoint method="POST"  path="/api/v1/facilities/maintenance"       description="Agenda nova manutenção"/>
+      <endpoint method="GET"   path="/api/v1/facilities/warranties/{id}"   description="Detalhes e status das garantias do projeto"/>
+      <endpoint method="POST"  path="/api/v1/facilities/inspections"       description="Registra relatório de vistoria"/>
+      <endpoint method="GET"   path="/api/v1/facilities/projects/{id}/schedule" description="Cronograma de manutenções do projeto"/>
+      <endpoint method="POST"  path="/api/v1/facilities/warranties/{id}/claim" description="Aciona garantia para item específico"/>
+    </apis>
+
+    <agents>
+      <agent name="IA_MaintenanceScheduler">
+        <skill>Predictive Maintenance Scheduling — gera cronograma preventivo baseado em tipo de construção e histórico</skill>
+        <promptRef>ia-facilities/maintenance-scheduler@1.0.0</promptRef>
+        <promptTemplate>
+          Sugira um cronograma de manutenção preventiva para o imóvel {propertyAddress}
+          com base em: tipo de construção ({constructionType}), idade do imóvel ({age} anos),
+          sistemas instalados ({installedSystems}), histórico de manutenções anteriores ({maintenanceHistory}).
+          Retorne JSON com manutenções por categoria, frequência recomendada e estimativa de custo anual.
+        </promptTemplate>
+        <trigger>Evento ProjectDelivered + cron anual de revisão de cronograma</trigger>
+      </agent>
+
+      <agent name="IA_WarrantyAdvisor">
+        <skill>Warranty Advisory — informa clientes sobre cobertura de garantia com base nos documentos do projeto</skill>
+        <promptRef>ia-facilities/warranty-advisor@1.0.0</promptRef>
+        <promptTemplate>
+          Informe sobre a cobertura da garantia para o item {itemName} do projeto {projectName}.
+          Garantias vigentes: {warranties}. Data do ocorrido: {incidentDate}.
+          Verifique se o item está coberto, por qual garantia, até quando e qual o procedimento de acionamento.
+          Responda de forma clara para o cliente (não técnica) com os próximos passos.
+        </promptTemplate>
+        <trigger>Solicitação do cliente via Portal ou suporte</trigger>
+      </agent>
+    </agents>
+
+    <workflows>
+      <workflow name="Workflow_MaintenanceRequest" tool="n8n">
+        <description>Processa solicitação de manutenção do cliente, verifica garantia e encaminha para equipe.</description>
+        <trigger>Cliente solicita manutenção via Portal do Cliente</trigger>
+        <steps>
+          <step>1. IA_WarrantyAdvisor verifica cobertura de garantia</step>
+          <step>2. Se coberto: agenda visita técnica sem custo ao cliente</step>
+          <step>3. Se fora da garantia: gera orçamento estimado e envia para aprovação do cliente</step>
+          <step>4. Ao aprovar: cria MaintenanceSchedule e notifica equipe de manutenção</step>
+          <step>5. Após conclusão: gera InspectionReport e solicita avaliação do cliente</step>
+        </steps>
+      </workflow>
+
+      <workflow name="Workflow_WarrantyClaim" tool="n8n">
+        <description>Gerencia acionamento de garantia junto ao fornecedor responsável.</description>
+        <trigger>POST /api/v1/facilities/warranties/{id}/claim</trigger>
+        <steps>
+          <step>1. Verifica validade e cobertura da garantia</step>
+          <step>2. Notifica fornecedor responsável via email com documentação do problema</step>
+          <step>3. Registra claim com prazo de resposta do fornecedor (SLA)</step>
+          <step>4. Monitora resposta; escala para gerente se sem retorno em 48h</step>
+        </steps>
+      </workflow>
+    </workflows>
+
+    <queues>
+      <queue name="maintenance_requests_queue" exchange="archtech.facilities" type="topic"
+             description="Solicitações de manutenção e agendamentos"/>
+      <queue name="warranty_claims_queue"      exchange="archtech.facilities" type="topic"
+             description="Acionamentos de garantia e comunicação com fornecedores"/>
+    </queues>
+
+    <domainEvents>
+      <event name="ProjectDelivered"        emits="ia_obras"      consumes="ia_facilities"/>
+      <event name="MaintenanceScheduled"    emits="ia_facilities" consumes="ia_client_portal, ia_suppliers"/>
+      <event name="WarrantyExpiring"        emits="ia_facilities" consumes="ia_client_portal, ia_crm"/>
+      <event name="RenovationOpportunity"   emits="ia_facilities" consumes="ia_crm"/>
+    </domainEvents>
+
+    <dashboards>
+      <dashboard name="MaintenanceScheduleDashboard">
+        <description>Cronograma visual de manutenções: agendadas, em atraso e concluídas por projeto.</description>
+        <audience>Gerente de Facilities</audience>
+        <components>maintenance_calendar, overdue_maintenances, cost_by_project</components>
+      </dashboard>
+      <dashboard name="WarrantyStatusOverview">
+        <description>Status de todas as garantias ativas: vencendo nos próximos 90 dias, acionadas, encerradas.</description>
+        <audience>Gerente de Facilities, Cliente (via portal)</audience>
+        <components>warranty_expiry_timeline, active_claims_list, supplier_warranty_performance</components>
+      </dashboard>
+    </dashboards>
+
+    <kpis>
+      <kpi name="MaintenanceCompletionRate"  target="≥ 95% das preventivas realizadas no prazo"/>
+      <kpi name="WarrantyClaimRate"          target="≤ 5% dos projetos com acionamento de garantia no 1º ano"/>
+      <kpi name="RecurringRevenue"           target="Baseline S1 — receita de contratos de manutenção"/>
+      <kpi name="ClientRetentionPostDelivery" target="≥ 70% clientes com contato nos 12 meses pós-entrega"/>
+    </kpis>
+
+    <roadmap>
+      <phase name="MVP">
+        <feature>Registro de garantias por item com prazo e fornecedor</feature>
+        <feature>Agendamento manual de manutenções preventivas</feature>
+        <feature>Relatório de vistoria digital com fotos</feature>
+      </phase>
+      <phase name="Growth">
+        <feature>Cronograma automático de manutenção por IA</feature>
+        <feature>Vistorias digitais via Mobile PWA com checklist</feature>
+        <feature>Contratos de manutenção recorrente (receita recorrente)</feature>
+      </phase>
+      <phase name="Enterprise">
+        <feature>Análise preditiva de falhas por tipo de construção e material</feature>
+        <feature>Propostas automáticas de reforma baseadas em histórico e degradação</feature>
+        <feature>Integração com sistemas de gestão predial (CAFM)</feature>
+      </phase>
+    </roadmap>
+  </feature>
+
+
+  <!-- ==============================================================
+       FEATURE 09 — BIM Digital Twin
+       Bounded Context: bim_digital_twin
+       Módulo Drupal: ia_bim_twin
+       Owner: Squad BIM
+       ============================================================== -->
+  <feature id="F09" name="BIM Digital Twin" boundedContext="bim_digital_twin" module="ia_bim_twin" status="roadmap">
+
+    <businessProblem>
+      Integrar modelos BIM com dados de operação em tempo real para criar gêmeos digitais,
+      otimizando a gestão do ciclo de vida do edifício e facilitando decisões data-driven.
+    </businessProblem>
+
+    <personas>
+      <persona role="primary">Gerente BIM</persona>
+      <persona role="secondary">Gerente de Facilities</persona>
+      <persona role="secondary">Cliente (grandes empreendimentos)</persona>
+    </personas>
+
+    <contentTypes>
+      <contentType name="BIMModel">
+        <fields>
+          <field name="project_id"        type="reference"  target="Project"   required="true"/>
+          <field name="nome"              type="string"     required="true"/>
+          <field name="versao"            type="string"/>
+          <field name="arquivo_ifc"       type="file"       extensions="ifc,ifczip"/>
+          <field name="disciplina"        type="select"     options="arquitetura,estrutura,hidraulica,eletrica,mecânica,multi"/>
+          <field name="software_origem"   type="select"     options="revit,archicad,vectorworks,allplan,ifc_nativo"/>
+          <field name="metadados"         type="json"       note="Dados extraídos do IFC: elementos, materiais, quantitativos"/>
+          <field name="status"            type="select"     options="importando,processado,ativo,arquivado"/>
+          <field name="lod"               type="select"     options="100,200,300,350,400,500" note="Level of Development"/>
+        </fields>
+      </contentType>
+
+      <contentType name="SensorData">
+        <fields>
+          <field name="asset_id"          type="reference"  target="DigitalTwinAsset" required="true"/>
+          <field name="tipo_sensor"       type="select"     options="temperatura,umidade,co2,energia,ocupacao,iluminacao,agua,seguranca"/>
+          <field name="device_id"         type="string"     note="ID do dispositivo IoT"/>
+          <field name="valor"             type="decimal"/>
+          <field name="unidade"           type="string"     note="°C, %, ppm, kWh, etc."/>
+          <field name="timestamp"         type="datetime"/>
+          <field name="status"            type="select"     options="normal,alerta,critico"/>
+        </fields>
+      </contentType>
+
+      <contentType name="DigitalTwinAsset">
+        <fields>
+          <field name="bim_model_id"      type="reference"  target="BIMModel"  required="true"/>
+          <field name="project_id"        type="reference"  target="Project"   required="true"/>
+          <field name="nome"              type="string"/>
+          <field name="tipo"              type="select"     options="sistema_hvac,iluminacao,estrutura,envelope,instalacao_hidraulica,elevador"/>
+          <field name="ifc_guid"          type="string"     note="GUID do elemento no modelo IFC"/>
+          <field name="sensores"          type="json"       note="Array de device_ids vinculados"/>
+          <field name="status_operacional" type="select"    options="normal,manutencao,alerta,inativo"/>
+          <field name="dados_live"        type="json"       note="Últimas leituras de sensores (cache Redis)"/>
+        </fields>
+      </contentType>
+    </contentTypes>
+
+    <apis>
+      <endpoint method="POST"  path="/api/v1/bim/models/ifc"                description="Upload e inicia processamento de arquivo IFC"/>
+      <endpoint method="GET"   path="/api/v1/bim/models/{id}"               description="Dados do modelo BIM com metadados extraídos"/>
+      <endpoint method="GET"   path="/api/v1/bim/digital-twin/{id}/data"    description="Dados em tempo real do Digital Twin via Redis"/>
+      <endpoint method="POST"  path="/api/v1/bim/sensors/ingest"            description="Ingestão de dados de sensores IoT (webhook)"/>
+      <endpoint method="GET"   path="/api/v1/bim/digital-twin/{id}/optimize" description="Análise e sugestões de otimização por IA"/>
+    </apis>
+
+    <agents>
+      <agent name="IA_BIM_Integrator">
+        <skill>IFC Processing — extrai metadados, quantitativos e estrutura do modelo BIM para uso na plataforma</skill>
+        <promptRef>ia-bim-twin/integrator@1.0.0</promptRef>
+        <promptTemplate>
+          Processe o arquivo IFC {ifcFilePath} e integre-o ao modelo BIM do projeto {projectName}.
+          Extraia: lista de elementos por categoria (paredes, lajes, pilares, etc.), quantitativos de materiais,
+          dados de espaços (áreas, volumes), sistemas MEP identificados e metadados relevantes.
+          Identifique conflitos ou inconsistências no modelo.
+          Retorne JSON estruturado para persistência no Drupal.
+        </promptTemplate>
+        <trigger>Upload de arquivo IFC via POST /api/v1/bim/models/ifc (processamento assíncrono)</trigger>
+      </agent>
+
+      <agent name="IA_PerformanceOptimizer">
+        <skill>Digital Twin Performance Analysis — analisa dados de sensores e sugere otimizações operacionais</skill>
+        <promptRef>ia-bim-twin/optimizer@1.0.0</promptRef>
+        <promptTemplate>
+          Analise os dados de desempenho do Digital Twin {twinId} para a métrica {metric}.
+          Dados dos últimos 30 dias: {sensorData}. Benchmarks do setor: {benchmarks}.
+          Identifique anomalias, ineficiências e oportunidades de otimização.
+          Sugira ações concretas com ROI estimado e prioridade de implementação.
+          Retorne JSON: {"analise": "...", "anomalias": [...], "otimizacoes": [...], "roi_estimado": N}.
+        </promptTemplate>
+        <trigger>Semanal (domingo 3h) + on-demand via dashboard</trigger>
+      </agent>
+    </agents>
+
+    <workflows>
+      <workflow name="Workflow_BIM_DataIngestion" tool="n8n">
+        <description>Pipeline de processamento de modelos IFC: upload → parse → extração de metadados → persistência.</description>
+        <trigger>POST /api/v1/bim/models/ifc</trigger>
+        <steps>
+          <step>1. Valida arquivo IFC (schema, integridade)</step>
+          <step>2. Extrai geometria e metadados via IfcOpenShell (worker Python)</step>
+          <step>3. IA_BIM_Integrator processa e estrutura os dados</step>
+          <step>4. Persiste metadados no Drupal; geometria em serviço 3D viewer (Speckle/Three.js)</step>
+          <step>5. Publica BIMModelProcessed event</step>
+        </steps>
+      </workflow>
+
+      <workflow name="Workflow_DigitalTwinAnalysis" tool="n8n">
+        <description>Análise periódica dos dados de sensores e geração de relatórios de desempenho.</description>
+        <trigger>Semanal + threshold de alerta em dados de sensores</trigger>
+        <steps>
+          <step>1. Agrega dados de sensores das últimas 24h/7d por DigitalTwinAsset</step>
+          <step>2. IA_PerformanceOptimizer identifica anomalias e ineficiências</step>
+          <step>3. Se alerta: notifica Gerente de Facilities + cria MaintenanceSchedule</step>
+          <step>4. Gera relatório semanal de desempenho para o cliente via Portal</step>
+        </steps>
+      </workflow>
+    </workflows>
+
+    <queues>
+      <queue name="bim_model_queue"         exchange="archtech.bim" type="topic"
+             description="Processamento assíncrono de modelos IFC"/>
+      <queue name="digital_twin_data_queue" exchange="archtech.bim" type="topic"
+             description="Ingestão de dados de sensores IoT em stream"/>
+    </queues>
+
+    <domainEvents>
+      <event name="BIMModelProcessed"       emits="ia_bim_twin"   consumes="ia_projetos, ia_facilities"/>
+      <event name="SensorAnomalyDetected"   emits="ia_bim_twin"   consumes="ia_facilities, ia_suporte"/>
+    </domainEvents>
+
+    <dashboards>
+      <dashboard name="DigitalTwinPerformanceDashboard">
+        <description>Visualização 3D do gêmeo digital com overlay de dados de sensores em tempo real.</description>
+        <audience>Gerente BIM, Gerente de Facilities</audience>
+        <components>bim_3d_viewer_with_sensors, realtime_metrics_overlay, anomaly_alerts, performance_trends</components>
+      </dashboard>
+      <dashboard name="EnergyConsumptionMonitor">
+        <description>Consumo de energia e água por sistema e por área, com comparativo de benchmarks.</description>
+        <audience>Gerente de Facilities, Cliente</audience>
+        <components>energy_by_system_chart, consumption_heatmap, benchmark_comparison, saving_opportunities</components>
+      </dashboard>
+    </dashboards>
+
+    <kpis>
+      <kpi name="ModelAccuracy"             target="≥ 95% dos elementos IFC processados sem erro"/>
+      <kpi name="DataUpdateFrequency"       target="Sensores com latência ≤ 5 min para dados críticos"/>
+      <kpi name="OperationalEfficiencyGain" target="Baseline S1 — redução de consumo energético após otimizações"/>
+    </kpis>
+
+    <roadmap>
+      <phase name="MVP">
+        <feature>Importação e visualização de modelos IFC (Three.js viewer)</feature>
+        <feature>Extração de metadados e quantitativos do IFC</feature>
+        <feature>Conexão manual com sensores IoT básicos</feature>
+      </phase>
+      <phase name="Growth">
+        <feature>Análise de desempenho com dados históricos de sensores</feature>
+        <feature>Alertas automáticos de anomalias</feature>
+        <feature>Relatórios de consumo energético</feature>
+      </phase>
+      <phase name="Enterprise">
+        <feature>Integração com OpenBIM / Speckle para colaboração</feature>
+        <feature>Gêmeos digitais preditivos com ML para manutenção</feature>
+        <feature>Simulações de desempenho e cenários de retrofit</feature>
+      </phase>
+    </roadmap>
+  </feature>
+
+
+  <!-- ==============================================================
+       FEATURE 10 — Marketplace
+       Bounded Context: marketplace
+       Módulo Drupal: ia_marketplace
+       Owner: Squad Marketplace
+       ============================================================== -->
+  <feature id="F10" name="Marketplace de Profissionais e Fornecedores" boundedContext="marketplace" module="ia_marketplace" status="roadmap">
+
+    <businessProblem>
+      Criar um ecossistema para conectar clientes a profissionais e fornecedores qualificados,
+      gerando novas oportunidades de negócio, receita de comissão e efeito de rede.
+    </businessProblem>
+
+    <personas>
+      <persona role="primary">Cliente Final</persona>
+      <persona role="primary">Fornecedor / Prestador de Serviço</persona>
+      <persona role="secondary">Profissional Parceiro (Engenheiro, Arquiteto, Decorador, Fotógrafo)</persona>
+    </personas>
+
+    <operationalFlow>
+      <step order="1">Profissional/Fornecedor cria perfil no Marketplace com portfólio e serviços</step>
+      <step order="2">Perfil passa por moderação e verificação de documentos</step>
+      <step order="3">Cliente pesquisa serviços por tipo, localização, preço e avaliações</step>
+      <step order="4">IA_Matchmaker sugere os melhores profissionais para a necessidade do cliente</step>
+      <step order="5">Cliente solicita cotação de múltiplos profissionais</step>
+      <step order="6">Profissional responde com proposta e prazo</step>
+      <step order="7">Cliente seleciona e contrata via plataforma</step>
+      <step order="8">Serviço concluído: cliente avalia e paga via plataforma</step>
+      <step order="9">IA_ReviewAnalyzer processa avaliações e atualiza score do profissional</step>
+    </operationalFlow>
+
+    <contentTypes>
+      <contentType name="MarketplaceProfile">
+        <fields>
+          <field name="user_id"           type="reference"  target="User"      required="true"/>
+          <field name="tipo"              type="select"     options="arquiteto,engenheiro,decorador,fotografo,fornecedor,consultor,estagiario"/>
+          <field name="nome_profissional" type="string"     required="true"/>
+          <field name="bio"               type="text"/>
+          <field name="registro_profissional" type="string" note="CAU, CREA, etc."/>
+          <field name="especialidades"    type="json"       note="Array de especialidades e tipos de projeto"/>
+          <field name="portfolio"         type="json"       note="Array de projetos: titulo, imagem, descricao, ano"/>
+          <field name="localizacao"       type="json"       note="Cidade, estado, raio de atendimento (km)"/>
+          <field name="preco_hora"        type="decimal"/>
+          <field name="disponibilidade"   type="json"       note="Dias e horários disponíveis"/>
+          <field name="score_geral"       type="decimal"    range="0-5"/>
+          <field name="total_avaliacoes"  type="integer"/>
+          <field name="status"            type="select"     options="pendente,ativo,suspenso,banido"/>
+          <field name="verificado"        type="boolean"    default="false"/>
+          <field name="destaque"          type="boolean"    default="false"/>
+        </fields>
+      </contentType>
+
+      <contentType name="ServiceListing">
+        <fields>
+          <field name="profile_id"        type="reference"  target="MarketplaceProfile" required="true"/>
+          <field name="titulo"            type="string"     required="true"/>
+          <field name="descricao"         type="text"/>
+          <field name="categoria"         type="select"     options="projeto_arquitetonico,interiores,reforma,engenharia,consultoria,fotografia,paisagismo,outros"/>
+          <field name="preco_base"        type="decimal"    note="Preço a partir de"/>
+          <field name="prazo_estimado"    type="string"     note="Ex: 2–4 semanas"/>
+          <field name="inclui"            type="json"       note="Array do que está incluído no serviço"/>
+          <field name="imagens"           type="file"       multiple="true"/>
+          <field name="ativo"             type="boolean"    default="true"/>
+        </fields>
+      </contentType>
+
+      <contentType name="QuotationRequest">
+        <fields>
+          <field name="client_id"         type="reference"  target="Client"    required="true"/>
+          <field name="listing_id"        type="reference"  target="ServiceListing" required="true"/>
+          <field name="profile_id"        type="reference"  target="MarketplaceProfile"/>
+          <field name="descricao"         type="text"       required="true"    note="O que o cliente precisa"/>
+          <field name="arquivos"          type="file"       multiple="true"    note="Plantas, fotos, referências"/>
+          <field name="orcamento_max"     type="decimal"/>
+          <field name="prazo_desejado"    type="date"/>
+          <field name="resposta_profissional" type="json"   note="Proposta: valor, prazo, descricao"/>
+          <field name="status"            type="select"     options="aguardando,respondida,contratada,recusada,expirada"/>
+          <field name="data_solicitacao"  type="datetime"/>
+          <field name="data_resposta"     type="datetime"/>
+        </fields>
+      </contentType>
+    </contentTypes>
+
+    <entities>
+      <entity name="MarketplaceProfile">
+        <relationships>
+          <relationship type="belongsTo" target="User"/>
+          <relationship type="hasMany"   target="ServiceListing"/>
+          <relationship type="hasMany"   target="QuotationRequest"/>
+        </relationships>
+      </entity>
+      <entity name="ServiceListing">
+        <relationships>
+          <relationship type="belongsTo" target="MarketplaceProfile"/>
+          <relationship type="hasMany"   target="QuotationRequest"/>
+        </relationships>
+      </entity>
+    </entities>
+
+    <apis>
+      <endpoint method="POST"  path="/api/v1/marketplace/listings"          description="Cria novo anúncio de serviço"/>
+      <endpoint method="GET"   path="/api/v1/marketplace/search"            description="Busca profissionais: ?service={type}&amp;location={loc}&amp;budget={range}"/>
+      <endpoint method="POST"  path="/api/v1/marketplace/quotations"        description="Solicita cotação para um serviço"/>
+      <endpoint method="POST"  path="/api/v1/marketplace/quotations/{id}/respond" description="Profissional responde cotação com proposta"/>
+      <endpoint method="POST"  path="/api/v1/marketplace/reviews"           description="Cliente registra avaliação pós-serviço"/>
+      <endpoint method="GET"   path="/api/v1/marketplace/profiles/{id}"     description="Perfil público do profissional com portfólio e avaliações"/>
+    </apis>
+
+    <agents>
+      <agent name="IA_Matchmaker">
+        <skill>Professional Matching — conecta clientes a profissionais com base em critérios multidimensionais</skill>
+        <promptRef>ia-marketplace/matchmaker@1.0.0</promptRef>
+        <promptTemplate>
+          Encontre os 3 melhores profissionais para {serviceType} na região de {location}
+          com base nos critérios do cliente: orçamento ({budget}), prazo ({deadline}), estilo ({style}).
+          Dados disponíveis dos profissionais: {profilesData}.
+          Considere: score geral (peso 35%), portfólio compatível (peso 30%), localização (peso 20%), disponibilidade (peso 15%).
+          Retorne JSON: {"matches": [{"profile_id": N, "score_match": N, "justificativa": "...", "diferencial": "..."}]}.
+        </promptTemplate>
+        <trigger>GET /api/v1/marketplace/search + nova QuotationRequest criada</trigger>
+      </agent>
+
+      <agent name="IA_ReviewAnalyzer">
+        <skill>Review Intelligence — analisa avaliações, detecta padrões e identifica pontos de melhoria</skill>
+        <promptRef>ia-marketplace/review-analyzer@1.0.0</promptRef>
+        <promptTemplate>
+          Analise as avaliações do profissional {professionalName} (últimas 20 avaliações): {reviews}.
+          Identifique: (1) pontos fortes consistentes, (2) pontos fracos recorrentes, (3) tendência de score nos últimos 6 meses,
+          (4) palavras e temas mais frequentes, (5) se há padrão de avaliações suspeitas (fraud detection).
+          Retorne JSON: {"pontos_fortes": [...], "pontos_fracos": [...], "tendencia": "subindo|estavel|caindo", "alerta_fraude": bool, "resumo": "..."}.
+        </promptTemplate>
+        <trigger>A cada 5 novas avaliações recebidas ou semanal</trigger>
+      </agent>
+    </agents>
+
+    <workflows>
+      <workflow name="Workflow_ServiceBooking" tool="n8n">
+        <description>Fluxo completo de contratação: cotação aprovada → contrato → pagamento → conclusão → avaliação.</description>
+        <trigger>QuotationRequest com status=contratada</trigger>
+        <steps>
+          <step>1. Gera contrato de prestação de serviço simplificado</step>
+          <step>2. Envia para assinatura digital de ambas as partes</step>
+          <step>3. Libera dados de contato entre cliente e profissional</step>
+          <step>4. Ao conclusão declarada: processa pagamento (gateway integrado)</step>
+          <step>5. 48h após conclusão: solicita avaliação ao cliente</step>
+          <step>6. IA_ReviewAnalyzer processa nova avaliação</step>
+        </steps>
+      </workflow>
+
+      <workflow name="Workflow_DisputeResolution" tool="n8n">
+        <description>Gerencia disputas entre clientes e profissionais de forma estruturada.</description>
+        <trigger>Disputa aberta por cliente ou profissional</trigger>
+        <steps>
+          <step>1. Notifica ambas as partes e abre prazo de 72h para acordo</step>
+          <step>2. Se acordo: registra resolução e finaliza contratação</step>
+          <step>3. Se sem acordo: escala para moderação humana (equipe ArchTech)</step>
+          <step>4. Moderação decide dentro de 5 dias úteis</step>
+          <step>5. Decisão é comunicada, pagamento é liberado ou estornado</step>
+        </steps>
+      </workflow>
+    </workflows>
+
+    <queues>
+      <queue name="marketplace_requests_queue" exchange="archtech.marketplace" type="topic"
+             description="Solicitações de cotação e bookings"/>
+      <queue name="review_events_queue"        exchange="archtech.marketplace" type="topic"
+             description="Novas avaliações para processamento pelo IA_ReviewAnalyzer"/>
+    </queues>
+
+    <domainEvents>
+      <event name="ProfessionalActivated"   emits="ia_marketplace"  consumes="ia_insights"/>
+      <event name="ServiceBooked"           emits="ia_marketplace"  consumes="ia_financeiro, ia_crm"/>
+      <event name="ReviewPublished"         emits="ia_marketplace"  consumes="ia_insights"/>
+    </domainEvents>
+
+    <dashboards>
+      <dashboard name="MarketplaceActivity">
+        <description>Volume de buscas, cotações solicitadas, conversões e receita gerada no período.</description>
+        <audience>Gestor do Marketplace, CEO</audience>
+        <components>search_volume_chart, quotation_funnel, conversion_by_category, gmv_chart</components>
+      </dashboard>
+      <dashboard name="ProviderPerformance">
+        <description>Ranking de profissionais por score, taxa de resposta e conversão de cotações.</description>
+        <audience>Gestor do Marketplace</audience>
+        <components>provider_ranking_table, response_rate_chart, fraud_alerts, score_distribution</components>
+      </dashboard>
+    </dashboards>
+
+    <kpis>
+      <kpi name="TransactionVolume"      target="Baseline S1 (GMV)"           measurement="Valor total de serviços contratados via plataforma"/>
+      <kpi name="UserAcquisitionCost"    target="≤ R$ 50/profissional ativo"  measurement="Custo de marketing / Novos profissionais ativos"/>
+      <kpi name="RetentionRate"          target="≥ 60% retorno em 12 meses"   measurement="Clientes que fizeram ≥ 2 contratações"/>
+      <kpi name="QuotationConversionRate" target="≥ 30%"                      measurement="Cotações convertidas em contratos / Total cotações"/>
+      <kpi name="AverageResponseTime"    target="≤ 4h para resposta de cotação" measurement="datetime(resposta) - datetime(solicitacao)"/>
+    </kpis>
+
+    <roadmap>
+      <phase name="MVP">
+        <feature>Cadastro de perfis de profissionais e fornecedores</feature>
+        <feature>Busca básica com filtros (tipo, localização, preço)</feature>
+        <feature>Sistema de cotações e respostas</feature>
+        <feature>Avaliações e score</feature>
+      </phase>
+      <phase name="Growth">
+        <feature>IA de matching para sugestão automática</feature>
+        <feature>Sistema de contratos e assinatura digital</feature>
+        <feature>Análise de avaliações por IA</feature>
+        <feature>Notificações em tempo real via WebSocket</feature>
+      </phase>
+      <phase name="Enterprise">
+        <feature>Integração de pagamentos (split payment com comissão)</feature>
+        <feature>Expansão para novos serviços (seguros, financiamento de obras)</feature>
+        <feature>IA de precificação dinâmica por demanda e região</feature>
+        <feature>Programa de certificação e badges para profissionais</feature>
+      </phase>
+    </roadmap>
+  </feature>
+
+</productFeatures>

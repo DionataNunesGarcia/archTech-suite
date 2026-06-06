@@ -1,0 +1,14 @@
+langcode: pt-br
+status: true
+dependencies:
+  module:
+    - menu_link_content
+id: footer-programs-workshops
+title: 'Workshops'
+description: ''
+link:
+  uri: 'internal:/workshops'
+  options: {}
+menu_name: menu-footer-programs
+weight: 2
+expanded: false

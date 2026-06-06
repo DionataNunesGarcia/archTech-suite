@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Load environment variables from .env
+if [ -f .env ]; then
+  export $(grep -v '^#' .env | xargs)
+fi
+CUSTOM_THEME_NAME=${CUSTOM_THEME_NAME:-front_theme}
+THEME_FRAMEWORK=${THEME_FRAMEWORK:-tailwind}
+
+# First run theme setup script with framework
+./scripts/theme-manager.sh setup $THEME_FRAMEWORK
+
+cd web/themes/custom/$CUSTOM_THEME_NAME
+npm install

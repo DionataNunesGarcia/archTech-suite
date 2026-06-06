@@ -1,0 +1,22 @@
+langcode: pt-br
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_banner_type
+    - paragraphs.paragraphs_type.section_banner
+  module:
+    - options
+id: paragraph.section_banner.field_banner_type
+field_name: field_banner_type
+entity_type: paragraph
+bundle: section_banner
+label: 'Tipo de banner'
+description: ''
+required: true
+translatable: false
+default_value:
+  -
+    value: default
+default_value_callback: ''
+settings: {  }
+field_type: list_string

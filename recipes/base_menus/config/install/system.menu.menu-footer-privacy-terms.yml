@@ -1,0 +1,5 @@
+langcode: pt-br
+id: menu-footer-privacy-terms
+description: 'Menu do rodapé privacidade e termos'
+label: 'Privacidade e Termos'
+locked: false

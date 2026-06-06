@@ -1,0 +1,12 @@
+langcode: en
+status: true
+id: media_tablet
+label: "Media Tablet (1024px)"
+effects:
+  uuid_tablet:
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 1024
+      height: 600
+      anchor: "center-center"

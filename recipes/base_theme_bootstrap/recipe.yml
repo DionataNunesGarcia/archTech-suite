@@ -1,0 +1,15 @@
+name: "Base Theme Bootstrap"
+description: "Scaffolds the custom frontend theme with Bootstrap"
+type: "Site"
+recipes:
+  - base_menus
+
+install:
+  - twig_tweak
+  - base_theme_bootstrap
+
+config:
+  actions:
+    system.theme:
+      simple_config_update:
+        default: front_theme

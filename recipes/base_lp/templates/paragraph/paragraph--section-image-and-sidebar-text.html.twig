@@ -1,0 +1,62 @@
+
+{% set side = content.field_side_of_the_image[0]['#markup'] %}
+{% set background = content.field_class_background[0]['#markup'] %}
+{% set text_color = content.field_text_color[0]['#markup'] %}
+
+<div class="{{ background }}">
+  {%
+    set classes = [
+      'container-fluid py-20 lg:py-32',
+      'paragraph',
+      'paragraph--type--' ~ paragraph.bundle|clean_class,
+      view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
+      not paragraph.isPublished() ? 'paragraph--unpublished',
+    ]
+  %}
+  {% block paragraph %}
+    <section
+      {{ attributes
+        .addClass(classes)
+        .addClass('relative overflow-hidden', 'auto-animate')
+        .setAttribute('data-animate', 'fade-up')
+      }}
+    >
+      <div class="container mx-auto px-6 2xl:px-0 max-w-[1400px]">
+        <div class="flex flex-col md:flex-row items-center gap-10 ">
+          {# IMAGEM #}
+          <div class="
+            w-full md:w-1/2
+            {{ side == 'right' ? 'md:order-2' : 'md:order-1' }}
+          ">
+            {{ content.field_image }}
+          </div>
+
+          {# TEXTO #}
+          <div class="
+            w-full md:w-1/2
+            {{ side == 'right' ? 'md:order-1' : 'md:order-2' }}
+          ">
+            <div class="w-16 h-1 bg-emerald-700 mb-6"></div>
+            <h3 class="font-serif text-4xl lg:text-5xl text-{{ text_color }} tracking-tight mb-6 font-semibold">
+              {{ content.field_section_title }}
+            </h3>
+
+            {% if content.field_body[0] is defined %}
+              <div class="font-serif text-{{ text_color }} ">
+                {{ content.field_body }}
+              </div>
+            {% endif %}
+
+            {% if content.field_link[0] is defined %}
+              <div class="mt-10">
+                <a class="px-8 py-4 border-2 bg-black border-black text-white tracking-wide hover:bg-emerald-800 hover:text-white transition-colors" href="{{ content.field_link[0]['#url'].toString() }}">
+                  {{ content.field_link[0]['#title'] }}
+                </a>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </section>
+  {% endblock paragraph %}
+</div>

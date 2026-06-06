@@ -1,0 +1,9 @@
+langcode: pt-br
+status: true
+dependencies: {  }
+id: section_content_list_by_category
+label: 'Seção - Lista de Conteúdos por Categorias'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

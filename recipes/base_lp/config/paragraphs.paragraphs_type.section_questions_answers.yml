@@ -1,0 +1,9 @@
+langcode: pt-br
+status: true
+dependencies: {  }
+id: section_questions_answers
+label: 'Seção - Perguntas e Respostas'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

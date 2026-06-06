@@ -1,0 +1,8 @@
+{
+    "name": "archtech/bim-twin",
+    "description": "ArchTech BIM Digital Twin Bounded Context",
+    "type": "drupal-recipe",
+    "require": {
+        "archtech/base": "*"
+    }
+}

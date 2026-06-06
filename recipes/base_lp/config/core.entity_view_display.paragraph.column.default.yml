@@ -1,0 +1,28 @@
+langcode: pt-br
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.column.field_section_title
+    - field.field.paragraph.column.field_text
+    - paragraphs.paragraphs_type.column
+id: paragraph.column.default
+targetEntityType: paragraph
+bundle: column
+mode: default
+content:
+  field_section_title:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_text:
+    type: basic_string
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 4
+    region: content
+hidden: {  }

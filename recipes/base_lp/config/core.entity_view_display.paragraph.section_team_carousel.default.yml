@@ -1,0 +1,28 @@
+langcode: pt-br
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.section_team_carousel.field_section_title
+    - field.field.paragraph.section_team_carousel.field_text
+    - paragraphs.paragraphs_type.section_team_carousel
+id: paragraph.section_team_carousel.default
+targetEntityType: paragraph
+bundle: section_team_carousel
+mode: default
+content:
+  field_section_title:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_text:
+    type: basic_string
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 4
+    region: content
+hidden: {  }

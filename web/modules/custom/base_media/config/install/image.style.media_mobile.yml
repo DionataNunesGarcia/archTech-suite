@@ -1,0 +1,12 @@
+langcode: en
+status: true
+id: media_mobile
+label: "Media Mobile (767px)"
+effects:
+  uuid_mobile:
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 767
+      height: 500
+      anchor: "center-center"

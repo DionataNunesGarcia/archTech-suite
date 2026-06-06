@@ -1,0 +1,14 @@
+name: 'ArchTech Client Portal'
+description: 'Client Portal bounded context. Project timeline, approval requests, document upload, financial statements, digital signatures.'
+type: 'Site'
+recipes:
+  - archtech_base
+install:
+  - archtech_client_portal
+config:
+  strict: false
+  actions:
+    archtech_client_portal.settings:
+      simpleConfigUpdate:
+        enable_notifications: true
+        default_approval_deadline_days: 5

@@ -1,0 +1,185 @@
+name: "Base Admin"
+description: "Admin experience improvements (toolbar, Gin theme, UX)"
+type: "Site"
+
+recipes:
+  - base_core
+
+install:
+  # Core admin UX
+  - toolbar
+  - contextual
+  - shortcut
+  - block
+  - media
+  - media_library
+
+  # Contrib
+  - admin_toolbar
+  - admin_toolbar_tools
+  - gin
+  - gin_toolbar
+  - gin_login
+
+config:
+  actions:
+    #
+    # -----------------------------------------------------
+    # SET GIN AS ADMIN THEME
+    # -----------------------------------------------------
+    #
+    system.theme:
+      simple_config_update:
+        admin: gin
+
+    #
+    # -----------------------------------------------------
+    # CONFIGURE GIN THEME SETTINGS
+    # -----------------------------------------------------
+    #
+    gin.settings:
+      simple_config_update:
+        preset_accent_color: blue
+        preset_focus_color: gin
+        enable_darkmode: "0"
+        classic_toolbar: horizontal
+        secondary_toolbar_frontend: true
+        layout_density: small
+        sticky_action_buttons: true
+        show_description_toggle: true
+        show_user_theme_settings: false
+
+    #
+    # -----------------------------------------------------
+    # PLACE BREADCRUMB BLOCK IN GIN ADMIN THEME
+    # -----------------------------------------------------
+    #
+    block.block.gin_breadcrumbs:
+      createIfNotExists:
+        id: gin_breadcrumbs
+        plugin: system_breadcrumb_block
+        theme: gin
+        region: breadcrumb
+        weight: 0
+        status: true
+        settings:
+          id: system_breadcrumb_block
+          label: Breadcrumb
+          label_display: "0"
+          provider: system
+
+    #
+    # -----------------------------------------------------
+    # PLACE LOCAL TASKS BLOCK (TABS)
+    # -----------------------------------------------------
+    #
+    block.block.gin_local_tasks:
+      createIfNotExists:
+        id: gin_local_tasks
+        plugin: local_tasks_block
+        theme: gin
+        region: content
+        weight: -40
+        status: true
+        settings:
+          id: local_tasks_block
+          label: Tabs
+          label_display: "0"
+          provider: core
+          primary: true
+          secondary: true
+
+    #
+    # -----------------------------------------------------
+    # PLACE LOCAL ACTIONS BLOCK (ADD CONTENT BUTTONS)
+    # -----------------------------------------------------
+    #
+    block.block.gin_local_actions:
+      createIfNotExists:
+        id: gin_local_actions
+        plugin: local_actions_block
+        theme: gin
+        region: content
+        weight: -20
+        status: true
+        settings:
+          id: local_actions_block
+          label: "Primary admin actions"
+          label_display: "0"
+          provider: core
+
+    #
+    # -----------------------------------------------------
+    # PLACE PAGE TITLE BLOCK
+    # -----------------------------------------------------
+    #
+    block.block.gin_page_title:
+      createIfNotExists:
+        id: gin_page_title
+        plugin: page_title_block
+        theme: gin
+        region: content
+        weight: -30
+        status: true
+        settings:
+          id: page_title_block
+          label: "Page title"
+          label_display: "0"
+          provider: core
+
+    #
+    # -----------------------------------------------------
+    # PLACE MAIN PAGE CONTENT BLOCK
+    # -----------------------------------------------------
+    #
+    block.block.gin_content:
+      createIfNotExists:
+        id: gin_content
+        plugin: system_main_block
+        theme: gin
+        region: content
+        weight: 0
+        status: true
+        settings:
+          id: system_main_block
+          label: "Main page content"
+          label_display: "0"
+          provider: system
+
+    #
+    # -----------------------------------------------------
+    # PLACE MESSAGES BLOCK
+    # -----------------------------------------------------
+    #
+    block.block.gin_messages:
+      createIfNotExists:
+        id: gin_messages
+        plugin: system_messages_block
+        theme: gin
+        region: highlighted
+        weight: 0
+        status: true
+        settings:
+          id: system_messages_block
+          label: "Status messages"
+          label_display: "0"
+          provider: system
+
+    #
+    # -----------------------------------------------------
+    # PLACE HELP BLOCK
+    # -----------------------------------------------------
+    #
+    block.block.gin_help:
+      createIfNotExists:
+        id: gin_help
+        plugin: help_block
+        theme: gin
+        region: help
+        weight: 0
+        status: true
+        settings:
+          id: help_block
+          label: Help
+          label_display: "0"
+          provider: help

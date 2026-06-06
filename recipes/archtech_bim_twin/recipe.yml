@@ -1,0 +1,9 @@
+name: 'ArchTech BIM Digital Twin'
+description: 'BIM Digital Twin bounded context. IFC model processing, sensor data ingestion, digital twin assets, performance analysis.'
+type: 'Site'
+recipes:
+  - archtech_base
+install:
+  - archtech_bim_twin
+config:
+  strict: false

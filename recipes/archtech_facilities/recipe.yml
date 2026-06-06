@@ -1,0 +1,9 @@
+name: 'ArchTech Facilities'
+description: 'Facilities and post-construction bounded context. Warranties, maintenance scheduling, inspections, renovation proposals.'
+type: 'Site'
+recipes:
+  - archtech_base
+install:
+  - archtech_facilities
+config:
+  strict: false

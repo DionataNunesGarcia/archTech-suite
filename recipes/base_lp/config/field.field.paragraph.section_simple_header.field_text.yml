@@ -1,0 +1,18 @@
+langcode: pt-br
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_text
+    - paragraphs.paragraphs_type.section_simple_header
+id: paragraph.section_simple_header.field_text
+field_name: field_text
+entity_type: paragraph
+bundle: section_simple_header
+label: Texto
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

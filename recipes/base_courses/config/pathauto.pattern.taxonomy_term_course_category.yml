@@ -1,0 +1,23 @@
+langcode: pt-br
+status: true
+dependencies:
+  module:
+    - taxonomy
+id: taxonomy_term_course_category
+label: 'Termo de taxonomia para categoria de cursos'
+type: 'canonical_entities:taxonomy_term'
+pattern: '/curso/[term:name]'
+selection_criteria:
+  870220c9-6c1f-4bf6-b4ee-fb10105ee005:
+    id: 'entity_bundle:taxonomy_term'
+    negate: false
+    uuid: 870220c9-6c1f-4bf6-b4ee-fb10105ee005
+    context_mapping:
+      taxonomy_term: taxonomy_term
+    bundles:
+      courses_category: courses_category
+selection_logic: and
+weight: -5
+relationships:
+  'taxonomy_term:langcode:language':
+    label: Idioma

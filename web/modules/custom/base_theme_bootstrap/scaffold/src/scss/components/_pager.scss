@@ -1,0 +1,18 @@
+// scaffold/tailwind/src/scss/components/_pager.scss
+.pager {
+	@apply flex justify-center items-center mt-12 space-x-1;
+
+	&__item {
+		@apply flex items-center justify-center w-10 h-10 rounded transition-colors;
+
+		&--prev,
+		&--next {
+			@apply bg-gray-100 text-gray-700 hover:bg-emerald-500 hover:text-white;
+
+			svg { @apply w-5 h-5; }
+		}
+
+		&--active { @apply bg-emerald-600 text-white font-bold; }
+		&--page   { @apply bg-white border border-gray-200 text-gray-600 hover:bg-gray-100; }
+	}
+}

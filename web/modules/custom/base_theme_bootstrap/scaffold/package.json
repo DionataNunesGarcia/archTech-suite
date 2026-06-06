@@ -1,0 +1,27 @@
+{
+  "name": "front_theme",
+  "version": "1.0.0",
+  "description": "Bootstrap 5 custom theme for Drupal",
+  "scripts": {
+    "dev": "sass --no-source-map --silence-deprecation=import,if-function,global-builtin,color-functions src/scss/style.scss dist/css/style.css --load-path=node_modules && esbuild src/js/main.js --bundle --outfile=dist/js/main.js",
+    "watch": "concurrently \"sass --no-source-map --silence-deprecation=import,if-function,global-builtin,color-functions src/scss/style.scss dist/css/style.css --load-path=node_modules --watch\" \"esbuild src/js/main.js --bundle --outfile=dist/js/main.js --watch\"",
+    "build": "sass --no-source-map --style=compressed --silence-deprecation=import,if-function,global-builtin,color-functions src/scss/style.scss dist/css/style.css --load-path=node_modules && esbuild src/js/main.js --bundle --minify --outfile=dist/js/main.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^9.2.0",
+    "esbuild": "^0.25.0",
+    "sass": "^1.86.0"
+  },
+  "dependencies": {
+    "@popperjs/core": "^2.11.8",
+    "aos": "^2.3.4",
+    "bootstrap": "^5.3.3",
+    "bootstrap-icons": "^1.13.1",
+    "glightbox": "^3.3.0",
+    "gsap": "^3.12.5",
+    "swiper": "^11.2.6"
+  }
+}

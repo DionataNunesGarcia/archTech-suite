@@ -1,0 +1,90 @@
+{%
+  set classes = [
+    'paragraph px-6 2xl:px-0 ',
+    'paragraph--type--' ~ paragraph.bundle|clean_class,
+    view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
+    not paragraph.isPublished() ? 'paragraph--unpublished',
+    content.field_banner_type|render ? 'banner-type-' ~ content.field_banner_type[0]['#markup']
+  ]
+%}
+
+{% block paragraph %}
+	<section {{ attributes .addClass(classes) .addClass('relative overflow-hidden', 'auto-animate') .setAttribute('data-animate', 'fade-up') }}>
+
+		<div class="absolute inset-0 pointer-events-none">
+			<svg class="w-full h-full text-neutral-900" viewbox="0 0 200 200" preserveaspectratio="xMidYMid slice">
+				<defs>
+					<pattern id="trianglePattern" width="20" height="20" patternunits="userSpaceOnUse">
+						<path d="M10,0 L20,20 L0,20 Z" fill="currentColor" opacity="0.03"></path>
+						<path d="M0,0 L10,0 L0,10 Z" fill="currentColor" opacity="0.03"></path>
+						<path d="M20,0 L20,10 L10,0 Z" fill="currentColor" opacity="0.03"></path>
+					</pattern>
+				</defs>
+				<rect width="200" height="200" fill="url(#trianglePattern)"></rect>
+			</svg>
+		</div>
+
+		{# 3. Conteúdo Principal #}
+		<div class="max-w-[1400px] mx-auto relative z-10">
+			<div
+				class="columns-content">
+
+				{# Coluna de Texto #}
+				<div class="content-text">
+					<div
+						class="content-titles">
+
+						{# Título dinâmico com primeira palavra colorida #}
+						{% if content.field_section_title|render %}
+							{% set title = content.field_section_title[0]['#context']['value'] %}
+							{% set words = title|split(' ') %}
+							<h1 class="font-serif leading-[1.1] tracking-tight">
+								<span class="text-primary">{{ words[0] }}</span>
+								{{ words|slice(1)|join(' ') }}
+							</h1>
+						{% endif %}
+
+						{# Subtítulo / Texto #}
+						{% if content.field_subtitle|render %}
+							<h2 class="text-lg lg:text-xl text-neutral-600 leading-relaxed">
+								{{ content.field_subtitle[0]['#context']['value'] }}
+							</h2>
+						{% endif %}
+						{% if content.field_text|render %}
+							<div class="text-lg lg:text-xl text-neutral-600 leading-relaxed">
+								{{ content.field_text }}
+							</div>
+						{% endif %}
+					</div>
+
+					{# Botões (CTAs) #}
+					{% if content.field_cta_primary|render or content.field_cta_secondary|render %}
+						<div class="flex flex-col sm:flex-row gap-4 actions">
+							{% if content.field_cta_primary|render %}
+								<a href="{{ content.field_cta_primary[0]['#url'] }}" class="px-8 py-4 bg-emerald-800 text-white tracking-wide hover:bg-emerald-900 transition-colors text-center">
+									{{ content.field_cta_primary[0]['#title'] }}
+								</a>
+							{% endif %}
+
+							{% if content.field_cta_secondary|render %}
+								<a href="{{ content.field_cta_secondary[0]['#url'] }}" class="px-8 py-4 border-2 border-black text-black tracking-wide hover:bg-black hover:text-white transition-colors text-center">
+									{{ content.field_cta_secondary[0]['#title'] }}
+								</a>
+							{% endif %}
+						</div>
+					{% endif %}
+				</div>
+
+				{# Coluna de Imagem #}
+
+				{% if content.field_image_responsive|render %}
+					<div class="banner-image-wrapper">
+						{{ content.field_image_responsive }}
+						<div class=""></div>
+					</div>
+				{% endif %}
+
+			</div>
+		</div>
+	</section>
+{% endblock paragraph %}

@@ -1,0 +1,36 @@
+name: "Base PT-BR"
+description: "Configura PT-BR como idioma único"
+type: "Site"
+
+recipes:
+  - base_i18n
+
+install:
+  - base_lang_single
+
+config:
+  actions:
+    system.site:
+      simple_config_update:
+        default_langcode: pt-br
+        langcode: pt-br
+
+    language.negotiation:
+      simple_config_update:
+        url:
+          prefixes:
+            pt-br: ""
+            en: en
+          source: path_prefix
+        selected_langcode: pt-br
+
+    language.types:
+      simple_config_update:
+        configurable:
+          - language_interface
+        predefined:
+          - language_interface
+        all:
+          - language_interface
+          - language_content
+          - language_url

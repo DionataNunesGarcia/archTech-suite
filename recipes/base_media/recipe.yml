@@ -1,0 +1,13 @@
+name: "Base Media"
+description: "Responsive images, remote video, CKEditor styles and Media Library setup"
+type: "Site"
+
+install:
+  - media
+  - media_library
+  - image
+  - responsive_image
+  - base_media
+
+config:
+  actions: { }

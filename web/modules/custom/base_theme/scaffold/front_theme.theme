@@ -1,0 +1,199 @@
+<?php
+
+use Drupal\block\Entity\Block;
+
+/**
+ * @file
+ * Theme functions for the front_theme theme.
+ */
+function front_theme_preprocess_page(&$variables)
+{
+  $theme_settings = \Drupal::config('front_theme.settings');
+
+  $logo_path = $theme_settings->get('logo.path');
+
+  if ($logo_path) {
+    $variables['site_logo'] = \Drupal::service('file_url_generator')
+      ->generateAbsoluteString($logo_path);
+  }
+
+  $variables['site_name'] = \Drupal::config('system.site')->get('name');
+
+  $menu_service = \Drupal::service('custom_menu.menu_service');
+
+  $variables['menu_main'] = $menu_service->getMenuTree('main');
+  $variables['menu_cta'] = $menu_service->getMenuTree('menus-cta');
+
+  $variables['menu_footer_about'] = $menu_service->getMenuTree('menu-footer-about');
+  $variables['menu_footer_programs'] = $menu_service->getMenuTree('menu-footer-programs');
+  $variables['menu_footer_privacy_terms'] = $menu_service->getMenuTree('menu-footer-privacy-terms');
+
+}
+
+function front_theme_library_info_alter(&$libraries, $extension)
+{
+  if ($extension === 'olivero') {
+    foreach ($libraries as &$library) {
+      if (!empty($library['css'])) {
+        $library['css'] = [];
+      }
+    }
+  }
+}
+
+function front_theme_preprocess_menu__primary_menu(&$variables)
+{
+  $vocabulary = 'content_category';
+
+  $terms = \Drupal::entityTypeManager()
+    ->getStorage('taxonomy_term')
+    ->loadTree($vocabulary);
+
+  foreach ($variables['items'] as &$item) {
+
+    // 👉 check the item "Conteúdos"
+    if ($item['title'] === 'Conteúdos') {
+
+      // garante que below é array
+      if (!isset($item['below'])) {
+        $item['below'] = [];
+      }
+
+      $field_name = 'field_category';
+      // add taxonomy within "Conteúdos"
+      foreach ($terms as $term) {
+        // Only include terms that have at least one published node
+        $query = \Drupal::entityQuery('node')
+          ->accessCheck(TRUE)
+          ->condition('status', 1)
+          ->condition($field_name, $term->tid)
+          ->range(0, 1);
+
+        $nids = $query->execute();
+
+        if (!empty($nids)) {
+          $item['below'][] = [
+            'title' => $term->name,
+            'url' => \Drupal\Core\Url::fromRoute(
+              'entity.taxonomy_term.canonical',
+              ['taxonomy_term' => $term->tid]
+            ),
+            'attributes' => new \Drupal\Core\Template\Attribute(),
+            'below' => [],
+            'in_active_trail' => FALSE,
+          ];
+        }
+      }
+    }
+  }
+}
+
+function front_theme_preprocess_node(&$variables)
+{
+  $node = $variables['node'];
+
+  // Só para conteúdo tipo "conteudos" e view mode card
+  if ($node->bundle() === 'conteudos') {
+
+    $body = $node->get('body')->value;
+
+    if ($body) {
+      $word_count = str_word_count(strip_tags($body));
+
+      // média: 200 palavras por minuto
+      $reading_time = ceil($word_count / 200);
+
+      $variables['reading_time'] = max(1, $reading_time);
+    } else {
+      $variables['reading_time'] = 1;
+    }
+
+    $view = \Drupal\views\Views::getView('contents_by_category');
+
+    if ($view) {
+      $view->setDisplay('block_2');
+
+      $term_id = $node->get('field_category')->target_id;
+
+      $view->setArguments([
+        $node->id(),
+        $term_id,
+      ]);
+
+      $view->execute();
+
+      $variables['related_content'] = $view->render();
+    }
+  }
+}
+
+/**
+ * Implements hook_theme_suggestions_form_alter().
+ */
+function front_theme_theme_suggestions_form_alter(array &$suggestions, array $variables)
+{
+  if ($variables['element']['#form_id'] == 'search_form') {
+    $suggestions[] = 'form__search_form';
+  }
+}
+
+/**
+ * Implements hook_theme_suggestions_input_alter().
+ */
+function front_theme_theme_suggestions_input_alter(array &$suggestions, array $variables)
+{
+  $element = $variables['element'];
+  if (isset($element['#parents']) && in_array('search_form', $element['#parents']) || $element['#type'] == 'search') {
+    $suggestions[] = 'input__search_form';
+  }
+}
+
+
+function front_theme_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id)
+{
+  if ($form_id === 'views_exposed_form') {
+
+    // Flex container
+    $form['#attributes']['class'][] = 'flex flex-row gap-4 items-end w-full flex-wrap';
+
+    $fields = [
+      'nome' => 'Insira aqui o Nome',
+      'titulo' => 'Insira aqui o Título',
+      'categoria' => 'Insira aqui a Categoria',
+      'professor' => 'Insira aqui o Professor/Instrutor',
+      'course_level' => 'Nível do curso',
+      'topicos' => 'Insira aqui a Tag',
+      'autor' => 'Insira aqui o Autor',
+      'cargo' => 'Insira aqui a Função',
+      'assunto' => 'Insira aqui o Assunto',
+    ];
+
+    foreach ($fields as $field_name => $field_placeholder) {
+      if (isset($form[$field_name])) {
+        // Wrapper do campo ocupa 1 coluna
+        $form[$field_name]['#wrapper_attributes']['class'][] = 'flex-1 min-w-[200px]'; // flex-1 para ocupar igualmente
+
+        // Input/Select classes
+        $form[$field_name]['#attributes']['class'][] = 'w-full px-4 py-3 border-2 border-neutral-300 focus:outline-none focus:border-emerald-700 transition-colors';
+
+        // Select-specific fix
+        if ($form[$field_name]['#type'] === 'select') {
+          $form[$field_name]['#attributes']['class'][] = 'appearance-none'; // uniformiza a altura/padding do select
+        }
+
+        // Label classes
+        if (isset($form[$field_name]['#title'])) {
+          $form[$field_name]['#title_display'] = 'before';
+          $form[$field_name]['#attributes']['class'][] = 'text-gray-700 font-medium mb-1 block';
+        }
+        $form[$field_name]['#attributes']['placeholder'] = $field_placeholder;
+      }
+    }
+
+    // Botão submit
+    if (isset($form['actions']['submit'])) {
+      $form['actions']['#attributes']['class'][] = 'flex items-center justify-end mt-6 w-auto';
+      $form['actions']['submit']['#attributes']['class'][] = 'bg-emerald-700 hover:bg-emerald-800 text-white font-semibold py-2 px-6 transition-colors';
+    }
+  }
+}

@@ -1,0 +1,20 @@
+langcode: pt-br
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_show_on_page
+    - paragraphs.paragraphs_type.section_image_and_sidebar_text
+id: paragraph.section_image_and_sidebar_text.field_show_on_page
+field_name: field_show_on_page
+entity_type: paragraph
+bundle: section_image_and_sidebar_text
+label: 'Mostrar na página'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  on_label: Habilitado
+  off_label: Desligado
+field_type: boolean

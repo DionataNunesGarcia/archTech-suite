@@ -1,0 +1,16 @@
+#!/bin/bash
+## Description: Apply an ArchTech recipe by name.
+## Usage: recipe-apply <recipe_name>
+## Example: ddev recipe-apply archtech_crm
+set -euo pipefail
+
+if [ $# -eq 0 ]; then
+    echo "Usage: ddev recipe-apply <recipe_name>"
+    echo "Available recipes:"
+    ls -d ../recipes/archtech_*/
+    exit 1
+fi
+
+drush recipe "../recipes/$1"
+drush cr
+drush uli

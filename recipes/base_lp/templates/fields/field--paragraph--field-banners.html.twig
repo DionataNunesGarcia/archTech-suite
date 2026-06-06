@@ -1,0 +1,13 @@
+<div class="banner-slider swiper">
+  <div class="swiper-wrapper">
+    {% for item in items %}
+      <div class="swiper-slide">
+        {{ item.content }}
+      </div>
+    {% endfor %}
+  </div>
+
+  <div class="swiper-pagination"></div>
+  <div class="swiper-button-prev"></div>
+  <div class="swiper-button-next"></div>
+</div>

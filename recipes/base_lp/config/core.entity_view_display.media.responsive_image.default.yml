@@ -1,0 +1,67 @@
+langcode: pt-br
+status: true
+dependencies:
+  config:
+    - field.field.media.responsive_image.field_image_desktop_large
+    - field.field.media.responsive_image.field_image_mobile
+    - field.field.media.responsive_image.field_image_tablet
+    - field.field.media.responsive_image.field_media_image
+    - image.style.large
+    - media.type.responsive_image
+  module:
+    - image
+id: media.responsive_image.default
+targetEntityType: media
+bundle: responsive_image
+mode: default
+content:
+  field_image_desktop_large:
+    type: image
+    label: above
+    settings:
+      image_link: ''
+      image_style: ''
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_image_mobile:
+    type: image
+    label: above
+    settings:
+      image_link: ''
+      image_style: ''
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_image_tablet:
+    type: image
+    label: above
+    settings:
+      image_link: ''
+      image_style: ''
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_media_image:
+    type: image
+    label: visually_hidden
+    settings:
+      image_link: ''
+      image_style: large
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  created: true
+  langcode: true
+  name: true
+  thumbnail: true
+  uid: true

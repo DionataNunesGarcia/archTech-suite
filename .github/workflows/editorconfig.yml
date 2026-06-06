@@ -1,0 +1,17 @@
+# EditorConfig Checker - Ensures consistent code style
+name: EditorConfig
+
+on: [push, pull_request]
+
+jobs:
+  editorconfig:
+    name: EditorConfig Checker
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: EditorConfig Checker
+        uses: editorconfig-checker/action-editorconfig-checker@main
+        with:
+          exclude: "vendor|node_modules|dist|web/core|web/modules/contrib|web/themes/contrib"

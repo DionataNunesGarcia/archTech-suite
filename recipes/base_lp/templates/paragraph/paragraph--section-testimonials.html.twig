@@ -1,0 +1,37 @@
+{%
+  set classes = [
+    'container-fluid py-20 lg:py-32 bg-red-950',
+    'paragraph',
+    'paragraph--type--' ~ paragraph.bundle|clean_class,
+    view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
+    not paragraph.isPublished() ? 'paragraph--unpublished'
+  ]
+%}
+{% block paragraph %}
+  <section
+    {{ attributes
+      .addClass(classes)
+      .addClass('relative overflow-hidden', 'auto-animate')
+      .setAttribute('data-animate', 'fade-up')
+    }}
+  >
+    <div class="container px-6 2xl:px-0 mx-auto max-w-[1400px]">
+      {% block content %}
+        <div class="content-text">
+          <div class="max-w-3xl mx-auto text-center mb-16">
+          <div class="w-16 h-1 bg-amber-400 mb-6 mx-auto"></div>
+            <h3 class="font-serif text-4xl lg:text-5xl text-white tracking-tight mb-6 font-medium">
+              {{ content.field_section_title[0]['#context']['value'] }}
+            </h3>
+          </div>
+          {% if content.field_text[0]['#context']['value'] is defined %}
+            <p class="max-w-[1177px]">
+              {{ content.field_text[0]['#context']['value'] }}
+            </p>
+          {% endif %}
+          {{ content.field_testimonials }}
+        </div>
+      {% endblock %}
+    </div>
+  </section>
+{% endblock paragraph %}

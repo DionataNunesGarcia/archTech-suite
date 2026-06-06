@@ -1,0 +1,14 @@
+langcode: pt-br
+status: true
+dependencies:
+  module:
+    - menu_link_content
+id: main-about
+title: 'Sobre'
+description: ''
+link:
+  uri: 'internal:/sobre'
+  options: {}
+menu_name: main
+weight: 1
+expanded: false

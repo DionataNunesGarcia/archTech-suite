@@ -1,0 +1,28 @@
+langcode: pt-br
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.lista_featured_courses.field_section_title
+    - field.field.paragraph.lista_featured_courses.field_text
+    - paragraphs.paragraphs_type.lista_featured_courses
+id: paragraph.lista_featured_courses.default
+targetEntityType: paragraph
+bundle: lista_featured_courses
+mode: default
+content:
+  field_section_title:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_text:
+    type: basic_string
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 4
+    region: content
+hidden: {  }

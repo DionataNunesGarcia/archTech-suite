@@ -1,0 +1,61 @@
+<?php
+
+/**
+ * @file
+ * Theme functions for the front_theme Bootstrap theme.
+ */
+
+use Drupal\Core\Template\Attribute;
+
+/**
+ * Implements hook_preprocess_page().
+ */
+function front_theme_preprocess_page(&$variables) {
+  $theme_settings = \Drupal::config('front_theme.settings');
+
+  $logo_path = $theme_settings->get('logo.path');
+  if ($logo_path) {
+    $variables['site_logo'] = \Drupal::service('file_url_generator')
+      ->generateAbsoluteString($logo_path);
+  }
+
+  $variables['site_name'] = \Drupal::config('system.site')->get('name');
+
+
+  $menu_service = \Drupal::service('custom_menu.menu_service');
+
+  $variables['main_menu'] = $menu_service->getMenuTree('main');
+  $variables['menu_cta'] = $menu_service->getMenuTree('menus-cta');
+
+  $variables['menu_footer_about'] = $menu_service->getMenuTree('menu-footer-about');
+  $variables['menu_footer_programs'] = $menu_service->getMenuTree('menu-footer-programs');
+  $variables['menu_footer_privacy_terms'] = $menu_service->getMenuTree('menu-footer-privacy-terms');
+}
+
+/**
+ * Implements hook_library_info_alter().
+ *
+ * Strip Olivero CSS so Bootstrap styles take full control.
+ */
+function front_theme_library_info_alter(&$libraries, $extension) {
+  if ($extension === 'olivero') {
+    foreach ($libraries as &$library) {
+      if (!empty($library['css'])) {
+        $library['css'] = [];
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_html().
+ */
+function front_theme_preprocess_html(&$variables) {
+  // Expose the current path as a body class for page-specific overrides.
+  $current_path = \Drupal::service('path.current')->getPath();
+  $alias = \Drupal::service('path_alias.manager')->getAliasByPath($current_path);
+  $alias_class = preg_replace('/[^a-zA-Z0-9-_]/', '-', ltrim($alias, '/'));
+  if ($alias_class) {
+    $variables['attributes']['class'][] = 'page--' . $alias_class;
+  }
+}

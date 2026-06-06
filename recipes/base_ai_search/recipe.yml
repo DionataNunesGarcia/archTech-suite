@@ -1,0 +1,12 @@
+name: AI Search
+description: IA para busca semântica - RAG e embeddings (PostgreSQL)
+type: site
+
+install:
+  - ai_vdb_provider_postgres
+
+recipes:
+  - base_ai
+
+config:
+  strict: false

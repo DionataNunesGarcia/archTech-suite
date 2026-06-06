@@ -1,0 +1,63 @@
+#!/bin/bash
+## Description: Install ArchTech Drupal with base recipes and optional bounded context presets.
+## Usage: install [preset...]
+## Example: ddev install\nddev install crm\nddev install client-portal proposals financeiro
+set -euo pipefail
+
+PRESETS=()
+
+for argument in "$@"; do
+    PRESETS+=("$argument")
+done
+
+drush sql:drop -y
+
+drush site:install standard \
+    --db-url=mysql://db:db@db/db \
+    --site-name="ArchTech Suite" \
+    --account-name=admin \
+    --account-pass=admin \
+    --account-mail=admin@example.com \
+    --yes
+
+# Apply base recipes first
+drush recipe ../recipes/base_core
+drush recipe ../recipes/base_admin
+drush recipe ../recipes/base_media
+drush recipe ../recipes/base_seo
+drush recipe ../recipes/base_ai
+drush recipe ../recipes/base_ai_contents
+drush recipe ../recipes/base_ai_search
+drush recipe ../recipes/base_contents
+
+# Apply bounded context presets
+for PRESET in "${PRESETS[@]}"; do
+    case "$PRESET" in
+        client-portal)     drush recipe ../recipes/archtech_client_portal ;;
+        crm)               drush recipe ../recipes/archtech_crm ;;
+        proposals)         drush recipe ../recipes/archtech_proposals ;;
+        financeiro)        drush recipe ../recipes/archtech_financeiro ;;
+        library)           drush recipe ../recipes/archtech_library ;;
+        permits)           drush recipe ../recipes/archtech_permits ;;
+        suppliers)         drush recipe ../recipes/archtech_suppliers ;;
+        facilities)        drush recipe ../recipes/archtech_facilities ;;
+        bim)               drush recipe ../recipes/archtech_bim_twin ;;
+        all)
+            drush recipe ../recipes/archtech_client_portal
+            drush recipe ../recipes/archtech_crm
+            drush recipe ../recipes/archtech_proposals
+            drush recipe ../recipes/archtech_financeiro
+            drush recipe ../recipes/archtech_library
+            drush recipe ../recipes/archtech_permits
+            drush recipe ../recipes/archtech_suppliers
+            drush recipe ../recipes/archtech_facilities
+            drush recipe ../recipes/archtech_bim_twin
+            ;;
+    esac
+done
+
+drush cr
+
+echo ""
+echo "Installation complete."
+drush uli

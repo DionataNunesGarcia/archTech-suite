@@ -1,0 +1,27 @@
+<?php
+
+use Drupal\language\Entity\ConfigurableLanguage;
+
+/**
+ * Remove all languages except the default.
+ */
+function base_lang_single_install() {
+  $default_langcode = \Drupal::configFactory()
+    ->get('system.site')
+    ->get('default_langcode') ?? 'en';
+
+  $languages = \Drupal::entityTypeManager()
+    ->getStorage('configurable_language')
+    ->loadMultiple();
+
+  foreach ($languages as $langcode => $language) {
+    // Nunca deleta a locked (und, zxx) nem o idioma padrão.
+    if ($language->isLocked()) {
+      continue;
+    }
+    if ($langcode === $default_langcode) {
+      continue;
+    }
+    $language->delete();
+  }
+}

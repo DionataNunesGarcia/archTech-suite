@@ -1,0 +1,10 @@
+name: 'ArchTech Permit Approval'
+description: 'Permit approval bounded context. Process tracking, requirements, official document generation.'
+type: 'Site'
+recipes:
+  - archtech_base
+  - archtech_library
+install:
+  - archtech_permits
+config:
+  strict: false

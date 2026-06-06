@@ -1,0 +1,8 @@
+{
+    "name": "archtech/client-portal",
+    "description": "ArchTech Client Portal Bounded Context",
+    "type": "drupal-recipe",
+    "require": {
+        "archtech/base": "*"
+    }
+}

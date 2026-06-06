@@ -1,0 +1,5 @@
+langcode: pt-br
+id: menu-footer-programs
+description: 'Menu do rodapé programas/cursos'
+label: 'Programas'
+locked: false

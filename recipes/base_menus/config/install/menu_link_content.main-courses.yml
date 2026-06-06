@@ -1,0 +1,14 @@
+langcode: pt-br
+status: true
+dependencies:
+  module:
+    - menu_link_content
+id: main-courses
+title: 'Cursos'
+description: ''
+link:
+  uri: 'internal:/cursos'
+  options: {}
+menu_name: main
+weight: 2
+expanded: true

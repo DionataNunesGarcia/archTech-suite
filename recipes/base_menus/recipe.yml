@@ -1,0 +1,32 @@
+name: 'Base Menus'
+description: 'Define os principais menus do site: main, menus-cta, menu-footer-about, menu-footer-programs e menu-footer-privacy-terms.'
+type: 'Configuration'
+install:
+  - menu_ui
+  - menu_link_content
+  - link
+  - custom_menu
+config:
+  actions:
+    menu_ui.settings:
+      simpleConfigUpdate: {}
+    system.menu.menus-cta:
+      createIfNotExists:
+        label: 'CTA'
+        description: 'Menu de chamadas para ação (CTA)'
+        langcode: pt-br
+    system.menu.menu-footer-about:
+      createIfNotExists:
+        label: 'Sobre'
+        description: 'Menu do rodapé sobre a empresa'
+        langcode: pt-br
+    system.menu.menu-footer-programs:
+      createIfNotExists:
+        label: 'Programas'
+        description: 'Menu do rodapé com programas'
+        langcode: pt-br
+    system.menu.menu-footer-privacy-terms:
+      createIfNotExists:
+        label: 'Privacidade'
+        description: 'Menu do rodapé privacidade e termos'
+        langcode: pt-br

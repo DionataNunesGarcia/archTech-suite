@@ -1,0 +1,16 @@
+// scaffold/tailwind/src/scss/components/_modal-search.scss
+.modal-search {
+	@apply fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50 hidden;
+
+	&__dialog {
+		@apply bg-white w-full max-w-3xl max-h-[50vh] overflow-y-auto px-6 pt-12 pb-8 relative;
+	}
+
+	&__close {
+		@apply absolute top-3 right-3 z-50 w-10 h-10 flex items-center justify-center
+		       text-3xl text-gray-600 hover:text-gray-900 bg-white rounded-full shadow;
+	}
+
+	&__title   { @apply text-2xl font-semibold text-center; }
+	&__content { @apply border-t border-gray-300 pt-10; }
+}

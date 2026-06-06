@@ -1,0 +1,22 @@
+langcode: pt-br
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_certificate
+    - node.type.courses
+id: node.courses.field_certificate
+field_name: field_certificate
+entity_type: node
+bundle: courses
+label: 'Has certificate?'
+description: ''
+required: true
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: Yes
+  off_label: No
+field_type: boolean

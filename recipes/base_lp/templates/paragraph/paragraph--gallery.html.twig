@@ -1,0 +1,47 @@
+{%
+  set classes = [
+    'container mx-auto px-4 py-12',
+    'paragraph',
+    'paragraph--type--' ~ paragraph.bundle|clean_class,
+    view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
+    not paragraph.isPublished() ? 'paragraph--unpublished'
+  ]
+%}
+
+<div{{ attributes.addClass(classes) }}>
+
+  <h3 class="font-serif text-4xl lg:text-5xl tracking-tight mb-6 font-semibold">
+    {{ content.field_section_title[0]['#context']['value'] }}
+  </h3>
+  {% if content.field_text[0]['#context']['value'] is defined %}
+    <p class="max-w-[1177px]">
+      {{ content.field_text[0]['#context']['value'] }}
+    </p>
+  {% endif %}
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-10">
+
+    {% for item in paragraph.field_images %}
+
+      {% set media = item.entity %}
+      {% if media.field_media_image.entity %}
+        {% set image = media.field_media_image.entity %}
+        {% set uri = image.fileuri %}
+        <a href="{{ file_url(uri) }}" class="block group glightbox" data-gallery="gallery-{{ media.id }}">
+          <div class="overflow-hidden rounded-lg shadow-md aspect-[4/3]">
+            <img
+              src="{{ file_url(uri) }}"
+              alt="{{ image.filename.value }}"
+              loading="lazy"
+              class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+            >
+          </div>
+        </a>
+
+      {% endif %}
+
+    {% endfor %}
+
+  </div>
+
+</div>

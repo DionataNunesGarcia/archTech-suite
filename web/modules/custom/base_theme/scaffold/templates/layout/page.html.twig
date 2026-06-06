@@ -1,0 +1,34 @@
+{% include '@front_theme/includes/header.html.twig' with {
+  'site_name': site_name,
+  'site_logo': site_logo,
+} %}
+
+<div class="container mx-auto">
+  {{ messages }}
+</div>
+<main id="main-content" class="bg-white text-black min-h-screen">
+
+  <div class="pt-0">
+
+    {% if page.hero %}
+      <section class="mb-16">
+        {{ page.hero }}
+      </section>
+    {% endif %}
+
+    <div class="content">
+      {{ page.content }}
+    </div>
+
+  </div>
+
+</main>
+
+{% include '@front_theme/includes/modal-search.html.twig' %}
+
+{% include '@front_theme/includes/footer.html.twig' %}
+
+{% include '@front_theme/includes/page-loader.html.twig' with {
+  'site_name': site_name,
+  'site_logo': site_logo,
+} %}

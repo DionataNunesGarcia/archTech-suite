@@ -1,0 +1,7 @@
+name: Base Theme Bootstrap
+type: module
+description: 'Scaffolds the front_theme custom theme using Bootstrap'
+core_version_requirement: ^10 || ^11
+package: Custom
+dependencies:
+  - drupal:twig_tweak

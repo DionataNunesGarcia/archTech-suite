@@ -1,0 +1,9 @@
+name: 'ArchTech Proposals'
+description: 'Commercial proposals bounded context. Templates, proposals, digital signatures.'
+type: 'Site'
+recipes:
+  - archtech_base
+install:
+  - archtech_proposals
+config:
+  strict: false

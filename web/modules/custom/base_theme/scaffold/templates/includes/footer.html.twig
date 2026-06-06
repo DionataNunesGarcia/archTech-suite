@@ -1,0 +1,114 @@
+<footer class="py-16 px-6 lg:px-12 bg-black text-white relative overflow-hidden">
+	<div class="absolute inset-0 pointer-events-none opacity-5">
+		<svg class="w-full h-full text-white" viewbox="0 0 200 200" preserveaspectratio="xMidYMid slice">
+			<defs>
+				<pattern id="trianglePattern" x="0" y="0" width="40" height="40" patternunits="userSpaceOnUse">
+					<path d="M20,0 L40,40 L0,40 Z" fill="currentColor" opacity="0.03"></path>
+					<path d="M0,0 L20,0 L0,20 Z" fill="currentColor" opacity="0.03"></path>
+					<path d="M40,0 L40,20 L20,0 Z" fill="currentColor" opacity="0.03"></path>
+				</pattern>
+			</defs>
+			<rect width="200" height="200" fill="url(#trianglePattern)"></rect>
+		</svg>
+	</div>
+	<div class="max-w-[1400px] mx-auto relative z-10">
+		<div class="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12 animate-fade-left">
+			<div class="space-y-6">
+				<div class="flex gap-8 items-center">
+					<img src="/themes/custom/front_theme/src/images/logo-white.png" alt="{{ site_name }} logo" class="logo max-w-[100px]">
+					<img src="/themes/custom/front_theme/src/images/logo-secondary.png" alt="{{ site_name }} logo" class="logo max-h-[100px]">
+				</div>
+				<p class="text-neutral-50 leading-relaxed">
+					{{'Loren ipsum'}}
+				</p>
+				<div class="flex gap-2">
+					<div class="w-8 h-1 bg-emerald-600"></div>
+					<div class="w-8 h-1 bg-red-700"></div>
+					<div class="w-8 h-1 bg-amber-500"></div>
+				</div>
+			</div>
+			<nav class="animate-fade-up">
+				<h3 class="text-sm tracking-widest mb-4 text-neutral-50">
+					{{'Quick links'|t}}
+				</h3>
+				<ul class="space-y-3">
+					{% for item in menu_footer_programs %}
+						<li>
+							<a href="{{ item.url }}" class="{{ item.classes }} hover:text-amber-400 transition-colors" target="{{ item.target }}" id="{{ item.id }}">
+								{{ item.title }}
+							</a>
+						</li>
+					{% endfor %}
+				</ul>
+			</nav>
+			<nav class="animate-fade-up">
+				<h3 class="text-sm tracking-widest mb-4 text-neutral-50">
+					{{'About us'|t}}
+				</h3>
+				<ul class="space-y-3">
+					{% for item in menu_footer_about %}
+						<li>
+							<a href="{{ item.url }}" class="{{ item.classes }} hover:text-amber-400 transition-colors" target="{{ item.target }}" id="{{ item.id }}">
+								{{ item.title }}
+							</a>
+						</li>
+					{% endfor %}
+				</ul>
+			</nav>
+			<div class="animate-fade-right">
+				<h3 class="text-sm tracking-widest mb-4 text-neutral-50">CONNECT</h3>
+				<div class="flex items-center gap-4 mb-6">
+					<a href="#" class="hover:text-emerald-400 transition-colors">
+						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-facebook">
+							<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+						</svg>
+					</a>
+					<a href="#" class="hover:text-red-400 transition-colors">
+						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-twitter">
+							<path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path>
+						</svg>
+					</a>
+					<a href="#" class="hover:text-amber-400 transition-colors">
+						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-instagram">
+							<rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+							<path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+							<line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line>
+						</svg>
+					</a>
+					<a href="#" class="hover:text-emerald-400 transition-colors">
+						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-linkedin">
+							<path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+							<rect width="4" height="12" x="2" y="9"></rect>
+							<circle cx="4" cy="4" r="2"></circle>
+						</svg>
+					</a>
+				</div>
+				<div class="text-sm text-neutral-50">
+					<p>Subscribe to our newsletter</p>
+					<div class="mt-3 flex gap-2">
+						<input type="email" placeholder="Your email" class="flex-1 px-3 py-2 bg-neutral-800 border border-neutral-700 focus:outline-none focus:border-emerald-600 transition-colors text-sm">
+						<div data-lastpass-icon-root="" style="position: relative !important; height: 0px !important; width: 0px !important; display: initial !important; float: left !important;"></div>
+						<button class="px-4 py-2 bg-emerald-700 text-white hover:bg-emerald-800 transition-colors text-sm">→</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="pt-8 border-t border-neutral-800 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-neutral-50 animate-fade-up">
+			<div>©
+				{{ "now"|date("Y") }}
+				{{ site_name }}.
+				{{'All rights reserved.'|t}}
+			</div>
+			<div class="flex gap-6">
+
+				{% for item in menu_footer_privacy_terms %}
+					<a href="{{ item.url }}" class="{{ item.classes }} hover:text-white transition-colors" target="{{ item.target }}" id="{{ item.id }}">
+						{{ item.title }}
+					</a>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+
+
+</footer>

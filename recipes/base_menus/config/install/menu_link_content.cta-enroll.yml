@@ -1,0 +1,18 @@
+langcode: pt-br
+status: true
+dependencies:
+  module:
+    - menu_link_content
+id: cta-enroll
+title: 'Matricule-se'
+description: ''
+link:
+  uri: 'internal:/matricule-se'
+  options:
+    attributes:
+      class:
+        - 'btn'
+        - 'btn-primary'
+menu_name: menus-cta
+weight: 0
+expanded: false

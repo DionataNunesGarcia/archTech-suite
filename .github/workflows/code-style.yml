@@ -1,0 +1,29 @@
+# Code Style and Linting
+name: Code Style
+
+on: [push, pull_request]
+
+jobs:
+  code-style:
+    name: Code Style Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install prettier
+        run: npm install -g prettier
+
+      - name: Check code style with Prettier
+        run: |
+          prettier --check "**/*.{js,json,md,yml,yaml,css,twig}" || true
+
+      - name: EditorConfig Checker
+        uses: editorconfig-checker/action-editorconfig-checker@main
+        with:
+          exclude: "vendor|node_modules"

@@ -1,0 +1,28 @@
+/* ============================================
+   Utility Helpers
+   ============================================ */
+
+@layer utilities {
+  .font-bold     { font-weight: var(--font-weight-bold) !important; }
+  .font-semibold { font-weight: var(--font-weight-semibold) !important; }
+  .font-medium   { font-weight: var(--font-weight-medium) !important; }
+
+  .text-primary        { color: var(--color-primary); }
+  .text-primary-light  { color: var(--color-primary-light); }
+  .text-primary-dark   { color: var(--color-primary-dark); }
+
+  .text-secondary      { color: var(--color-secondary); }
+  .text-secondary-dark { color: var(--color-secondary-dark); }
+
+  .text-danger         { color: var(--color-danger); }
+
+  .bg-primary          { background-color: var(--color-primary); }
+  .bg-primary-light    { background-color: var(--color-primary-light); }
+  .bg-primary-subtle   { background-color: var(--color-primary-subtle); }
+
+  .bg-secondary        { background-color: var(--color-secondary); }
+  .bg-secondary-subtle { background-color: var(--color-secondary-subtle); }
+
+  .bg-danger           { background-color: var(--color-danger); }
+  .bg-danger-subtle    { background-color: var(--color-danger-subtle); }
+}

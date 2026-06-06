@@ -1,0 +1,87 @@
+langcode: pt-br
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_syllabus
+    - node.type.courses
+    - paragraphs.paragraphs_type.syllabus
+  module:
+    - entity_reference_revisions
+id: node.courses.field_syllabus
+field_name: field_syllabus
+entity_type: node
+bundle: courses
+label: 'Syllabus'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      syllabus: syllabus
+    negate: 0
+    target_bundles_drag_drop:
+      card:
+        weight: 21
+        enabled: false
+      column:
+        weight: 22
+        enabled: false
+      gallery:
+        weight: 23
+        enabled: false
+      lista_featured_courses:
+        weight: 24
+        enabled: false
+      question_answer:
+        weight: 25
+        enabled: false
+      section_banner:
+        weight: 26
+        enabled: false
+      section_cards_carousel:
+        weight: 27
+        enabled: false
+      section_cards_grid:
+        weight: 28
+        enabled: false
+      section_columns:
+        weight: 29
+        enabled: false
+      section_content_list_by_category:
+        weight: 30
+        enabled: false
+      section_fluid_title_and_text:
+        weight: 31
+        enabled: false
+      section_image_and_sidebar_text:
+        weight: 32
+        enabled: false
+      section_questions_answers:
+        weight: 33
+        enabled: false
+      section_sliders:
+        weight: 34
+        enabled: false
+      section_team_carousel:
+        weight: 35
+        enabled: false
+      section_testimonials:
+        weight: 36
+        enabled: false
+      slider:
+        weight: 37
+        enabled: false
+      syllabus:
+        weight: 38
+        enabled: true
+      testimonials:
+        weight: 39
+        enabled: false
+      texto_full_html:
+        weight: 40
+        enabled: false
+field_type: entity_reference_revisions

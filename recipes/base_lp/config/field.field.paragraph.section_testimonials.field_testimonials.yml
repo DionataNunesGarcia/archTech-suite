@@ -1,0 +1,45 @@
+langcode: pt-br
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_testimonials
+    - paragraphs.paragraphs_type.section_testimonials
+    - paragraphs.paragraphs_type.testimonials
+  module:
+    - entity_reference_revisions
+id: paragraph.section_testimonials.field_testimonials
+field_name: field_testimonials
+entity_type: paragraph
+bundle: section_testimonials
+label: Testemunhos
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      testimonials: testimonials
+    negate: 0
+    target_bundles_drag_drop:
+      gallery:
+        weight: 7
+        enabled: false
+      question_answer:
+        weight: 8
+        enabled: false
+      section_questions_answers:
+        weight: 9
+        enabled: false
+      section_testimonials:
+        weight: 10
+        enabled: false
+      testimonials:
+        weight: 11
+        enabled: true
+      texto_full_html:
+        weight: 12
+        enabled: false
+field_type: entity_reference_revisions

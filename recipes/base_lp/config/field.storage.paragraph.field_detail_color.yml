@@ -1,0 +1,35 @@
+langcode: pt-br
+status: true
+dependencies:
+  module:
+    - options
+    - paragraphs
+id: paragraph.field_detail_color
+field_name: field_detail_color
+entity_type: paragraph
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: emerald-700
+      label: 'Verde Esmeralda'
+    -
+      value: amber-600
+      label: Laranja
+    -
+      value: black
+      label: Black
+    -
+      value: neutral-800
+      label: 'Textura Cinzenta Neutra'
+    -
+      value: red-800
+      label: Vermelho
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

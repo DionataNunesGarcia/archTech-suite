@@ -1,0 +1,22 @@
+langcode: pt-br
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_course_format
+    - node.type.courses
+  module:
+    - options
+id: node.courses.field_course_format
+field_name: field_course_format
+entity_type: node
+bundle: courses
+label: 'Format / Modality'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: online
+default_value_callback: ''
+settings: {  }
+field_type: list_string

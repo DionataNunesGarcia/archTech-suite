@@ -1,0 +1,20 @@
+langcode: pt-br
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_show_on_page
+    - paragraphs.paragraphs_type.section_questions_answers
+id: paragraph.section_questions_answers.field_show_on_page
+field_name: field_show_on_page
+entity_type: paragraph
+bundle: section_questions_answers
+label: 'Mostrar na página'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  on_label: Habilitado
+  off_label: Desligado
+field_type: boolean

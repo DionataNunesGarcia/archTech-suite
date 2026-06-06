@@ -1,0 +1,22 @@
+langcode: pt-br
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_side_of_the_image
+    - paragraphs.paragraphs_type.section_image_and_sidebar_text
+  module:
+    - options
+id: paragraph.section_image_and_sidebar_text.field_side_of_the_image
+field_name: field_side_of_the_image
+entity_type: paragraph
+bundle: section_image_and_sidebar_text
+label: 'Lado da Imagem'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: left
+default_value_callback: ''
+settings: {  }
+field_type: list_string

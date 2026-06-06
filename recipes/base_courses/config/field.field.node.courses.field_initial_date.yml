@@ -1,0 +1,20 @@
+langcode: pt-br
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_initial_date
+    - node.type.courses
+  module:
+    - datetime
+id: node.courses.field_initial_date
+field_name: field_initial_date
+entity_type: node
+bundle: courses
+label: 'Start Date'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

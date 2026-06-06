@@ -1,0 +1,55 @@
+{%
+  set classes = [
+    'media',
+    'media--remote-video',
+  ]
+%}
+
+<div{{ attributes.addClass(classes) }}>
+  {% set video_url = media.field_media_oembed_video.value %}
+
+  {% if video_url %}
+    {% if 'youtube.com' in video_url or 'youtu.be' in video_url %}
+
+      {# Extrai o ID do YouTube #}
+      {% set video_id = '' %}
+      {% if 'v=' in video_url %}
+        {% set video_id = video_url|split('v=')|last|split('&')|first %}
+      {% elseif 'youtu.be/' in video_url %}
+        {% set video_id = video_url|split('youtu.be/')|last|split('?')|first %}
+      {% endif %}
+
+      {% if video_id %}
+        <div class="media__video-wrapper">
+          <iframe
+            src="https://www.youtube.com/embed/{{ video_id }}?rel=0&modestbranding=1"
+            title="{{ media.label.value }}"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            loading="lazy"
+            class="media__video-iframe">
+          </iframe>
+        </div>
+      {% endif %}
+
+    {% elseif 'vimeo.com' in video_url %}
+
+      {% set video_id = video_url|split('vimeo.com/')|last|split('?')|first %}
+      <div class="media__video-wrapper">
+        <iframe
+          src="https://player.vimeo.com/video/{{ video_id }}?title=0&byline=0&portrait=0"
+          title="{{ media.label.value }}"
+          allow="autoplay; fullscreen; picture-in-picture"
+          allowfullscreen
+          loading="lazy"
+          class="media__video-iframe">
+        </iframe>
+      </div>
+
+    {% else %}
+      {# Fallback para outros embeds via oEmbed #}
+      {{ content }}
+    {% endif %}
+
+  {% endif %}
+</div>

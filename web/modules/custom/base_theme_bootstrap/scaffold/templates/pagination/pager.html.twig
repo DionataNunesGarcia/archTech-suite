@@ -1,0 +1,58 @@
+{% if items %}
+  <nav aria-label="{{ 'Pagination'|t }}">
+    <ul class="pagination justify-content-center">
+
+      {# Previous #}
+      {% if items.previous %}
+        <li class="page-item">
+          <a 
+            class="page-link" 
+            href="{{ items.previous.href }}" 
+            aria-label="{{ 'Previous'|t }}"
+          >
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+      {% else %}
+        <li class="page-item disabled">
+          <span class="page-link">
+            <span aria-hidden="true">&laquo;</span>
+          </span>
+        </li>
+      {% endif %}
+
+      {# Pages #}
+      {% for key, item in items.pages %}
+        {% if current == key %}
+          <li class="page-item active" aria-current="page">
+            <span class="page-link">{{ key }}</span>
+          </li>
+        {% else %}
+          <li class="page-item">
+            <a class="page-link" href="{{ item.href }}">{{ key }}</a>
+          </li>
+        {% endif %}
+      {% endfor %}
+
+      {# Next #}
+      {% if items.next %}
+        <li class="page-item">
+          <a 
+            class="page-link" 
+            href="{{ items.next.href }}" 
+            aria-label="{{ 'Next'|t }}"
+          >
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      {% else %}
+        <li class="page-item disabled">
+          <span class="page-link">
+            <span aria-hidden="true">&raquo;</span>
+          </span>
+        </li>
+      {% endif %}
+
+    </ul>
+  </nav>
+{% endif %}

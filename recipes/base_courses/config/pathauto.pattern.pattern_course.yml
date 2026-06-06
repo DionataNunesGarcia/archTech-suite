@@ -1,0 +1,21 @@
+langcode: pt-br
+status: true
+dependencies:
+  module:
+    - node
+id: pattern_course
+label: 'Pattern Cursos'
+type: 'canonical_entities:node'
+pattern: '/curso/[node:field_course_category:entity:name]/[node:title]'
+selection_criteria:
+  25e99539-0aa7-4c26-9838-d85832135aec:
+    id: 'entity_bundle:node'
+    negate: false
+    uuid: 25e99539-0aa7-4c26-9838-d85832135aec
+    context_mapping:
+      node: node
+    bundles:
+      courses: courses
+selection_logic: and
+weight: -5
+relationships: {  }

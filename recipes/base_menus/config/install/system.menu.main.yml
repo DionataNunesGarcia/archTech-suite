@@ -1,0 +1,5 @@
+langcode: pt-br
+id: main
+description: 'Main navigation menu'
+label: 'Main'
+locked: true

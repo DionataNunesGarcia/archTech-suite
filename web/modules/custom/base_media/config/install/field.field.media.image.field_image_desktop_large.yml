@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_image_desktop_large
+  module:
+    - media
+id: media.image.field_image_desktop_large
+field_name: field_image_desktop_large
+entity_type: media
+bundle: image
+label: 'Image Desktop Large'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:file'
+  handler_settings: {  }
+field_type: image

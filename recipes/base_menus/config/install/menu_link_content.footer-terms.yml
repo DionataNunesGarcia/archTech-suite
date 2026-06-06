@@ -1,0 +1,14 @@
+langcode: pt-br
+status: true
+dependencies:
+  module:
+    - menu_link_content
+id: footer-terms
+title: 'Termos de Uso'
+description: ''
+link:
+  uri: 'internal:/termos-uso'
+  options: {}
+menu_name: menu-footer-privacy-terms
+weight: 1
+expanded: false

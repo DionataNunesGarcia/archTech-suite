@@ -1,0 +1,31 @@
+{%
+  set classes = [
+    'container mx-auto px-6 2xl:px-0 py-20 lg:py-32 max-w-[1400px]',
+    'paragraph',
+    'paragraph--type--' ~ paragraph.bundle|clean_class,
+    view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
+    not paragraph.isPublished() ? 'paragraph--unpublished'
+  ]
+%}
+{% block paragraph %}
+  <section
+    {{ attributes
+      .addClass(classes)
+      .addClass('relative overflow-hidden', 'auto-animate')
+      .setAttribute('data-animate', 'fade-up')
+    }}
+  >
+    {% block content %}
+      {% if content.field_section_title[0] is defined %}
+        <div class="w-16 h-1 bg-amber-600 mb-6"></div>
+        <h3 class="font-serif text-4xl lg:text-5xl text-black tracking-tight mb-6 font-semibold">
+          {{ content.field_section_title[0]['#context']['value'] }}
+        </h3>
+      {% endif %}
+      {% if content.field_text[0] is defined %}
+        <p class="max-w-[1177px]">{{ content.field_text[0]['#context']['value'] }}</p>
+      {% endif %}
+      {{ content.field_cards }}
+    {% endblock %}
+  </section>
+{% endblock paragraph %}

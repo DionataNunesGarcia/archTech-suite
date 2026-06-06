@@ -1,0 +1,45 @@
+{%
+set classes = [
+'container-fluid py-20 lg:py-32 bg-neutral-100',
+'paragraph',
+'paragraph--type--' ~ paragraph.bundle|clean_class,
+view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
+not paragraph.isPublished() ? 'paragraph--unpublished'
+]
+%}
+{% set side = content.field_side_of_the_image[0]['#markup'] %}
+{% block paragraph %}
+<section
+{{ attributes
+.addClass(classes)
+.addClass('relative overflow-hidden', 'auto-animate')
+.setAttribute('data-animate', 'fade-up')
+}}
+>
+{% block content %}
+	<div class="container px-6 2xl:px-0 mx-auto max-w-[1400px] ">
+		<div class="grid lg:grid-cols-5 gap-12 lg:gap-20">
+			<div class="lg:col-span-2 space-y-8">
+				<div>
+					<div class="w-16 h-1 bg-amber-600 mb-6"></div>
+					<h3 class="font-serif text-4xl lg:text-5xl text-{{ text_color }} tracking-tight mb-6 font-semibold">
+						{{ content.field_section_title }}
+					</h3>
+					<p class="text-lg text-neutral-600 leading-relaxed">
+						{{ content.field_subtitle }}
+					</p>
+				</div>
+				<div class="space-y-6">
+					<div class="text-content text-content-editor mt-10">
+						{{ content.field_body }}
+					</div>
+				</div>
+			</div>
+			<div class="lg:col-span-3">
+				{{ content.field_webform }}
+			</div>
+		</div>
+	</div>
+{% endblock %}
+</section>
+{% endblock paragraph %}

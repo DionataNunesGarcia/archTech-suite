@@ -1,0 +1,39 @@
+langcode: pt-br
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_questions_answers
+    - paragraphs.paragraphs_type.question_answer
+    - paragraphs.paragraphs_type.section_questions_answers
+  module:
+    - entity_reference_revisions
+id: paragraph.section_questions_answers.field_questions_answers
+field_name: field_questions_answers
+entity_type: paragraph
+bundle: section_questions_answers
+label: 'Perguntas e Respostas'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      question_answer: question_answer
+    negate: 0
+    target_bundles_drag_drop:
+      gallery:
+        weight: -8
+        enabled: false
+      question_answer:
+        weight: -9
+        enabled: true
+      section_questions_answers:
+        weight: -7
+        enabled: false
+      texto_full_html:
+        weight: -6
+        enabled: false
+field_type: entity_reference_revisions

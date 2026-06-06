@@ -1,0 +1,5 @@
+langcode: pt-br
+id: menus-cta
+description: 'Menu de chamadas para ação (CTA)'
+label: 'CTA'
+locked: false

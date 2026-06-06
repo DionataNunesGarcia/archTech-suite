@@ -1,0 +1,79 @@
+{# 
+  Template: views-view.html.twig 
+  Personalizado para exibir Título e Descrição da Taxonomia dinamicamente.
+#}
+
+<section
+	class="relative pt-20 pb-20 px-6 lg:px-12 bg-stone-50 overflow-hidden">
+	{# Fundo Decorativo #}
+	<div class="absolute inset-0 pointer-events-none opacity-20">
+		<svg class="w-full h-full text-emerald-900" viewbox="0 0 200 200" preserveaspectratio="xMidYMid slice">
+			<defs>
+				<pattern id="trianglePattern" x="0" y="0" width="40" height="40" patternunits="userSpaceOnUse">
+					<path d="M20,0 L40,40 L0,40 Z" fill="currentColor" opacity="0.03"></path>
+					<path d="M0,0 L20,0 L0,20 Z" fill="currentColor" opacity="0.03"></path>
+					<path d="M40,0 L40,20 L20,0 Z" fill="currentColor" opacity="0.03"></path>
+				</pattern>
+			</defs>
+			<rect width="200" height="200" fill="url(#trianglePattern)"></rect>
+		</svg>
+	</div>
+
+	<div class="container px-6 2xl:px-0 mx-auto max-w-[1400px] relative z-10">
+		<div class="max-w-3xl">
+			<div class="w-16 h-1 bg-amber-600 mb-6"></div>
+
+			{# TÍTULO: Pega o nome do Termo de Taxonomia atual #}
+			<h1 class="font-serif text-5xl lg:text-7xl leading-[1.1] tracking-tight mb-6 text-neutral-900">
+				{{ view.getTitle() }}
+			</h1>
+
+			{# DESCRIÇÃO: Pega a descrição do termo configurada no Header da View #}
+			<div class="text-xl text-neutral-600 leading-relaxed">
+				{% if header %}
+					{{ header }}
+				{% else %}
+					{# Texto padrão caso a taxonomia não tenha descrição cadastrada #}
+					{{ 'Conteúdos cuidadosamente selecionados sobre psicanálise e cultura.'|t }}
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</section>
+
+{# Filtros Expostos #}
+<section class="py-12 px-6 lg:px-12 border-b border-neutral-200 top-20 bg-white/95 backdrop-blur-sm z-40">
+	<div class="max-w-[1400px] mx-auto">
+		<div class="space-y-6">
+			<div class="relative flex flex-col items-start sm:items-center gap-4 justify-between">
+				{{ exposed }}
+			</div>
+		</div>
+	</div>
+</section>
+
+{# Listagem de Cards #}
+<section
+	class="container py-20 px-6 2xl:px-0 mx-auto max-w-[1400px]">
+	{# A ID e a Classe abaixo são obrigatórias para o AJAX da View funcionar #}
+	<div id="js-view-dom-id-{{ dom_id }}" class="js-view-dom-id-{{ dom_id }}">
+
+		{% if rows %}
+			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 mt-10">
+				{{ rows }}
+			</div>
+		{% else %}
+			<div class="py-20 text-center text-gray-500">
+				{{ empty }}
+			</div>
+		{% endif %}
+
+		{# Paginação #}
+		{% if pager %}
+			<div class="mt-16 flex justify-center">
+				{{ pager }}
+			</div>
+		{% endif %}
+
+	</div>
+</section>

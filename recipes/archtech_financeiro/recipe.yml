@@ -1,0 +1,9 @@
+name: 'ArchTech Financeiro'
+description: 'Financial management bounded context. Accounts receivable/payable, cash flow, cost centers, forecasting.'
+type: 'Site'
+recipes:
+  - archtech_base
+install:
+  - archtech_financeiro
+config:
+  strict: false

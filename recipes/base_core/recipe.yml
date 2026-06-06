@@ -1,0 +1,5 @@
+name: "Base Core"
+description: "Base foundation (Standard profile complement)"
+type: "Site"
+install:
+  - options

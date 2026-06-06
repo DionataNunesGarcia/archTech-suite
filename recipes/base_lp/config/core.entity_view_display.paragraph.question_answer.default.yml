@@ -1,0 +1,30 @@
+langcode: pt-br
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.question_answer.field_answer
+    - field.field.paragraph.question_answer.field_question
+    - paragraphs.paragraphs_type.question_answer
+  module:
+    - text
+id: paragraph.question_answer.default
+targetEntityType: paragraph
+bundle: question_answer
+mode: default
+content:
+  field_answer:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_question:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden: {  }

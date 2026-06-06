@@ -1,0 +1,20 @@
+langcode: pt-br
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_meta_tag
+    - node.type.courses
+  module:
+    - metatag
+id: node.courses.field_meta_tag
+field_name: field_meta_tag
+entity_type: node
+bundle: courses
+label: 'Meta tag'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: metatag

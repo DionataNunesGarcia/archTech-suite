@@ -1,0 +1,23 @@
+langcode: en
+status: true
+id: media_responsive
+label: "Media Responsive"
+breakpoint_group: front_theme
+fallback_image_style: media_desktop
+image_style_mappings:
+  - breakpoint_id: front_theme.sm
+    multiplier: "1x"
+    image_mapping_type: image_style
+    image_mapping: media_mobile
+  - breakpoint_id: front_theme.md
+    multiplier: "1x"
+    image_mapping_type: image_style
+    image_mapping: media_tablet
+  - breakpoint_id: front_theme.lg
+    multiplier: "1x"
+    image_mapping_type: image_style
+    image_mapping: media_desktop
+  - breakpoint_id: front_theme.xl
+    multiplier: "1x"
+    image_mapping_type: image_style
+    image_mapping: media_desktop_large

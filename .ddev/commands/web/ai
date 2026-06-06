@@ -1,0 +1,130 @@
+#!/bin/bash
+# DDEV AI Web Command
+# Usage: ddev ai <command> [args]
+
+set -e
+
+COMMAND="${1:-help}"
+
+case "$COMMAND" in
+  generate-module)
+    NAME="$2"
+    if [ -z "$NAME" ]; then
+      echo "Usage: ddev ai generate-module <module_name>"
+      exit 1
+    fi
+    echo "Creating module: $NAME"
+    mkdir -p "web/modules/custom/$NAME/src/Controller"
+    mkdir -p "web/modules/custom/$NAME/src/Form"
+    mkdir -p "web/modules/custom/$NAME/src/Service"
+
+    cat > "web/modules/custom/$NAME/${NAME}.info.yml" <<EOF
+name: $(echo $NAME | sed 's/_/ /g' | sed 's/\b\(.\)/\u\1/g')
+description: 'Custom module created via AI'
+core_version_requirement: ^10 || ^11
+type: module
+package: Custom
+version: 1.0.0
+EOF
+
+    echo "Module created at web/modules/custom/$NAME/"
+    ;;
+
+  generate-service)
+    MODULE="$2"
+    SERVICE="$3"
+    if [ -z "$MODULE" ] || [ -z "$SERVICE" ]; then
+      echo "Usage: ddev ai generate-service <module_name> <service_name>"
+      exit 1
+    fi
+    mkdir -p "web/modules/custom/$MODULE/src/Service"
+
+    cat > "web/modules/custom/$MODULE/src/Service/${SERVICE}.php" <<EOF
+<?php
+
+namespace Drupal\$MODULE\Service;
+
+use Drupal\Core\Logger\LoggerChannelInterface;
+
+/**
+ * Service description.
+ */
+class \${SERVICE} {
+
+  /**
+   * Logger.
+   */
+  protected LoggerChannelInterface \$logger;
+
+  /**
+   * Constructor.
+   */
+  public function __construct(LoggerChannelInterface \$logger) {
+    \$this->logger = \$logger;
+  }
+
+  /**
+   * Do something.
+   */
+  public function doSomething(): void {
+    \$this->logger->info('Service method called');
+  }
+
+}
+EOF
+
+    echo "Service created: $SERVICE in $MODULE"
+    ;;
+
+  debug)
+    echo "Running debug diagnostics..."
+    echo ""
+    echo "=== Cache Status ==="
+    drush cr
+    echo ""
+    echo "=== Routes ==="
+    drush core:route | head -10
+    echo ""
+    echo "=== Modules ==="
+    drush pm:list --status=enabled | head -15
+    echo ""
+    echo "Debug complete!"
+    ;;
+
+  test)
+    echo "Testing AI connection..."
+    drush ai:chat "Say 'AI is working!' in 3 words" --provider=openai 2>/dev/null || \
+    drush ai:chat "Say 'AI is working!' in 3 words" --provider=ollama 2>/dev/null || \
+    echo "AI not configured. Run: ddev drush config-set ai.settings default_provider openai"
+    ;;
+
+  install)
+    echo "Installing AI recipes..."
+    drush recipe ../recipes/base_ai
+    drush en ai_provider_ollama
+    echo "AI installed!"
+    ;;
+
+  status)
+    echo "=== AI Status ==="
+    echo "Provider: $(drush config-get ai.settings default_provider 2>/dev/null || echo 'Not configured')"
+    echo ""
+    echo "Modules:"
+    drush pm:list --status=enabled | grep -i "^  AI" || echo "No AI modules"
+    ;;
+
+  help|*)
+    echo "DDEV AI Commands"
+    echo ""
+    echo "Usage: ddev ai <command> [args]"
+    echo ""
+    echo "Commands:"
+    echo "  generate-module <name>    Create new module"
+    echo "  generate-service <module> <service>  Create service"
+    echo "  debug                    Run debug diagnostics"
+    echo "  test                     Test AI connection"
+    echo "  install                  Install AI recipes"
+    echo "  status                   Show AI status"
+    echo ""
+    ;;
+esac

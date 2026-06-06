@@ -1,0 +1,9 @@
+{
+    "name": "archtech/permits",
+    "description": "ArchTech Permit Approval Bounded Context",
+    "type": "drupal-recipe",
+    "require": {
+        "archtech/base": "*",
+        "archtech/library": "*"
+    }
+}

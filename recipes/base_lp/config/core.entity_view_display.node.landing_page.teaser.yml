@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.landing_page.field_meta_tag
+    - field.field.node.landing_page.field_sections
+    - node.type.landing_page
+  module:
+    - user
+id: node.landing_page.teaser
+targetEntityType: node
+bundle: landing_page
+mode: teaser
+content:
+  links:
+    weight: 101
+    region: content
+hidden:
+  field_meta_tag: true
+  field_sections: true
+  langcode: true

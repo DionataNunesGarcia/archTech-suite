@@ -1,0 +1,22 @@
+langcode: pt-br
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_week_duration
+    - node.type.courses
+id: node.courses.field_week_duration
+field_name: field_week_duration
+entity_type: node
+bundle: courses
+label: 'Duration (weeks)'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

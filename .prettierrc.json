@@ -1,0 +1,35 @@
+{
+  "printWidth": 120,
+  "tabWidth": 2,
+  "useTabs": true,
+  "semi": true,
+  "singleQuote": true,
+  "trailingComma": "es5",
+  "bracketSpacing": true,
+  "arrowParens": "avoid",
+  "endOfLine": "lf",
+  "overrides": [
+    {
+      "files": "*.json",
+      "options": {
+        "tabWidth": 2,
+        "useTabs": false
+      }
+    },
+    {
+      "files": "*.yml",
+      "options": {
+        "tabWidth": 2,
+        "useTabs": false
+      }
+    },
+    {
+      "files": "*.php",
+      "options": {
+        "tabWidth": 2,
+        "useTabs": true,
+        "phpVersion": "8.1"
+      }
+    }
+  ]
+}

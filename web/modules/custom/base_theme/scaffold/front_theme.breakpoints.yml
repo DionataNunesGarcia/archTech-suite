@@ -1,0 +1,19 @@
+front_theme.sm:
+  label: Small (mobile)
+  mediaQuery: "(min-width: 640px)"
+  weight: 0
+
+front_theme.md:
+  label: Medium (tablet)
+  mediaQuery: "(min-width: 768px)"
+  weight: 1
+
+front_theme.lg:
+  label: Large (desktop)
+  mediaQuery: "(min-width: 1024px)"
+  weight: 2
+
+front_theme.xl:
+  label: Extra large
+  mediaQuery: "(min-width: 1280px)"
+  weight: 3

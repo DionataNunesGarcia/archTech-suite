@@ -1,0 +1,80 @@
+<?php
+
+/**
+ * @file
+ * Install functions for base_theme.
+ */
+
+use Drupal\Core\File\FileSystemInterface;
+
+/**
+ * Implements hook_install().
+ */
+function base_theme_install() {
+  $scaffold_dir = \Drupal::service('extension.list.module')
+    ->getPath('base_theme') . '/scaffold';
+
+  $theme_dir = DRUPAL_ROOT . '/themes/custom/front_theme';
+
+  $file_system = \Drupal::service('file_system');
+
+  // Create theme directory if it doesn't exist
+  $file_system->prepareDirectory($theme_dir, FileSystemInterface::CREATE_DIRECTORY);
+
+  // Copy all files from scaffold to theme
+  _base_theme_copy_recursive($scaffold_dir, $theme_dir, $file_system);
+
+  // Create empty dist directories needed for compilation
+  $dirs = [
+    $theme_dir . '/dist/css',
+    $theme_dir . '/dist/js',
+    $theme_dir . '/src/scss',
+    $theme_dir . '/src/js',
+  ];
+
+  foreach ($dirs as $dir) {
+    $file_system->prepareDirectory($dir, FileSystemInterface::CREATE_DIRECTORY);
+  }
+
+  // Register theme in the system
+  \Drupal::service('theme_installer')->install(['front_theme']);
+
+  // Define logo
+  \Drupal::configFactory()
+    ->getEditable('front_theme.settings')
+    ->set('logo.path', 'themes/custom/front_theme/src/images/logo.png')
+    ->set('logo.use_default', FALSE)
+    ->save();
+
+  \Drupal::messenger()->addStatus(
+    t('Theme front_theme scaffolded. Run "npm install && npm run build" inside web/themes/custom/front_theme.')
+  );
+}
+
+/**
+ * Copy recursively files from $source to $destination.
+ */
+function _base_theme_copy_recursive(string $source, string $destination, $file_system): void {
+  if (!is_dir($source)) {
+    return;
+  }
+
+  $file_system->prepareDirectory($destination, FileSystemInterface::CREATE_DIRECTORY);
+
+  $items = scandir($source);
+  foreach ($items as $item) {
+    if ($item === '.' || $item === '..') {
+      continue;
+    }
+
+    $src_path  = $source . '/' . $item;
+    $dest_path = $destination . '/' . $item;
+
+    if (is_dir($src_path)) {
+      _base_theme_copy_recursive($src_path, $dest_path, $file_system);
+    }
+    else {
+      copy($src_path, $dest_path);
+    }
+  }
+}

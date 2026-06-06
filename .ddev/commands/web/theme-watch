@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Load CUSTOM_THEME_NAME from .env
+if [ -f .env ]; then
+  export $(grep CUSTOM_THEME_NAME .env | xargs)
+fi
+CUSTOM_THEME_NAME=${CUSTOM_THEME_NAME:-front_theme}
+
+cd web/themes/custom/$CUSTOM_THEME_NAME
+npm run watch

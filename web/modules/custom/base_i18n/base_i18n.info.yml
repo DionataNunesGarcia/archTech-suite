@@ -1,0 +1,10 @@
+name: Base i18n
+type: module
+description: Language bootstrap system
+core_version_requirement: ^10 || ^11
+package: Custom
+dependencies:
+  - drupal:language
+  - drupal:locale
+  - drupal:content_translation
+  - drupal:config_translation

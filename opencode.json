@@ -1,0 +1,80 @@
+{
+  "skills": {
+    "drupal-recipes": {
+      "path": ".agents/skills/drupal-recipes/SKILL.md",
+      "description": "Create/modify ArchTech Drupal recipes for bounded contexts"
+    },
+    "ia-client-portal-notifier": {
+      "path": ".agents/skills/ia-client-portal-notifier/SKILL.md",
+      "description": "Client communication agent for project notifications"
+    },
+    "ia-client-portal-approval-reminder": {
+      "path": ".agents/skills/ia-client-portal-approval-reminder/SKILL.md",
+      "description": "Approval nudging agent for client approvals"
+    },
+    "ia-crm-lead-scorer": {
+      "path": ".agents/skills/ia-crm-lead-scorer/SKILL.md",
+      "description": "Commercial lead scoring agent (1-10)"
+    },
+    "ia-crm-followup-scheduler": {
+      "path": ".agents/skills/ia-crm-followup-scheduler/SKILL.md",
+      "description": "Follow-up scheduling agent for CRM"
+    },
+    "ia-proposals-generator": {
+      "path": ".agents/skills/ia-proposals-generator/SKILL.md",
+      "description": "Proposal generation agent from briefing data"
+    },
+    "ia-proposals-contract-reviewer": {
+      "path": ".agents/skills/ia-proposals-contract-reviewer/SKILL.md",
+      "description": "Contract review agent for risk analysis"
+    },
+    "ia-financeiro-cashflow-predictor": {
+      "path": ".agents/skills/ia-financeiro-cashflow-predictor/SKILL.md",
+      "description": "Cash flow forecasting agent"
+    },
+    "ia-financeiro-collection-agent": {
+      "path": ".agents/skills/ia-financeiro-collection-agent/SKILL.md",
+      "description": "Automated collection agent with escalation"
+    },
+    "ia-library-knowledge-retriever": {
+      "path": ".agents/skills/ia-library-knowledge-retriever/SKILL.md",
+      "description": "RAG knowledge retrieval agent for technical library"
+    },
+    "ia-library-document-classifier": {
+      "path": ".agents/skills/ia-library-document-classifier/SKILL.md",
+      "description": "Document classification agent for library"
+    },
+    "ia-permits-advisor": {
+      "path": ".agents/skills/ia-permits-advisor/SKILL.md",
+      "description": "Permit advisory agent for municipal requirements"
+    },
+    "ia-permits-document-generator": {
+      "path": ".agents/skills/ia-permits-document-generator/SKILL.md",
+      "description": "Official document generation for permits"
+    },
+    "ia-suppliers-recommender": {
+      "path": ".agents/skills/ia-suppliers-recommender/SKILL.md",
+      "description": "Supplier recommendation agent"
+    },
+    "ia-suppliers-sla-monitor": {
+      "path": ".agents/skills/ia-suppliers-sla-monitor/SKILL.md",
+      "description": "SLA monitoring agent for suppliers"
+    },
+    "ia-facilities-maintenance-scheduler": {
+      "path": ".agents/skills/ia-facilities-maintenance-scheduler/SKILL.md",
+      "description": "Predictive maintenance scheduling agent"
+    },
+    "ia-facilities-warranty-advisor": {
+      "path": ".agents/skills/ia-facilities-warranty-advisor/SKILL.md",
+      "description": "Warranty advisory agent for clients"
+    },
+    "ia-bim-twin-integrator": {
+      "path": ".agents/skills/ia-bim-twin-integrator/SKILL.md",
+      "description": "IFC processing and BIM integration agent"
+    },
+    "ia-bim-twin-optimizer": {
+      "path": ".agents/skills/ia-bim-twin-optimizer/SKILL.md",
+      "description": "Digital twin performance analysis agent"
+    }
+  }
+}

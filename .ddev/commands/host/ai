@@ -1,0 +1,215 @@
+#!/bin/bash
+# AI Helper Commands for Drupal Development
+# Usage: ddev ai <command> [args]
+
+set -e
+
+COMMAND="${1:-help}"
+MODULE_NAME="${2:-}"
+EXTRA_ARGS="${3:-}"
+
+case "$COMMAND" in
+  new-module)
+    if [ -z "$MODULE_NAME" ]; then
+      echo "Usage: ddev ai new-module <module_name>"
+      exit 1
+    fi
+    echo "Creating module: $MODULE_NAME"
+    mkdir -p "web/modules/custom/$MODULE_NAME/src/Controller"
+    mkdir -p "web/modules/custom/$MODULE_NAME/src/Form"
+    mkdir -p "web/modules/custom/$MODULE_NAME/src/Service"
+    
+    cat > "web/modules/custom/$MODULE_NAME/$MODULE_NAME.info.yml" <<EOF
+name: $(echo $MODULE_NAME | sed 's/_/ /g' | sed 's/\b\(.\)/\u\1/g')
+description: 'Custom module for...'
+core_version_requirement: ^10 || ^11
+type: module
+package: Custom
+version: 1.0.0
+dependencies: []
+EOF
+
+    touch "web/modules/custom/$MODULE_NAME/$MODULE_NAME.module"
+    touch "web/modules/custom/$MODULE_NAME/$MODULE_NAME.routing.yml"
+    touch "web/modules/custom/$MODULE_NAME/$MODULE_NAME.services.yml"
+    
+    echo "Module created! Next steps:"
+    echo "  - Add routes to $MODULE_NAME.routing.yml"
+    echo "  - Create controllers in src/Controller/"
+    echo "  - ddev drush en $MODULE_NAME"
+    ;;
+    
+  new-controller)
+    if [ -z "$MODULE_NAME" ]; then
+      echo "Usage: ddev ai new-controller <module_name> [ControllerName]"
+      exit 1
+    fi
+    CONTROLLER_NAME="${2:-Sample}"
+    MODULE="$MODULE_NAME"
+    
+    cat > "web/modules/custom/$MODULE/src/Controller/${CONTROLLER_NAME}Controller.php" <<EOF
+<?php
+
+namespace Drupal\$MODULE\Controller;
+
+use Drupal\Core\Controller\ControllerBase;
+
+/**
+ * Controller for \$CONTROLLER_NAME.
+ */
+class ${CONTROLLER_NAME}Controller extends ControllerBase {
+
+  /**
+   * Display page.
+   */
+  public function build(): array {
+    return [
+      '#title' => '$CONTROLLER_NAME',
+      '#markup' => \$this->t('Hello from $CONTROLLER_NAME Controller!'),
+    ];
+  }
+
+}
+EOF
+    echo "Created Controller!"
+    ;;
+    
+  new-service)
+    if [ -z "$MODULE_NAME" ]; then
+      echo "Usage: ddev ai new-service <module_name> [ServiceName]"
+      exit 1
+    fi
+    SERVICE_NAME="${2:-MyService}"
+    MODULE="$MODULE_NAME"
+    
+    mkdir -p "web/modules/custom/$MODULE/src/Service"
+    
+    cat > "web/modules/custom/$MODULE/src/Service/${SERVICE_NAME}.php" <<EOF
+<?php
+
+namespace Drupal\$MODULE\Service;
+
+use Drupal\Core\Logger\LoggerChannelInterface;
+
+/**
+ * Service description.
+ */
+class ${SERVICE_NAME} {
+
+  /**
+   * Logger.
+   */
+  protected LoggerChannelInterface \$logger;
+
+  /**
+   * Constructor.
+   */
+  public function __construct(LoggerChannelInterface \$logger) {
+    \$this->logger = \$logger;
+  }
+
+  /**
+   * Do something.
+   */
+  public function doSomething(): void {
+    \$this->logger->info('Doing something');
+  }
+
+}
+EOF
+    echo "Created Service!"
+    ;;
+    
+  ai-chat)
+    PROMPT="${2:-Hello}"
+    ddev drush ai:chat "$PROMPT" --provider=openai 2>/dev/null || \
+    echo "Configure AI: ddev drush config-set ai.settings default_provider openai"
+    ;;
+    
+  ai-test)
+    echo "Testing AI providers..."
+    ddev drush ai:chat "Say 'AI is working!' in 3 words" --provider=openai 2>/dev/null || \
+    echo "OpenAI not configured"
+    ;;
+    
+  ai-providers)
+    echo "Available AI Providers:"
+    ddev drush config-get ai.settings 2>/dev/null || echo "AI not configured"
+    ;;
+    
+  clear-cache)
+    echo "Clearing all caches..."
+    ddev drush cr
+    ddev drush router:rebuild
+    echo "Done!"
+    ;;
+    
+debug-routes)
+    echo "Custom routes:"
+    ddev drush core:route 2>/dev/null | grep -v "^//" | head -20
+    ;;
+
+  generate)
+    TYPE="${2:-module}"
+    NAME="${3:-}"
+    case "$TYPE" in
+      module)
+        ddev ai new-module "$NAME"
+        ;;
+      service)
+        MODULE="${4:-}"
+        SERVICE="${5:-}"
+        ddev ai new-service "$MODULE" "$SERVICE"
+        ;;
+      *)
+        echo "Usage: ddev ai generate <module|service> <name>"
+        ;;
+    esac
+    ;;
+
+  install)
+    echo "Installing AI recipes..."
+    ddev drush recipe ../recipes/base_ai
+    ddev drush en ai_provider_ollama
+    echo "AI recipes installed!"
+    ;;
+
+  status)
+    echo "=== AI Status ==="
+    echo "Provider: $(ddev drush config-get ai.settings default_provider 2>/dev/null || echo 'Not configured')"
+    echo ""
+    echo "Modules:"
+    ddev drush pm:list --status=enabled 2>/dev/null | grep -E "^  .*AI" || echo "No AI modules"
+    ;;
+
+  list-modules)
+    echo "Custom modules:"
+    ls -la web/modules/custom/ 2>/dev/null || echo "No custom modules"
+    ;;
+    
+  help|*)
+    echo "Drupal AI Helper Commands"
+    echo ""
+    echo "Usage: ddev ai <command> [args]"
+    echo ""
+    echo "Commands:"
+    echo "  generate module <name>      Create new module"
+    echo "  generate service <module> <service> Create service"
+    echo "  new-module <name>         Create new module"
+    echo "  new-controller <module> [name]  Create controller"
+    echo "  new-service <module> [name]  Create service"
+    echo "  ai-chat <prompt>        Test AI chat"
+    echo "  ai-test                 Test AI providers"
+    echo "  ai-providers            List AI providers"
+    echo "  clear-cache            Clear all caches"
+    echo "  debug-routes          List routes"
+    echo "  list-modules          List custom modules"
+    echo "  install              Install AI recipes"
+    echo "  status               AI status"
+    echo ""
+    echo "Also available:"
+    echo "  ddev ai debug         Run debug diagnostics"
+    echo "  ddev ai test        Test AI"
+    echo ""
+    ;;
+esac

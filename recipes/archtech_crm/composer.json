@@ -1,0 +1,8 @@
+{
+    "name": "archtech/crm",
+    "description": "ArchTech CRM Bounded Context",
+    "type": "drupal-recipe",
+    "require": {
+        "archtech/base": "*"
+    }
+}

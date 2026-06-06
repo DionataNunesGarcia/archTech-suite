@@ -1,0 +1,13 @@
+{% for item in items %}
+    {% set media = item.content['#media'] %}
+    {% if media.field_media_image.entity %}
+      {% set image = media.field_media_image.entity %}
+      {% set uri = image.fileuri %}
+      <img
+        src="{{ file_url(uri) }}"
+        alt="{{ image.filename.value }}"
+        loading="lazy"
+        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+      >
+    {% endif %}
+  {% endfor %}

@@ -1,0 +1,31 @@
+name: 'Base Courses'
+description: 'Cria o tipo de conteúdo Courses (Cursos) com taxonomias, views e suporte multilíngue (EN, PT-BR, ES).'
+type: 'Content'
+install:
+  - node
+  - taxonomy
+  - views
+  - media
+  - media_library
+  - paragraphs
+  - entity_reference_revisions
+  - link
+  - metatag
+  - language
+  - locale
+  - content_translation
+  - config_translation
+  - pathauto
+  - path
+  - token
+config:
+  import:
+    node:
+      - node.settings
+    taxonomy:
+      - taxonomy.settings
+    views:
+      - views.settings
+    language:
+      - language.settings
+

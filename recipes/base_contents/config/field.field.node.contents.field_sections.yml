@@ -1,0 +1,110 @@
+langcode: pt-br
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_sections
+    - node.type.contents
+    - paragraphs.paragraphs_type.gallery
+    - paragraphs.paragraphs_type.lista_featured_courses
+    - paragraphs.paragraphs_type.section_banner
+    - paragraphs.paragraphs_type.section_cards_carousel
+    - paragraphs.paragraphs_type.section_cards_grid
+    - paragraphs.paragraphs_type.section_columns
+    - paragraphs.paragraphs_type.section_content_list_by_category
+    - paragraphs.paragraphs_type.section_fluid_title_and_text
+    - paragraphs.paragraphs_type.section_image_and_sidebar_text
+    - paragraphs.paragraphs_type.section_questions_answers
+    - paragraphs.paragraphs_type.section_sliders
+    - paragraphs.paragraphs_type.section_team_carousel
+    - paragraphs.paragraphs_type.section_testimonials
+    - paragraphs.paragraphs_type.texto_full_html
+  module:
+    - entity_reference_revisions
+id: node.contents.field_sections
+field_name: field_sections
+entity_type: node
+bundle: contents
+label: Sections
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      section_banner: section_banner
+      section_cards_carousel: section_cards_carousel
+      section_team_carousel: section_team_carousel
+      section_columns: section_columns
+      gallery: gallery
+      section_cards_grid: section_cards_grid
+      section_image_and_sidebar_text: section_image_and_sidebar_text
+      section_content_list_by_category: section_content_list_by_category
+      lista_featured_courses: lista_featured_courses
+      section_questions_answers: section_questions_answers
+      section_sliders: section_sliders
+      section_testimonials: section_testimonials
+      texto_full_html: texto_full_html
+      section_fluid_title_and_text: section_fluid_title_and_text
+    negate: 0
+    target_bundles_drag_drop:
+      card:
+        weight: -25
+        enabled: false
+      column:
+        weight: -24
+        enabled: false
+      gallery:
+        weight: -35
+        enabled: true
+      lista_featured_courses:
+        weight: -31
+        enabled: true
+      question_answer:
+        weight: -23
+        enabled: false
+      section_banner:
+        weight: -39
+        enabled: true
+      section_cards_carousel:
+        weight: -38
+        enabled: true
+      section_cards_grid:
+        weight: -34
+        enabled: true
+      section_columns:
+        weight: -36
+        enabled: true
+      section_content_list_by_category:
+        weight: -32
+        enabled: true
+      section_fluid_title_and_text:
+        weight: -26
+        enabled: true
+      section_image_and_sidebar_text:
+        weight: -33
+        enabled: true
+      section_questions_answers:
+        weight: -30
+        enabled: true
+      section_sliders:
+        weight: -29
+        enabled: true
+      section_team_carousel:
+        weight: -37
+        enabled: true
+      section_testimonials:
+        weight: -28
+        enabled: true
+      slider:
+        weight: -22
+        enabled: false
+      testimonials:
+        weight: -21
+        enabled: false
+      texto_full_html:
+        weight: -27
+        enabled: true
+field_type: entity_reference_revisions

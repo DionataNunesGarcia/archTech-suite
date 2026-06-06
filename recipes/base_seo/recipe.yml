@@ -1,0 +1,258 @@
+name: "Base SEO"
+description: "Complete SEO setup: clean URLs, meta tags, redirects, XML sitemap, and schema.org markup"
+type: "Site"
+
+install:
+  - path
+  - path_alias
+  - pathauto
+  - token
+  - metatag
+  - metatag_open_graph
+  - metatag_twitter_cards
+  - redirect
+  - redirect_404
+  - robotstxt
+  - schema_metatag
+  - schema_article
+  - schema_web_page
+  - base_seo
+  # simple_sitemap deve ser instalado antes via: ddev drush en simple_sitemap -y
+
+config:
+  actions:
+    # ========================================================
+    # PATHAUTO: URL PATTERN CONFIGURATIONS
+    # ========================================================
+
+    pathauto.pattern.content:
+      createIfNotExists:
+        id: content
+        label: "Content"
+        type: "canonical_entities:node"
+        pattern: "[node:content-type:name]/[node:title]"
+        weight: -5
+        status: true
+        selection_criteria:
+          node_type:
+            id: "entity_bundle:node"
+            negate: false
+            context_mapping:
+              node: node
+            bundles: {}
+
+    pathauto.pattern.blog:
+      createIfNotExists:
+        id: blog
+        label: "Blog"
+        type: "canonical_entities:node"
+        pattern: "blog/[node:title]"
+        weight: -10
+        status: true
+        selection_criteria:
+          node_type:
+            id: "entity_bundle:node"
+            negate: false
+            context_mapping:
+              node: node
+            bundles:
+              article: article
+
+    pathauto.pattern.page:
+      createIfNotExists:
+        id: page
+        label: "Basic Page"
+        type: "canonical_entities:node"
+        pattern: "/[node:title]"
+        weight: -8
+        status: true
+        selection_criteria:
+          node_type:
+            id: "entity_bundle:node"
+            negate: false
+            context_mapping:
+              node: node
+            bundles:
+              page: page
+
+    pathauto.pattern.taxonomy_term:
+      createIfNotExists:
+        id: taxonomy_term
+        label: "Taxonomy term"
+        type: "canonical_entities:taxonomy_term"
+        pattern: "[term:vocabulary]/[term:name]"
+        weight: -5
+        status: true
+        selection_criteria:
+          taxonomy_vocabulary:
+            id: "entity_bundle:taxonomy_term"
+            negate: false
+            context_mapping:
+              taxonomy_term: taxonomy_term
+            bundles: {}
+
+    pathauto.pattern.user:
+      createIfNotExists:
+        id: user
+        label: "User"
+        type: "canonical_entities:user"
+        pattern: "user/[user:name]"
+        weight: -5
+        status: true
+        selection_criteria:
+          user_role:
+            id: user_role
+            negate: false
+            context_mapping:
+              user: user
+            roles: {}
+
+    # ========================================================
+    # PATHAUTO: GENERAL SETTINGS
+    # ========================================================
+
+    pathauto.settings:
+      simple_config_update:
+        enabled_entity_types:
+          - user
+          - node
+          - taxonomy_term
+        verbose: false
+        separator: "-"
+        max_length: 100
+        max_component_length: 100
+        transliterate: true
+        reduce_ascii: true
+        case: true
+        update_action: 2
+
+    # ========================================================
+    # METATAG: GLOBAL
+    # ========================================================
+
+    metatag.metatag_defaults.global:
+      createIfNotExists:
+        id: global
+        label: "Global"
+        tags:
+          title: "[current-page:title] | [site:name]"
+          description: "[current-page:summary]"
+          canonical_url: "[current-page:url]"
+          og_site_name: "[site:name]"
+          og_type: "website"
+          og_title: "[current-page:title]"
+          og_description: "[current-page:summary]"
+          og_url: "[current-page:url]"
+          twitter_cards_type: "summary"
+          twitter_cards_title: "[current-page:title]"
+          twitter_cards_description: "[current-page:summary]"
+
+    # ========================================================
+    # METATAG: NODE
+    # ========================================================
+
+    metatag.metatag_defaults.node:
+      createIfNotExists:
+        id: node
+        label: "Content"
+        tags:
+          title: "[node:title] | [site:name]"
+          description: "[node:summary]"
+          canonical_url: "[node:url]"
+          og_title: "[node:title]"
+          og_description: "[node:summary]"
+          og_url: "[node:url]"
+          og_type: "article"
+          article_published_time: "[node:created:html_datetime]"
+          article_modified_time: "[node:changed:html_datetime]"
+          article_author: "[node:author:display-name]"
+          twitter_cards_type: "summary_large_image"
+          twitter_cards_title: "[node:title]"
+          twitter_cards_description: "[node:summary]"
+
+    # ========================================================
+    # METATAG: TAXONOMY TERM
+    # ========================================================
+
+    metatag.metatag_defaults.taxonomy_term:
+      createIfNotExists:
+        id: taxonomy_term
+        label: "Taxonomy term"
+        tags:
+          title: "[term:name] | [site:name]"
+          description: "[term:description]"
+          canonical_url: "[term:url]"
+
+    # ========================================================
+    # METATAG: USER
+    # ========================================================
+
+    metatag.metatag_defaults.user:
+      createIfNotExists:
+        id: user
+        label: "User"
+        tags:
+          title: "[user:display-name] | [site:name]"
+          description: "Profile page for [user:display-name]"
+          canonical_url: "[user:url]"
+          robots: "noindex, follow"
+
+    # ========================================================
+    # METATAG: FRONT PAGE
+    # ========================================================
+
+    metatag.metatag_defaults.front:
+      createIfNotExists:
+        id: front
+        label: "Front page"
+        tags:
+          title: "[site:name] | [site:slogan]"
+          description: "[site:slogan]"
+          canonical_url: "[site:url]"
+          og_title: "[site:name]"
+          og_description: "[site:slogan]"
+          og_url: "[site:url]"
+          og_image: "[site:logo]"
+
+    # ========================================================
+    # REDIRECT SETTINGS
+    # ========================================================
+
+    redirect.settings:
+      simple_config_update:
+        auto_redirect: true
+        passthrough_querystring: true
+        warning: false
+        default_status_code: 301
+        route_normalizer_enabled: true
+        normalize_aliases: true
+        access_check: true
+
+    # ========================================================
+    # ROBOTS.TXT
+    # ========================================================
+
+    robotstxt.settings:
+      simple_config_update:
+        content: |
+          # robots.txt for Drupal
+          User-agent: *
+          Crawl-delay: 10
+
+          # Directories
+          Disallow: /admin/
+          Disallow: /comment/reply/
+          Disallow: /filter/tips
+          Disallow: /node/add/
+          Disallow: /search/
+          Disallow: /user/register
+          Disallow: /user/password
+          Disallow: /user/login
+          Disallow: /user/logout
+
+          # Files
+          Disallow: /README.txt
+          Disallow: /web.config
+
+          # Sitemap
+          Sitemap: [site:url]sitemap.xml

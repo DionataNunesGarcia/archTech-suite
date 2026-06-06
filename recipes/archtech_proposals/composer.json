@@ -1,0 +1,8 @@
+{
+    "name": "archtech/proposals",
+    "description": "ArchTech Proposals Bounded Context",
+    "type": "drupal-recipe",
+    "require": {
+        "archtech/base": "*"
+    }
+}

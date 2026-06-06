@@ -1,0 +1,37 @@
+<header class="header-main bg-white shadow-sm border-bottom sticky-top z-3">
+  <div class="container py-3 d-flex align-items-center justify-content-between">
+
+    {# Logo #}
+    <div class="d-flex align-items-center gap-3">
+      <div class="fs-4 fw-bold">
+        <a href="{{ path('<front>') }}" class="text-decoration-none text-dark">
+          <img src="{{ site_logo }}" alt="{{ site_name }} logo" class="logo" style="height: 40px;">
+        </a>
+      </div>
+    </div>
+
+    {# Hamburger Mobile #}
+    <button class="navbar-toggler d-md-none ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    {# Menu + CTA #}
+    <div class="collapse navbar-collapse d-md-flex align-items-center" id="mainNavbar">
+      <nav class="navbar navbar-expand-md w-100">
+        <div class="container-fluid p-0">
+          <div class="d-flex flex-column flex-md-row align-items-md-center gap-3 w-100">
+            <div class="ms-md-auto">
+              {% include '@front_theme/includes/main-menu.html.twig' with {'menu': menu_main} %}
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      {# CTAs #}
+      <div class="d-flex flex-column flex-md-row gap-3 mt-3 mt-md-0 ms-md-3">
+        {% include '@front_theme/includes/menus.html.twig' with {'menu': menu_cta} %}
+      </div>
+    </div>
+
+  </div>
+</header>

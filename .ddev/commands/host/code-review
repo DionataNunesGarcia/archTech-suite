@@ -1,0 +1,11 @@
+#!/bin/bash
+## Description: Runs all lint utilities (phpcs, phpstan, cspell, eslint, stylelint).
+## Usage: code-review [file|directory]
+set -euo pipefail
+
+.commands.sh "$@"
+
+ddev phpcs "$@" || true
+ddev phpstan "$@" || true
+ddev cspell "$@" || true
+echo "Code review complete."

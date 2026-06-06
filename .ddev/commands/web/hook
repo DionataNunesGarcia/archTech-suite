@@ -1,0 +1,13 @@
+#!/bin/bash
+## Description: Runs a Drupal hook/function without arguments.
+## Usage: hook [function]
+## Example: ddev hook archtech_core_api_update_8001()
+set -euo pipefail
+
+if [[ "$@" =~ install$ ]]; then
+    evaluate="$@(FALSE)"
+else
+    evaluate="$@()"
+fi
+
+drush php-eval "\Drupal::moduleHandler()->loadAllIncludes('install');\Drupal::moduleHandler()->loadAllIncludes('post_update.php');\Drupal::moduleHandler()->loadAllIncludes('deploy.php');$evaluate;"

@@ -1,0 +1,8 @@
+{
+    "name": "archtech/suppliers",
+    "description": "ArchTech Supplier Management Bounded Context",
+    "type": "drupal-recipe",
+    "require": {
+        "archtech/base": "*"
+    }
+}

@@ -1,0 +1,12 @@
+langcode: en
+status: true
+id: media_thumbnail
+label: "Media Thumbnail (400px)"
+effects:
+  uuid_thumb:
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 400
+      height: 300
+      anchor: "center-center"

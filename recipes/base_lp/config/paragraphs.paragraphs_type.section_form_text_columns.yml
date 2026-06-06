@@ -1,0 +1,9 @@
+langcode: pt-br
+status: true
+dependencies: {  }
+id: section_form_text_columns
+label: 'Seção - Colunas com Textos e Formulário'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

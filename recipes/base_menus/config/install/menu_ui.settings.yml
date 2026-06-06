@@ -1,0 +1,8 @@
+langcode: pt-br
+advanced_ui_metadata: standard
+menu_parent_items:
+  main: 'main:'
+  admin: 'admin:'
+  footer-add: 'footer-add:'
+  footer-terms: 'footer-terms:'
+enable_opml: true

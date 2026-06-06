@@ -1,0 +1,9 @@
+langcode: pt-br
+status: true
+dependencies: {  }
+id: section_image_and_sidebar_text
+label: 'Seção - Imagem e texto lateral'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

@@ -1,0 +1,16 @@
+{#
+/**
+ * View: contents by category (block_2)
+ */
+#}
+
+<div class="container py-20 px-6 2xl:px-0 mx-auto max-w-[1400px]">
+
+  <div class="w-16 h-1 bg-amber-600 mb-6"></div>
+  <h3 class="font-serif text-4xl lg:text-5xl tracking-tight mb-6 font-semibold">
+    {{ 'Conteúdos relacionados'|t }}
+  </h3>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">
+    {{ rows }}
+  </div>
+</div>

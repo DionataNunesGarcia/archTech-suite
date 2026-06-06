@@ -1,0 +1,94 @@
+{
+  "version": 1,
+  "skills": {
+    "accessibility-checker": {
+      "source": "kanopi/cms-cultivator",
+      "sourceType": "github",
+      "computedHash": "a572c93fdc8d3bb7e9734e401c5533e2dfb0f4079a3e4e14ca832ba2a8454aa5"
+    },
+    "code-standards-checker": {
+      "source": "kanopi/cms-cultivator",
+      "sourceType": "github",
+      "computedHash": "68af12f70ccca14310be12d7bbb6a85ad326b9e6077c0aa72caa6f7b2f9a59bd"
+    },
+    "commit-message-generator": {
+      "source": "kanopi/cms-cultivator",
+      "sourceType": "github",
+      "computedHash": "7c48ae97e38fa30a439714f8856175c66c8e64fe75c3bbd8d4308438a58d28df"
+    },
+    "coverage-analyzer": {
+      "source": "kanopi/cms-cultivator",
+      "sourceType": "github",
+      "computedHash": "fa7256ad30fd8bd2fdd8d579679783e1b6fe1a42889f925f0408be6f285e831e"
+    },
+    "drupal-config-mgmt": {
+      "source": "grasmash/drupal-claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/drupal-config-mgmt/SKILL.md",
+      "computedHash": "51377c134702729976d81ceabba0cd0904ba6a4cccda15dfa5f520d75b12e370"
+    },
+    "drupal-ddev": {
+      "source": "grasmash/drupal-claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/drupal-ddev/SKILL.md",
+      "computedHash": "0a57bb55add53d4ac84e3804914a43489e75d0544a2b3728b235b88775f74ab3"
+    },
+    "drupal-search-api": {
+      "source": "grasmash/drupal-claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/drupal-search-api/SKILL.md",
+      "computedHash": "9f333bbcc5185ada3461638a2664e391eddcae1138fccf699f0ccbab2889004a"
+    },
+    "security-scanner": {
+      "source": "kanopi/cms-cultivator",
+      "sourceType": "github",
+      "computedHash": "686edbc8468b3eb31060b7e7e1e63e4db13dcb938717a7354db04d2bd4215bba"
+    },
+    "test-driven-development": {
+      "source": "obra/superpowers",
+      "sourceType": "github",
+      "skillPath": "skills/test-driven-development/SKILL.md",
+      "computedHash": "126f1ebf6ccd414f42544f6e83d8cc5adb089e1108eaffb7c400701e37eecd9f"
+    },
+    "systematic-debugging": {
+      "source": "obra/superpowers",
+      "sourceType": "github",
+      "skillPath": "skills/systematic-debugging/SKILL.md",
+      "computedHash": "7246fdd3a795fc3daff0af72044ca99bf836e4e6a46844742858786fdfb86488"
+    },
+    "dispatching-parallel-agents": {
+      "source": "obra/superpowers",
+      "sourceType": "github",
+      "skillPath": "skills/dispatching-parallel-agents/SKILL.md",
+      "computedHash": "e21044ae7496fc285f1df9ff3fb518a3a20bea6f5216c1f59f4987e12c769a0a"
+    },
+    "writing-plans": {
+      "source": "obra/superpowers",
+      "sourceType": "github",
+      "skillPath": "skills/writing-plans/SKILL.md",
+      "computedHash": "2b986445454a025ca2c3839f8a2024747e8cce0517948437232cd113d2719060"
+    },
+    "writing-skills": {
+      "source": "obra/superpowers",
+      "sourceType": "github",
+      "skillPath": "skills/writing-skills/SKILL.md",
+      "computedHash": "c0a92e629e39ea91b1f54da67a6aa92723008a8ef5b500c6de078f55485937c7"
+    },
+    "verification-before-completion": {
+      "source": "obra/superpowers",
+      "sourceType": "github",
+      "skillPath": "skills/verification-before-completion/SKILL.md",
+      "computedHash": "9b446f0c7fe1cfb560b1d34439523b1a76d5f177290007b2c053a1c749a4a8ba"
+    },
+    "performance-analyzer": {
+      "source": "kanopi/cms-cultivator",
+      "sourceType": "github",
+      "computedHash": "a8e623e035a1e962339a16957418a783831b2120043b87cde35b490aa782af9b"
+    },
+    "test-plan-generator": {
+      "source": "kanopi/cms-cultivator",
+      "sourceType": "github",
+      "computedHash": "aa33c7bcc65fb207f86ce0c718833dc5bf60f265439336baf59d1bfdda9471f1"
+    }
+  }
+}

@@ -1,0 +1,26 @@
+name: Base AI
+description: Configuração base para uso de IA no Drupal
+type: site
+
+install:
+  - ai
+  - ai_provider_ollama
+  - ai_provider_openai
+  - ai_api_explorer
+
+config:
+  strict: false
+  actions:
+    ai.settings:
+      simple_config_update:
+        default_provider: openai
+
+    ai_provider_ollama.settings:
+      simple_config_update:
+        host_name: 'http://host.docker.internal'
+        port: 11434
+
+    ai_provider_openai.settings:
+      simple_config_update:
+        api_key: openai_api
+        moderation: true

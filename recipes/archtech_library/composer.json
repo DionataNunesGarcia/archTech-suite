@@ -1,0 +1,11 @@
+{
+    "name": "archtech/library",
+    "description": "ArchTech Technical Library Bounded Context",
+    "type": "drupal-recipe",
+    "require": {
+        "archtech/base": "*",
+        "drupal/search_api": "^4",
+        "drupal/ai_search": "^1",
+        "drupal/ai_vdb_provider_pgvector": "^1"
+    }
+}

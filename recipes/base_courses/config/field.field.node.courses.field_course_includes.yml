@@ -1,0 +1,18 @@
+langcode: pt-br
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_course_includes
+    - node.type.courses
+id: node.courses.field_course_includes
+field_name: field_course_includes
+entity_type: node
+bundle: courses
+label: 'Course Includes'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
