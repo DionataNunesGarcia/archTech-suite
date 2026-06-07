@@ -1,0 +1,333 @@
+{% include '@front_theme/includes/header.html.twig' %}
+
+<main id="main-content" class="bg-background text-foreground">
+
+  {# ─── HERO ─── #}
+  <section class="hero-section" id="top">
+    <div class="absolute inset-0 -z-10">
+      <img src="/themes/custom/front_theme/src/images/hero-bg.jpg" alt="" aria-hidden="true" class="h-full w-full object-cover" onerror="this.style.display='none'">
+      <div class="hero-overlay"></div>
+    </div>
+    <div class="container-1200 px-6 pb-20 pt-12 md:pb-28 md:pt-20">
+      <div class="mx-auto max-w-3xl text-center">
+        <div class="reveal">
+          <span class="hero-badge"><span class="hero-dot"></span>IA para arquitetura · v2.0</span>
+        </div>
+        <div class="reveal" style="transition-delay:120ms">
+          <h1 class="mt-6 font-serif text-4xl font-bold leading-[1.05] text-white sm:text-5xl md:text-6xl lg:text-[4.25rem]">
+            Tecnologia que transforma a maneira como você <span class="italic text-secondary-light">projeta</span>
+          </h1>
+        </div>
+        <div class="reveal" style="transition-delay:240ms">
+          <p class="mx-auto mt-6 max-w-2xl text-balance text-base leading-relaxed text-white/85 sm:text-lg md:text-xl">
+            A plataforma de IA que potencializa seu escritório de arquitetura — do primeiro esboço à entrega executiva, com precisão e elegância.
+          </p>
+        </div>
+        <div class="reveal" style="transition-delay:360ms">
+          <div class="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <a href="#cta-final" class="btn-primary group w-full sm:w-auto">
+              Começar agora
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="transition-transform group-hover:translate-x-0.5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+            <a href="#demo" class="btn-outline-light w-full sm:w-auto">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 9.003a1 1 0 0 1 1.517-.859l4.997 2.997a1 1 0 0 1 0 1.718l-4.997 2.997A1 1 0 0 1 9 14.996z"/><circle cx="12" cy="12" r="10"/></svg>
+              Ver demonstração
+            </a>
+          </div>
+        </div>
+        <div class="reveal" style="transition-delay:480ms">
+          <p class="mt-5 text-sm text-white/70">Teste grátis por 14 dias · Sem cartão de crédito</p>
+        </div>
+      </div>
+      <div class="reveal" style="transition-delay:620ms">
+        <div class="relative mx-auto mt-14 max-w-5xl md:mt-20">
+          <div class="gold-glow"></div>
+          <div class="mockup-card">
+            <img src="/themes/custom/front_theme/src/images/dashboard-mockup.png" alt="Painel da ArchTech Suite" class="w-full rounded-lg" onerror="this.style.display='none'" style="background:#e8e6e1;min-height:200px">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {# ─── CLIENTS ─── #}
+  <section class="border-y border-border bg-white py-14">
+    <div class="container-1200 px-6">
+      <p class="text-center text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">Escritórios que projetam o futuro com ArchTech</p>
+      <div class="relative mt-8 overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_8%,#000_92%,transparent)]">
+        <div class="logo-track">
+          {% set logos = ['Studio Vértice','Forma+ Arquitetos','Lamina Design','Ateliê Plano','Norte Arquitetura','Pilar & Co.','Casa Mestre','BR Urban Lab'] %}
+          {% for i in 0..1 %}
+            {% for name in logos %}
+              <div class="logo-item">{{ name }}</div>
+            {% endfor %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {# ─── SOLUTIONS ─── #}
+  <section class="section-padding bg-background">
+    <div class="container-1200 px-6">
+      <div class="mx-auto max-w-2xl text-center reveal">
+        <span class="section-label">Soluções</span>
+        <h2 class="section-title mt-4">Uma plataforma. Três escalas de impacto.</h2>
+        <p class="section-subtitle mx-auto mt-4">Da prancheta individual à coordenação de portfólios. O ArchTech se adapta ao seu modo de projetar.</p>
+      </div>
+      <div class="mt-14 grid gap-6 md:grid-cols-3 reveal">
+        <article class="feature-card">
+          <div class="flex items-center justify-between mb-4">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary-base)" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-secondary-base)" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </div>
+          <h3 class="text-lg font-semibold">Para Arquitetos</h3>
+          <p class="mt-2 text-sm text-muted-foreground leading-relaxed">Acelere esboços, gere variações de planta e produza visualizações fotorrealistas em minutos — mantendo sua autoria criativa.</p>
+          <ul class="mt-5 space-y-2 text-sm text-muted-foreground">
+            <li class="flex items-center gap-2"><svg width="12" height="12" viewBox="0 0 24 24" fill="var(--color-primary-base)"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Esboço assistido por IA</li>
+            <li class="flex items-center gap-2"><svg width="12" height="12" viewBox="0 0 24 24" fill="var(--color-primary-base)"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Geração de variações</li>
+            <li class="flex items-center gap-2"><svg width="12" height="12" viewBox="0 0 24 24" fill="var(--color-primary-base)"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Renderização 1-clique</li>
+          </ul>
+        </article>
+        <article class="feature-card">
+          <div class="flex items-center justify-between mb-4">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary-base)" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-secondary-base)" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </div>
+          <h3 class="text-lg font-semibold">Para Escritórios</h3>
+          <p class="mt-2 text-sm text-muted-foreground leading-relaxed">Padronize fluxos, centralize bibliotecas e colabore em tempo real entre equipes técnica, projetos e gestão.</p>
+          <ul class="mt-5 space-y-2 text-sm text-muted-foreground">
+            <li class="flex items-center gap-2"><svg width="12" height="12" viewBox="0 0 24 24" fill="var(--color-primary-base)"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Biblioteca compartilhada</li>
+            <li class="flex items-center gap-2"><svg width="12" height="12" viewBox="0 0 24 24" fill="var(--color-primary-base)"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Versionamento de projeto</li>
+            <li class="flex items-center gap-2"><svg width="12" height="12" viewBox="0 0 24 24" fill="var(--color-primary-base)"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Aprovações em tempo real</li>
+          </ul>
+        </article>
+        <article class="feature-card">
+          <div class="flex items-center justify-between mb-4">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary-base)" stroke-width="1.5"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-secondary-base)" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </div>
+          <h3 class="text-lg font-semibold">Para Grandes Projetos</h3>
+          <p class="mt-2 text-sm text-muted-foreground leading-relaxed">Coordenação BIM integrada, análise de viabilidade automatizada e governança de dados para portfólios complexos.</p>
+          <ul class="mt-5 space-y-2 text-sm text-muted-foreground">
+            <li class="flex items-center gap-2"><svg width="12" height="12" viewBox="0 0 24 24" fill="var(--color-primary-base)"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Coordenação BIM nativa</li>
+            <li class="flex items-center gap-2"><svg width="12" height="12" viewBox="0 0 24 24" fill="var(--color-primary-base)"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Análise de viabilidade</li>
+            <li class="flex items-center gap-2"><svg width="12" height="12" viewBox="0 0 24 24" fill="var(--color-primary-base)"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Auditoria e compliance</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  {# ─── MANIFESTO ─── #}
+  <section class="bg-muted section-padding">
+    <div class="container-1200 px-6 text-center reveal">
+      <span class="section-label">Manifesto</span>
+      <blockquote class="mt-6 font-serif text-2xl md:text-3xl font-bold leading-snug max-w-3xl mx-auto">
+        "A arquitetura não é feita por máquinas.<br>É feita por arquitetos com ferramentas melhores."
+      </blockquote>
+      <p class="mt-6 text-muted-foreground max-w-xl mx-auto">O ArchTech amplifica seu repertório, libera seu tempo e protege sua autoria. A tecnologia trabalha em silêncio — você assina o projeto.</p>
+    </div>
+  </section>
+
+  {# ─── FEATURES ─── #}
+  <section class="section-padding bg-background">
+    <div class="container-1200 px-6">
+      <div class="mx-auto max-w-2xl text-center reveal">
+        <span class="section-label">Recursos</span>
+        <h2 class="section-title mt-4">Do partido ao detalhe executivo</h2>
+      </div>
+      <div class="mt-14 space-y-16">
+        <div class="grid md:grid-cols-2 gap-8 items-center reveal">
+          <div>
+            <span class="section-label text-xs">Concepção</span>
+            <h3 class="text-2xl font-bold mt-2">Do esboço à massa volumétrica em segundos</h3>
+            <p class="mt-3 text-muted-foreground leading-relaxed">Descreva a intenção e a IA propõe partidos arquitetônicos coerentes com o terreno, programa e código local. Você refina; ela aprende.</p>
+            <ul class="mt-5 space-y-2">
+              <li class="flex items-center gap-2 text-sm"><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--color-primary-base)"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Geração paramétrica de volumetria</li>
+              <li class="flex items-center gap-2 text-sm"><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--color-primary-base)"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Compatibilidade com terreno e zoneamento</li>
+              <li class="flex items-center gap-2 text-sm"><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--color-primary-base)"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Estudo solar e ventilação automáticos</li>
+            </ul>
+          </div>
+          <div class="bg-muted rounded-xl aspect-[4/3] flex items-center justify-center text-muted-foreground text-sm">Preview Concepção</div>
+        </div>
+        <div class="grid md:grid-cols-2 gap-8 items-center reveal">
+          <div class="order-2 md:order-1 bg-muted rounded-xl aspect-[4/3] flex items-center justify-center text-muted-foreground text-sm">Preview Colaboração</div>
+          <div class="order-1 md:order-2">
+            <span class="section-label text-xs">Colaboração</span>
+            <h3 class="text-2xl font-bold mt-2">Toda a equipe no mesmo modelo, em tempo real</h3>
+            <p class="mt-3 text-muted-foreground leading-relaxed">Comentários ancorados, controle de versões e aprovações fluidas. Sincronização nativa com Revit, ArchiCAD e SketchUp.</p>
+            <ul class="mt-5 space-y-2">
+              <li class="flex items-center gap-2 text-sm"><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--color-primary-base)"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Sincronização nativa com BIM</li>
+              <li class="flex items-center gap-2 text-sm"><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--color-primary-base)"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Comentários ancorados ao modelo</li>
+              <li class="flex items-center gap-2 text-sm"><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--color-primary-base)"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Permissões granulares por papel</li>
+            </ul>
+          </div>
+        </div>
+        <div class="grid md:grid-cols-2 gap-8 items-center reveal">
+          <div>
+            <span class="section-label text-xs">Entrega</span>
+            <h3 class="text-2xl font-bold mt-2">Pranchas executivas que se atualizam sozinhas</h3>
+            <p class="mt-3 text-muted-foreground leading-relaxed">Mude o modelo e toda a documentação responde — plantas, cortes, quadros e memoriais. Padrão visual do seu escritório, sempre.</p>
+            <ul class="mt-5 space-y-2">
+              <li class="flex items-center gap-2 text-sm"><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--color-primary-base)"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Templates do seu escritório</li>
+              <li class="flex items-center gap-2 text-sm"><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--color-primary-base)"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Quadros de áreas automáticos</li>
+              <li class="flex items-center gap-2 text-sm"><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--color-primary-base)"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Exportação multi-formato</li>
+            </ul>
+          </div>
+          <div class="bg-muted rounded-xl aspect-[4/3] flex items-center justify-center text-muted-foreground text-sm">Preview Entrega</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {# ─── STATS ─── #}
+  <section class="section-padding bg-background border-y border-border">
+    <div class="container-1200 px-6">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center reveal">
+        <div><div class="stat-number">+12.000</div><p class="mt-2 text-muted-foreground text-sm">horas economizadas por escritório / ano</p></div>
+        <div><div class="stat-number">40%</div><p class="mt-2 text-muted-foreground text-sm">menos tempo em estudos preliminares</p></div>
+        <div><div class="stat-number">98%</div><p class="mt-2 text-muted-foreground text-sm">de aderência aos padrões executivos</p></div>
+      </div>
+    </div>
+  </section>
+
+  {# ─── HOW IT WORKS ─── #}
+  <section class="section-padding bg-background">
+    <div class="container-1200 px-6">
+      <div class="mx-auto max-w-2xl text-center reveal">
+        <span class="section-label">Como funciona</span>
+        <h2 class="section-title mt-4">Quatro etapas. Um fluxo contínuo.</h2>
+      </div>
+      <div class="mt-14 grid gap-6 md:grid-cols-4 reveal">
+        <div class="text-center">
+          <div class="step-number mx-auto">01</div>
+          <h3 class="mt-4 font-semibold">Importe ou crie</h3>
+          <p class="mt-2 text-sm text-muted-foreground leading-relaxed">Suba seu terreno, briefing e referências. Ou comece do zero com prompts em português.</p>
+        </div>
+        <div class="text-center">
+          <div class="step-number mx-auto">02</div>
+          <h3 class="mt-4 font-semibold">Gere e refine</h3>
+          <p class="mt-2 text-sm text-muted-foreground leading-relaxed">A IA produz partidos. Você ajusta volumes, programa e materiais com controles familiares.</p>
+        </div>
+        <div class="text-center">
+          <div class="step-number mx-auto">03</div>
+          <h3 class="mt-4 font-semibold">Coordene e detalhe</h3>
+          <p class="mt-2 text-sm text-muted-foreground leading-relaxed">Sincronize com BIM, gere documentação executiva e mantenha tudo conectado.</p>
+        </div>
+        <div class="text-center">
+          <div class="step-number mx-auto">04</div>
+          <h3 class="mt-4 font-semibold">Apresente e entregue</h3>
+          <p class="mt-2 text-sm text-muted-foreground leading-relaxed">Renderizações, vídeos e pranchas com a identidade do seu escritório, prontos para o cliente.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {# ─── TESTIMONIALS ─── #}
+  <section class="section-padding bg-muted">
+    <div class="container-1200 px-6">
+      <div class="mx-auto max-w-2xl text-center reveal">
+        <span class="section-label">Depoimentos</span>
+        <h2 class="section-title mt-4">Escritórios que já transformaram seu fluxo</h2>
+      </div>
+      <div class="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3 reveal">
+        <article class="testimonial-card">
+          <p class="text-muted-foreground leading-relaxed text-sm">"A integração BIM funcionou de primeira. Em dois meses, padronizamos a documentação de todos os nossos 14 projetos ativos."</p>
+          <div class="mt-5 flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white text-sm font-bold">RA</div>
+            <div><div class="text-sm font-semibold">Rafael Andrade</div><div class="text-xs text-muted-foreground">Diretor técnico · Forma+ Arquitetos</div></div>
+          </div>
+        </article>
+        <article class="testimonial-card">
+          <p class="text-muted-foreground leading-relaxed text-sm">"O que costumava levar uma semana inteira de estudo preliminar agora sai em um dia. O ArchTech não substitui o arquiteto — potencializa."</p>
+          <div class="mt-5 flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white text-sm font-bold">LM</div>
+            <div><div class="text-sm font-semibold">Luciana Mendes</div><div class="text-xs text-muted-foreground">Sócia · Lamina Design</div></div>
+          </div>
+        </article>
+        <article class="testimonial-card">
+          <p class="text-muted-foreground leading-relaxed text-sm">"A curadoria dos templates executivos elevou o padrão de entrega do escritório inteiro. Todos os projetos saem com a mesma qualidade."</p>
+          <div class="mt-5 flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white text-sm font-bold">CN</div>
+            <div><div class="text-sm font-semibold">Carlos Nogueira</div><div class="text-xs text-muted-foreground">CEO · Norte Arquitetura</div></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  {# ─── PRICING ─── #}
+  <section class="section-padding bg-background">
+    <div class="container-1200 px-6">
+      <div class="mx-auto max-w-2xl text-center reveal">
+        <span class="section-label">Planos</span>
+        <h2 class="section-title mt-4">Preço que acompanha seu escritório</h2>
+        <p class="section-subtitle mx-auto mt-4">Comece grátis. Atualize quando fizer sentido. Cancele a qualquer momento.</p>
+      </div>
+      <div class="mt-14 grid gap-6 md:grid-cols-3 reveal">
+        <article class="pricing-card">
+          <h3 class="text-lg font-semibold">Professional</h3>
+          <p class="mt-1 text-sm text-muted-foreground">Para arquitetos autônomos e pequenas equipes começando com IA.</p>
+          <div class="mt-6 flex items-baseline gap-1"><span class="text-3xl font-bold">R$ 189</span><span class="text-sm text-muted-foreground">/mês por usuário</span></div>
+          <a href="#cta-final" class="btn-ghost mt-6 w-full text-center">Começar grátis</a>
+          <ul class="mt-6 space-y-2 text-sm text-muted-foreground">
+            <li class="flex items-center gap-2"><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--color-primary-base)"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Até 3 projetos ativos</li>
+            <li class="flex items-center gap-2"><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--color-primary-base)"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Geração de variações ilimitada</li>
+            <li class="flex items-center gap-2"><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--color-primary-base)"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Renderização 1080p</li>
+            <li class="flex items-center gap-2"><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--color-primary-base)"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Suporte por email</li>
+          </ul>
+        </article>
+        <article class="pricing-card pricing-popular">
+          <div class="pricing-badge">Mais escolhido</div>
+          <h3 class="text-lg font-semibold">Studio</h3>
+          <p class="mt-1 text-sm text-muted-foreground">Para escritórios que precisam de colaboração e fluxo padronizado.</p>
+          <div class="mt-6 flex items-baseline gap-1"><span class="text-3xl font-bold">R$ 449</span><span class="text-sm text-muted-foreground">/mês por usuário</span></div>
+          <a href="#cta-final" class="btn-primary mt-6 w-full text-center">Testar 14 dias</a>
+          <ul class="mt-6 space-y-2 text-sm text-muted-foreground">
+            <li class="flex items-center gap-2"><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--color-primary-base)"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Projetos ilimitados</li>
+            <li class="flex items-center gap-2"><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--color-primary-base)"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Sincronização BIM nativa</li>
+            <li class="flex items-center gap-2"><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--color-primary-base)"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Renderização 4K</li>
+            <li class="flex items-center gap-2"><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--color-primary-base)"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Biblioteca compartilhada</li>
+            <li class="flex items-center gap-2"><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--color-primary-base)"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Suporte prioritário</li>
+          </ul>
+        </article>
+        <article class="pricing-card">
+          <h3 class="text-lg font-semibold">Enterprise</h3>
+          <p class="mt-1 text-sm text-muted-foreground">Para grandes operações com governança, compliance e SLA dedicado.</p>
+          <div class="mt-6 flex items-baseline"><span class="text-lg font-bold">Sob consulta</span></div>
+          <a href="#cta-final" class="btn-ghost mt-6 w-full text-center">Falar com vendas</a>
+          <ul class="mt-6 space-y-2 text-sm text-muted-foreground">
+            <li class="flex items-center gap-2"><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--color-primary-base)"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Tudo do Studio</li>
+            <li class="flex items-center gap-2"><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--color-primary-base)"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> SSO e auditoria</li>
+            <li class="flex items-center gap-2"><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--color-primary-base)"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Onboarding dedicado</li>
+            <li class="flex items-center gap-2"><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--color-primary-base)"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Gerente de conta</li>
+            <li class="flex items-center gap-2"><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--color-primary-base)"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> SLA 99,9%</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  {# ─── CTA FINAL ─── #}
+  <section id="cta-final" class="section-padding cta-section">
+    <div class="container-1200 px-6 text-center reveal">
+      <span class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-white/80 backdrop-blur-sm">Comece em minutos</span>
+      <h2 class="mt-6 font-serif text-3xl md:text-4xl font-bold leading-tight">Pronto para projetar com inteligência?</h2>
+      <p class="mt-4 text-neutral-400 max-w-md mx-auto">Crie sua conta e receba acesso imediato à plataforma. Sem cartão de crédito, sem complicação.</p>
+      <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 max-w-md mx-auto">
+        <input type="email" placeholder="seu@email.com" class="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder:text-neutral-500 focus:outline-none focus:border-secondary text-sm">
+        <button class="btn-primary w-full sm:w-auto whitespace-nowrap">Começar agora</button>
+      </div>
+      <p class="mt-4 text-xs text-neutral-500">14 dias grátis · Cancele quando quiser</p>
+    </div>
+  </section>
+
+</main>
+
+{% include '@front_theme/includes/modal-search.html.twig' %}
+{% include '@front_theme/includes/footer.html.twig' %}
+{% include '@front_theme/includes/page-loader.html.twig' with {
+  'site_name': site_name,
+  'site_logo': site_logo,
+} %}

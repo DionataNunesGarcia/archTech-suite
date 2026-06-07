@@ -1,0 +1,57 @@
+- generic [active] [ref=e1]:
+  - link "Skip to main content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - generic [ref=e5]:
+        - link "ArchTech Suite" [ref=e6] [cursor=pointer]:
+          - /url: /
+          - img [ref=e7]
+          - text: ArchTech Suite
+        - navigation [ref=e12]:
+          - link "Home" [ref=e13] [cursor=pointer]:
+            - /url: /
+    - main [ref=e14]:
+      - article [ref=e16]:
+        - generic [ref=e17]: Welcome to ArchTech Suite
+    - contentinfo [ref=e18]:
+      - generic [ref=e19]:
+        - generic [ref=e20]:
+          - generic [ref=e21]:
+            - generic [ref=e22]:
+              - img [ref=e23]
+              - text: ArchTech Suite
+            - paragraph [ref=e27]: A plataforma de IA para escritórios de arquitetura que projetam com precisão, colaboração e identidade.
+            - generic [ref=e28]:
+              - link "LinkedIn" [ref=e29] [cursor=pointer]:
+                - /url: "#"
+                - img [ref=e30]
+              - link "Instagram" [ref=e34] [cursor=pointer]:
+                - /url: "#"
+                - img [ref=e35]
+              - link "YouTube" [ref=e38] [cursor=pointer]:
+                - /url: "#"
+                - img [ref=e39]
+          - navigation [ref=e41]:
+            - heading "Produto" [level=3] [ref=e42]
+            - list
+          - navigation [ref=e43]:
+            - heading "Recursos" [level=3] [ref=e44]
+            - list [ref=e45]:
+              - listitem [ref=e46]:
+                - link "Documentação" [ref=e47] [cursor=pointer]:
+                  - /url: "#"
+              - listitem [ref=e48]:
+                - link "Tutoriais" [ref=e49] [cursor=pointer]:
+                  - /url: "#"
+              - listitem [ref=e50]:
+                - link "Webinars" [ref=e51] [cursor=pointer]:
+                  - /url: "#"
+              - listitem [ref=e52]:
+                - link "Comunidade" [ref=e53] [cursor=pointer]:
+                  - /url: "#"
+          - navigation [ref=e54]:
+            - heading "Empresa" [level=3] [ref=e55]
+            - list
+        - generic [ref=e57]: © 2026 ArchTech Suite. Todos os direitos reservados.
+    - img "ArchTech Suite logo" [ref=e60]

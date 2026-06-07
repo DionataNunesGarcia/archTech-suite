@@ -1,0 +1,5 @@
+name: 'ArchTech archtech_suppliers'
+type: module
+description: 'ArchTech archtech_suppliers module'
+core_version_requirement: ^11
+package: 'ArchTech'

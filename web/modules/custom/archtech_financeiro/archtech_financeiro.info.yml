@@ -1,0 +1,5 @@
+name: 'ArchTech archtech_financeiro'
+type: module
+description: 'ArchTech archtech_financeiro module'
+core_version_requirement: ^11
+package: 'ArchTech'

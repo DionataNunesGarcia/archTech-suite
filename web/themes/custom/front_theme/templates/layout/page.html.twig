@@ -1,0 +1,10 @@
+{% include '@front_theme/includes/header.html.twig' %}
+<main id="main-content" class="bg-background text-foreground min-h-screen">
+  {{ page.content }}
+</main>
+{% include '@front_theme/includes/modal-search.html.twig' %}
+{% include '@front_theme/includes/footer.html.twig' %}
+{% include '@front_theme/includes/page-loader.html.twig' with {
+  'site_name': site_name,
+  'site_logo': site_logo,
+} %}

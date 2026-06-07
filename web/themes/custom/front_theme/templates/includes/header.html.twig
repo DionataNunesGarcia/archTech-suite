@@ -1,0 +1,29 @@
+<header class="header-main bg-primary fixed top-0 left-0 w-full z-50 transition-all duration-300" id="site-header">
+  <div class="container-1200 mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="{{ path('<front>') }}" class="flex items-center gap-2 text-xl font-bold text-foreground no-underline">
+      <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="32" height="32" rx="6" fill="var(--color-primary-base)"/>
+        <path d="M8 22V10l8 6-8 6z" fill="white"/>
+        <path d="M16 22V10l8 6-8 6z" fill="white" opacity="0.6"/>
+      </svg>
+      ArchTech Suite
+    </a>
+
+    <button id="hamburger" class="md:hidden flex flex-col justify-center items-center w-8 h-8 gap-1" aria-label="Abrir menu">
+      <span class="block w-6 h-0.5 bg-foreground transition-transform duration-300"></span>
+      <span class="block w-6 h-0.5 bg-foreground transition-opacity duration-300"></span>
+      <span class="block w-6 h-0.5 bg-foreground transition-transform duration-300"></span>
+    </button>
+
+    <div id="menu" class="hidden md:flex md:items-center md:gap-8">
+      <nav class="flex flex-col md:flex-row md:items-center md:gap-6">
+        {% for item in menu_main %}
+          <a href="{{ item.url }}" class="text-foreground/70 hover:text-foreground transition-colors text-sm font-medium no-underline py-2 md:py-0">{{ item.title }}</a>
+        {% endfor %}
+      </nav>
+      {% for item in menu_cta %}
+        <a href="{{ item.url }}" class="btn-primary text-sm no-underline mt-4 md:mt-0">{{ item.title }}</a>
+      {% endfor %}
+    </div>
+  </div>
+</header>

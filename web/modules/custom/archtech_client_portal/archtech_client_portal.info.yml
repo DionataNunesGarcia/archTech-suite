@@ -1,0 +1,5 @@
+name: 'ArchTech archtech_client_portal'
+type: module
+description: 'ArchTech archtech_client_portal module'
+core_version_requirement: ^11
+package: 'ArchTech'

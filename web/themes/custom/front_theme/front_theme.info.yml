@@ -1,0 +1,23 @@
+name: Front Theme
+type: theme
+description: Custom theme based on Olivero using Tailwind
+core_version_requirement: ^10 || ^11
+base theme: olivero
+
+logo: src/images/logo.png
+
+libraries:
+  - front_theme/global
+
+breakpoints: front_theme.breakpoints.yml
+
+regions:
+  header: Header
+  primary_menu: Primary menu
+  secondary_menu: Secondary menu
+  breadcrumb: Breadcrumb
+  highlighted: Highlighted
+  help: Help
+  content: Content
+  sidebar: Sidebar
+  footer: Footer

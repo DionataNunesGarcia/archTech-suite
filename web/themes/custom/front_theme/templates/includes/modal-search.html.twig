@@ -1,0 +1,21 @@
+<div id="search-modal" class="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50 hidden">
+
+	<div
+		class="bg-white rounded-none w-full max-w-3xl max-h-[50vh] overflow-y-auto px-6 pt-12 pb-8 relative">
+
+		<!-- Botão de fechar -->
+		<button id="search-modal-close-btn" class="absolute top-3 right-3 z-50 w-10 h-10 flex items-center justify-center text-3xl text-gray-600 hover:text-gray-900 bg-white rounded-full shadow">
+			&times;
+		</button>
+
+		<!-- Título -->
+		<h3 class="text-2xl font-semibold text-center">
+			{{ 'Pesquisar no site'|t }}
+		</h3>
+
+		<!-- Busca -->
+		<div id="search-modal-content" class="border-t border-gray-300 pt-10">
+			{{ drupal_block('search_form_block') }}
+		</div>
+	</div>
+</div>

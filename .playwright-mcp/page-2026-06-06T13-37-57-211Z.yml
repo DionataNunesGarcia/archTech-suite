@@ -1,0 +1,14 @@
+- generic [active] [ref=e1]:
+  - link "Skip to main content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - generic [ref=e4]:
+    - banner [ref=e5]:
+      - link "Go to homepage" [ref=e6] [cursor=pointer]:
+        - /url: /home
+        - img "Lovable" [ref=e8]
+    - main [ref=e19]:
+      - generic [ref=e22]:
+        - heading "Authenticating..." [level=2] [ref=e23]
+        - generic [ref=e24]:
+          - img [ref=e26]
+          - generic [ref=e28]: Setting up your access to the project

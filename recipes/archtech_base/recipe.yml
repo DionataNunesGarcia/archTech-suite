@@ -1,22 +1,8 @@
 name: 'ArchTech Base'
-description: 'Base recipe for ArchTech Suite. Installs core platform modules: media, API, security, events, AI gateway.'
+description: 'Base recipe for ArchTech Suite platform modules.'
 type: 'Site'
-recipes:
-  - core/recipes/audio_media_type
-  - core/recipes/document_media_type
-  - core/recipes/image_media_type
-  - core/recipes/local_video_media_type
-  - core/recipes/remote_video_media_type
 install:
-  - media
-  - media_library
   - inline_form_errors
-  - key
   - token
-  - jsonapi
-  - jsonapi_extras
-  - graphql
-  - simple_oauth
-  - rabbitmq
 config:
   strict: false

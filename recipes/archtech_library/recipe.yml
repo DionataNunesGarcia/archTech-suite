@@ -1,16 +1,7 @@
 name: 'ArchTech Technical Library'
-description: 'Technical library bounded context. NBRs, standards, checklists, RAG search, document classification.'
+description: 'Technical library bounded context. Stub for future implementation.'
 type: 'Site'
-recipes:
-  - archtech_base
 install:
   - archtech_library
-  - search_api
-  - ai_search
-  - ai_vdb_provider_pgvector
 config:
   strict: false
-  actions:
-    ai.settings:
-      simpleConfigUpdate:
-        default_vdb_provider: pgvector

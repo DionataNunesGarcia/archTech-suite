@@ -1,0 +1,358 @@
+- generic [active] [ref=e1] [box=0,0,886,9394]:
+  - generic [ref=e2] [box=0,0,886,9394]:
+    - banner [ref=e3] [box=0,0,886,80]:
+      - generic [ref=e4] [box=0,0,886,80]:
+        - link "ArchTech Suite" [ref=e5] [cursor=pointer] [box=24,22,171,36]:
+          - /url: "#top"
+          - img [ref=e7] [box=33,31,18,18]
+          - generic [ref=e10] [box=70,26,125,28]: ArchTech Suite
+        - button "Abrir menu" [ref=e11] [box=822,20,40,40]:
+          - img [ref=e12] [box=833,31,18,18]
+    - main [ref=e13] [box=0,0,886,8976]:
+      - generic [ref=e14] [box=0,0,886,1340]:
+        - img [ref=e16] [box=0,0,886,1340]
+        - generic [ref=e18] [box=0,128,886,1212]:
+          - generic [ref=e19] [box=59,208,768,461]:
+            - generic [ref=e21] [box=315,208,255,30]: IA para arquitetura · v2.0
+            - heading "Tecnologia que transforma a maneira como você projeta" [level=1] [ref=e24] [box=59,262,768,189]
+            - paragraph [ref=e26] [box=107,475,672,65]: A plataforma de IA que potencializa seu escritório de arquitetura — do primeiro esboço à entrega executiva, com precisão e elegância.
+            - generic [ref=e28] [box=59,576,768,53]:
+              - link "Começar agora" [ref=e29] [cursor=pointer] [box=242,577,183,51]:
+                - /url: "#cta"
+                - text: Começar agora
+                - img [ref=e30] [box=383,593,18,18]
+              - link "Ver demonstração" [ref=e32] [cursor=pointer] [box=437,576,208,53]:
+                - /url: "#demo"
+                - img [ref=e33] [box=462,593,18,18]
+                - text: Ver demonstração
+            - paragraph [ref=e37] [box=59,649,768,20]: Teste grátis por 14 dias · Sem cartão de crédito
+          - img "Painel da ArchTech Suite mostrando modelo 3D, plantas e métricas" [ref=e42] [box=33,782,820,461]
+      - generic [ref=e44] [box=0,1397,886,88]:
+        - paragraph [ref=e45] [box=24,1397,838,16]: Escritórios que projetam o futuro com ArchTech
+        - generic [ref=e47] [box=-312,1445,2928,40]:
+          - generic [ref=e48] [box=-312,1445,127,40]: Studio Vértice
+          - generic [ref=e49] [box=-129,1445,171,40]: Forma+ Arquitetos
+          - generic [ref=e50] [box=99,1445,136,40]: Lamina Design
+          - generic [ref=e51] [box=291,1445,111,40]: Ateliê Plano
+          - generic [ref=e52] [box=458,1445,164,40]: Norte Arquitetura
+          - generic [ref=e53] [box=678,1445,99,40]: Pilar & Co.
+          - generic [ref=e54] [box=833,1445,110,40]: Casa Mestre
+          - generic [ref=e55] [box=999,1445,125,40]: BR Urban Lab
+          - generic [ref=e56] [box=1180,1445,127,40]: Studio Vértice
+          - generic [ref=e57] [box=1363,1445,171,40]: Forma+ Arquitetos
+          - generic [ref=e58] [box=1591,1445,136,40]: Lamina Design
+          - generic [ref=e59] [box=1783,1445,111,40]: Ateliê Plano
+          - generic [ref=e60] [box=1950,1445,164,40]: Norte Arquitetura
+          - generic [ref=e61] [box=2170,1445,99,40]: Pilar & Co.
+          - generic [ref=e62] [box=2326,1445,110,40]: Casa Mestre
+          - generic [ref=e63] [box=2492,1445,125,40]: BR Urban Lab
+      - generic [ref=e65] [box=0,1670,886,736]:
+        - generic [ref=e67] [box=107,1694,672,215]:
+          - generic [ref=e68] [box=402,1699,82,19]: Soluções
+          - heading "Uma plataforma. Três escalas de impacto." [level=2] [ref=e69] [box=107,1734,672,96]
+          - paragraph [ref=e70] [box=107,1850,672,59]: Da prancheta individual à coordenação de portfólios. O ArchTech se adapta ao seu modo de projetar.
+        - generic [ref=e71] [box=24,1949,838,458]:
+          - article [ref=e73] [box=24,1973,263,458]:
+            - generic [ref=e74] [box=53,2002,205,48]:
+              - img [ref=e76] [box=66,2015,22,22]
+              - img [ref=e79] [box=238,2016,20,20]
+            - heading "Para Arquitetos" [level=3] [ref=e82] [box=53,2074,205,32]
+            - paragraph [ref=e83] [box=53,2118,205,152]: Acelere esboços, gere variações de planta e produza visualizações fotorrealistas em minutos — mantendo sua autoria criativa.
+            - list [ref=e84] [box=53,2294,205,101]:
+              - listitem [ref=e85] [box=53,2315,205,20]: Esboço assistido por IA
+              - listitem [ref=e87] [box=53,2345,205,20]: Geração de variações
+              - listitem [ref=e89] [box=53,2375,205,20]: Renderização 1-clique
+          - article [ref=e92] [box=311,1973,263,458]:
+            - generic [ref=e93] [box=340,2002,205,48]:
+              - img [ref=e95] [box=353,2015,22,22]
+              - img [ref=e99] [box=526,2016,20,20]
+            - heading "Para Escritórios" [level=3] [ref=e102] [box=340,2074,205,32]
+            - paragraph [ref=e103] [box=340,2118,205,101]: Padronize fluxos, centralize bibliotecas e colabore em tempo real entre equipes técnica, projetos e gestão.
+            - list [ref=e104] [box=340,2243,205,101]:
+              - listitem [ref=e105] [box=340,2264,205,20]: Biblioteca compartilhada
+              - listitem [ref=e107] [box=340,2294,205,20]: Versionamento de projeto
+              - listitem [ref=e109] [box=340,2324,205,20]: Aprovações em tempo real
+          - article [ref=e112] [box=599,1973,263,458]:
+            - generic [ref=e113] [box=628,2002,205,48]:
+              - img [ref=e115] [box=641,2015,22,22]
+              - img [ref=e120] [box=813,2016,20,20]
+            - heading "Para Grandes Projetos" [level=3] [ref=e123] [box=628,2074,205,64]
+            - paragraph [ref=e124] [box=628,2150,205,127]: Coordenação BIM integrada, análise de viabilidade automatizada e governança de dados para portfólios complexos.
+            - list [ref=e125] [box=628,2300,205,101]:
+              - listitem [ref=e126] [box=628,2321,205,20]: Coordenação BIM nativa
+              - listitem [ref=e128] [box=628,2351,205,20]: Análise de viabilidade
+              - listitem [ref=e130] [box=628,2381,205,20]: Auditoria e compliance
+      - generic [ref=e136] [box=59,2686,768,344]:
+        - generic [ref=e137] [box=379,2686,129,30]: Manifesto
+        - heading "A arquitetura não é feita por máquinas. É feita por arquitetos com ferramentas melhores." [level=2] [ref=e139] [box=59,2740,768,207]:
+          - text: A arquitetura não é feita por máquinas.
+          - text: É feita por arquitetos com ferramentas melhores.
+        - paragraph [ref=e140] [box=107,2972,672,59]: O ArchTech amplifica seu repertório, libera seu tempo e protege sua autoria. A tecnologia trabalha em silêncio — você assina o projeto.
+      - generic [ref=e142] [box=0,3262,886,1733]:
+        - generic [ref=e144] [box=107,3286,672,136]:
+          - generic [ref=e145] [box=402,3291,81,19]: Recursos
+          - heading "Do partido ao detalhe executivo" [level=2] [ref=e146] [box=107,3326,672,96]
+        - generic [ref=e147] [box=24,3478,838,1517]:
+          - generic [ref=e148] [box=24,3478,838,430]:
+            - generic [ref=e150] [box=24,3502,387,430]:
+              - generic [ref=e151] [box=24,3507,97,19]: Concepção
+              - heading "Do esboço à massa volumétrica em segundos" [level=3] [ref=e152] [box=24,3538,387,135]
+              - paragraph [ref=e153] [box=24,3693,387,117]: Descreva a intenção e a IA propõe partidos arquitetônicos coerentes com o terreno, programa e código local. Você refina; ela aprende.
+              - list [ref=e154] [box=24,3838,387,94]:
+                - listitem [ref=e155] [box=24,3838,387,23]:
+                  - img [ref=e157] [box=28,3844,12,12]
+                  - text: Geração paramétrica de volumetria
+                - listitem [ref=e159] [box=24,3873,387,23]:
+                  - img [ref=e161] [box=28,3879,12,12]
+                  - text: Compatibilidade com terreno e zoneamento
+                - listitem [ref=e163] [box=24,3909,387,23]:
+                  - img [ref=e165] [box=28,3915,12,12]
+                  - text: Estudo solar e ventilação automáticos
+            - img "Do esboço à massa volumétrica em segundos" [ref=e171] [box=476,3573,385,289]
+          - generic [ref=e172] [box=24,4036,838,401]:
+            - generic [ref=e174] [box=475,4060,387,401]:
+              - generic [ref=e175] [box=475,4065,117,19]: Colaboração
+              - heading "Toda a equipe no mesmo modelo, em tempo real" [level=3] [ref=e176] [box=475,4096,387,135]
+              - paragraph [ref=e177] [box=475,4251,387,88]: Comentários ancorados, controle de versões e aprovações fluidas. Sincronização nativa com Revit, ArchiCAD e SketchUp.
+              - list [ref=e178] [box=475,4367,387,94]:
+                - listitem [ref=e179] [box=475,4367,387,23]:
+                  - img [ref=e181] [box=479,4373,12,12]
+                  - text: Sincronização nativa com BIM
+                - listitem [ref=e183] [box=475,4402,387,23]:
+                  - img [ref=e185] [box=479,4408,12,12]
+                  - text: Comentários ancorados ao modelo
+                - listitem [ref=e187] [box=475,4438,387,23]:
+                  - img [ref=e189] [box=479,4444,12,12]
+                  - text: Permissões granulares por papel
+            - img "Toda a equipe no mesmo modelo, em tempo real" [ref=e195] [box=25,4116,385,289]
+          - generic [ref=e196] [box=24,4565,838,430]:
+            - generic [ref=e198] [box=24,4589,387,430]:
+              - generic [ref=e199] [box=24,4594,71,19]: Entrega
+              - heading "Pranchas executivas que se atualizam sozinhas" [level=3] [ref=e200] [box=24,4625,387,135]
+              - paragraph [ref=e201] [box=24,4780,387,117]: Mude o modelo e toda a documentação responde — plantas, cortes, quadros e memoriais. Padrão visual do seu escritório, sempre.
+              - list [ref=e202] [box=24,4925,387,94]:
+                - listitem [ref=e203] [box=24,4925,387,23]:
+                  - img [ref=e205] [box=28,4931,12,12]
+                  - text: Templates do seu escritório
+                - listitem [ref=e207] [box=24,4960,387,23]:
+                  - img [ref=e209] [box=28,4966,12,12]
+                  - text: Quadros de áreas automáticos
+                - listitem [ref=e211] [box=24,4996,387,23]:
+                  - img [ref=e213] [box=28,5002,12,12]
+                  - text: Exportação multi-formato
+            - img "Pranchas executivas que se atualizam sozinhas" [ref=e219] [box=476,4660,385,289]
+      - generic [ref=e224] [box=24,5346,838,164]:
+        - generic [ref=e225] [box=24,5346,253,164]:
+          - generic [ref=e226] [box=24,5346,253,72]: "+12.000"
+          - paragraph [ref=e227] [box=66,5430,168,80]: horas economizadas por escritório / ano
+        - generic [ref=e228] [box=317,5346,253,164]:
+          - generic [ref=e229] [box=317,5346,253,72]: 40%
+          - paragraph [ref=e230] [box=359,5430,168,60]: menos tempo em estudos preliminares
+        - generic [ref=e231] [box=609,5346,253,164]:
+          - generic [ref=e232] [box=609,5346,253,72]: 98%
+          - paragraph [ref=e233] [box=652,5430,168,60]: de aderência aos padrões executivos
+      - generic [ref=e235] [box=0,5813,886,522]:
+        - generic [ref=e237] [box=107,5837,672,136]:
+          - generic [ref=e238] [box=377,5842,131,19]: Como funciona
+          - heading "Quatro etapas. Um fluxo contínuo." [level=2] [ref=e239] [box=107,5877,672,96]
+        - generic [ref=e242] [box=24,6013,838,322]:
+          - generic [ref=e245] [box=24,6037,192,322]:
+            - generic [ref=e246] [box=49,6062,40,40]: "01"
+            - heading "Importe ou crie" [level=3] [ref=e247] [box=49,6122,142,56]
+            - paragraph [ref=e248] [box=49,6186,142,148]: Suba seu terreno, briefing e referências. Ou comece do zero com prompts em português.
+          - generic [ref=e251] [box=240,6037,192,294]:
+            - generic [ref=e252] [box=265,6062,40,40]: "02"
+            - heading "Gere e refine" [level=3] [ref=e253] [box=265,6122,142,28]
+            - paragraph [ref=e254] [box=265,6158,142,148]: A IA produz partidos. Você ajusta volumes, programa e materiais com controles familiares.
+          - generic [ref=e257] [box=455,6037,192,298]:
+            - generic [ref=e258] [box=480,6062,40,40]: "03"
+            - heading "Coordene e detalhe" [level=3] [ref=e259] [box=480,6122,142,56]
+            - paragraph [ref=e260] [box=480,6186,142,124]: Sincronize com BIM, gere documentação executiva e mantenha tudo conectado.
+          - generic [ref=e263] [box=671,6037,192,322]:
+            - generic [ref=e264] [box=696,6062,40,40]: "04"
+            - heading "Apresente e entregue" [level=3] [ref=e265] [box=696,6122,142,56]
+            - paragraph [ref=e266] [box=696,6186,142,148]: Renderizações, vídeos e pranchas com a identidade do seu escritório, prontos para o cliente.
+      - generic [ref=e268] [box=0,6592,886,554]:
+        - generic [ref=e270] [box=107,6616,672,136]:
+          - generic [ref=e271] [box=387,6621,111,19]: Depoimentos
+          - heading "Escritórios que já transformaram seu fluxo" [level=2] [ref=e272] [box=107,6656,672,96]
+        - generic [ref=e274] [box=59,6808,768,362]:
+          - article [ref=e469] [box=59,6808,768,332]:
+            - img [ref=e470] [box=754,6833,48,48]
+            - paragraph [ref=e473] [box=108,6857,670,129]: “A integração BIM funcionou de primeira. Em dois meses, padronizamos a documentação de todos os nossos 14 projetos ativos.”
+            - generic [ref=e474] [box=108,7017,670,73]:
+              - generic [ref=e475] [box=108,7042,48,48]: RA
+              - generic [ref=e476] [box=172,7044,502,44]:
+                - generic [ref=e477] [box=172,7044,502,24]: Rafael Andrade
+                - generic [ref=e478] [box=172,7068,502,20]: Diretor técnico · Forma+ Arquitetos
+              - generic [ref=e479] [box=690,7046,88,40]:
+                - button "Anterior" [ref=e480] [box=690,7046,40,40]:
+                  - img [ref=e481] [box=701,7057,18,18]
+                - button "Próximo" [ref=e483] [box=738,7046,40,40]:
+                  - img [ref=e484] [box=749,7057,18,18]
+          - generic [ref=e292] [box=59,7163,768,6]:
+            - button "Ir para depoimento 1" [ref=e293] [box=413,7163,8,6]
+            - button "Ir para depoimento 2" [ref=e294] [box=429,7163,28,6]
+            - button "Ir para depoimento 3" [ref=e295] [box=465,7163,8,6]
+      - generic [ref=e297] [box=0,7401,886,819]:
+        - generic [ref=e299] [box=107,7425,672,185]:
+          - generic [ref=e300] [box=412,7430,62,19]: Planos
+          - heading "Preço que acompanha seu escritório" [level=2] [ref=e301] [box=107,7465,672,96]
+          - paragraph [ref=e302] [box=107,7581,672,29]: Comece grátis. Atualize quando fizer sentido. Cancele a qualquer momento.
+        - generic [ref=e303] [box=24,7651,838,570]:
+          - article [ref=e305] [box=24,7675,263,570]:
+            - heading "Professional" [level=3] [ref=e306] [box=57,7708,197,32]
+            - paragraph [ref=e307] [box=57,7748,197,68]: Para arquitetos autônomos e pequenas equipes começando com IA.
+            - generic [ref=e308] [box=57,7840,197,80]:
+              - generic [ref=e309] [box=57,7840,99,80]: R$ 189
+              - generic [ref=e310] [box=162,7858,92,40]: /mês por usuário
+            - link "Começar grátis" [ref=e311] [cursor=pointer] [box=57,7944,197,53]:
+              - /url: "#cta"
+            - list [ref=e312] [box=57,8029,197,167]:
+              - listitem [ref=e313] [box=57,8054,197,22]:
+                - img [ref=e315] [box=61,8060,12,12]
+                - text: Até 3 projetos ativos
+              - listitem [ref=e317] [box=57,8088,197,40]:
+                - img [ref=e319] [box=61,8094,12,12]
+                - text: Geração de variações ilimitada
+              - listitem [ref=e321] [box=57,8140,197,22]:
+                - img [ref=e323] [box=61,8146,12,12]
+                - text: Renderização 1080p
+              - listitem [ref=e325] [box=57,8174,197,22]:
+                - img [ref=e327] [box=61,8180,12,12]
+                - text: Suporte por email
+          - article [ref=e330] [box=311,7675,263,570]:
+            - generic [ref=e331] [box=378,7664,131,40]: Mais escolhido
+            - heading "Studio" [level=3] [ref=e332] [box=344,7708,197,32]
+            - paragraph [ref=e333] [box=344,7748,197,68]: Para escritórios que precisam de colaboração e fluxo padronizado.
+            - generic [ref=e334] [box=344,7840,197,80]:
+              - generic [ref=e335] [box=344,7840,99,80]: R$ 449
+              - generic [ref=e336] [box=449,7858,92,40]: /mês por usuário
+            - link "Testar 14 dias" [ref=e337] [cursor=pointer] [box=344,7944,197,51]:
+              - /url: "#cta"
+            - list [ref=e338] [box=344,8027,197,183]:
+              - listitem [ref=e339] [box=344,8052,197,22]:
+                - img [ref=e341] [box=348,8058,12,12]
+                - text: Projetos ilimitados
+              - listitem [ref=e343] [box=344,8086,197,22]:
+                - img [ref=e345] [box=348,8092,12,12]
+                - text: Sincronização BIM nativa
+              - listitem [ref=e347] [box=344,8120,197,22]:
+                - img [ref=e349] [box=348,8126,12,12]
+                - text: Renderização 4K
+              - listitem [ref=e351] [box=344,8154,197,22]:
+                - img [ref=e353] [box=348,8160,12,12]
+                - text: Biblioteca compartilhada
+              - listitem [ref=e355] [box=344,8188,197,22]:
+                - img [ref=e357] [box=348,8194,12,12]
+                - text: Suporte prioritário
+          - article [ref=e360] [box=599,7675,263,570]:
+            - heading "Enterprise" [level=3] [ref=e361] [box=632,7708,197,32]
+            - paragraph [ref=e362] [box=632,7748,197,68]: Para grandes operações com governança, compliance e SLA dedicado.
+            - generic [ref=e364] [box=632,7840,197,80]: Sob consulta
+            - link "Falar com vendas" [ref=e365] [cursor=pointer] [box=632,7944,197,53]:
+              - /url: "#cta"
+            - list [ref=e366] [box=632,8029,197,183]:
+              - listitem [ref=e367] [box=632,8054,197,22]:
+                - img [ref=e369] [box=636,8060,12,12]
+                - text: Tudo do Studio
+              - listitem [ref=e371] [box=632,8088,197,22]:
+                - img [ref=e373] [box=636,8094,12,12]
+                - text: SSO e auditoria
+              - listitem [ref=e375] [box=632,8122,197,22]:
+                - img [ref=e377] [box=636,8128,12,12]
+                - text: Onboarding dedicado
+              - listitem [ref=e379] [box=632,8156,197,22]:
+                - img [ref=e381] [box=636,8162,12,12]
+                - text: Gerente de conta
+              - listitem [ref=e383] [box=632,8190,197,22]:
+                - img [ref=e385] [box=636,8196,12,12]
+                - text: SLA 99,9%
+      - generic [ref=e391] [box=107,8501,672,371]:
+        - generic [ref=e392] [box=341,8501,204,30]: Comece em minutos
+        - heading "Pronto para projetar com inteligência?" [level=2] [ref=e394] [box=107,8555,672,120]
+        - paragraph [ref=e395] [box=155,8695,576,59]: Crie sua conta e receba acesso imediato à plataforma. Sem cartão de crédito, sem complicação.
+        - generic [ref=e396] [box=219,8789,448,51]:
+          - textbox "seu@email.com" [ref=e397] [box=219,8789,253,51]
+          - button "Começar agora" [ref=e398] [box=484,8789,183,51]:
+            - text: Começar agora
+            - img [ref=e399] [box=625,8805,18,18]
+        - paragraph [ref=e401] [box=107,8856,672,16]: 14 dias grátis · Cancele quando quiser
+    - contentinfo [ref=e402] [box=0,8976,886,418]:
+      - generic [ref=e403] [box=0,9041,886,313]:
+        - generic [ref=e404] [box=24,9041,838,208]:
+          - generic [ref=e405] [box=24,9041,231,208]:
+            - generic [ref=e406] [box=24,9041,231,36]:
+              - img [ref=e408] [box=33,9050,18,18]
+              - generic [ref=e411] [box=70,9045,125,28]: ArchTech Suite
+            - paragraph [ref=e412] [box=24,9097,231,68]: A plataforma de IA para escritórios de arquitetura que projetam com precisão, colaboração e identidade.
+          - generic [ref=e413] [box=303,9041,154,208]:
+            - heading "Produto" [level=4] [ref=e414] [box=303,9041,154,20]
+            - list [ref=e415] [box=303,9081,154,168]:
+              - listitem [ref=e416] [box=303,9081,154,24]:
+                - link "Soluções" [ref=e417] [cursor=pointer] [box=303,9085,58,18]:
+                  - /url: "#"
+              - listitem [ref=e418] [box=303,9117,154,24]:
+                - link "Recursos" [ref=e419] [cursor=pointer] [box=303,9121,59,18]:
+                  - /url: "#"
+              - listitem [ref=e420] [box=303,9153,154,24]:
+                - link "Planos" [ref=e421] [cursor=pointer] [box=303,9157,43,18]:
+                  - /url: "#"
+              - listitem [ref=e422] [box=303,9189,154,24]:
+                - link "Novidades" [ref=e423] [cursor=pointer] [box=303,9193,68,18]:
+                  - /url: "#"
+              - listitem [ref=e424] [box=303,9225,154,24]:
+                - link "Roadmap" [ref=e425] [cursor=pointer] [box=303,9229,62,18]:
+                  - /url: "#"
+          - generic [ref=e426] [box=506,9041,154,208]:
+            - heading "Recursos" [level=4] [ref=e427] [box=506,9041,154,20]
+            - list [ref=e428] [box=506,9081,154,168]:
+              - listitem [ref=e429] [box=506,9081,154,24]:
+                - link "Documentação" [ref=e430] [cursor=pointer] [box=506,9085,99,18]:
+                  - /url: "#"
+              - listitem [ref=e431] [box=506,9117,154,24]:
+                - link "Tutoriais" [ref=e432] [cursor=pointer] [box=506,9121,55,18]:
+                  - /url: "#"
+              - listitem [ref=e433] [box=506,9153,154,24]:
+                - link "Webinars" [ref=e434] [cursor=pointer] [box=506,9157,62,18]:
+                  - /url: "#"
+              - listitem [ref=e435] [box=506,9189,154,24]:
+                - link "Comunidade" [ref=e436] [cursor=pointer] [box=506,9193,84,18]:
+                  - /url: "#"
+              - listitem [ref=e437] [box=506,9225,154,24]:
+                - link "Status" [ref=e438] [cursor=pointer] [box=506,9229,41,18]:
+                  - /url: "#"
+          - generic [ref=e439] [box=708,9041,154,208]:
+            - heading "Empresa" [level=4] [ref=e440] [box=708,9041,154,20]
+            - list [ref=e441] [box=708,9081,154,168]:
+              - listitem [ref=e442] [box=708,9081,154,24]:
+                - link "Sobre" [ref=e443] [cursor=pointer] [box=708,9085,38,18]:
+                  - /url: "#"
+              - listitem [ref=e444] [box=708,9117,154,24]:
+                - link "Carreiras" [ref=e445] [cursor=pointer] [box=708,9121,58,18]:
+                  - /url: "#"
+              - listitem [ref=e446] [box=708,9153,154,24]:
+                - link "Imprensa" [ref=e447] [cursor=pointer] [box=708,9157,61,18]:
+                  - /url: "#"
+              - listitem [ref=e448] [box=708,9189,154,24]:
+                - link "Contato" [ref=e449] [cursor=pointer] [box=708,9193,53,18]:
+                  - /url: "#"
+              - listitem [ref=e450] [box=708,9225,154,24]:
+                - link "Parceiros" [ref=e451] [cursor=pointer] [box=708,9229,60,18]:
+                  - /url: "#"
+        - generic [ref=e452] [box=24,9305,838,49]:
+          - paragraph [ref=e453] [box=24,9338,289,16]: © 2026 ArchTech Suite. Todos os direitos reservados.
+          - generic [ref=e454] [box=663,9338,199,16]:
+            - link "Privacidade" [ref=e455] [cursor=pointer] [box=663,9338,64,16]:
+              - /url: "#"
+            - link "Termos" [ref=e456] [cursor=pointer] [box=752,9338,42,16]:
+              - /url: "#"
+            - link "Cookies" [ref=e457] [cursor=pointer] [box=817,9338,45,16]:
+              - /url: "#"
+  - complementary "Edit with Lovable" [ref=e458] [box=729,767,145,24]:
+    - link "Edit with Lovable" [ref=e459] [cursor=pointer] [box=729,767,120,24]:
+      - /url: https://lovable.dev/projects/b628ef11-b7c5-43b9-8c4b-b918bb20c5a9?utm_source=lovable-badge
+      - generic [ref=e460] [box=737,773,46,12]: Edit with
+      - img [ref=e461] [box=789,771,52,16]
+    - button "Dismiss" [ref=e466] [cursor=pointer] [box=850,767,24,24]:
+      - img [ref=e467] [box=854,771,16,16]

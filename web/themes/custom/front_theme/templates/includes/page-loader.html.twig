@@ -1,0 +1,25 @@
+<div id="page-loader" class="fixed inset-0 z-[9999] bg-background flex items-center justify-center transition-opacity duration-500">
+  <div class="space-y-4 animate-pulse">
+    <svg width="40" height="40" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" class="mx-auto">
+      <rect width="32" height="32" rx="6" fill="var(--color-primary-base)"/>
+      <path d="M8 22V10l8 6-8 6z" fill="white"/>
+      <path d="M16 22V10l8 6-8 6z" fill="white" opacity="0.6"/>
+    </svg>
+  </div>
+</div>
+
+<script>
+  (function() {
+    var loader = document.getElementById('page-loader');
+    if (!loader) return;
+    var hide = function() {
+      loader.style.opacity = '0';
+      setTimeout(function() { loader.style.display = 'none'; }, 500);
+    };
+    if (document.readyState === 'complete') {
+      hide();
+    } else {
+      window.addEventListener('load', hide);
+    }
+  })();
+</script>

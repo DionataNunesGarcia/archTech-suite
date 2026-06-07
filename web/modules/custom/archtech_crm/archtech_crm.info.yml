@@ -1,0 +1,5 @@
+name: 'ArchTech archtech_crm'
+type: module
+description: 'ArchTech archtech_crm module'
+core_version_requirement: ^11
+package: 'ArchTech'

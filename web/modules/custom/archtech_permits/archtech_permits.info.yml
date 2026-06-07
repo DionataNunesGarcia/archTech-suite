@@ -1,0 +1,5 @@
+name: 'ArchTech archtech_permits'
+type: module
+description: 'ArchTech archtech_permits module'
+core_version_requirement: ^11
+package: 'ArchTech'

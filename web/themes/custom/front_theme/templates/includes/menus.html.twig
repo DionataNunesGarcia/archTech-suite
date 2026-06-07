@@ -1,0 +1,26 @@
+{% for item in menu %}
+  <a href="{{ item.url }}"
+    class="{{ item.classes }}"
+    target="{{ item.target }}"
+    id="{{ item.id }}">
+
+    {# Icon before text #}
+    {% if item.icon_left %}
+      <i class="{{ item.icon_left }}"></i>
+    {% endif %}
+
+    {{ item.title }}
+
+    {# Icon after text #}
+    {% if item.icon_right %}
+      <i class="{{ item.icon_right }}"></i>
+    {% endif %}
+  </a>
+
+  {# Render submenu if exists #}
+  {% if item.below %}
+    <div class="submenu ml-4">
+      {% include '@front_theme/includes/menus.html.twig' with {'menus_cta': item.below} %}
+    </div>
+  {% endif %}
+{% endfor %}

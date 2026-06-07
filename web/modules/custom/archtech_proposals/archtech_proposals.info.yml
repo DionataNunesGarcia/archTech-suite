@@ -1,0 +1,5 @@
+name: 'ArchTech archtech_proposals'
+type: module
+description: 'ArchTech archtech_proposals module'
+core_version_requirement: ^11
+package: 'ArchTech'

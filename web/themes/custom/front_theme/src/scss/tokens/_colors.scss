@@ -1,0 +1,58 @@
+:root {
+  --color-primary-50:     oklch(96% .018 248.5);
+  --color-primary-100:    oklch(92% .038 248.5);
+  --color-primary-light:  oklch(62% .118 248.5);
+  --color-primary-base:   oklch(45% .098 248.5);
+  --color-primary-dark:   oklch(35% .078 248.5);
+
+  --color-secondary-50:     oklch(98% .018 82.5);
+  --color-secondary-100:    oklch(95% .048 82.5);
+  --color-secondary-light:  oklch(82% .078 82.5);
+  --color-secondary-base:   oklch(72% .118 82.5);
+  --color-secondary-dark:   oklch(62% .098 82.5);
+
+  --color-neutral-50:  oklch(99% .004 85);
+  --color-neutral-100: oklch(97% .006 85);
+  --color-neutral-200: oklch(93% .008 85);
+  --color-neutral-300: oklch(87% .008 85);
+  --color-neutral-400: oklch(72% .008 85);
+  --color-neutral-500: oklch(58% .008 85);
+  --color-neutral-600: oklch(46% .008 85);
+  --color-neutral-700: oklch(38% .008 85);
+  --color-neutral-800: oklch(28% .008 85);
+  --color-neutral-900: oklch(18% .008 85);
+
+  --background:          oklch(99% .004 85);
+  --foreground:          var(--color-neutral-900);
+  --card:                #fff;
+  --card-foreground:     var(--color-neutral-900);
+  --popover:             #fff;
+  --popover-foreground:  var(--color-neutral-900);
+
+  --primary:             var(--color-primary-base);
+  --primary-foreground:  #fff;
+  --secondary:           var(--color-secondary-base);
+  --secondary-foreground: #1a1a18;
+
+  --muted:               oklch(96% .006 85);
+  --muted-foreground:    var(--color-neutral-600);
+
+  --accent:              var(--color-secondary-base);
+  --accent-foreground:   #1a1a18;
+
+  --destructive:         oklch(57.7% .245 27.325);
+  --destructive-foreground: #fff;
+
+  --border:              oklch(0% 0 0 / .08);
+  --input:               oklch(0% 0 0 / .12);
+  --ring:                var(--color-primary-base);
+
+  --shadow-sm:  0 1px 2px oklch(0% 0 0 / .04), 0 1px 3px oklch(0% 0 0 / .06);
+  --shadow-md:  0 4px 6px -1px oklch(0% 0 0 / .06), 0 2px 4px -2px oklch(0% 0 0 / .06);
+  --shadow-lg:  0 10px 25px -5px oklch(0% 0 0 / .1), 0 8px 10px -6px oklch(0% 0 0 / .06);
+  --shadow-xl:  0 25px 50px -12px oklch(0% 0 0 / .18);
+  --shadow-gold: 0 12px 32px -8px oklch(72% .118 82.5 / .35);
+
+  --color-white: #fff;
+  --color-black: #000;
+}

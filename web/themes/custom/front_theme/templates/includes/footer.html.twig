@@ -1,0 +1,65 @@
+<footer class="bg-neutral-900 text-white pt-20 pb-8">
+  <div class="container-1200 mx-auto px-6">
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+      <div class="space-y-5">
+        <div class="flex items-center gap-2 text-xl font-bold">
+          <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="32" height="32" rx="6" fill="var(--color-secondary-base)"/>
+            <path d="M8 22V10l8 6-8 6z" fill="#1a1a18"/>
+            <path d="M16 22V10l8 6-8 6z" fill="#1a1a18" opacity="0.6"/>
+          </svg>
+          ArchTech Suite
+        </div>
+        <p class="text-neutral-400 text-sm leading-relaxed">A plataforma de IA para escritórios de arquitetura que projetam com precisão, colaboração e identidade.</p>
+        <div class="flex gap-3 pt-2">
+          <a href="#" class="w-9 h-9 flex items-center justify-center rounded-lg bg-neutral-800 hover:bg-primary text-neutral-400 hover:text-white transition-all" aria-label="LinkedIn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+          <a href="#" class="w-9 h-9 flex items-center justify-center rounded-lg bg-neutral-800 hover:bg-primary text-neutral-400 hover:text-white transition-all" aria-label="Instagram">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+          </a>
+          <a href="#" class="w-9 h-9 flex items-center justify-center rounded-lg bg-neutral-800 hover:bg-primary text-neutral-400 hover:text-white transition-all" aria-label="YouTube">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.8 3.5 12 3.5 12 3.5s-7.8 0-9.4.6a3 3 0 0 0-2.1 2.1C0 8.8 0 12 0 12s0 3.2.5 4.8a3 3 0 0 0 2.1 2.1c1.6.5 9.4.5 9.4.5s7.8 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.2 24 12 24 12s0-3.2-.5-4.8zM9.5 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <nav>
+        <h3 class="text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-5">Produto</h3>
+        <ul class="space-y-3">
+          {% for item in menu_footer_programs %}
+            <li><a href="{{ item.url }}" class="text-neutral-300 hover:text-white text-sm transition-colors no-underline">{{ item.title }}</a></li>
+          {% endfor %}
+        </ul>
+      </nav>
+
+      <nav>
+        <h3 class="text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-5">Recursos</h3>
+        <ul class="space-y-3">
+          <li><a href="#" class="text-neutral-300 hover:text-white text-sm transition-colors no-underline">Documentação</a></li>
+          <li><a href="#" class="text-neutral-300 hover:text-white text-sm transition-colors no-underline">Tutoriais</a></li>
+          <li><a href="#" class="text-neutral-300 hover:text-white text-sm transition-colors no-underline">Webinars</a></li>
+          <li><a href="#" class="text-neutral-300 hover:text-white text-sm transition-colors no-underline">Comunidade</a></li>
+        </ul>
+      </nav>
+
+      <nav>
+        <h3 class="text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-5">Empresa</h3>
+        <ul class="space-y-3">
+          {% for item in menu_footer_about %}
+            <li><a href="{{ item.url }}" class="text-neutral-300 hover:text-white text-sm transition-colors no-underline">{{ item.title }}</a></li>
+          {% endfor %}
+        </ul>
+      </nav>
+    </div>
+
+    <div class="pt-8 border-t border-neutral-800 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-neutral-500">
+      <div>© {{ "now"|date("Y") }} ArchTech Suite. Todos os direitos reservados.</div>
+      <div class="flex gap-6">
+        {% for item in menu_footer_privacy_terms %}
+          <a href="{{ item.url }}" class="hover:text-neutral-300 transition-colors no-underline">{{ item.title }}</a>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</footer>

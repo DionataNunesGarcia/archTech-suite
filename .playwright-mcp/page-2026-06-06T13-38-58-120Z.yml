@@ -1,0 +1,358 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e4]:
+        - link "ArchTech Suite" [ref=e5] [cursor=pointer]:
+          - /url: "#top"
+          - img [ref=e7]
+          - generic [ref=e10]: ArchTech Suite
+        - button "Abrir menu" [ref=e11]:
+          - img [ref=e12]
+    - main [ref=e13]:
+      - generic [ref=e14]:
+        - img [ref=e16]
+        - generic [ref=e18]:
+          - generic [ref=e19]:
+            - generic [ref=e21]: IA para arquitetura · v2.0
+            - heading "Tecnologia que transforma a maneira como você projeta" [level=1] [ref=e24]
+            - paragraph [ref=e26]: A plataforma de IA que potencializa seu escritório de arquitetura — do primeiro esboço à entrega executiva, com precisão e elegância.
+            - generic [ref=e28]:
+              - link "Começar agora" [ref=e29] [cursor=pointer]:
+                - /url: "#cta"
+                - text: Começar agora
+                - img [ref=e30]
+              - link "Ver demonstração" [ref=e32] [cursor=pointer]:
+                - /url: "#demo"
+                - img [ref=e33]
+                - text: Ver demonstração
+            - paragraph [ref=e37]: Teste grátis por 14 dias · Sem cartão de crédito
+          - img "Painel da ArchTech Suite mostrando modelo 3D, plantas e métricas" [ref=e42]
+      - generic [ref=e44]:
+        - paragraph [ref=e45]: Escritórios que projetam o futuro com ArchTech
+        - generic [ref=e47]:
+          - generic [ref=e48]: Studio Vértice
+          - generic [ref=e49]: Forma+ Arquitetos
+          - generic [ref=e50]: Lamina Design
+          - generic [ref=e51]: Ateliê Plano
+          - generic [ref=e52]: Norte Arquitetura
+          - generic [ref=e53]: Pilar & Co.
+          - generic [ref=e54]: Casa Mestre
+          - generic [ref=e55]: BR Urban Lab
+          - generic [ref=e56]: Studio Vértice
+          - generic [ref=e57]: Forma+ Arquitetos
+          - generic [ref=e58]: Lamina Design
+          - generic [ref=e59]: Ateliê Plano
+          - generic [ref=e60]: Norte Arquitetura
+          - generic [ref=e61]: Pilar & Co.
+          - generic [ref=e62]: Casa Mestre
+          - generic [ref=e63]: BR Urban Lab
+      - generic [ref=e65]:
+        - generic [ref=e67]:
+          - generic [ref=e68]: Soluções
+          - heading "Uma plataforma. Três escalas de impacto." [level=2] [ref=e69]
+          - paragraph [ref=e70]: Da prancheta individual à coordenação de portfólios. O ArchTech se adapta ao seu modo de projetar.
+        - generic [ref=e71]:
+          - article [ref=e73]:
+            - generic [ref=e74]:
+              - img [ref=e76]
+              - img [ref=e79]
+            - heading "Para Arquitetos" [level=3] [ref=e82]
+            - paragraph [ref=e83]: Acelere esboços, gere variações de planta e produza visualizações fotorrealistas em minutos — mantendo sua autoria criativa.
+            - list [ref=e84]:
+              - listitem [ref=e85]: Esboço assistido por IA
+              - listitem [ref=e87]: Geração de variações
+              - listitem [ref=e89]: Renderização 1-clique
+          - article [ref=e92]:
+            - generic [ref=e93]:
+              - img [ref=e95]
+              - img [ref=e99]
+            - heading "Para Escritórios" [level=3] [ref=e102]
+            - paragraph [ref=e103]: Padronize fluxos, centralize bibliotecas e colabore em tempo real entre equipes técnica, projetos e gestão.
+            - list [ref=e104]:
+              - listitem [ref=e105]: Biblioteca compartilhada
+              - listitem [ref=e107]: Versionamento de projeto
+              - listitem [ref=e109]: Aprovações em tempo real
+          - article [ref=e112]:
+            - generic [ref=e113]:
+              - img [ref=e115]
+              - img [ref=e120]
+            - heading "Para Grandes Projetos" [level=3] [ref=e123]
+            - paragraph [ref=e124]: Coordenação BIM integrada, análise de viabilidade automatizada e governança de dados para portfólios complexos.
+            - list [ref=e125]:
+              - listitem [ref=e126]: Coordenação BIM nativa
+              - listitem [ref=e128]: Análise de viabilidade
+              - listitem [ref=e130]: Auditoria e compliance
+      - generic [ref=e136]:
+        - generic [ref=e137]: Manifesto
+        - heading "A arquitetura não é feita por máquinas. É feita por arquitetos com ferramentas melhores." [level=2] [ref=e139]:
+          - text: A arquitetura não é feita por máquinas.
+          - text: É feita por arquitetos com ferramentas melhores.
+        - paragraph [ref=e140]: O ArchTech amplifica seu repertório, libera seu tempo e protege sua autoria. A tecnologia trabalha em silêncio — você assina o projeto.
+      - generic [ref=e142]:
+        - generic [ref=e144]:
+          - generic [ref=e145]: Recursos
+          - heading "Do partido ao detalhe executivo" [level=2] [ref=e146]
+        - generic [ref=e147]:
+          - generic [ref=e148]:
+            - generic [ref=e150]:
+              - generic [ref=e151]: Concepção
+              - heading "Do esboço à massa volumétrica em segundos" [level=3] [ref=e152]
+              - paragraph [ref=e153]: Descreva a intenção e a IA propõe partidos arquitetônicos coerentes com o terreno, programa e código local. Você refina; ela aprende.
+              - list [ref=e154]:
+                - listitem [ref=e155]:
+                  - img [ref=e157]
+                  - text: Geração paramétrica de volumetria
+                - listitem [ref=e159]:
+                  - img [ref=e161]
+                  - text: Compatibilidade com terreno e zoneamento
+                - listitem [ref=e163]:
+                  - img [ref=e165]
+                  - text: Estudo solar e ventilação automáticos
+            - img "Do esboço à massa volumétrica em segundos" [ref=e171]
+          - generic [ref=e172]:
+            - generic [ref=e174]:
+              - generic [ref=e175]: Colaboração
+              - heading "Toda a equipe no mesmo modelo, em tempo real" [level=3] [ref=e176]
+              - paragraph [ref=e177]: Comentários ancorados, controle de versões e aprovações fluidas. Sincronização nativa com Revit, ArchiCAD e SketchUp.
+              - list [ref=e178]:
+                - listitem [ref=e179]:
+                  - img [ref=e181]
+                  - text: Sincronização nativa com BIM
+                - listitem [ref=e183]:
+                  - img [ref=e185]
+                  - text: Comentários ancorados ao modelo
+                - listitem [ref=e187]:
+                  - img [ref=e189]
+                  - text: Permissões granulares por papel
+            - img "Toda a equipe no mesmo modelo, em tempo real" [ref=e195]
+          - generic [ref=e196]:
+            - generic [ref=e198]:
+              - generic [ref=e199]: Entrega
+              - heading "Pranchas executivas que se atualizam sozinhas" [level=3] [ref=e200]
+              - paragraph [ref=e201]: Mude o modelo e toda a documentação responde — plantas, cortes, quadros e memoriais. Padrão visual do seu escritório, sempre.
+              - list [ref=e202]:
+                - listitem [ref=e203]:
+                  - img [ref=e205]
+                  - text: Templates do seu escritório
+                - listitem [ref=e207]:
+                  - img [ref=e209]
+                  - text: Quadros de áreas automáticos
+                - listitem [ref=e211]:
+                  - img [ref=e213]
+                  - text: Exportação multi-formato
+            - img "Pranchas executivas que se atualizam sozinhas" [ref=e219]
+      - generic [ref=e224]:
+        - generic [ref=e225]:
+          - generic [ref=e226]: "+12.000"
+          - paragraph [ref=e227]: horas economizadas por escritório / ano
+        - generic [ref=e228]:
+          - generic [ref=e229]: 40%
+          - paragraph [ref=e230]: menos tempo em estudos preliminares
+        - generic [ref=e231]:
+          - generic [ref=e232]: 98%
+          - paragraph [ref=e233]: de aderência aos padrões executivos
+      - generic [ref=e235]:
+        - generic [ref=e237]:
+          - generic [ref=e238]: Como funciona
+          - heading "Quatro etapas. Um fluxo contínuo." [level=2] [ref=e239]
+        - generic [ref=e242]:
+          - generic [ref=e245]:
+            - generic [ref=e246]: "01"
+            - heading "Importe ou crie" [level=3] [ref=e247]
+            - paragraph [ref=e248]: Suba seu terreno, briefing e referências. Ou comece do zero com prompts em português.
+          - generic [ref=e251]:
+            - generic [ref=e252]: "02"
+            - heading "Gere e refine" [level=3] [ref=e253]
+            - paragraph [ref=e254]: A IA produz partidos. Você ajusta volumes, programa e materiais com controles familiares.
+          - generic [ref=e257]:
+            - generic [ref=e258]: "03"
+            - heading "Coordene e detalhe" [level=3] [ref=e259]
+            - paragraph [ref=e260]: Sincronize com BIM, gere documentação executiva e mantenha tudo conectado.
+          - generic [ref=e263]:
+            - generic [ref=e264]: "04"
+            - heading "Apresente e entregue" [level=3] [ref=e265]
+            - paragraph [ref=e266]: Renderizações, vídeos e pranchas com a identidade do seu escritório, prontos para o cliente.
+      - generic [ref=e268]:
+        - generic [ref=e270]:
+          - generic [ref=e271]: Depoimentos
+          - heading "Escritórios que já transformaram seu fluxo" [level=2] [ref=e272]
+        - generic [ref=e274]:
+          - article [ref=e275]:
+            - img [ref=e276]
+            - paragraph [ref=e279]: "“Reduzimos em 40% o tempo de estudo preliminar. A equipe agora dedica mais horas ao que importa: projeto autoral.”"
+            - generic [ref=e280]:
+              - generic [ref=e281]: MS
+              - generic [ref=e282]:
+                - generic [ref=e283]: Marina Sales
+                - generic [ref=e284]: Sócia-fundadora · Studio Vértice
+              - generic [ref=e285]:
+                - button "Anterior" [ref=e286]:
+                  - img [ref=e287]
+                - button "Próximo" [ref=e289]:
+                  - img [ref=e290]
+          - generic [ref=e292]:
+            - button "Ir para depoimento 1" [ref=e293]
+            - button "Ir para depoimento 2" [ref=e294]
+            - button "Ir para depoimento 3" [ref=e295]
+      - generic [ref=e297]:
+        - generic [ref=e299]:
+          - generic [ref=e300]: Planos
+          - heading "Preço que acompanha seu escritório" [level=2] [ref=e301]
+          - paragraph [ref=e302]: Comece grátis. Atualize quando fizer sentido. Cancele a qualquer momento.
+        - generic [ref=e303]:
+          - article [ref=e305]:
+            - heading "Professional" [level=3] [ref=e306]
+            - paragraph [ref=e307]: Para arquitetos autônomos e pequenas equipes começando com IA.
+            - generic [ref=e308]:
+              - generic [ref=e309]: R$ 189
+              - generic [ref=e310]: /mês por usuário
+            - link "Começar grátis" [ref=e311] [cursor=pointer]:
+              - /url: "#cta"
+            - list [ref=e312]:
+              - listitem [ref=e313]:
+                - img [ref=e315]
+                - text: Até 3 projetos ativos
+              - listitem [ref=e317]:
+                - img [ref=e319]
+                - text: Geração de variações ilimitada
+              - listitem [ref=e321]:
+                - img [ref=e323]
+                - text: Renderização 1080p
+              - listitem [ref=e325]:
+                - img [ref=e327]
+                - text: Suporte por email
+          - article [ref=e330]:
+            - generic [ref=e331]: Mais escolhido
+            - heading "Studio" [level=3] [ref=e332]
+            - paragraph [ref=e333]: Para escritórios que precisam de colaboração e fluxo padronizado.
+            - generic [ref=e334]:
+              - generic [ref=e335]: R$ 449
+              - generic [ref=e336]: /mês por usuário
+            - link "Testar 14 dias" [ref=e337] [cursor=pointer]:
+              - /url: "#cta"
+            - list [ref=e338]:
+              - listitem [ref=e339]:
+                - img [ref=e341]
+                - text: Projetos ilimitados
+              - listitem [ref=e343]:
+                - img [ref=e345]
+                - text: Sincronização BIM nativa
+              - listitem [ref=e347]:
+                - img [ref=e349]
+                - text: Renderização 4K
+              - listitem [ref=e351]:
+                - img [ref=e353]
+                - text: Biblioteca compartilhada
+              - listitem [ref=e355]:
+                - img [ref=e357]
+                - text: Suporte prioritário
+          - article [ref=e360]:
+            - heading "Enterprise" [level=3] [ref=e361]
+            - paragraph [ref=e362]: Para grandes operações com governança, compliance e SLA dedicado.
+            - generic [ref=e364]: Sob consulta
+            - link "Falar com vendas" [ref=e365] [cursor=pointer]:
+              - /url: "#cta"
+            - list [ref=e366]:
+              - listitem [ref=e367]:
+                - img [ref=e369]
+                - text: Tudo do Studio
+              - listitem [ref=e371]:
+                - img [ref=e373]
+                - text: SSO e auditoria
+              - listitem [ref=e375]:
+                - img [ref=e377]
+                - text: Onboarding dedicado
+              - listitem [ref=e379]:
+                - img [ref=e381]
+                - text: Gerente de conta
+              - listitem [ref=e383]:
+                - img [ref=e385]
+                - text: SLA 99,9%
+      - generic [ref=e391]:
+        - generic [ref=e392]: Comece em minutos
+        - heading "Pronto para projetar com inteligência?" [level=2] [ref=e394]
+        - paragraph [ref=e395]: Crie sua conta e receba acesso imediato à plataforma. Sem cartão de crédito, sem complicação.
+        - generic [ref=e396]:
+          - textbox "seu@email.com" [ref=e397]
+          - button "Começar agora" [ref=e398]:
+            - text: Começar agora
+            - img [ref=e399]
+        - paragraph [ref=e401]: 14 dias grátis · Cancele quando quiser
+    - contentinfo [ref=e402]:
+      - generic [ref=e403]:
+        - generic [ref=e404]:
+          - generic [ref=e405]:
+            - generic [ref=e406]:
+              - img [ref=e408]
+              - generic [ref=e411]: ArchTech Suite
+            - paragraph [ref=e412]: A plataforma de IA para escritórios de arquitetura que projetam com precisão, colaboração e identidade.
+          - generic [ref=e413]:
+            - heading "Produto" [level=4] [ref=e414]
+            - list [ref=e415]:
+              - listitem [ref=e416]:
+                - link "Soluções" [ref=e417] [cursor=pointer]:
+                  - /url: "#"
+              - listitem [ref=e418]:
+                - link "Recursos" [ref=e419] [cursor=pointer]:
+                  - /url: "#"
+              - listitem [ref=e420]:
+                - link "Planos" [ref=e421] [cursor=pointer]:
+                  - /url: "#"
+              - listitem [ref=e422]:
+                - link "Novidades" [ref=e423] [cursor=pointer]:
+                  - /url: "#"
+              - listitem [ref=e424]:
+                - link "Roadmap" [ref=e425] [cursor=pointer]:
+                  - /url: "#"
+          - generic [ref=e426]:
+            - heading "Recursos" [level=4] [ref=e427]
+            - list [ref=e428]:
+              - listitem [ref=e429]:
+                - link "Documentação" [ref=e430] [cursor=pointer]:
+                  - /url: "#"
+              - listitem [ref=e431]:
+                - link "Tutoriais" [ref=e432] [cursor=pointer]:
+                  - /url: "#"
+              - listitem [ref=e433]:
+                - link "Webinars" [ref=e434] [cursor=pointer]:
+                  - /url: "#"
+              - listitem [ref=e435]:
+                - link "Comunidade" [ref=e436] [cursor=pointer]:
+                  - /url: "#"
+              - listitem [ref=e437]:
+                - link "Status" [ref=e438] [cursor=pointer]:
+                  - /url: "#"
+          - generic [ref=e439]:
+            - heading "Empresa" [level=4] [ref=e440]
+            - list [ref=e441]:
+              - listitem [ref=e442]:
+                - link "Sobre" [ref=e443] [cursor=pointer]:
+                  - /url: "#"
+              - listitem [ref=e444]:
+                - link "Carreiras" [ref=e445] [cursor=pointer]:
+                  - /url: "#"
+              - listitem [ref=e446]:
+                - link "Imprensa" [ref=e447] [cursor=pointer]:
+                  - /url: "#"
+              - listitem [ref=e448]:
+                - link "Contato" [ref=e449] [cursor=pointer]:
+                  - /url: "#"
+              - listitem [ref=e450]:
+                - link "Parceiros" [ref=e451] [cursor=pointer]:
+                  - /url: "#"
+        - generic [ref=e452]:
+          - paragraph [ref=e453]: © 2026 ArchTech Suite. Todos os direitos reservados.
+          - generic [ref=e454]:
+            - link "Privacidade" [ref=e455] [cursor=pointer]:
+              - /url: "#"
+            - link "Termos" [ref=e456] [cursor=pointer]:
+              - /url: "#"
+            - link "Cookies" [ref=e457] [cursor=pointer]:
+              - /url: "#"
+  - complementary "Edit with Lovable" [ref=e458]:
+    - link "Edit with Lovable" [ref=e459] [cursor=pointer]:
+      - /url: https://lovable.dev/projects/b628ef11-b7c5-43b9-8c4b-b918bb20c5a9?utm_source=lovable-badge
+      - generic [ref=e460]: Edit with
+      - img [ref=e461]
+    - button "Dismiss" [ref=e466] [cursor=pointer]:
+      - img [ref=e467]

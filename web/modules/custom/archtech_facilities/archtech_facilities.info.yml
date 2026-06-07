@@ -1,0 +1,5 @@
+name: 'ArchTech archtech_facilities'
+type: module
+description: 'ArchTech archtech_facilities module'
+core_version_requirement: ^11
+package: 'ArchTech'

@@ -1,0 +1,108 @@
+- generic [active] [ref=e1]:
+  - link "Skip to main content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - generic [ref=e5]:
+        - link "ArchTech Suite logo" [ref=e8] [cursor=pointer]:
+          - /url: /
+          - img "ArchTech Suite logo" [ref=e9]
+        - navigation [ref=e11]:
+          - list [ref=e13]:
+            - listitem [ref=e14]:
+              - link "Home" [ref=e15] [cursor=pointer]:
+                - /url: /
+    - main [ref=e16]:
+      - generic [ref=e22]:
+        - paragraph [ref=e23]:
+          - emphasis [ref=e24]: You haven’t created any frontpage content yet.
+        - heading "Congratulations and welcome to the Drupal community." [level=2] [ref=e25]
+        - paragraph [ref=e26]:
+          - text: Drupal is an open source platform for building amazing digital experiences. It’s made, used, taught, documented, and marketed by the
+          - link "Drupal community" [ref=e27] [cursor=pointer]:
+            - /url: https://www.drupal.org/community
+          - text: . Our community is made up of people from around the world with a shared set of
+          - link "values" [ref=e28] [cursor=pointer]:
+            - /url: https://www.drupal.org/about/values-and-principles
+          - text: ", collaborating together in a respectful manner. As we like to say:"
+        - blockquote [ref=e29]: Come for the code, stay for the community.
+        - heading "Get Started" [level=2] [ref=e30]
+        - paragraph [ref=e31]: "There are a few ways to get started with Drupal:"
+        - list [ref=e32]:
+          - listitem [ref=e33]:
+            - link "User Guide:" [ref=e34] [cursor=pointer]:
+              - /url: https://www.drupal.org/docs/user_guide/en/index.html
+            - text: Includes installing, administering, site building, and maintaining the content of a Drupal website.
+          - listitem [ref=e35]:
+            - link "Create Content:" [ref=e36] [cursor=pointer]:
+              - /url: /node/add
+            - text: Want to get right to work? Start adding content.
+            - strong [ref=e37]: "Note:"
+            - text: the information on this page will go away once you add content to your site. Read on and bookmark resources of interest.
+          - listitem [ref=e38]:
+            - link "Extend Drupal:" [ref=e39] [cursor=pointer]:
+              - /url: https://www.drupal.org/docs/extending-drupal
+            - text: Drupal’s core software can be extended and customized in remarkable ways. Install additional functionality and change the look of your site using addons contributed by our community.
+        - heading "Next Steps" [level=2] [ref=e40]
+        - paragraph [ref=e41]: Bookmark these links to our active Drupal community groups and support resources.
+        - list [ref=e42]:
+          - listitem [ref=e43]:
+            - link "Upcoming Events:" [ref=e44] [cursor=pointer]:
+              - /url: https://www.drupal.org/community/events
+            - text: Learn and connect with others at conferences and events held around the world.
+          - listitem [ref=e45]:
+            - link "Community Page:" [ref=e46] [cursor=pointer]:
+              - /url: https://www.drupal.org/community
+            - text: List of key Drupal community groups with their own content.
+          - listitem [ref=e47]:
+            - text: Get support and chat with the Drupal community on
+            - link "Slack" [ref=e48] [cursor=pointer]:
+              - /url: https://www.drupal.org/slack
+            - text: or
+            - link "DrupalChat" [ref=e49] [cursor=pointer]:
+              - /url: https://www.drupal.org/drupalchat
+            - text: . When you’re looking for a solution to a problem, go to
+            - link "Drupal Support" [ref=e50] [cursor=pointer]:
+              - /url: https://www.drupal.org/support
+            - text: or
+            - link "Drupal Answers on Stack Exchange" [ref=e51] [cursor=pointer]:
+              - /url: https://drupal.stackexchange.com/
+            - text: .
+    - contentinfo [ref=e52]:
+      - generic:
+        - img
+      - generic [ref=e53]:
+        - generic [ref=e54]:
+          - generic [ref=e55]:
+            - generic [ref=e56]:
+              - img "ArchTech Suite logo" [ref=e57]
+              - img "ArchTech Suite logo" [ref=e58]
+            - paragraph [ref=e59]: Loren ipsum
+          - navigation [ref=e64]:
+            - heading "Quick links" [level=3] [ref=e65]
+            - list
+          - navigation [ref=e66]:
+            - heading "About us" [level=3] [ref=e67]
+            - list
+          - generic [ref=e68]:
+            - heading "CONNECT" [level=3] [ref=e69]
+            - generic [ref=e70]:
+              - link [ref=e71] [cursor=pointer]:
+                - /url: "#"
+                - img [ref=e72]
+              - link [ref=e74] [cursor=pointer]:
+                - /url: "#"
+                - img [ref=e75]
+              - link [ref=e77] [cursor=pointer]:
+                - /url: "#"
+                - img [ref=e78]
+              - link [ref=e81] [cursor=pointer]:
+                - /url: "#"
+                - img [ref=e82]
+            - generic [ref=e86]:
+              - paragraph [ref=e87]: Subscribe to our newsletter
+              - generic [ref=e88]:
+                - textbox "Your email" [ref=e89]
+                - button "→" [ref=e90] [cursor=pointer]
+        - generic [ref=e92]: © 2026 ArchTech Suite. All rights reserved.
+    - img "ArchTech Suite logo" [ref=e95]

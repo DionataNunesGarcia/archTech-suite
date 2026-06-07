@@ -24,18 +24,6 @@
                     "provenance": "root"
                 }
             }
-        ],
-        "drupal/pathauto": [
-            {
-                "package": "drupal/pathauto",
-                "description": "Fix ContextNotFoundException not found",
-                "url": "assets/patches/pathauto-context-exception-fix.patch",
-                "sha256": "ebe3bc6d64a155e18a3eba8b6e15c267d888883b47fcd92945a6b33343e95e6e",
-                "depth": 1,
-                "extra": {
-                    "provenance": "root"
-                }
-            }
         ]
     }
 }
