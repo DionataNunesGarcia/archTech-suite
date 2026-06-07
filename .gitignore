@@ -5,7 +5,6 @@ web/profiles/contrib
 web/themes/contrib
 web/libraries
 web/sites/default/files
-web/sites/default/settings.php
 web/sites/default/services.yml
 web/sites/settings.ddev.php
 

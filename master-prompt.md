@@ -1,4 +1,3 @@
-# Mude apenas esta linha para executar a fase desejada:
 PHASE=2
 
 ---

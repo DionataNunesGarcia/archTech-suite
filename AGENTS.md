@@ -16,12 +16,15 @@ Backend Drupal 11 headless, frontend Next.js 15, 9 bounded contexts, 24 skills d
 | **Coding Standards** | **`docs/guides/coding-standards.md`** |
 | Guia de Recipes | `docs/guides/recipe-creation.md` |
 | DDEV Setup | `docs/guides/ddev-setup.md` |
+| Event Storming | `docs/architecture/event-storming.md` |
 | ADRs | `docs/adr/` |
-| API Specs | `docs/api-specifications/` |
+| API Specs (OpenAPI) | `docs/api-specifications/archtech-openapi.yaml` |
 | Prompt Registry | `docs/ai-prompts/` |
-| Data Contracts | `docs/data-contracts/` |
+| Data Contracts | `docs/data-contracts/event-catalog.md` |
+| Threat Model | `docs/security/threat-model.md` |
+| C4 Model | `docs/architecture/c4-model.md` |
+| Backlog | `docs/backlog-sprint-1-3.md` |
 | Runbooks | `docs/runbooks/` |
-| Security | `docs/security/` |
 
 ## Skills Disponíveis
 
