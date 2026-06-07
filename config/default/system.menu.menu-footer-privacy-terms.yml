@@ -1,0 +1,8 @@
+uuid: da195648-47ea-4893-931f-c6426087341a
+langcode: pt-br
+status: true
+dependencies: {  }
+id: menu-footer-privacy-terms
+label: Privacidade
+description: 'Menu do rodapé privacidade e termos'
+locked: false

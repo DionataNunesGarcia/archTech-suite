@@ -1,0 +1,15 @@
+uuid: 8db6aac2-0f9d-415b-9502-8279953d8787
+langcode: pt-br
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: SzkcMCcwbQly4ztPHjv6jWVHGfwktsYbkWfrBsMLWdE
+id: responsive_image
+label: 'Imagem Responsiva'
+description: ''
+source: image
+queue_thumbnail_downloads: false
+new_revision: false
+source_configuration:
+  source_field: field_media_image
+field_map: {  }

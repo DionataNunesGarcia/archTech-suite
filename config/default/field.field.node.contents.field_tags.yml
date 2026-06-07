@@ -1,0 +1,31 @@
+uuid: 01f487dc-1581-4d01-804e-4b9be65e977a
+langcode: pt-br
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_tags
+    - node.type.contents
+    - taxonomy.vocabulary.tags
+_core:
+  default_config_hash: AyURPafyel8cf5t1s8D1XhnNLGNwMk5ejsm-ttONuy4
+id: node.contents.field_tags
+field_name: field_tags
+entity_type: node
+bundle: contents
+label: Topics
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      tags: tags
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

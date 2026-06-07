@@ -1,0 +1,13 @@
+uuid: 8ad82eaf-b4e2-4487-8806-911166132a03
+langcode: pt-br
+status: true
+dependencies:
+  config:
+    - node.type.contents
+_core:
+  default_config_hash: uq1e9Ha7uPc40zV-wMZ42wIUESPvrOJg5XwzImpRO7Q
+id: node.contents
+target_entity_type_id: node
+target_bundle: contents
+default_langcode: site_default
+language_alterable: true

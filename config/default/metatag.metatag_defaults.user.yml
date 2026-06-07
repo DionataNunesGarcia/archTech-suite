@@ -1,0 +1,11 @@
+uuid: 3a6c4660-916f-4602-8fa7-9b363ad2d793
+langcode: en
+status: true
+dependencies: {  }
+id: user
+label: User
+tags:
+  title: '[user:display-name] | [site:name]'
+  description: 'Profile page for [user:display-name]'
+  canonical_url: '[user:url]'
+  robots: 'noindex, follow'

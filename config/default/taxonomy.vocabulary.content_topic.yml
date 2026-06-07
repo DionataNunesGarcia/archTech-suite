@@ -1,0 +1,11 @@
+uuid: 85320449-7640-4524-bd9f-f1ebdf164de7
+langcode: pt-br
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: SKkBK73AezbvTHeVQGTvUD5sRukjT9oqoKIlzQC4sYo
+name: 'Content Category - Subject'
+vid: content_topic
+description: null
+weight: 0
+new_revision: false

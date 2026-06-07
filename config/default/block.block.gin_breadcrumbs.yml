@@ -1,0 +1,20 @@
+uuid: 0674fe18-a3bc-4d5c-80ef-e4936ebe037d
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - gin
+id: gin_breadcrumbs
+theme: gin
+region: breadcrumb
+weight: 0
+provider: null
+plugin: system_breadcrumb_block
+settings:
+  id: system_breadcrumb_block
+  label: Breadcrumb
+  label_display: '0'
+  provider: system
+visibility: {  }

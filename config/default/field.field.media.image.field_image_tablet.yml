@@ -1,0 +1,38 @@
+uuid: e93381ef-0f2b-46d2-95a9-ec08549da189
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_image_tablet
+    - media.type.image
+  module:
+    - image
+id: media.image.field_image_tablet
+field_name: field_image_tablet
+entity_type: media
+bundle: image
+label: 'Image Tablet'
+description: 'Used on screens 768px to 1024px'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:file'
+  handler_settings: {  }
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: 'png gif jpg jpeg webp'
+  max_filesize: ''
+  max_resolution: ''
+  min_resolution: ''
+  alt_field: false
+  alt_field_required: false
+  title_field: false
+  title_field_required: false
+  default_image:
+    uuid: null
+    alt: ''
+    title: ''
+    width: null
+    height: null
+field_type: image

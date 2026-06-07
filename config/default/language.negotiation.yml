@@ -1,0 +1,8 @@
+session:
+  parameter: language
+url:
+  source: path_prefix
+  prefixes:
+    pt-br: ''
+    en: en
+selected_langcode: pt-br

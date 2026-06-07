@@ -1,0 +1,8 @@
+uuid: 06e633e9-2db6-45a1-8386-487768395a31
+langcode: pt-br
+status: true
+dependencies: {  }
+id: menus-cta
+label: CTA
+description: 'Menu de chamadas para ação (CTA)'
+locked: false

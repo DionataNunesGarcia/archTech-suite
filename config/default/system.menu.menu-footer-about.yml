@@ -1,0 +1,8 @@
+uuid: 39d044ba-4569-4ae9-8502-b0cb2546bcd6
+langcode: pt-br
+status: true
+dependencies: {  }
+id: menu-footer-about
+label: Sobre
+description: 'Menu do rodapé sobre a empresa'
+locked: false

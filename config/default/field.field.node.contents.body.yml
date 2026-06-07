@@ -1,0 +1,26 @@
+uuid: 1057be84-045e-4fcf-ba45-562f9e5f68f2
+langcode: pt-br
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - node.type.contents
+  module:
+    - text
+_core:
+  default_config_hash: rovoD93hEIXlzhkbsgL9-4baoP-K12X6aRfyajof2XM
+id: node.contents.body
+field_name: body
+entity_type: node
+bundle: contents
+label: Body
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: true
+  required_summary: false
+  allowed_formats: {  }
+field_type: text_with_summary

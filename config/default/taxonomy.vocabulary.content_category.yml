@@ -1,0 +1,11 @@
+uuid: 650655ef-01b4-4166-bedf-fa2846432a2f
+langcode: pt-br
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: QUb1l6EGI2aXWb2-52XoQtUAPcIkiP9wVn-u_I5SMkY
+name: 'Categoria de Conteúdos Principal'
+vid: content_category
+description: 'Tipo de categoria para usar em conteúdos.'
+weight: 0
+new_revision: false

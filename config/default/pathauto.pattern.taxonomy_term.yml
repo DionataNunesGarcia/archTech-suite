@@ -1,0 +1,20 @@
+uuid: 0edb4214-d9d3-401f-a6ac-bd20536c7428
+langcode: en
+status: true
+dependencies:
+  module:
+    - taxonomy
+id: taxonomy_term
+label: 'Taxonomy term'
+type: 'canonical_entities:taxonomy_term'
+pattern: '/[term:vocabulary]/[term:name]'
+selection_criteria:
+  taxonomy_vocabulary:
+    id: 'entity_bundle:taxonomy_term'
+    negate: false
+    context_mapping:
+      taxonomy_term: taxonomy_term
+    bundles: {  }
+selection_logic: and
+weight: -5
+relationships: {  }

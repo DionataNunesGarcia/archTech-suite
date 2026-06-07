@@ -1,0 +1,20 @@
+uuid: d39d608c-cb82-48b1-9b13-004ba90319d2
+langcode: en
+status: true
+dependencies: {  }
+id: node
+label: Content
+tags:
+  title: '[node:title] | [site:name]'
+  description: '[node:summary]'
+  canonical_url: '[node:url]'
+  og_title: '[node:title]'
+  og_description: '[node:summary]'
+  og_url: '[node:url]'
+  og_type: article
+  article_published_time: '[node:created:html_datetime]'
+  article_modified_time: '[node:changed:html_datetime]'
+  article_author: '[node:author:display-name]'
+  twitter_cards_type: summary_large_image
+  twitter_cards_title: '[node:title]'
+  twitter_cards_description: '[node:summary]'

@@ -1,0 +1,31 @@
+uuid: 27d67fd9-9c0b-4726-ae39-0067dd48aa98
+langcode: pt-br
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_content_category
+    - node.type.contents
+    - taxonomy.vocabulary.content_topic
+_core:
+  default_config_hash: lducL49_-suNMYwP4kiGCqDXS_B0hJ09BcBuUm3sKOI
+id: node.contents.field_content_category
+field_name: field_content_category
+entity_type: node
+bundle: contents
+label: 'Content Category - Subject'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      content_topic: content_topic
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

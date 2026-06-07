@@ -1,0 +1,20 @@
+uuid: 786f80ed-f7ca-43f9-b181-0d96c234962f
+langcode: en
+status: true
+dependencies:
+  module:
+    - user
+id: user
+label: User
+type: 'canonical_entities:user'
+pattern: '/user/[user:name]'
+selection_criteria:
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: user
+    roles: {  }
+selection_logic: and
+weight: -5
+relationships: {  }

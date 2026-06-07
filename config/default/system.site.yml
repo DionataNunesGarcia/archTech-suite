@@ -1,0 +1,15 @@
+_core:
+  default_config_hash: ijfbzDTN4CbE7Sr-6ubWzy_t1vH4OtU1doNCLssVz-4
+langcode: pt-br
+uuid: 93322a36-9dcb-4f8a-8cf2-8bce6aa93ae5
+name: 'ArchTech Suite'
+mail: admin@example.com
+slogan: ''
+page:
+  403: ''
+  404: ''
+  front: /node/1
+admin_compact_mode: false
+weight_select_max: 100
+default_langcode: pt-br
+mail_notification: null

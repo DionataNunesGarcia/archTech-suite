@@ -1,0 +1,14 @@
+uuid: 12eb8c13-f24c-4777-befb-400089c41812
+langcode: en
+status: true
+dependencies: {  }
+id: front
+label: 'Front page'
+tags:
+  title: '[site:name] | [site:slogan]'
+  description: '[site:slogan]'
+  canonical_url: '[site:url]'
+  og_title: '[site:name]'
+  og_description: '[site:slogan]'
+  og_url: '[site:url]'
+  og_image: '[site:logo]'

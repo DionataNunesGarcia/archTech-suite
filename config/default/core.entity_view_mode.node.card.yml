@@ -1,0 +1,13 @@
+uuid: ca32c612-2116-4032-b807-f24b60b0794b
+langcode: pt-br
+status: true
+dependencies:
+  module:
+    - node
+_core:
+  default_config_hash: KNUrspY6w3B5PAQYaK_62HEgqf6URQv5tGPf-X4P5TA
+id: node.card
+label: Card
+description: null
+targetEntityType: node
+cache: true
