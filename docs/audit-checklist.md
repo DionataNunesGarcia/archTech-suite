@@ -1,0 +1,98 @@
+# ArchTech Suite — Auditoria de Entregas por Fase
+
+Checklist consolidado de todas as entregas do projeto, por fase. Use este arquivo para rastrear o progresso e auditar o que está pronto.
+
+---
+
+## Fase 1 — Descoberta e Arquitetura ✅
+
+| # | Tarefa | Status | Entregável | Localização |
+|---|--------|--------|-----------|-------------|
+| 1.1 | Event Storming | ✅ | Mapa de contexts, aggregates, eventos e fluxos | `docs/architecture/event-storming.md` |
+| 1.2 | ADRs | ✅ | 7 ADRs (stack, frontend, broker, workflows, banco, contexts, APIs) | `docs/adr/ADR-*.md` |
+| 1.3 | Modelagem de dados | ✅ | 45 content types em 10 contexts | `archtech-prd-enhanced.xml` |
+| 1.4 | Contract-First API | ✅ | OpenAPI 3.1 com 55 endpoints, 10 contexts | `docs/api-specifications/archtech-openapi.yaml` |
+| 1.5 | Threat Model STRIDE | ✅ | 7 camadas, 20 ameaças com impacto e mitigação | `docs/security/threat-model.md` |
+| 1.6 | Design System | ✅ | Tokens (cores, tipografia, espaçamento, efeitos) + Lovable UI | `web/themes/custom/front_theme/src/scss/tokens/` |
+| 1.7 | Backlog | ✅ | 11 user stories, 3 sprints, critérios BDD | `docs/backlog-sprint-1-3.md` |
+| 1.8 | SLOs | ✅ | 10 SLOs definidos | `archtech-prd.md` |
+| — | C4 Model | ✅ | Níveis L1 (Contexto), L2 (Containers), L3 (Componentes) | `docs/architecture/c4-model.md` |
+| — | Event Catalog | ✅ | 31 domain events catalogados | `docs/data-contracts/event-catalog.md` |
+| — | Coding Standards | ✅ | Regras PHP/Drupal/Git/HTML/CSS | `docs/guides/coding-standards.md` |
+| — | DDEV Setup | ✅ | Ambiente local (PHP 8.4, PostgreSQL 18, nginx-fpm) | `docs/guides/ddev-setup.md` |
+| — | Recipe Guide | ✅ | Como criar recipes ArchTech | `docs/guides/recipe-creation.md` |
+| — | Site Instalado | ✅ | Drupal 11.3 com front_theme + 25 recipes aplicadas | `https://archtech.ddev.site:8443` |
+
+### Definition of Done — Fase 1
+
+- [x] ADRs revisados (7) — aprovados
+- [x] API specs OpenAPI 3.1 com 55 endpoints — YAML válido
+- [x] Backlog com estimativas para Sprint 1
+- [x] Threat Model STRIDE documentado
+
+---
+
+## Fase 2 — Infraestrutura, CI/CD e Segurança Base
+
+| # | Tarefa | Status | Observação |
+|---|--------|--------|------------|
+| 2.1 | Terraform (VPC, EKS, RDS, Redis) | ❌ Pendente | Criar `terraform/` |
+| 2.2 | Kubernetes (namespaces, RBAC, NetworkPolicies) | ❌ Pendente | Criar `k8s/` |
+| 2.3 | CI Backend (lint → SAST → tests → Docker → Helm) | ⚠️ Parcial | Workflow `test.yml` existe mas sem quality gates |
+| 2.4 | CI Frontend (lint → type-check → jest → Lighthouse → deploy) | ❌ Pendente | Precisa criar workflow |
+| 2.5 | Quality gates bloqueantes | ❌ Pendente | Coverage, Snyk, Lighthouse, tsc, Spectral |
+| 2.6 | HashiCorp Vault | ❌ Pendente | Gestão de secrets |
+| 2.7 | WAF + DDoS | ❌ Pendente | Depende de cloud provider |
+| 2.8 | Observabilidade (Prometheus/Grafana/Loki/Jaeger) | ❌ Pendente | Criar `monitoring/` |
+| 2.9 | DDEV com paridade de serviços | ⚠️ Parcial | DDEV OK, faltam Redis + RabbitMQ como add-ons |
+| 2.10 | RabbitMQ (exchanges, queues, DLQ) | ❌ Pendente | Instalar módulo + configurar |
+
+**DoD Fase 2:** Todos pendentes ❌
+
+---
+
+## Fase 3 — Backend Modular — Plataforma Core
+
+| # | Tarefa | Status | Observação |
+|---|--------|--------|------------|
+| 3.1 | Clonar e configurar drupal-recipes-base | ✅ Feito | Recipes base aplicadas |
+| 3.2 | archtech_core_api | ❌ Pendente | Controller base, paginação, filtros |
+| 3.3 | archtech_security | ❌ Pendente | OAuth2/OIDC, RBAC, audit log |
+| 3.4 | archtech_events | ❌ Pendente | EventDispatcher, Outbox Pattern, RabbitMQ |
+| 3.5 | archtech_feature_flags | ❌ Pendente | Redis feature flags |
+| 3.6 | archtech_ai_gateway | ❌ Pendente | Circuit breaker, prompt registry |
+| 3.7-3.12 | Módulos de squad (6) | ❌ Pendente | Stubs criados, implementar lógica |
+
+---
+
+## Fase 4 — Frontend — Design System e Dashboards
+
+| # | Tarefa | Status | Observação |
+|---|--------|--------|------------|
+| 4.1-4.14 | Setup Next.js, Storybook, dashboards, PWA | ❌ Pendente | Frontend não iniciado |
+
+---
+
+## Fase 5 — Integração e Orquestração de IA
+
+| # | Tarefa | Status | Observação |
+|---|--------|--------|------------|
+| 5.1-5.11 | n8n, LangSmith, prompts, circuit breakers | ❌ Pendente | Skills dos agentes prontas, integração pendente |
+
+---
+
+## Fase 6 — Testes, Segurança e QA
+
+| # | Tarefa | Status | Observação |
+|---|--------|--------|------------|
+| 6.1-6.9 | E2E, carga, pentest, acessibilidade, DR | ❌ Pendente | Não iniciado |
+
+---
+
+## Legendas
+
+| Símbolo | Significado |
+|---------|-------------|
+| ✅ | Completo |
+| ⚠️ | Parcial / Incompleto |
+| ❌ | Não iniciado |

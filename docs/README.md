@@ -1,6 +1,6 @@
 # ArchTech Suite — Documentação
 
-Índice central da documentação técnica e de produto.
+Índice central da documentação técnica e de produto. Para auditoria do progresso por fase, consulte `audit-checklist.md`.
 
 ## Produto
 
@@ -14,10 +14,10 @@
 
 | Diretório | Descrição |
 |-----------|-----------|
-| `architecture/` | Visão arquitetural, modelos C4, decisões |
+| `architecture/` | Visão arquitetural, Event Storming, C4 model, ADRs |
 | `adr/` | Architectural Decision Records (7 ADRs) |
-| `api-specifications/` | Contratos OpenAPI 3.1 (Contract-First) |
-| `data-contracts/` | JSON Schema dos domain events |
+| `api-specifications/` | Contratos OpenAPI 3.1 (Contract-First) — 55 endpoints, 10 contexts |
+| `data-contracts/` | Catálogo de domain events (32 eventos) |
 
 ## Desenvolvimento
 
@@ -25,7 +25,8 @@
 |-----------|-----------|
 | `guides/` | Guias de coding standards, recipes, DDEV setup |
 | `runbooks/` | Runbooks operacionais (DR, deploy, troubleshooting) |
-| `security/` | Diretrizes de segurança, threat model |
+| `security/` | Diretrizes de segurança, threat model STRIDE |
+| `backlog-sprint-1-3.md` (raiz docs) | Backlog detalhado com user stories e critérios BDD |
 
 ## IA e Prompts
 

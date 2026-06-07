@@ -1,0 +1,1046 @@
+openapi: 3.1.0
+info:
+  title: ArchTech Suite API
+  description: API do ecossistema de IA para escritórios de arquitetura. 10 bounded contexts, 55 endpoints.
+  version: "1.0.0"
+  contact:
+    name: ArchTech Team
+  x-bounded-contexts:
+    - client_portal
+    - architecture_crm
+    - commercial_proposals
+    - financial_management
+    - technical_library
+    - permit_approval
+    - supplier_management
+    - facilities_post_construction
+    - bim_digital_twin
+    - marketplace
+
+servers:
+  - url: https://archtech.ddev.site/api/v1
+    description: Desenvolvimento local (DDEV)
+  - url: https://api.archtech.com.br/v1
+    description: Produção
+
+components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://archtech.ddev.site/oauth/authorize
+          tokenUrl: https://archtech.ddev.site/oauth/token
+          scopes:
+            client_portal: Acesso ao Portal do Cliente
+            crm: Acesso ao CRM
+            proposals: Acesso a Propostas
+            financeiro: Acesso Financeiro
+            library: Acesso à Biblioteca Técnica
+            permits: Acesso a Aprovações
+            suppliers: Acesso a Fornecedores
+            facilities: Acesso a Facilities
+            bim: Acesso ao BIM
+            marketplace: Acesso ao Marketplace
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Código do erro
+        message:
+          type: string
+          description: Mensagem legível
+        trace_id:
+          type: string
+          description: ID para rastreamento
+      required: [error, message]
+    Pagination:
+      type: object
+      properties:
+        items:
+          type: array
+        cursor:
+          type: string
+          description: Cursor para próxima página
+        has_more:
+          type: boolean
+
+paths:
+  # ─── F01 — Portal do Cliente ───────────────────────────
+  /client-portal/projects/{id}/timeline:
+    get:
+      operationId: getClientProjectTimeline
+      summary: Timeline completa do projeto visível ao cliente
+      tags: [client-portal]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: Timeline do projeto
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    titulo: { type: string }
+                    fase: { type: string }
+                    status: { type: string }
+                    percentual: { type: integer }
+
+  /client-portal/projects/{id}/approve:
+    post:
+      operationId: approveProjectStage
+      summary: Registra aprovação ou rejeição de etapa
+      tags: [client-portal]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                stage_id: { type: integer }
+                status: { type: string, enum: [aprovado, rejeitado] }
+                comentario: { type: string }
+      responses:
+        "200": { description: Aprovação registrada }
+
+  /client-portal/documents/upload:
+    post:
+      operationId: uploadClientDocument
+      summary: Upload de documento pelo cliente
+      tags: [client-portal]
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                project_id: { type: integer }
+                arquivo: { type: string, format: binary }
+                tipo: { type: string }
+      responses:
+        "201": { description: Documento enviado }
+
+  /client-portal/projects/{id}/financial:
+    get:
+      operationId: getClientFinancialStatement
+      summary: Extrato financeiro do projeto
+      tags: [client-portal]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: Extrato financeiro
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  valor_total: { type: number }
+                  valor_pago: { type: number }
+                  parcelas: { type: array }
+
+  /client-portal/documents/{id}/sign:
+    post:
+      operationId: signDocument
+      summary: Solicita assinatura digital de documento
+      tags: [client-portal]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200": { description: Assinatura iniciada }
+
+  /client-portal/projects/{id}/documents:
+    get:
+      operationId: listClientDocuments
+      summary: Lista documentos disponíveis para o cliente
+      tags: [client-portal]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: Lista de documentos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    titulo: { type: string }
+                    tipo: { type: string }
+                    versao: { type: string }
+
+  # ─── F02 — CRM ─────────────────────────────────────────
+  /crm/leads:
+    post:
+      operationId: createCrmLead
+      summary: Cria novo lead no CRM
+      tags: [crm]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nome: { type: string }
+                email: { type: string, format: email }
+                telefone: { type: string }
+                tipo_projeto: { type: string }
+                score: { type: integer }
+      responses:
+        "201": { description: Lead criado }
+
+  /crm/leads/{id}:
+    get:
+      operationId: getCrmLead
+      summary: Detalhes do lead com histórico
+      tags: [crm]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: Dados do lead
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id: { type: integer }
+                  nome: { type: string }
+                  stage: { type: string }
+                  score: { type: integer }
+
+  /crm/opportunities/{id}/status:
+    put:
+      operationId: updateOpportunityStatus
+      summary: Atualiza stage da oportunidade
+      tags: [crm]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status: { type: string }
+      responses:
+        "200": { description: Status atualizado }
+
+  /crm/briefings:
+    post:
+      operationId: createBriefing
+      summary: Registra briefing vinculado a lead
+      tags: [crm]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                lead_id: { type: integer }
+                tipo_projeto: { type: string }
+                area_estimada: { type: number }
+      responses:
+        "201": { description: Briefing criado }
+
+  /crm/pipeline:
+    get:
+      operationId: getPipeline
+      summary: Pipeline completo com métricas por stage
+      tags: [crm]
+      responses:
+        "200":
+          description: Pipeline
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  stages:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        stage: { type: string }
+                        count: { type: integer }
+                        total_value: { type: number }
+
+  /crm/activities:
+    post:
+      operationId: registerActivity
+      summary: Registra atividade em lead/opportunity
+      tags: [crm]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                lead_id: { type: integer }
+                tipo: { type: string, enum: [call, email, reuniao] }
+                descricao: { type: string }
+      responses:
+        "201": { description: Atividade registrada }
+
+  # ─── F03 — Propostas ───────────────────────────────────
+  /proposals:
+    post:
+      operationId: createProposal
+      summary: Cria nova proposta (manual ou via IA)
+      tags: [proposals]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                opportunity_id: { type: integer }
+                client_id: { type: integer }
+                template_id: { type: integer }
+                conteudo: { type: string }
+      responses:
+        "201": { description: Proposta criada }
+
+  /proposals/{id}:
+    get:
+      operationId: getProposal
+      summary: Retorna proposta com histórico
+      tags: [proposals]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: Dados da proposta
+
+  /proposals/{id}/pdf:
+    get:
+      operationId: generateProposalPdf
+      summary: Gera e retorna PDF da proposta
+      tags: [proposals]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: PDF da proposta
+          content:
+            application/pdf: {}
+
+  /proposals/{id}/sign:
+    post:
+      operationId: startProposalSignature
+      summary: Inicia fluxo de assinatura digital
+      tags: [proposals]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200": { description: Assinatura iniciada }
+
+  /proposals/{id}/revision:
+    post:
+      operationId: createProposalRevision
+      summary: Cria nova versão da proposta
+      tags: [proposals]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "201": { description: Versão criada }
+
+  /proposal-templates:
+    get:
+      operationId: listProposalTemplates
+      summary: Lista templates por tipo de projeto
+      tags: [proposals]
+      parameters:
+        - name: tipo_projeto
+          in: query
+          schema: { type: string }
+      responses:
+        "200":
+          description: Lista de templates
+
+  # ─── F04 — Financeiro ──────────────────────────────────
+  /finance/receivables:
+    post:
+      operationId: createReceivable
+      summary: Cria conta a receber
+      tags: [financeiro]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                client_id: { type: integer }
+                project_id: { type: integer }
+                valor: { type: number }
+                data_vencimento: { type: string, format: date }
+      responses:
+        "201": { description: Conta a receber criada }
+
+  /finance/payables:
+    post:
+      operationId: createPayable
+      summary: Cria conta a pagar
+      tags: [financeiro]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                supplier_id: { type: integer }
+                descricao: { type: string }
+                valor: { type: number }
+                data_vencimento: { type: string, format: date }
+      responses:
+        "201": { description: Conta a pagar criada }
+
+  /finance/cashflow:
+    get:
+      operationId: getCashFlow
+      summary: Fluxo de caixa por período
+      tags: [financeiro]
+      parameters:
+        - name: data_inicio
+          in: query
+          schema: { type: string, format: date }
+        - name: data_fim
+          in: query
+          schema: { type: string, format: date }
+      responses:
+        "200":
+          description: Fluxo de caixa
+
+  /finance/projects/{id}/margin:
+    get:
+      operationId: getProjectMargin
+      summary: Margem de lucro do projeto
+      tags: [financeiro]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: Margem do projeto
+
+  /finance/forecast:
+    get:
+      operationId: getCashFlowForecast
+      summary: Previsão de caixa para N meses
+      tags: [financeiro]
+      parameters:
+        - name: months
+          in: query
+          schema: { type: integer, default: 3 }
+      responses:
+        "200":
+          description: Previsão financeira
+
+  /finance/collection/{id}:
+    post:
+      operationId: triggerCollection
+      summary: Aciona cobrança automática
+      tags: [financeiro]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200": { description: Cobrança acionada }
+
+  # ─── F05 — Biblioteca Técnica ──────────────────────────
+  /library/documents:
+    post:
+      operationId: uploadDocument
+      summary: Upload e indexação de documento técnico
+      tags: [library]
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                arquivo: { type: string, format: binary }
+                titulo: { type: string }
+                tipo: { type: string }
+      responses:
+        "201": { description: Documento enviado e indexando }
+
+  /library/search:
+    get:
+      operationId: searchLibrary
+      summary: Busca semântica na biblioteca
+      tags: [library]
+      parameters:
+        - name: query
+          in: query
+          required: true
+          schema: { type: string }
+        - name: tipo
+          in: query
+          schema: { type: string }
+        - name: municipio
+          in: query
+          schema: { type: string }
+      responses:
+        "200":
+          description: Resultados da busca
+
+  /library/ask:
+    get:
+      operationId: askRagQuery
+      summary: Consulta RAG fundamentada nos documentos
+      tags: [library]
+      parameters:
+        - name: question
+          in: query
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: Resposta fundamentada
+
+  /library/documents/{id}:
+    get:
+      operationId: getDocumentDetail
+      summary: Detalhe do documento com chunks
+      tags: [library]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: Documento com chunks relevantes
+
+  /library/checklists/{type}:
+    get:
+      operationId: getChecklistByType
+      summary: Checklist para tipo e fase de projeto
+      tags: [library]
+      parameters:
+        - name: type
+          in: path
+          required: true
+          schema: { type: string }
+        - name: fase
+          in: query
+          schema: { type: string }
+      responses:
+        "200":
+          description: Checklist
+
+  # ─── F06 — Aprovação (Permits) ─────────────────────────
+  /permits/process:
+    post:
+      operationId: createPermitProcess
+      summary: Cria novo processo de aprovação
+      tags: [permits]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                project_id: { type: integer }
+                municipio: { type: string }
+                tipo_licenca: { type: string }
+      responses:
+        "201": { description: Processo criado }
+
+  /permits/process/{id}/requirements:
+    get:
+      operationId: listPermitRequirements
+      summary: Lista exigências pendentes
+      tags: [permits]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: Lista de exigências
+
+  /permits/process/{id}/requirement:
+    post:
+      operationId: addPermitRequirement
+      summary: Adiciona nova exigência ao processo
+      tags: [permits]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                descricao: { type: string }
+                prazo: { type: string, format: date }
+      responses:
+        "201": { description: Exigência adicionada }
+
+  /permits/documents/generate:
+    post:
+      operationId: generateOfficialDocument
+      summary: Gera documento padrão via IA
+      tags: [permits]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                permit_process_id: { type: integer }
+                document_type: { type: string }
+                template_ref: { type: string }
+      responses:
+        "200":
+          description: Documento gerado
+
+  /permits/advisor:
+    get:
+      operationId: getPermitAdvisor
+      summary: Consulta requisitos por tipo e município
+      tags: [permits]
+      parameters:
+        - name: type
+          in: query
+          required: true
+          schema: { type: string }
+        - name: city
+          in: query
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: Requisitos para aprovação
+
+  # ─── F07 — Fornecedores ────────────────────────────────
+  /suppliers:
+    post:
+      operationId: createSupplier
+      summary: Cadastra novo fornecedor
+      tags: [suppliers]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                razao_social: { type: string }
+                cnpj: { type: string }
+                tipo: { type: string }
+                contato_email: { type: string, format: email }
+      responses:
+        "201": { description: Fornecedor cadastrado }
+
+  /suppliers/{id}/ratings:
+    get:
+      operationId: getSupplierRatings
+      summary: Histórico de avaliações do fornecedor
+      tags: [suppliers]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: Avaliações do fornecedor
+    post:
+      operationId: createSupplierRating
+      summary: Registra nova avaliação pós-serviço
+      tags: [suppliers]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                project_id: { type: integer }
+                qualidade: { type: integer, minimum: 1, maximum: 10 }
+                prazo: { type: integer, minimum: 1, maximum: 10 }
+                preco: { type: integer, minimum: 1, maximum: 10 }
+      responses:
+        "201": { description: Avaliação registrada }
+
+  /suppliers/recommend:
+    get:
+      operationId: recommendSuppliers
+      summary: Sugestão de fornecedores por tipo e localização
+      tags: [suppliers]
+      parameters:
+        - name: service
+          in: query
+          required: true
+          schema: { type: string }
+        - name: location
+          in: query
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: Fornecedores recomendados
+
+  /suppliers/{id}/sla:
+    get:
+      operationId: getSupplierSla
+      summary: Status de SLA do fornecedor
+      tags: [suppliers]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: Status do SLA
+
+  # ─── F08 — Facilities ──────────────────────────────────
+  /facilities/maintenance:
+    post:
+      operationId: scheduleMaintenance
+      summary: Agenda nova manutenção
+      tags: [facilities]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                project_id: { type: integer }
+                titulo: { type: string }
+                tipo: { type: string }
+                data_proxima: { type: string, format: date }
+      responses:
+        "201": { description: Manutenção agendada }
+
+  /facilities/warranties/{id}:
+    get:
+      operationId: getWarrantyDetail
+      summary: Detalhes e status das garantias
+      tags: [facilities]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: Dados da garantia
+
+  /facilities/inspections:
+    post:
+      operationId: registerInspection
+      summary: Registra relatório de vistoria
+      tags: [facilities]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                project_id: { type: integer }
+                maintenance_id: { type: integer }
+                resultado: { type: string }
+                itens_verificados: { type: array }
+      responses:
+        "201": { description: Vistoria registrada }
+
+  /facilities/projects/{id}/schedule:
+    get:
+      operationId: getMaintenanceSchedule
+      summary: Cronograma de manutenções do projeto
+      tags: [facilities]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: Cronograma de manutenções
+
+  /facilities/warranties/{id}/claim:
+    post:
+      operationId: claimWarranty
+      summary: Aciona garantia para item específico
+      tags: [facilities]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200": { description: Garantia acionada }
+
+  # ─── F09 — BIM Digital Twin ────────────────────────────
+  /bim/models/ifc:
+    post:
+      operationId: uploadIfcModel
+      summary: Upload e processamento de arquivo IFC
+      tags: [bim]
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                project_id: { type: integer }
+                arquivo_ifc: { type: string, format: binary }
+                disciplina: { type: string }
+      responses:
+        "202": { description: Processamento iniciado (assíncrono) }
+
+  /bim/models/{id}:
+    get:
+      operationId: getBimModel
+      summary: Dados do modelo BIM com metadados
+      tags: [bim]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: Modelo BIM
+
+  /bim/digital-twin/{id}/data:
+    get:
+      operationId: getDigitalTwinData
+      summary: Dados em tempo real do Digital Twin
+      tags: [bim]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: Dados do Digital Twin
+
+  /bim/sensors/ingest:
+    post:
+      operationId: ingestSensorData
+      summary: Ingestão de dados de sensores IoT
+      tags: [bim]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                device_id: { type: string }
+                tipo_sensor: { type: string }
+                valor: { type: number }
+                timestamp: { type: string, format: date-time }
+      responses:
+        "200": { description: Dados ingeridos }
+
+  /bim/digital-twin/{id}/optimize:
+    get:
+      operationId: getOptimizationSuggestions
+      summary: Sugestões de otimização por IA
+      tags: [bim]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: Sugestões de otimização
+
+  # ─── F10 — Marketplace ─────────────────────────────────
+  /marketplace/listings:
+    post:
+      operationId: createListing
+      summary: Cria novo anúncio de serviço
+      tags: [marketplace]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                titulo: { type: string }
+                descricao: { type: string }
+                categoria: { type: string }
+                valor_estimado: { type: number }
+      responses:
+        "201": { description: Anúncio criado }
+
+  /marketplace/search:
+    get:
+      operationId: searchMarketplace
+      summary: Busca profissionais e serviços
+      tags: [marketplace]
+      parameters:
+        - name: service
+          in: query
+          schema: { type: string }
+        - name: location
+          in: query
+          schema: { type: string }
+        - name: budget
+          in: query
+          schema:
+            type: object
+            properties:
+              min: { type: number }
+              max: { type: number }
+      responses:
+        "200":
+          description: Resultados da busca
+
+  /marketplace/quotations:
+    post:
+      operationId: requestQuotation
+      summary: Solicita cotação para um serviço
+      tags: [marketplace]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                listing_id: { type: integer }
+                descricao: { type: string }
+                prazo_desejado: { type: string, format: date }
+      responses:
+        "201": { description: Cotação solicitada }
+
+  /marketplace/quotations/{id}/respond:
+    post:
+      operationId: respondQuotation
+      summary: Profissional responde cotação com proposta
+      tags: [marketplace]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                valor_proposta: { type: number }
+                prazo_estimado: { type: string }
+                mensagem: { type: string }
+      responses:
+        "200": { description: Resposta registrada }
+
+  /marketplace/reviews:
+    post:
+      operationId: createReview
+      summary: Registra avaliação pós-serviço
+      tags: [marketplace]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                quotation_id: { type: integer }
+                nota: { type: integer, minimum: 1, maximum: 5 }
+                comentario: { type: string }
+      responses:
+        "201": { description: Avaliação registrada }
+
+  /marketplace/profiles/{id}:
+    get:
+      operationId: getProfessionalProfile
+      summary: Perfil público do profissional
+      tags: [marketplace]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: integer }
+      responses:
+        "200":
+          description: Perfil do profissional
