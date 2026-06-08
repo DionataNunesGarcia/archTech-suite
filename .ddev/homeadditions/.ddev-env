@@ -1,0 +1,8 @@
+# DDEV environment overrides for ArchTech Suite
+REDIS_HOST=redis
+REDIS_PORT=6379
+RABBITMQ_HOST=rabbitmq
+RABBITMQ_PORT=5672
+RABBITMQ_MANAGEMENT_PORT=15672
+RABBITMQ_USER=archtech
+RABBITMQ_PASS=archtech
