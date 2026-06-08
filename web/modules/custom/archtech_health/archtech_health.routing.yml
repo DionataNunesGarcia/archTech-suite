@@ -1,0 +1,18 @@
+archtech_health.check:
+  path: '/health'
+  defaults:
+    _controller: '\Drupal\archtech_health\Controller\HealthController::check'
+    _title: 'Health Check'
+  requirements:
+    _access: 'TRUE'
+
+archtech_health.api:
+  path: '/api/health'
+  defaults:
+    _controller: '\Drupal\archtech_health\Controller\HealthController::api'
+    _title: 'API Health'
+  methods: [GET]
+  requirements:
+    _access: 'TRUE'
+  formats:
+    json: application/json
