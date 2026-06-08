@@ -1,0 +1,73 @@
+{
+  "title": "Squad Obras — Business Dashboard",
+  "uid": "squad-obras",
+  "tags": ["archtech", "squad", "obras"],
+  "schemaVersion": 39,
+  "timezone": "America/Sao_Paulo",
+  "panels": [
+    {
+      "title": "Obras em Andamento",
+      "type": "stat",
+      "gridPos": { "h": 6, "w": 3, "x": 0, "y": 0 },
+      "targets": [{
+        "expr": "sum(construction_active_total)",
+        "legendFormat": "Obras"
+      }],
+      "datasource": "Prometheus"
+    },
+    {
+      "title": "Orçamento — Desvio Médio",
+      "type": "stat",
+      "gridPos": { "h": 6, "w": 3, "x": 3, "y": 0 },
+      "targets": [{
+        "expr": "avg(budget_deviation_percent)",
+        "legendFormat": "Desvio %"
+      }],
+      "datasource": "Prometheus",
+      "fieldConfig": { "defaults": { "unit": "percent" } }
+    },
+    {
+      "title": "Checklists com Alerta (7d)",
+      "type": "stat",
+      "gridPos": { "h": 6, "w": 3, "x": 6, "y": 0 },
+      "targets": [{
+        "expr": "sum(increase(checklist_alerts_total[7d]))",
+        "legendFormat": "Alertas"
+      }],
+      "datasource": "Prometheus"
+    },
+    {
+      "title": "Aderência ao Cronograma",
+      "type": "stat",
+      "gridPos": { "h": 6, "w": 3, "x": 9, "y": 0 },
+      "targets": [{
+        "expr": "avg(schedule_adherence_percent)",
+        "legendFormat": "Aderência %"
+      }],
+      "datasource": "Prometheus",
+      "fieldConfig": { "defaults": { "unit": "percent" } }
+    },
+    {
+      "title": "Budget vs Real (30d)",
+      "type": "graph",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 6 },
+      "targets": [
+        { "expr": "sum(construction_budget_planned_total)", "legendFormat": "Orçado" },
+        { "expr": "sum(construction_budget_spent_total)", "legendFormat": "Gasto" }
+      ],
+      "datasource": "Prometheus"
+    },
+    {
+      "title": "Field Supervision — Photos Analyzed",
+      "type": "graph",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 6 },
+      "targets": [{
+        "expr": "increase(field_photos_analyzed_total[7d])",
+        "legendFormat": "Fotos analisadas"
+      }],
+      "datasource": "Prometheus"
+    }
+  ],
+  "refresh": "30s",
+  "time": { "from": "now-7d", "to": "now" }
+}

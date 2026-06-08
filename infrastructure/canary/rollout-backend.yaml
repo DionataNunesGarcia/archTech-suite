@@ -1,0 +1,110 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: arctech-backend
+  namespace: arctech-prod
+spec:
+  replicas: 5
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: arctech-backend
+  template:
+    metadata:
+      labels:
+        app: arctech-backend
+    spec:
+      containers:
+        - name: drupal
+          image: ghcr.io/dionatanunesgarcia/drupal-recipes-base:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DRUPAL_DATABASE_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: arctech-db
+                  key: host
+            - name: DRUPAL_DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: arctech-db
+                  key: password
+          resources:
+            requests:
+              cpu: 500m
+              memory: 512Mi
+            limits:
+              cpu: 2
+              memory: 1Gi
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 5
+  strategy:
+    canary:
+      maxSurge: 2
+      maxUnavailable: 1
+      steps:
+        - setWeight: 5
+        - pause: { duration: 10m }
+        - analysis:
+            templates:
+              - templateName: error-rate-check
+            args:
+              - name: service-name
+                value: arctech-backend
+        - setWeight: 25
+        - pause: { duration: 10m }
+        - analysis:
+            templates:
+              - templateName: error-rate-check
+            args:
+              - name: service-name
+                value: arctech-backend
+        - setWeight: 50
+        - pause: { duration: 10m }
+        - analysis:
+            templates:
+              - templateName: error-rate-check
+        - setWeight: 100
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: error-rate-check
+  namespace: arctech-prod
+spec:
+  args:
+    - name: service-name
+  metrics:
+    - name: error-rate
+      successCondition: result < 0.001
+      provider:
+        prometheus:
+          address: http://prometheus:9090
+          query: |
+            sum(rate(http_requests_total{service="{{args.service-name}}",status=~"5.."}[5m])) /
+            sum(rate(http_requests_total{service="{{args.service-name}}"}[5m]))
+      interval: 30s
+      count: 6
+      failureLimit: 3
+    - name: latency-p99
+      successCondition: result < 500
+      provider:
+        prometheus:
+          address: http://prometheus:9090
+          query: |
+            histogram_quantile(0.99,
+              sum(rate(http_request_duration_seconds_bucket{service="{{args.service-name}}"}[5m])) by (le))
+      interval: 30s
+      count: 6
+      failureLimit: 3

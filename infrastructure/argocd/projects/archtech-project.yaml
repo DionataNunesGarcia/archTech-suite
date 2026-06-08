@@ -1,0 +1,46 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: arctech
+  namespace: argocd
+spec:
+  description: ArchTech Suite - All environments
+  sourceRepos:
+    - 'https://github.com/DionataNunesGarcia/drupal-recipes-base'
+  destinations:
+    - namespace: arctech-dev
+      server: https://kubernetes.default.svc
+    - namespace: arctech-staging
+      server: https://kubernetes.default.svc
+    - namespace: arctech-prod
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+  namespaceResourceWhitelist:
+    - group: '*'
+      kind: '*'
+  roles:
+    - name: dev-deployer
+      description: Deploy to dev/staging
+      policies:
+        - p, proj:arctech:dev-deployer, applications, sync, arctech/archtech-dev, allow
+        - p, proj:arctech:dev-deployer, applications, get, arctech/archtech-dev, allow
+        - p, proj:arctech:dev-deployer, applications, sync, arctech/archtech-staging, allow
+        - p, proj:arctech:dev-deployer, applications, get, arctech/archtech-staging, allow
+    - name: prod-deployer
+      description: Deploy to production
+      policies:
+        - p, proj:arctech:prod-deployer, applications, sync, arctech/archtech-prod, allow
+        - p, proj:arctech:prod-deployer, applications, get, arctech/archtech-prod, allow
+  syncWindows:
+    - kind: deny
+      schedule: '0 22 * * *'
+      duration: 8h
+      applications:
+        - arctech/archtech-prod
+      namespaces:
+        - arctech-prod
+      clusters:
+        - https://kubernetes.default.svc
+      manualSync: true

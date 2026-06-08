@@ -1,0 +1,72 @@
+{
+  "title": "Squad Marketing — Business Dashboard",
+  "uid": "squad-marketing",
+  "tags": ["archtech", "squad", "marketing"],
+  "schemaVersion": 39,
+  "timezone": "America/Sao_Paulo",
+  "panels": [
+    {
+      "title": "Blog Posts Publicados (30d)",
+      "type": "stat",
+      "gridPos": { "h": 6, "w": 3, "x": 0, "y": 0 },
+      "targets": [{
+        "expr": "sum(increase(blog_posts_published_total[30d]))",
+        "legendFormat": "Posts"
+      }],
+      "datasource": "Prometheus"
+    },
+    {
+      "title": "Assets Gerados por IA (30d)",
+      "type": "stat",
+      "gridPos": { "h": 6, "w": 3, "x": 3, "y": 0 },
+      "targets": [{
+        "expr": "sum(increase(ai_assets_generated_total[30d]))",
+        "legendFormat": "Assets"
+      }],
+      "datasource": "Prometheus"
+    },
+    {
+      "title": "ROAS Campanhas (30d)",
+      "type": "stat",
+      "gridPos": { "h": 6, "w": 3, "x": 6, "y": 0 },
+      "targets": [{
+        "expr": "avg(campaign_roas)",
+        "legendFormat": "ROAS"
+      }],
+      "datasource": "Prometheus"
+    },
+    {
+      "title": "Tráfego Orgânico — Crescimento",
+      "type": "stat",
+      "gridPos": { "h": 6, "w": 3, "x": 9, "y": 0 },
+      "targets": [{
+        "expr": "avg(organic_traffic_growth_percent)",
+        "legendFormat": "Crescimento %"
+      }],
+      "datasource": "Prometheus",
+      "fieldConfig": { "defaults": { "unit": "percent" } }
+    },
+    {
+      "title": "Content Performance (30d)",
+      "type": "graph",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 6 },
+      "targets": [{
+        "expr": "increase(content_engagement_total[30d])",
+        "legendFormat": "Engajamento"
+      }],
+      "datasource": "Prometheus"
+    },
+    {
+      "title": "Campaign Performance by Channel",
+      "type": "bargauge",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 6 },
+      "targets": [{
+        "expr": "sum(campaign_roas) by (channel)",
+        "legendFormat": "{{ channel }}"
+      }],
+      "datasource": "Prometheus"
+    }
+  ],
+  "refresh": "30s",
+  "time": { "from": "now-7d", "to": "now" }
+}

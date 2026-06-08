@@ -7,7 +7,7 @@ export default defineConfig({
 	workers: 1,
 	reporter: [['html', { outputFolder: 'playwright-report' }]],
 	use: {
-		baseURL: 'http://localhost:3000',
+		baseURL: 'http://localhost:3001',
 		trace: 'on-first-retry',
 	},
 	projects: [
@@ -17,8 +17,8 @@ export default defineConfig({
 		},
 	],
 	webServer: {
-		command: 'npm run start',
-		url: 'http://localhost:3000',
+		command: 'PORT=3001 npm run start',
+		url: 'http://localhost:3001',
 		reuseExistingServer: true,
 		timeout: 30000,
 	},
