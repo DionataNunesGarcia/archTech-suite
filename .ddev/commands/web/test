@@ -1,0 +1,32 @@
+#!/bin/bash
+## Description: Run all tests (infra + frontend)
+## Usage: test
+## Example: ddev test
+set -euo pipefail
+
+FAIL=0
+
+echo "=========================================="
+echo " Running: Infrastructure Tests"
+echo "=========================================="
+bash scripts/test-infra.sh || FAIL=1
+
+echo ""
+echo "=========================================="
+echo " Running: Frontend Tests"
+echo "=========================================="
+cd frontend || { echo "❌ frontend/ not found"; FAIL=1; }
+
+if [ "$FAIL" -eq 0 ]; then
+  npx --no-install tsc --noEmit 2>&1 && echo "✅ TSC" || { echo "❌ TSC"; FAIL=1; }
+  npm run lint 2>&1 | tail -3 && echo "✅ ESLint" || { echo "❌ ESLint"; FAIL=1; }
+  npm test -- --coverage && echo "✅ Jest" || { echo "❌ Jest"; FAIL=1; }
+  npm run build 2>&1 | tail -5 && echo "✅ Build" || { echo "❌ Build"; FAIL=1; }
+  npx --no-install prettier --check "src/**/*.{ts,tsx,js,json,css}" 2>&1 && echo "✅ Prettier" || { echo "❌ Prettier"; FAIL=1; }
+fi
+
+echo ""
+echo "=========================================="
+echo " All tests: $([ "$FAIL" -eq 0 ] && echo 'PASSED' || echo "SOME FAILED ($FAIL)") "
+echo "=========================================="
+exit $FAIL

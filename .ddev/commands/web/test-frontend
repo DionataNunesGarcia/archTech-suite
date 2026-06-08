@@ -1,0 +1,23 @@
+#!/bin/bash
+## Description: Run all frontend checks (tsc, lint, jest, build, prettier)
+## Usage: test-frontend
+## Example: ddev test-frontend
+set -euo pipefail
+
+cd frontend || { echo "❌ frontend/ directory not found"; exit 1; }
+
+FAIL=0
+
+echo "=== 1. TypeScript ===" && npx --no-install tsc --noEmit 2>&1 && echo "✅ TSC" || { echo "❌ TSC FAILED"; FAIL=1; }
+
+echo "=== 2. ESLint ===" && npm run lint 2>&1 | tail -3 && echo "✅ ESLint" || { echo "❌ ESLint FAILED"; FAIL=1; }
+
+echo "=== 3. Jest ===" && npm test -- --coverage && echo "✅ Jest" || { echo "❌ Jest FAILED"; FAIL=1; }
+
+echo "=== 4. Build ===" && npm run build 2>&1 | tail -5 && echo "✅ Build" || { echo "❌ Build FAILED"; FAIL=1; }
+
+echo "=== 5. Prettier ===" && npx --no-install prettier --check "src/**/*.{ts,tsx,js,json,css}" 2>&1 && echo "✅ Prettier" || { echo "❌ Prettier FAILED"; FAIL=1; }
+
+echo ""
+echo "=== Frontend Checks: $([ "$FAIL" -eq 0 ] && echo 'ALL PASSED' || echo "FAILURES: $FAIL") ==="
+exit $FAIL

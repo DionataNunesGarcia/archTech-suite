@@ -7,13 +7,14 @@ echo "=========================================="
 echo " Docker Compose Tests"
 echo "=========================================="
 
-if ! command -v docker-compose &>/dev/null && ! docker compose version &>/dev/null; then
-  echo "❌ docker-compose not found"
-  exit 1
+CMD=""
+if command -v docker-compose &>/dev/null; then
+  CMD="docker-compose"
+elif docker compose version &>/dev/null; then
+  CMD="docker compose"
+else
+  echo "  ⚠️  docker-compose CLI not found — using YAML syntax check only"
 fi
-
-CMD="docker compose"
-command -v docker-compose &>/dev/null && CMD="docker-compose"
 
 COMPOSE_FILES=(
   ".ddev/docker-compose.redis.yaml"
@@ -24,7 +25,7 @@ for file in "${COMPOSE_FILES[@]}"; do
   [ ! -f "$file" ] && echo "  ⏭️  $file not found, skipping" && continue
   echo "  → $file"
   # Validate syntax without environment variables expansion
-  if $CMD -f "$file" config -q 2>/dev/null; then
+  if [ -n "$CMD" ] && $CMD -f "$file" config -q 2>/dev/null; then
     echo "    ✅ Valid compose file"
   else
     # For DDEV compose files, env vars won't resolve outside DDEV

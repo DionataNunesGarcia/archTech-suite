@@ -16,6 +16,11 @@ composer.lock
 node_modules
 package-lock.json
 yarn.lock
+frontend/.next/
+frontend/coverage/
+frontend/next-env.d.ts
+frontend/tsconfig.tsbuildinfo
+*.tsbuildinfo
 
 # Environment
 .env
