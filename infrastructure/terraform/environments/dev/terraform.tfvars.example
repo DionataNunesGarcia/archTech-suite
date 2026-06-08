@@ -1,0 +1,17 @@
+environment = "dev"
+vpc_cidr    = "10.0.0.0/16"
+
+# RDS
+db_instance_class    = "db.t4g.small"
+db_allocated_storage = 20
+db_engine_version    = "18"
+
+# Redis
+redis_node_type       = "cache.t4g.small"
+redis_num_cache_nodes = 1
+
+# EKS
+eks_node_instance_types = ["t3.medium"]
+eks_min_nodes           = 1
+eks_max_nodes           = 3
+eks_desired_nodes       = 1

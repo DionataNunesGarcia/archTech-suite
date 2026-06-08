@@ -1,0 +1,33 @@
+# Jaeger all-in-one configuration for ArchTech Suite
+service:
+  name: jaeger
+
+collector:
+  otlp:
+    grpc:
+      endpoint: 0.0.0.0:4317
+    http:
+      endpoint: 0.0.0.0:4318
+
+storage:
+  type: badger
+  options:
+    dir:
+      - /jaeger/badger
+    key:
+      - /jaeger/badger/key
+    value:
+      - /jaeger/badger/data
+
+query:
+  base-path: /
+  port: 16686
+
+agent:
+  port: 6831
+
+sampling:
+  strategies:
+    default_strategy:
+      type: probabilistic
+      param: 0.1
