@@ -1,0 +1,11 @@
+# OWASP ZAP rules exclusion file
+# Format: <RULE_ID>\t<ACTION>
+# Actions: IGNORE, FAIL, WARN
+
+10010	IGNORE	# Cookie No HttpOnly Flag (static site)
+10011	IGNORE	# Cookie Without Secure Flag (static site)
+10020	WARN	# X-Frame-Options Header (Next.js handles this)
+10021	WARN	# X-Content-Type-Options Header (Next.js handles this)
+10027	IGNORE	# Information Disclosure - Suspicious Comments
+10096	WARN	# Timestamp Disclosure
+90033	WARN	# Loosely Scoped Cookie

@@ -8,6 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest",
+    "test:e2e": "playwright test",
+    "test:a11y": "playwright test e2e/a11y.spec.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -16,6 +18,8 @@
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.11.3",
+    "@playwright/test": "^1.60.0",
     "@swc/jest": "^0.2.37",
     "@tailwindcss/postcss": "^4.3.0",
     "@testing-library/jest-dom": "^6.6.3",

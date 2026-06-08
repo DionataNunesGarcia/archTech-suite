@@ -4,10 +4,10 @@ services:
     image: prom/prometheus:v2.53.0
     container_name: ddev-${DDEV_SITENAME}-prometheus
     volumes:
-      - "${DDEV_APPROOT}/infrastructure/observability/prometheus:/etc/prometheus"
+      - '${DDEV_APPROOT}/infrastructure/observability/prometheus:/etc/prometheus'
       - prometheus-data:/prometheus
     expose:
-      - "9090"
+      - '9090'
     command:
       - '--config.file=/etc/prometheus/prometheus-local.yml'
       - '--web.enable-lifecycle'
@@ -19,14 +19,14 @@ services:
     image: grafana/grafana:11.1.0
     container_name: ddev-${DDEV_SITENAME}-grafana
     volumes:
-      - "${DDEV_APPROOT}/infrastructure/observability/grafana/datasources:/etc/grafana/provisioning/datasources"
-      - "${DDEV_APPROOT}/infrastructure/observability/grafana/dashboards:/etc/grafana/provisioning/dashboards"
+      - '${DDEV_APPROOT}/infrastructure/observability/grafana/datasources:/etc/grafana/provisioning/datasources'
+      - '${DDEV_APPROOT}/infrastructure/observability/grafana/dashboards:/etc/grafana/provisioning/dashboards'
       - grafana-data:/var/lib/grafana
     environment:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=admin
     expose:
-      - "3000"
+      - '3000'
     labels:
       com.ddev.site-name: ${DDEV_SITENAME}
       com.ddev.platform: ddev
@@ -35,10 +35,10 @@ services:
     image: grafana/loki:3.0.0
     container_name: ddev-${DDEV_SITENAME}-loki
     volumes:
-      - "${DDEV_APPROOT}/infrastructure/observability/loki:/etc/loki"
+      - '${DDEV_APPROOT}/infrastructure/observability/loki:/etc/loki'
       - loki-data:/loki
     expose:
-      - "3100"
+      - '3100'
     command: -config.file=/etc/loki/loki-config.yaml
     labels:
       com.ddev.site-name: ${DDEV_SITENAME}
@@ -48,10 +48,10 @@ services:
     image: prom/alertmanager:v0.27.0
     container_name: ddev-${DDEV_SITENAME}-alertmanager
     volumes:
-      - "${DDEV_APPROOT}/infrastructure/observability/alertmanager:/etc/alertmanager"
+      - '${DDEV_APPROOT}/infrastructure/observability/alertmanager:/etc/alertmanager'
       - alertmanager-data:/alertmanager
     expose:
-      - "9093"
+      - '9093'
     command:
       - '--config.file=/etc/alertmanager/alertmanager.yml'
       - '--storage.path=/alertmanager'
@@ -70,10 +70,10 @@ services:
       - COLLECTOR_ZIPKIN_HOST_PORT=:9411
       - JAEGER_SAMPLING_STRATEGIES_FILE=
     expose:
-      - "16686"
-      - "4317"
-      - "4318"
-      - "6831"
+      - '16686'
+      - '4317'
+      - '4318'
+      - '6831'
     labels:
       com.ddev.site-name: ${DDEV_SITENAME}
       com.ddev.platform: ddev
@@ -82,9 +82,9 @@ services:
     image: prometheuscommunity/postgres-exporter:latest
     container_name: ddev-${DDEV_SITENAME}-postgres-exporter
     environment:
-      DATA_SOURCE_NAME: "postgresql://db:db@db:5432/db?sslmode=disable"
+      DATA_SOURCE_NAME: 'postgresql://db:db@db:5432/db?sslmode=disable'
     expose:
-      - "9187"
+      - '9187'
     depends_on:
       - db
     labels:
@@ -95,9 +95,9 @@ services:
     image: oliver006/redis_exporter:latest
     container_name: ddev-${DDEV_SITENAME}-redis-exporter
     environment:
-      REDIS_ADDR: "redis://redis:6379"
+      REDIS_ADDR: 'redis://redis:6379'
     expose:
-      - "9121"
+      - '9121'
     depends_on:
       - redis
     labels:
@@ -108,12 +108,12 @@ services:
     image: kbudde/rabbitmq-exporter:latest
     container_name: ddev-${DDEV_SITENAME}-rabbitmq-exporter
     environment:
-      RABBIT_URL: "http://rabbitmq:15672"
+      RABBIT_URL: 'http://rabbitmq:15672'
       RABBIT_USER: archtech
       RABBIT_PASSWORD: archtech
       PUBLISH_PORT: 9419
     expose:
-      - "9419"
+      - '9419'
     depends_on:
       - rabbitmq
     labels:

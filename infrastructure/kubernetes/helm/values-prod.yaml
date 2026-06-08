@@ -8,17 +8,17 @@ ingress:
   enabled: true
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
-    nginx.ingress.kubernetes.io/proxy-body-size: "100m"
-    nginx.ingress.kubernetes.io/enable-cors: "true"
-    nginx.ingress.kubernetes.io/cors-allow-origin: "https://app.archtech.com.br"
+    nginx.ingress.kubernetes.io/proxy-body-size: '100m'
+    nginx.ingress.kubernetes.io/enable-cors: 'true'
+    nginx.ingress.kubernetes.io/cors-allow-origin: 'https://app.archtech.com.br'
 
 resources:
   requests:
-    memory: "512Mi"
-    cpu: "500m"
+    memory: '512Mi'
+    cpu: '500m'
   limits:
-    memory: "2Gi"
-    cpu: "1"
+    memory: '2Gi'
+    cpu: '1'
 
 autoscaling:
   enabled: true
@@ -55,10 +55,10 @@ nodeSelector:
   workload: production
 
 tolerations:
-  - key: "workload"
-    operator: "Equal"
-    value: "production"
-    effect: "NoSchedule"
+  - key: 'workload'
+    operator: 'Equal'
+    value: 'production'
+    effect: 'NoSchedule'
 
 affinity:
   podAntiAffinity:

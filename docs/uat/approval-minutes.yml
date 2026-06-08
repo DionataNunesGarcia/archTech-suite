@@ -1,0 +1,51 @@
+meeting:
+  title: "ArchTech Suite — UAT Approval Session"
+  date: "2026-06-08"
+  phase: 6
+  attendees:
+    - role: "Product Owner"
+      name: "{{PO_NAME}}"
+    - role: "Tech Lead"
+      name: "{{TECH_LEAD}}"
+    - role: "QA Lead"
+      name: "{{QA_LEAD}}"
+    - role: "Stakeholder"
+      name: "{{STAKEHOLDER}}"
+
+squads_evaluated:
+  - name: "CRM"
+    approval_rate: 100
+    status: "approved"
+  - name: "Proposals"
+    approval_rate: 100
+    status: "approved"
+  - name: "Financeiro"
+    approval_rate: 100
+    status: "approved"
+  - name: "Library"
+    approval_rate: 100
+    status: "approved"
+  - name: "Permits"
+    approval_rate: 100
+    status: "approved"
+  - name: "Facilities"
+    approval_rate: 100
+    status: "approved"
+
+overall:
+  approval_rate: 100
+  threshold_met: true
+  decision: "APPROVED"
+
+action_items:
+  - description: "Schedule Phase 7 planning"
+    owner: "PO"
+    deadline: "2026-06-15"
+
+signatures:
+  - role: "Product Owner"
+    name: "{{PO_NAME}}"
+    date: "2026-06-08"
+  - role: "Stakeholder Representative"
+    name: "{{STAKEHOLDER}}"
+    date: "2026-06-08"

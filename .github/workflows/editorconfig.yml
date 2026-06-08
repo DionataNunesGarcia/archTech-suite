@@ -14,4 +14,4 @@ jobs:
       - name: EditorConfig Checker
         uses: editorconfig-checker/action-editorconfig-checker@main
         with:
-          exclude: "vendor|node_modules|dist|web/core|web/modules/contrib|web/themes/contrib"
+          exclude: 'vendor|node_modules|dist|web/core|web/modules/contrib|web/themes/contrib'

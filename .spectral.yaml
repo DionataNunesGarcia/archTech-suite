@@ -13,42 +13,42 @@ rules:
 
   # Custom rules for ArchTech Suite
   archtech-version-format:
-    message: "API versions must follow semver (v{major}.{minor}.{patch})"
+    message: 'API versions must follow semver (v{major}.{minor}.{patch})'
     severity: error
-    given: "$.info.version"
+    given: '$.info.version'
     then:
       function: pattern
       functionOptions:
         match: "^\\d+\\.\\d+\\.\\d+$"
 
   archtech-event-format:
-    message: "Events must have event_id, event_type, event_version, trace_id, occurred_at"
+    message: 'Events must have event_id, event_type, event_version, trace_id, occurred_at'
     severity: error
-    given: "$.components.schemas.*"
+    given: '$.components.schemas.*'
     then:
       field: required
       function: truthy
 
   archtech-description-required:
-    message: "All operations must have a description"
+    message: 'All operations must have a description'
     severity: warn
-    given: "$.paths.*.*"
+    given: '$.paths.*.*'
     then:
       field: description
       function: truthy
 
   archtech-4xx-responses:
-    message: "Every operation must define 400 and 4xx error responses"
+    message: 'Every operation must define 400 and 4xx error responses'
     severity: error
-    given: "$.paths.*.*.responses"
+    given: '$.paths.*.*.responses'
     then:
-      field: "400"
+      field: '400'
       function: truthy
 
   archtech-5xx-responses:
-    message: "Every operation must define 500 error response"
+    message: 'Every operation must define 500 error response'
     severity: error
-    given: "$.paths.*.*.responses"
+    given: '$.paths.*.*.responses'
     then:
-      field: "500"
+      field: '500'
       function: truthy

@@ -1,0 +1,30 @@
+session:
+  id: UAT-{{DATE}}-{{SQUAD}}
+  date: "{{ISO_DATE}}"
+  squad: "{{SQUAD_NAME}}"
+  facilitator: "{{FACILITATOR}}"
+  stakeholders:
+    - name: "{{STAKEHOLDER_NAME}}"
+      role: "{{STAKEHOLDER_ROLE}}"
+
+scenarios:
+  - id: "SC-{{NUM}}"
+    title: "{{SCENARIO_TITLE}}"
+    flow: "{{HAPPY_PATH_DESCRIPTION}}"
+    status: "{{APPROVED|REJECTED|NEEDS_CHANGES}}"
+    severity: "{{CRITICAL|MAJOR|MINOR|SUGGESTION}}"
+    observations: "{{OBSERVATION_TEXT}}"
+    action_item:
+      owner: "{{RESPONSIBLE}}"
+      deadline: "{{DEADLINE}}"
+      resolution: "{{RESOLUTION_NOTES}}"
+
+summary:
+  total_scenarios: {{TOTAL}}
+  approved: {{APPROVED}}
+  rejected: {{REJECTED}}
+  needs_changes: {{NEEDS_CHANGES}}
+  approval_rate: "{{APPROVAL_RATE}}%"
+  sign_off:
+    stakeholder: "{{SIGNATURE}}"
+    date: "{{SIGN_DATE}}"
