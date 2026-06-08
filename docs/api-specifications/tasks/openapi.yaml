@@ -1,0 +1,79 @@
+openapi: 3.1.0
+info:
+  title: ArchTech Suite — Gestão de Tarefas (F20)
+  description: Sistema unificado de tarefas, kanban, time tracking, daily digest IA.
+  version: 1.0.0
+servers:
+  - url: https://archtech.ddev.site/api/v1
+  - url: https://api.archtech.com.br/v1
+paths:
+  /tasks/my:
+    get:
+      summary: Minhas tarefas (hoje, semana, atrasadas)
+      responses:
+        '200':
+          description: Lista de tarefas do usuário
+  /tasks:
+    post:
+      summary: Cria nova tarefa
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+      responses:
+        '201':
+          description: Tarefa criada
+  /tasks/{id}/status:
+    patch:
+      summary: Atualiza status da tarefa
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  enum: [backlog, a_fazer, em_andamento, revisao, concluida, cancelada]
+      responses:
+        '200':
+          description: Status atualizado
+  /tasks/project/{id}:
+    get:
+      summary: Tarefas de um projeto
+components:
+  schemas:
+    Task:
+      type: object
+      properties:
+        titulo:
+          type: string
+        descricao:
+          type: string
+        origem_tipo:
+          type: string
+          enum: [projeto, obra, reuniao, proposta, marketing, suporte, manual]
+        origem_id:
+          type: integer
+        project_id:
+          type: string
+        assignee_id:
+          type: string
+        prazo:
+          type: string
+          format: date-time
+        prioridade:
+          type: string
+          enum: [baixa, media, alta, critica]
+        status:
+          type: string
+          enum: [backlog, a_fazer, em_andamento, revisao, concluida, cancelada]
+        estimativa_horas:
+          type: number

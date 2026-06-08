@@ -1,0 +1,57 @@
+openapi: 3.1.0
+info:
+  title: ArchTech Suite — Gestão de Equipes (F14)
+  description: Alocação, capacidade e produtividade da equipe.
+  version: 1.0.0
+servers:
+  - url: https://archtech.ddev.site/api/v1
+  - url: https://api.archtech.com.br/v1
+paths:
+  /teams/capacity:
+    get:
+      summary: Capacidade e alocação de toda a equipe
+      responses:
+        '200':
+          description: Mapa de capacidade
+  /teams/allocations:
+    post:
+      summary: Aloca colaborador a projeto
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectAllocation'
+      responses:
+        '201':
+          description: Alocação criada
+  /teams/{member_id}/workload:
+    get:
+      summary: Carga de trabalho do colaborador
+  /teams/availability:
+    get:
+      summary: Disponibilidade para novo projeto
+components:
+  schemas:
+    TeamMember:
+      type: object
+      properties:
+        user_id:
+          type: string
+        cargo:
+          type: string
+          enum: [socio, arquiteto_senior, arquiteto_pleno, arquiteto_junior, estagiario, engenheiro, tecnico, administrativo]
+        valor_hora:
+          type: number
+        carga_horaria_semana:
+          type: integer
+    ProjectAllocation:
+      type: object
+      properties:
+        member_id:
+          type: string
+        project_id:
+          type: string
+        percentual:
+          type: integer
+          minimum: 0
+          maximum: 100

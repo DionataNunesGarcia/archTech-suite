@@ -1,0 +1,109 @@
+openapi: 3.1.0
+info:
+  title: ArchTech Suite — Compliance, Auditoria e LGPD (F16)
+  description: Audit log imutável, versionamento SHA-256, consentimento LGPD, portabilidade.
+  version: 1.0.0
+servers:
+  - url: https://archtech.ddev.site/api/v1
+  - url: https://api.archtech.com.br/v1
+paths:
+  /audit-log:
+    get:
+      summary: Consulta audit log com filtros
+      parameters:
+        - name: entity_type
+          in: query
+          schema:
+            type: string
+        - name: entity_id
+          in: query
+          schema:
+            type: integer
+        - name: user_id
+          in: query
+          schema:
+            type: integer
+        - name: start_date
+          in: query
+          schema:
+            type: string
+            format: date-time
+      responses:
+        '200':
+          description: Registros de auditoria
+  /versions/{entity}/{id}:
+    get:
+      summary: Histórico de versões de um registro
+      parameters:
+        - name: entity
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Histórico de versões
+  /lgpd/users/{id}/data:
+    delete:
+      summary: Anonimização LGPD (direito ao esquecimento)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Dados anonimizados
+  /lgpd/users/{id}/export:
+    get:
+      summary: Exporta dados do usuário (portabilidade)
+  /lgpd/consent:
+    post:
+      summary: Registra consentimento LGPD
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LGPDConsent'
+      responses:
+        '201':
+          description: Consentimento registrado
+components:
+  schemas:
+    AuditLog:
+      type: object
+      properties:
+        entity_type:
+          type: string
+        entity_id:
+          type: integer
+        action:
+          type: string
+          enum: [create, update, delete, view, export, sign, approve, reject]
+        user_id:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        changes:
+          type: object
+        trace_id:
+          type: string
+    LGPDConsent:
+      type: object
+      properties:
+        user_id:
+          type: string
+        finalidade:
+          type: string
+          enum: [marketing, contrato, comunicacao, analytics, terceiros]
+        consentiu:
+          type: boolean
+        versao_politica:
+          type: string

@@ -79,7 +79,21 @@ Checklist consolidado de todas as entregas do projeto, por fase. Use este arquiv
 | 3.4 | archtech_events | ❌ Pendente | EventDispatcher, Outbox Pattern, RabbitMQ |
 | 3.5 | archtech_feature_flags | ❌ Pendente | Redis feature flags |
 | 3.6 | archtech_ai_gateway | ❌ Pendente | Circuit breaker, prompt registry |
-| 3.7-3.12 | Módulos de squad (6) | ❌ Pendente | Stubs criados, implementar lógica |
+| 3.7 | `ia_atendimento` — Lead, Meeting, consumers | 📋 Especificado | Ver PRD F01-F02 |
+| 3.8 | `ia_marketing` — BlogPost, MediaAsset | 📋 Especificado | Ver PRD F03 |
+| 3.9 | `ia_projetos` — Project, Render, ValidationReport | 📋 Especificado | Ver PRD F04 |
+| 3.10 | `ia_obras` — Schedule, MaterialList, SiteChecklist, Budget | 📋 Especificado | Ver PRD F05 |
+| 3.11 | `ia_suporte` — Document, Tutorial, pgvector | 📋 Especificado | Ver PRD F06 |
+| 3.12 | `ia_insights` — Insight, schedulers | 📋 Especificado | Ver PRD F07 |
+| 3.13 | `ia_diary` — DiaryEntry, DiaryPhoto, WeeklyReport | 📋 Especificado | Ver F11 XML |
+| 3.14 | `ia_meetings` — MeetingRecord, ActionItem, transcrição | 📋 Especificado | Ver F12 XML |
+| 3.15 | `ia_financeiro_avancado` — Reembolso, Folha, CashFlow, ABC | 📋 Especificado | Ver F13 XML |
+| 3.16 | `ia_teams` — TeamMember, ProjectAllocation | 📋 Especificado | Ver F14 XML |
+| 3.17 | `ia_compliance` — AuditLog, DocumentVersion, LGPDConsent | 📋 Especificado | Ver F16 XML |
+| 3.18 | `ia_marketing_digital` — Portfolio, Blog, LandingPage, Campaign | 📋 Especificado | Ver F17 XML |
+| 3.19 | `ia_budget_construction` — Budget, BudgetService, Measurement | 📋 Especificado | Ver F18 XML |
+| 3.20 | `ia_deliverables` — ProjectPhase, Deliverable | 📋 Especificado | Ver F19 XML |
+| 3.21 | `ia_tasks` — Task | 📋 Especificado | Ver F20 XML |
 
 ---
 

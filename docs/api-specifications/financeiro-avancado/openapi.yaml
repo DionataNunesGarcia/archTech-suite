@@ -1,0 +1,104 @@
+openapi: 3.1.0
+info:
+  title: ArchTech Suite — Financeiro Avançado (F13)
+  description: Reembolso ao cliente, folha por projeto, fluxo de caixa por obra, curva ABC.
+  version: 1.0.0
+servers:
+  - url: https://archtech.ddev.site/api/v1
+  - url: https://api.archtech.com.br/v1
+paths:
+  /finance/reimbursable:
+    post:
+      summary: Registra compra reembolsável com NF
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ReimbursablePurchase'
+      responses:
+        '201':
+          description: Compra registrada
+  /finance/time-entries:
+    post:
+      summary: Lança horas trabalhadas por projeto
+  /finance/time-entries/{employee_id}:
+    get:
+      summary: Horas lançadas no período
+  /finance/payroll/calculate:
+    post:
+      summary: Calcula folha do período
+  /finance/payroll/{id}/approve:
+    post:
+      summary: Aprova folha de pagamento
+  /finance/cashflow/{construction_id}:
+    get:
+      summary: Fluxo de caixa detalhado por obra
+  /finance/abc-curve/{construction_id}:
+    get:
+      summary: Curva ABC de insumos da obra
+components:
+  schemas:
+    ReimbursablePurchase:
+      type: object
+      properties:
+        project_id:
+          type: string
+        client_id:
+          type: string
+        descricao:
+          type: string
+        valor:
+          type: number
+        data_compra:
+          type: string
+          format: date
+        nota_fiscal:
+          type: string
+          format: binary
+        categoria:
+          type: string
+          enum: [material, servico, locacao, transporte, outro]
+    EmployeeTimeEntry:
+      type: object
+      properties:
+        employee_id:
+          type: string
+        project_id:
+          type: string
+        data:
+          type: string
+          format: date
+        horas:
+          type: number
+        tipo_atividade:
+          type: string
+    PayrollRun:
+      type: object
+      properties:
+        periodo_inicio:
+          type: string
+          format: date
+        periodo_fim:
+          type: string
+          format: date
+        periodicidade:
+          type: string
+          enum: [semanal, quinzenal, mensal]
+    ConstructionCashFlow:
+      type: object
+      properties:
+        construction_id:
+          type: string
+        mes_referencia:
+          type: string
+          format: date
+        receita_contratada:
+          type: number
+        receita_recebida:
+          type: number
+        despesa_material:
+          type: number
+        margem_bruta:
+          type: number
+        curva_abc:
+          type: object

@@ -1,0 +1,53 @@
+openapi: 3.1.0
+info:
+  title: ArchTech Suite — Mobile PWA (F15)
+  description: API para o aplicativo mobile PWA com suporte offline e push notifications.
+  version: 1.0.0
+servers:
+  - url: https://archtech.ddev.site/api/v1
+  - url: https://api.archtech.com.br/v1
+paths:
+  /mobile/photo/upload:
+    post:
+      summary: Upload de foto com geolocalização
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                arquivo:
+                  type: string
+                  format: binary
+                lat:
+                  type: number
+                lng:
+                  type: number
+                timestamp:
+                  type: string
+                  format: date-time
+      responses:
+        '201':
+          description: Foto enviada
+  /mobile/sync:
+    post:
+      summary: Sincroniza dados offline
+      responses:
+        '200':
+          description: Sincronização concluída
+  /mobile/push/register:
+    post:
+      summary: Registra dispositivo para push notifications
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                endpoint:
+                  type: string
+                keys:
+                  type: object
+      responses:
+        '201':
+          description: Dispositivo registrado

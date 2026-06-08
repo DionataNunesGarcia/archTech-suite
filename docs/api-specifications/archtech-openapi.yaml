@@ -1,8 +1,8 @@
 openapi: 3.1.0
 info:
   title: ArchTech Suite API
-  description: API do ecossistema de IA para escritórios de arquitetura. 10 bounded contexts, 55 endpoints.
-  version: "1.0.0"
+  description: API do ecossistema de IA para escritórios de arquitetura. 20 bounded contexts, 100+ endpoints.
+  version: "2.0.0"
   contact:
     name: ArchTech Team
   x-bounded-contexts:
@@ -16,6 +16,27 @@ info:
     - facilities_post_construction
     - bim_digital_twin
     - marketplace
+    - construction_diary (F11)
+    - meeting_intelligence (F12)
+    - advanced_financial (F13)
+    - team_management (F14)
+    - mobile_experience (F15)
+    - compliance_audit (F16)
+    - digital_marketing (F17)
+    - construction_budget (F18)
+    - project_deliverables (F19)
+    - task_management (F20)
+  x-api-specs:
+    F11_diary: docs/api-specifications/diary/openapi.yaml
+    F12_meetings: docs/api-specifications/meetings/openapi.yaml
+    F13_financeiro_avancado: docs/api-specifications/financeiro-avancado/openapi.yaml
+    F14_teams: docs/api-specifications/teams/openapi.yaml
+    F15_mobile: docs/api-specifications/mobile/openapi.yaml
+    F16_compliance: docs/api-specifications/compliance/openapi.yaml
+    F17_marketing_digital: docs/api-specifications/marketing-digital/openapi.yaml
+    F18_budget_construction: docs/api-specifications/budget-construction/openapi.yaml
+    F19_deliverables: docs/api-specifications/deliverables/openapi.yaml
+    F20_tasks: docs/api-specifications/tasks/openapi.yaml
 
 servers:
   - url: https://archtech.ddev.site/api/v1

@@ -95,6 +95,38 @@
       "durable": true,
       "auto_delete": false,
       "internal": false
+    },
+    {
+      "name": "archtech.diary",
+      "vhost": "/",
+      "type": "topic",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false
+    },
+    {
+      "name": "archtech.meetings",
+      "vhost": "/",
+      "type": "topic",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false
+    },
+    {
+      "name": "archtech.financial_adv",
+      "vhost": "/",
+      "type": "topic",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false
+    },
+    {
+      "name": "archtech.tasks",
+      "vhost": "/",
+      "type": "topic",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false
     }
   ],
   "queues": [
@@ -223,6 +255,104 @@
       "durable": true,
       "auto_delete": false,
       "arguments": {}
+    },
+    {
+      "name": "archtech.diary.diary_entry_created",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "archtech.diary.photo_queue",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "archtech.diary.report_queue",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "archtech.meetings.meeting_transcription_queue",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "archtech.meetings.actions_queue",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "archtech.meetings.meeting_transcribed",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "archtech.financial_adv.nf_processing_queue",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "archtech.financial_adv.payroll_calculation_queue",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "archtech.financial_adv.cashflow_alerts_queue",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "archtech.financial_adv.reimbursement_requested",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "archtech.financial_adv.payroll_processed",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "archtech.tasks.task_created",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "archtech.tasks.task_overdue",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "archtech.tasks.task_completed",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
     }
   ],
   "bindings": [
@@ -243,6 +373,20 @@
     { "source": "archtech.internal", "vhost": "/", "destination": "archtech.insights.trend_alert", "destination_type": "queue", "routing_key": "trend.alert" },
     { "source": "archtech.ai.jobs", "vhost": "/", "destination": "archtech.ai.jobs.render_queue", "destination_type": "queue", "routing_key": "ai.render" },
     { "source": "archtech.ai.jobs", "vhost": "/", "destination": "archtech.ai.jobs.chat_queue", "destination_type": "queue", "routing_key": "ai.chat" },
-    { "source": "archtech.dlq", "vhost": "/", "destination": "archtech.dlq.all", "destination_type": "queue", "routing_key": "" }
+    { "source": "archtech.dlq", "vhost": "/", "destination": "archtech.dlq.all", "destination_type": "queue", "routing_key": "" },
+    { "source": "archtech.diary", "vhost": "/", "destination": "archtech.diary.diary_entry_created", "destination_type": "queue", "routing_key": "diary.entry.created" },
+    { "source": "archtech.diary", "vhost": "/", "destination": "archtech.diary.photo_queue", "destination_type": "queue", "routing_key": "diary.photo.uploaded" },
+    { "source": "archtech.diary", "vhost": "/", "destination": "archtech.diary.report_queue", "destination_type": "queue", "routing_key": "diary.report.generate" },
+    { "source": "archtech.meetings", "vhost": "/", "destination": "archtech.meetings.meeting_transcription_queue", "destination_type": "queue", "routing_key": "meeting.transcribe" },
+    { "source": "archtech.meetings", "vhost": "/", "destination": "archtech.meetings.actions_queue", "destination_type": "queue", "routing_key": "meeting.action.created" },
+    { "source": "archtech.meetings", "vhost": "/", "destination": "archtech.meetings.meeting_transcribed", "destination_type": "queue", "routing_key": "meeting.transcribed" },
+    { "source": "archtech.financial_adv", "vhost": "/", "destination": "archtech.financial_adv.nf_processing_queue", "destination_type": "queue", "routing_key": "finance.nf.process" },
+    { "source": "archtech.financial_adv", "vhost": "/", "destination": "archtech.financial_adv.payroll_calculation_queue", "destination_type": "queue", "routing_key": "finance.payroll.calculate" },
+    { "source": "archtech.financial_adv", "vhost": "/", "destination": "archtech.financial_adv.cashflow_alerts_queue", "destination_type": "queue", "routing_key": "finance.cashflow.alert" },
+    { "source": "archtech.financial_adv", "vhost": "/", "destination": "archtech.financial_adv.reimbursement_requested", "destination_type": "queue", "routing_key": "finance.reimbursement.requested" },
+    { "source": "archtech.financial_adv", "vhost": "/", "destination": "archtech.financial_adv.payroll_processed", "destination_type": "queue", "routing_key": "finance.payroll.processed" },
+    { "source": "archtech.tasks", "vhost": "/", "destination": "archtech.tasks.task_created", "destination_type": "queue", "routing_key": "task.created" },
+    { "source": "archtech.tasks", "vhost": "/", "destination": "archtech.tasks.task_overdue", "destination_type": "queue", "routing_key": "task.overdue" },
+    { "source": "archtech.tasks", "vhost": "/", "destination": "archtech.tasks.task_completed", "destination_type": "queue", "routing_key": "task.completed" }
   ]
 }

@@ -466,13 +466,22 @@ São os únicos módulos que podem ser importados por módulos de squad. **Não 
 Cada módulo é um Bounded Context com ownership claro. **Nunca importam uns aos outros.**
 
 | Módulo | Bounded Context | Squad | APIs Públicas |
-|---|---|---|---|
+|---|---|---|---|---|
 | `ia_atendimento` | `leads` | Atendimento | `/api/v1/leads`, `/api/v1/meetings` |
 | `ia_marketing` | `marketing` | Marketing | `/api/v1/blog_posts`, `/api/v1/media/images` |
 | `ia_projetos` | `projects` | Projetos | `/api/v1/projects`, `/api/v1/media/renders` |
 | `ia_obras` | `construction` | Obras | `/api/v1/construction/*` |
 | `ia_suporte` | `internal_ops` | Suporte | `/api/v1/documents`, `/api/v1/tutorials` |
 | `ia_insights` | `intelligence` | Insights | `/api/v1/insights/*` |
+| `ia_diary` | `construction_diary` | Obras | `/api/v1/diary/*` |
+| `ia_meetings` | `meeting_intelligence` | Projetos | `/api/v1/meetings`, `/api/v1/projects/{id}/meetings` |
+| `ia_financeiro_avancado` | `advanced_financial` | Financeiro | `/api/v1/finance/*` |
+| `ia_teams` | `team_management` | Operações | `/api/v1/teams/*` |
+| `ia_compliance` | `compliance_audit` | Platform | `/api/v1/audit-log`, `/api/v1/versions/*`, `/api/v1/lgpd/*` |
+| `ia_marketing_digital` | `digital_marketing` | Marketing | `/api/v1/portfolio`, `/api/v1/blog`, `/api/v1/campaigns` |
+| `ia_budget_construction` | `construction_budget` | Obras | `/api/v1/construction/budget`, `/api/v1/construction/measurement` |
+| `ia_deliverables` | `project_deliverables` | Projetos | `/api/v1/projects/{id}/phases`, `/api/v1/projects/{id}/deliverables` |
+| `ia_tasks` | `task_management` | Platform | `/api/v1/tasks/*` |
 
 ---
 
@@ -536,6 +545,11 @@ Exchanges:
   archtech.internal     (type: topic)    — eventos internos
   archtech.ai.jobs      (type: direct)   — jobs assíncronos de IA
   archtech.dlq          (type: fanout)   — dead letter queue (alertas)
+  archtech.retry        (type: direct)   — retry queue (backoff exponencial)
+  archtech.diary        (type: topic)    — eventos do diário de obra (F11)
+  archtech.meetings     (type: topic)    — eventos de atas de reunião (F12)
+  archtech.financial_adv (type: topic)   — eventos financeiros avançados (F13)
+  archtech.tasks        (type: topic)    — eventos de tarefas (F20)
 
 Políticas obrigatórias:
   - DLQ configurada em todas as filas
@@ -992,10 +1006,19 @@ Estratégia de rollout para mudanças de alto risco:
 | 3.10 | `ia_obras`: Content Types Schedule + MaterialList + SiteChecklist + Budget, endpoints, testes |
 | 3.11 | `ia_suporte`: Document com pgvector embedding, Tutorial, semantic search endpoint, testes |
 | 3.12 | `ia_insights`: Insight content type, schedulers de coleta, testes |
-| 3.13 | OpenTelemetry trace_id em todas as requisições HTTP e mensagens de fila |
-| 3.14 | Documentar APIs finais em OpenAPI 3.1 + gerar Postman collection automaticamente |
+| 3.13 | `ia_diary`: Diário de Obra Digital — DiaryEntry, DiaryPhoto, WeeklyReport, endpoints, IA_DiaryAssistant, IA_SiteInspector |
+| 3.14 | `ia_meetings`: Atas Inteligentes — MeetingRecord, ActionItem, transcrição Whisper, IA_MeetingScribe |
+| 3.15 | `ia_financeiro_avancado`: Reembolso, Folha por Projeto, Fluxo de Caixa por Obra, Curva ABC |
+| 3.16 | `ia_teams`: Gestão de Equipes — TeamMember, ProjectAllocation, IA_TeamOptimizer |
+| 3.17 | `ia_compliance`: Auditoria Imutável, Versionamento SHA-256, LGPD Consent |
+| 3.18 | `ia_marketing_digital`: Portfólio, Blog, Landing Pages, Campanhas, IA_ContentCalendar |
+| 3.19 | `ia_budget_construction`: Orçamento com Composição Unitária, SINAPI, Medições, Curva ABC |
+| 3.20 | `ia_deliverables`: Fases de Projeto, Checklist de Entregáveis, Versionamento, Aprovação |
+| 3.21 | `ia_tasks`: Tarefas Unificadas, Kanban, IA_TaskPrioritizer |
+| 3.22 | OpenTelemetry trace_id em todas as requisições HTTP e mensagens de fila |
+| 3.23 | Documentar APIs finais em OpenAPI 3.1 + gerar Postman collection automaticamente |
 
-**Entregáveis:** 5 módulos de plataforma + 6 módulos de squad funcionais e testados · Cobertura ≥ 80% por módulo · OpenAPI specs validadas (Spectral) · Postman collection · Event Catalog completo
+**Entregáveis:** 5 módulos de plataforma + 15 módulos de squad funcionais e testados · Cobertura ≥ 80% por módulo · OpenAPI specs validadas (Spectral) · Postman collection · Event Catalog completo
 
 **Definition of Done:**
 - [ ] Todos os endpoints retornam respostas conformes com o schema OpenAPI (validação automatizada via Dredd ou Schemathesis)

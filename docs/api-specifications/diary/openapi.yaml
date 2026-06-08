@@ -1,0 +1,91 @@
+openapi: 3.1.0
+info:
+  title: ArchTech Suite — Diário de Obra Digital (F11)
+  description: API do Diário de Obra Digital. Registro de entradas, fotos, análises IA e relatórios.
+  version: 1.0.0
+servers:
+  - url: https://archtech.ddev.site/api/v1
+    description: Local DDEV
+  - url: https://api.archtech.com.br/v1
+    description: Production
+paths:
+  /diary/entries:
+    post:
+      summary: Cria nova entrada no diário
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DiaryEntry'
+      responses:
+        '201':
+          description: Entrada criada
+  /diary/entries/{construction_id}:
+    get:
+      summary: Lista entradas por obra
+      parameters:
+        - name: construction_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Lista de entradas
+  /diary/entries/{id}/photos:
+    post:
+      summary: Upload de fotos
+  /diary/entries/{id}/analyze:
+    post:
+      summary: Aciona análise IA nas fotos
+  /diary/entries/{id}/sign:
+    post:
+      summary: Assina digitalmente a entrada
+  /diary/reports/weekly/{construction_id}:
+    get:
+      summary: Gera/retorna relatório semanal
+components:
+  schemas:
+    DiaryEntry:
+      type: object
+      properties:
+        construction_id:
+          type: string
+        data:
+          type: string
+          format: date
+        condicao_tempo:
+          type: string
+          enum: [sol, nublado, chuva_leve, chuva_forte, impraticavel]
+        atividades:
+          type: array
+          items:
+            type: object
+        efetivo_presente:
+          type: array
+        ocorrencias:
+          type: array
+    DiaryPhoto:
+      type: object
+      properties:
+        diary_entry_id:
+          type: string
+        arquivo:
+          type: string
+          format: binary
+        coordenadas:
+          type: object
+          properties:
+            lat:
+              type: number
+            lng:
+              type: number
+    WeeklyConstructionReport:
+      type: object
+      properties:
+        construction_id:
+          type: string
+        resumo_executivo:
+          type: string
+        avanço_fisico:
+          type: number
