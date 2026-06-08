@@ -66,7 +66,7 @@ Para cada tarefa, marque com `[X]` conforme finalizar. Ignore tarefas já marcad
 **CSV de custos IA:** `infrastructure/finops/ai-cost-tracking.csv`
 **Scripts criados:** `scripts/finops-review.sh`
 **Configurações criadas:** `infrastructure/argocd/` (4 files), `infrastructure/canary/` (2 files), `infrastructure/checkly/` (3 files), `infrastructure/pagerduty/`, `infrastructure/observability/grafana/dashboards/slo/`, `infrastructure/observability/grafana/dashboards/squads/` (6 files), `infrastructure/finops/`
-**Documentos criados:** `docs/adr/ADR-006-argocd-gitops.md`, `docs/adr/ADR-007-canary-deployment.md`, `docs/adr/ADR-008-synthetic-monitoring.md`, `docs/retrospectives/phase-7-retrospective.md`, `docs/roadmap/phase-8-roadmap.md`, `docs/runbooks/11-argocd-operations.md`, `docs/runbooks/12-canary-deployment.md`, `docs/runbooks/13-checkly-monitoring.md`, `docs/runbooks/14-pagerduty-oncall.md`, `docs/runbooks/15-finops-review.md`
+**Documentos criados:** `docs/adr/ADR-009-argocd-gitops.md`, `docs/adr/ADR-010-canary-deployment.md`, `docs/adr/ADR-011-synthetic-monitoring.md`, `docs/retrospectives/phase-7-retrospective.md`, `docs/roadmap/phase-8-roadmap.md`, `docs/runbooks/11-argocd-operations.md`, `docs/runbooks/12-canary-deployment.md`, `docs/runbooks/13-checkly-monitoring.md`, `docs/runbooks/14-pagerduty-oncall.md`, `docs/runbooks/15-finops-review.md`
 **GitHub Actions atualizado:** `.github/workflows/backend-ci.yml` — adicionado job `deploy-prod` com environment production (approval gate)
 
 ---

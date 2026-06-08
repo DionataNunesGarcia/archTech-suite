@@ -1,4 +1,4 @@
-# ADR-007 · Canary Deployment Strategy
+# ADR-010 · Canary Deployment Strategy
 
 | Campo | Valor |
 |-------|-------|

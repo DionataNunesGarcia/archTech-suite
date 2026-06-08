@@ -15,9 +15,9 @@
 3. **Checkly infrastructure-as-code**: Checkly configs need Webhook secrets for CI integration; document secret setup in runbooks
 
 ### ADRs Updated
-- ADR-006: GitOps with Argo CD (new)
-- ADR-007: Canary Deployment Strategy (new)
-- ADR-008: Synthetic Monitoring with Checkly (new)
+- ADR-009: GitOps with Argo CD (new)
+- ADR-010: Canary Deployment Strategy (new)
+- ADR-011: Synthetic Monitoring with Checkly (new)
 
 ### Open Action Items
 - [ ] On-call team training on PagerDuty runbooks (owner: Tech Lead, deadline: S+2)

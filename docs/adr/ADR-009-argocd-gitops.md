@@ -1,4 +1,4 @@
-# ADR-006 · GitOps with Argo CD
+# ADR-009 · GitOps with Argo CD
 
 | Campo | Valor |
 |-------|-------|
