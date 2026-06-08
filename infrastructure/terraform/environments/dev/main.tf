@@ -44,6 +44,7 @@ module "rds" {
 
   environment        = "dev"
   vpc_id             = module.vpc.vpc_id
+  vpc_cidr_block     = module.vpc.vpc_cidr_block
   private_subnet_ids = module.vpc.private_subnet_ids
   instance_class     = "db.t4g.small"
   allocated_storage  = 20

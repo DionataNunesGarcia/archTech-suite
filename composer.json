@@ -33,7 +33,7 @@
         "drupal/gin_login": "^2.1",
         "drupal/gin_toolbar": "^3.0",
         "drupal/google_analytics": "^4.0",
-        "drupal/iconify_field": "*",
+        "drupal/iconify_field": "^1.2",
         "drupal/key": "^1.22",
         "drupal/klaro": "^3.0",
         "drupal/metatag": "^2.2",

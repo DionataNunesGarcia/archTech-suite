@@ -38,6 +38,11 @@ variable "master_password" {
   sensitive = true
 }
 
+variable "vpc_cidr_block" {
+  description = "CIDR block of the VPC"
+  type        = string
+}
+
 resource "aws_db_subnet_group" "main" {
   name       = "archtech-${var.environment}-rds-subnets"
   subnet_ids = var.private_subnet_ids
