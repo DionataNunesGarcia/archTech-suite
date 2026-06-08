@@ -24,7 +24,7 @@ jobs:
           extensions: pgsql, pdo_pgsql, redis
 
       - name: Setup DDEV
-        uses: ddev/setup-ddev@v1
+        uses: ddev/github-action-setup-ddev@v1
 
       - name: Start DDEV
         run: ddev start
