@@ -29,6 +29,13 @@ scrape_configs:
       - targets:
           - rabbitmq-exporter:9419
 
+  - job_name: 'drupal'
+    metrics_path: '/health'
+    static_configs:
+      - targets:
+          - web:80
+          - web:443
+
   - job_name: 'jaeger'
     static_configs:
       - targets:

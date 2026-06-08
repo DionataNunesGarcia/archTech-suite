@@ -11,5 +11,14 @@ database:
     version: "18"
 use_dns_when_possible: true
 composer_version: "2"
-web_environment: []
 corepack_enable: true
+web_environment: []
+web_extra_exposed_ports:
+  - name: rabbitmq-mgmt
+    container_port: 15672
+    http_port: 15672
+    https_port: 15673
+  - name: grafana
+    container_port: 3000
+    http_port: 3000
+    https_port: 3001

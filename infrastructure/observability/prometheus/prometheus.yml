@@ -66,7 +66,7 @@ scrape_configs:
           - redis-exporter:9121
 
   - job_name: 'drupal'
-    metrics_path: '/metrics'
+    metrics_path: '/health'
     static_configs:
       - targets:
           - drupal:80

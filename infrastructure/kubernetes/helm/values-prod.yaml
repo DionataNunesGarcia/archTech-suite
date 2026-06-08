@@ -6,11 +6,16 @@ image:
 
 ingress:
   enabled: true
+  host: api.archtech.com.br
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
     nginx.ingress.kubernetes.io/proxy-body-size: '100m'
     nginx.ingress.kubernetes.io/enable-cors: 'true'
     nginx.ingress.kubernetes.io/cors-allow-origin: 'https://app.archtech.com.br'
+  tls:
+    - hosts:
+        - api.archtech.com.br
+      secretName: archtech-prod-tls
 
 resources:
   requests:

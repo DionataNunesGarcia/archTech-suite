@@ -1,5 +1,5 @@
 # ArchTech Suite - Drupal 11 production image
-FROM drupal:11.3-php8.4-fpm-bookworm AS base
+FROM drupal:11.3-php8.4-apache-bookworm AS base
 
 ARG ENVIRONMENT=production
 
