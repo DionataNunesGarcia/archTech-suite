@@ -61,7 +61,7 @@ Checklist consolidado de todas as entregas do projeto, por fase. Use este arquiv
 ### Definition of Done
 
 - [X] Pipelines CI/CD criados: backend-ci.yml (7 stages), frontend-ci.yml (9 stages), test.yml (smoke)
-- [ ] Secrets nunca visíveis em logs ou código — pendente auditoria manual
+- [X] Secrets nunca visíveis em logs ou código — auditado (relatório em docs/security/secrets-audit-report.md)
 - [X] Regras de alerta configuradas — Prometheus rules (archtech-alerts.yml) com 9 alertas
 - [X] DDEV replicável — runbook 10-new-dev-onboarding.md validado, setup < 5 min
 
