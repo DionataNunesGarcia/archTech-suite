@@ -56,7 +56,10 @@ $settings['cache']['bins']['default'] = 'cache.backend.redis';
 $settings['cache']['bins']['entity'] = 'cache.backend.redis';
 $settings['cache']['bins']['render'] = 'cache.backend.redis';
 $settings['cache']['bins']['dynamic_page_cache'] = 'cache.backend.redis';
-$settings['container_yamls'][] = 'modules/contrib/redis/example.services.yml';
+// Note: example.services.yml omitted intentionally — it overrides
+// cache_tags.invalidator.checksum to depend on redis.factory, which
+// causes container compilation failures during drush cr on Drupal 11.
+// Redis cache bins still function without this override.
 
 // ---------------------------------------------------------------------------
 // RabbitMQ — message broker connection (via archtech_events module)
