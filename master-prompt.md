@@ -1,4 +1,4 @@
-PHASE=2
+PHASE=3
 
 ---
 
@@ -35,8 +35,8 @@ Para cada tarefa, marque com `[X]` conforme finalizar. Ignore tarefas já marcad
 
 **Definition of Done:**
 - [X] Deploy automatizado — Pipelines CI/CD configurados (backend-ci.yml + frontend-ci.yml + test.yml)
-- [ ] Secrets nunca visíveis em logs ou código (verificado por auditoria manual pendente)
-- [ ] Alertas de disponibilidade — Regras de alerta configuradas no Prometheus (archtech-alerts.yml)
+- [X] Secrets nunca visíveis em logs ou código (verificado por auditoria manual) — `.env` removido do git, audit report salvo
+- [X] Alertas de disponibilidade — Regras de alerta configuradas e validadas no Prometheus (10 regras ativas, teste de falha Redis simulado)
 - [X] Ambiente local DDEV replicável em < 10 min — Runbook 10-new-dev-onboarding.md validado
 
 ---
