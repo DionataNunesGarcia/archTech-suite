@@ -96,10 +96,14 @@ jobs:
       - name: Check coverage threshold
         run: |
           if [ -f coverage/clover.xml ]; then
-            COVERAGE=$(php -r "
-              \$xml = simplexml_load_file('coverage/clover.xml');
-              \$metrics = \$xml->project->metrics;
-              echo (float)\$metrics['coveredstatements'] / (float)\$metrics['statements'] * 100;
+            COVERAGE=$(node -e "
+              const fs = require('fs');
+              const xml = fs.readFileSync('coverage/clover.xml', 'utf8');
+              const metrics = xml.match(/<project[^>]*metrics[^>]*\/>/);
+              if (!metrics) { console.log('0'); process.exit(0); }
+              const statements = parseInt(metrics[0].match(/statements=\"(\d+)\"/)[1], 10);
+              const covered = parseInt(metrics[0].match(/coveredstatements=\"(\d+)\"/)[1], 10);
+              console.log(((covered / statements) * 100).toFixed(2));
             ")
             echo "Code coverage: $COVERAGE%"
             if (( $(echo "$COVERAGE < 80" | bc -l) )); then

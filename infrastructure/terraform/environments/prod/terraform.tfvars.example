@@ -1,0 +1,17 @@
+environment = "prod"
+vpc_cidr    = "10.2.0.0/16"
+
+# RDS
+db_instance_class    = "db.t4g.xlarge"
+db_allocated_storage = 100
+db_engine_version    = "18"
+
+# Redis (primary + replica)
+redis_node_type       = "cache.r6g.large"
+redis_num_cache_nodes = 2
+
+# EKS
+eks_node_instance_types = ["t3.xlarge"]
+eks_min_nodes           = 3
+eks_max_nodes           = 10
+eks_desired_nodes       = 3

@@ -1,0 +1,7 @@
+#!/bin/bash
+## Description: Run all infrastructure test suites
+## Usage: test-infra
+## Example: ddev test-infra
+set -euo pipefail
+
+bash scripts/test-infra.sh
