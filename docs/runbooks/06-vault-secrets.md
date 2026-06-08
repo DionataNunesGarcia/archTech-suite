@@ -24,12 +24,21 @@ vault operator init -key-shares=5 -key-threshold=3
 vault operator unseal
 ```
 
-### Aplicar configuração
+### Aplicar configuração completa
 
 ```bash
-vault operator init
+# Setup automatizado (auth, secrets engines, policies, roles)
+export VAULT_TOKEN=<root-token>
+./infrastructure/vault/scripts/setup-vault.sh dev
+```
+
+Ou manualmente:
+
+```bash
 vault policy write drupal-service infrastructure/vault/policies/drupal-service.hcl
 vault policy write ci-policy infrastructure/vault/policies/ci-policy.hcl
+vault policy write audit-policy infrastructure/vault/policies/audit-policy.hcl
+vault policy write rabbitmq-rotation infrastructure/vault/policies/rabbitmq-rotation.hcl
 ```
 
 ### Rotação de senha do banco

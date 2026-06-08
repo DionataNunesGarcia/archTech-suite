@@ -1,13 +1,25 @@
 # Runbook: Observabilidade
 
+## Stack
+
+| Ferramenta | Versão | Porta |
+|------------|--------|-------|
+| Prometheus | 2.53.0 | 9090 |
+| Grafana | 11.1.0 | 3000 |
+| Loki | 3.0.0 | 3100 |
+| Jaeger | 1.60 | 16686 (UI), 4317 (OTLP gRPC), 4318 (OTLP HTTP) |
+
+A stack roda como DDEV add-on em `infrastructure/observability/docker-compose.observability.yaml`.
+Ativada automaticamente via symlink em `.ddev/docker-compose.observability.yaml`.
+
 ## Acessos
 
 | Ferramenta | URL | Credenciais |
 |------------|-----|-------------|
-| Grafana | https://grafana.archtech.ddev.site:3001 | admin / admin |
-| Prometheus | https://prometheus.archtech.ddev.site:9090 | - |
-| Jaeger | https://archtech.ddev.site:16686 | - |
-| Loki | API: http://loki:3100 | - |
+| Grafana | https://archtech.ddev.site:8443 (via proxy reverso) ou localhost:3000 | admin / admin |
+| Prometheus | http://prometheus:9090 (in-cluster) | - |
+| Jaeger | http://jaeger:16686 (in-cluster) | - |
+| Loki | http://loki:3100 (API) | - |
 
 ## Dashboards
 

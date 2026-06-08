@@ -1,4 +1,4 @@
-PHASE=3
+PHASE=4
 
 ---
 
@@ -41,24 +41,26 @@ Para cada tarefa, marque com `[X]` conforme finalizar. Ignore tarefas já marcad
 - [x] Ambiente local DDEV replicável em < 10 min — Runbook 10-new-dev-onboarding.md validado — **VERIFICADO** (DDEV rodando com web, db, redis, rabbitmq)
 
 ---
+
 ### Verificação Final (08/06/2026)
 
-| # | Tarefa | Status | Observações |
-| :--- | :--- | :--- | :--- |
-| 2.1 | Terraform: VPC, EKS, RDS, Redis | ✅ | 4 módulos + env dev, bug fix: var faltante adicionada ao module rds |
-| 2.2 | Kubernetes: namespaces, RBAC, NetworkPolicies | ✅ | 4 namespaces, 3 ClusterRoles, 3 NetworkPolicies, 2 ServiceAccounts |
-| 2.3 | CI Backend: lint → SAST → tests → Docker → Helm | ✅ | Quality gates agora bloqueantes (`|| true` removidos) |
-| 2.4 | CI Frontend: lint → type-check → jest → Lighthouse → deploy | ✅ | Quality gates agora bloqueantes (`|| true` removidos) |
-| 2.5 | Quality gates bloqueantes | ✅ | PHPStan level 8, PHPCS, Snyk, Coverage ≥80%, Spectral, ESLint, Prettier, tsc, Lighthouse, axe-core |
-| 2.6 | HashiCorp Vault | ✅ | 4 policies, config HCL, 2 scripts de rotação, Kubernetes auth |
-| 2.7 | WAF (Cloudflare) | ✅ | OWASP CRS, Rate Limiting, DDoS L7, Bot Management |
-| 2.8 | Observabilidade | ✅ | Prometheus + Grafana + Loki + Jaeger, 10 alertas, dashboard ArchTech Overview |
-| 2.9 | DDEV com paridade | ✅ | Redis 7, RabbitMQ 3.13, PostgreSQL 18, PHP 8.4, Traefik |
-| 2.10 | RabbitMQ | ✅ | 12 exchanges, 34 queues, DLQ policy, retry policy, setup via DDEV |
+| #    | Tarefa                                                      | Status | Observações                                                                                        |
+| :--- | :---------------------------------------------------------- | :----- | :------------------------------------------------------------------------------------------------- |
+| 2.1  | Terraform: VPC, EKS, RDS, Redis                             | ✅     | 4 módulos + env dev, 0 hardcoded secrets                                                           |
+| 2.2  | Kubernetes: namespaces, RBAC, NetworkPolicies               | ✅     | 4 namespaces, 3 ClusterRoles, 3 NetworkPolicies, 1 ServiceAccount, schema validado (kubeconform)   |
+| 2.3  | CI Backend: lint → SAST → tests → Docker → Helm             | ✅     | Quality gates bloqueantes (|| true removidos)                                                      |
+| 2.4  | CI Frontend: lint → type-check → jest → Lighthouse → deploy | ✅     | Quality gates bloqueantes (|| true removidos)                                                      |
+| 2.5  | Quality gates bloqueantes                                   | ✅     | PHPStan level 8, PHPCS, Snyk, Coverage ≥80%, Spectral, ESLint, Prettier, tsc, Lighthouse, axe-core |
+| 2.6  | HashiCorp Vault                                             | ✅     | 4 policies, server config + setup script, 2 rotação scripts, Kubernetes auth                       |
+| 2.7  | WAF (Cloudflare)                                            | ✅     | OWASP CRS, Rate Limiting, DDoS L7, Bot Management                                                  |
+| 2.8  | Observabilidade                                             | ✅     | Prometheus + Grafana + Loki + Jaeger, 10 alertas, dashboard ArchTech Overview, exporters ativos    |
+| 2.9  | DDEV com paridade                                           | ✅     | 11 containers: web, db, redis, rabbitmq, prometheus, grafana, loki, jaeger + 3 exporters            |
+| 2.10 | RabbitMQ                                                    | ✅     | 12 exchanges, 32 queues, DLQ policy, retry policy, setup via DDEV                                  |
 
-**Runbooks criados:** 02-rabbitmq-management, 04-terraform-workflow, 06-vault-secrets, 07-ci-cd-pipeline, 08-waf-configuration  
+**Runbooks criados:** 02-rabbitmq-management, 04-terraform-workflow, 06-vault-secrets, 07-ci-cd-pipeline, 08-waf-configuration, 09-observability  
 **.env.example expandido:** 40+ variáveis documentadas para todos os serviços  
-**Auditoria de Secrets:** Relatório salvo em `docs/security/secrets-audit-report.md` — zero exposição de secrets sensíveis
+**Auditoria de Secrets:** Relatório salvo em `docs/security/secrets-audit-report.md` — zero exposição de secrets sensíveis  
+**Test Suite:** 9 suites de teste em `scripts/tests/` + integração no CI (test.yml)
 
 ---
 

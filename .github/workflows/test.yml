@@ -24,7 +24,7 @@ jobs:
           extensions: pgsql, pdo_pgsql, redis
 
       - name: Setup DDEV
-        uses: ddev/setup-ddev@v1
+        uses: ddev/github-action-setup-ddev@v1
 
       - name: Start DDEV
         run: ddev start
@@ -36,6 +36,29 @@ jobs:
         run: |
           ddev drush core:status
           ddev drush cr
+
+      - name: Infrastructure tests
+        run: |
+          # Install test tools
+          curl -sL "https://github.com/yannh/kubeconform/releases/download/v0.6.7/kubeconform-linux-amd64.tar.gz" | tar xz -C /tmp/
+          sudo cp /tmp/kubeconform /usr/local/bin/
+          curl -sL "https://github.com/prometheus/prometheus/releases/download/v2.53.0/prometheus-2.53.0.linux-amd64.tar.gz" | tar xz -C /tmp/
+          sudo cp /tmp/prometheus-2.53.0.linux-amd64/promtool /usr/local/bin/
+          sudo apt-get update -qq && sudo apt-get install -y -qq shellcheck
+
+      - name: Run YAML validation
+        run: python3 scripts/validate-yaml.py
+
+      - name: Run Kubernetes validation
+        run: kubeconform -kubernetes-version 1.30.0 -strict infrastructure/kubernetes/namespaces/*.yaml infrastructure/kubernetes/rbac/*.yaml infrastructure/kubernetes/network-policies/*.yaml infrastructure/kubernetes/service-account.yaml
+
+      - name: Run Prometheus validation
+        run: |
+          promtool check rules infrastructure/observability/prometheus/rules/archtech-alerts.yml
+          promtool check config infrastructure/observability/prometheus/prometheus.yml
+
+      - name: Run shellcheck
+        run: shellcheck -x -S error scripts/*.sh scripts/tests/*.sh infrastructure/vault/scripts/*.sh
 
       - name: Check for critical errors in logs
         if: failure()
