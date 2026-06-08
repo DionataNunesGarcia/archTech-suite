@@ -1,0 +1,69 @@
+{
+  "title": "Squad Suporte — Business Dashboard",
+  "uid": "squad-suporte",
+  "tags": ["archtech", "squad", "suporte"],
+  "schemaVersion": 39,
+  "timezone": "America/Sao_Paulo",
+  "panels": [
+    {
+      "title": "Documentos Indexados (7d)",
+      "type": "stat",
+      "gridPos": { "h": 6, "w": 4, "x": 0, "y": 0 },
+      "targets": [{
+        "expr": "sum(increase(documents_indexed_total[7d]))",
+        "legendFormat": "Documentos"
+      }],
+      "datasource": "Prometheus"
+    },
+    {
+      "title": "Busca Semântica — Taxa de Sucesso",
+      "type": "stat",
+      "gridPos": { "h": 6, "w": 4, "x": 4, "y": 0 },
+      "targets": [{
+        "expr": "avg(semantic_search_success_rate)",
+        "legendFormat": "Sucesso %"
+      }],
+      "datasource": "Prometheus",
+      "fieldConfig": { "defaults": { "unit": "percent" } }
+    },
+    {
+      "title": "Tutoriais Ativos",
+      "type": "stat",
+      "gridPos": { "h": 6, "w": 4, "x": 8, "y": 0 },
+      "targets": [{
+        "expr": "sum(tutorials_active_total)",
+        "legendFormat": "Tutoriais"
+      }],
+      "datasource": "Prometheus"
+    },
+    {
+      "title": "Top Search Queries (7d)",
+      "type": "table",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 6 },
+      "targets": [{
+        "expr": "topk(10, sum(increase(search_queries_total[7d])) by (query))",
+        "legendFormat": "{{ query }}"
+      }],
+      "datasource": "Prometheus"
+    },
+    {
+      "title": "Onboarding Completion Rate",
+      "type": "gauge",
+      "gridPos": { "h": 8, "w": 6, "x": 12, "y": 6 },
+      "targets": [{
+        "expr": "avg(onboarding_completion_rate) * 100",
+        "legendFormat": "Completion %"
+      }],
+      "datasource": "Prometheus",
+      "thresholds": {
+        "steps": [
+          { "color": "green", "value": null },
+          { "color": "yellow", "value": 80 },
+          { "color": "red", "value": 60 }
+        ]
+      }
+    }
+  ],
+  "refresh": "30s",
+  "time": { "from": "now-7d", "to": "now" }
+}

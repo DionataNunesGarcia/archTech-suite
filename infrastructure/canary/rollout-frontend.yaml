@@ -1,0 +1,68 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: arctech-frontend
+  namespace: arctech-prod
+spec:
+  replicas: 3
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: arctech-frontend
+  template:
+    metadata:
+      labels:
+        app: arctech-frontend
+    spec:
+      containers:
+        - name: nextjs
+          image: ghcr.io/dionatanunesgarcia/archtech-frontend:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: NEXT_PUBLIC_API_URL
+              value: https://api.archtech.com.br
+            - name: NODE_ENV
+              value: production
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+            limits:
+              cpu: 1
+              memory: 512Mi
+  strategy:
+    canary:
+      maxSurge: 1
+      maxUnavailable: 0
+      steps:
+        - setWeight: 5
+        - pause: { duration: 10m }
+        - analysis:
+            templates:
+              - templateName: frontend-error-rate
+        - setWeight: 25
+        - pause: { duration: 10m }
+        - analysis:
+            templates:
+              - templateName: frontend-error-rate
+        - setWeight: 100
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: frontend-error-rate
+  namespace: arctech-prod
+spec:
+  metrics:
+    - name: error-rate
+      successCondition: result < 0.005
+      provider:
+        prometheus:
+          address: http://prometheus:9090
+          query: |
+            sum(rate(nextjs_requests_total{status=~"5.."}[5m])) /
+            sum(rate(nextjs_requests_total[5m]))
+      interval: 30s
+      count: 6
+      failureLimit: 3

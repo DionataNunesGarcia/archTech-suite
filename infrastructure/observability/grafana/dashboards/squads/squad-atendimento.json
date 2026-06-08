@@ -1,0 +1,65 @@
+{
+  "title": "Squad Atendimento — Business Dashboard",
+  "uid": "squad-atendimento",
+  "tags": ["archtech", "squad", "atendimento"],
+  "schemaVersion": 39,
+  "timezone": "America/Sao_Paulo",
+  "panels": [
+    {
+      "title": "Leads Created (24h)",
+      "type": "stat",
+      "gridPos": { "h": 6, "w": 4, "x": 0, "y": 0 },
+      "targets": [{
+        "expr": "sum(increase(leads_created_total[24h]))",
+        "legendFormat": "Leads criados"
+      }],
+      "datasource": "Prometheus"
+    },
+    {
+      "title": "Leads Qualified Rate",
+      "type": "stat",
+      "gridPos": { "h": 6, "w": 4, "x": 4, "y": 0 },
+      "targets": [{
+        "expr": "sum(leads_qualified_total) / sum(leads_created_total) * 100",
+        "legendFormat": "Qualificação %"
+      }],
+      "datasource": "Prometheus",
+      "fieldConfig": { "defaults": { "unit": "percent" } }
+    },
+    {
+      "title": "Meetings Scheduled (7d)",
+      "type": "stat",
+      "gridPos": { "h": 6, "w": 4, "x": 8, "y": 0 },
+      "targets": [{
+        "expr": "sum(increase(meetings_scheduled_total[7d]))",
+        "legendFormat": "Reuniões"
+      }],
+      "datasource": "Prometheus"
+    },
+    {
+      "title": "Lead Funnel (30d)",
+      "type": "bargauge",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 6 },
+      "targets": [
+        { "expr": "sum(leads_created_total[30d])", "legendFormat": "Criados" },
+        { "expr": "sum(leads_qualified_total[30d])", "legendFormat": "Qualificados" },
+        { "expr": "sum(meetings_scheduled_total[30d])", "legendFormat": "Agendados" },
+        { "expr": "sum(leads_converted_total[30d])", "legendFormat": "Convertidos" }
+      ],
+      "datasource": "Prometheus"
+    },
+    {
+      "title": "AI Agent: Lead Scorer Latency",
+      "type": "graph",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 6 },
+      "targets": [{
+        "expr": "histogram_quantile(0.90, sum(rate(ai_agent_duration_seconds_bucket{agent=\"lead-scorer\"}[5m])) by (le))",
+        "legendFormat": "P90 - Lead Scorer"
+      }],
+      "datasource": "Prometheus",
+      "fieldConfig": { "defaults": { "unit": "s" } }
+    }
+  ],
+  "refresh": "30s",
+  "time": { "from": "now-7d", "to": "now" }
+}
