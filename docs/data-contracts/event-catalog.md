@@ -50,3 +50,25 @@ Schemas dos domain events do ArchTech Suite. Cada evento segue a estrutura base 
 | RenovationOpportunity | ia_facilities | ia_crm |
 | BIMModelProcessed | ia_bim_twin | ia_projetos, ia_facilities |
 | SensorAnomalyDetected | ia_bim_twin | ia_facilities, ia_suporte |
+| DiaryEntryCreated | ia_diary | ia_obras, ia_client_portal |
+| DiaryAnomalyDetected | ia_diary | ia_obras, ia_suporte |
+| WeeklyReportGenerated | ia_diary | ia_client_portal, ia_suporte |
+| MeetingTranscribed | ia_meetings | ia_projetos |
+| MeetingAtaApproved | ia_meetings | ia_client_portal, ia_crm |
+| ActionItemCreated | ia_meetings | ia_suporte |
+| ActionItemOverdue | ia_meetings | ia_suporte |
+| ReimbursementRequested | ia_financeiro_avancado | ia_client_portal |
+| ReimbursementApproved | ia_financeiro_avancado | ia_financeiro |
+| PayrollProcessed | ia_financeiro_avancado | ia_suporte |
+| CashFlowRiskDetected | ia_financeiro_avancado | ia_obras, ia_suporte |
+| TeamMemberOverloaded | ia_teams | ia_suporte |
+| AllocationChanged | ia_teams | ia_financeiro_avancado |
+| MobilePhotoUploaded | pwa_mobile | ia_diary |
+| OfflineSyncCompleted | pwa_mobile | ia_obras |
+| BudgetApproved | ia_budget_construction | ia_obras, ia_financeiro |
+| MeasurementApproved | ia_budget_construction | ia_financeiro, ia_client_portal |
+| DeliverableApproved | ia_deliverables | ia_financeiro, ia_client_portal |
+| PhaseCompleted | ia_deliverables | ia_crm, ia_client_portal, ia_financeiro |
+| TaskCreated | ia_tasks | ia_suporte |
+| TaskOverdue | ia_tasks | ia_suporte |
+| TaskCompleted | ia_tasks | ia_projetos, ia_obras |

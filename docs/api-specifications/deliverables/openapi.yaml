@@ -1,0 +1,74 @@
+openapi: 3.1.0
+info:
+  title: ArchTech Suite — Entregas por Fase (F19)
+  description: Gestão de fases de projeto com checklist de entregáveis e aprovação.
+  version: 1.0.0
+servers:
+  - url: https://archtech.ddev.site/api/v1
+  - url: https://api.archtech.com.br/v1
+paths:
+  /projects/{id}/phases:
+    get:
+      summary: Lista fases do projeto com status
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Fases do projeto
+  /projects/{id}/deliverables:
+    post:
+      summary: Adiciona entregável a uma fase
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Deliverable'
+      responses:
+        '201':
+          description: Entregável adicionado
+  /deliverables/{id}/approve:
+    post:
+      summary: Aprova entregável
+  /deliverables/{id}/version:
+    post:
+      summary: Upload de nova versão
+  /deliverables/{id}/history:
+    get:
+      summary: Histórico de versões
+components:
+  schemas:
+    ProjectPhase:
+      type: object
+      properties:
+        project_id:
+          type: string
+        nome:
+          type: string
+          enum: [levantamento, estudo_preliminar, anteprojeto, projeto_legal, projeto_executivo, detalhamento, pos_obra]
+        status:
+          type: string
+          enum: [nao_iniciada, em_andamento, entreque, aprovada, revisao]
+        data_entrega_prev:
+          type: string
+          format: date
+    Deliverable:
+      type: object
+      properties:
+        phase_id:
+          type: string
+        project_id:
+          type: string
+        nome:
+          type: string
+        tipo:
+          type: string
+          enum: [planta, corte, fachada, memorial, especificacao, planilha, relatorio, render, modelo3d]
+        obrigatorio:
+          type: boolean
+        status:
+          type: string
+          enum: [pendente, em_elaboracao, entregue, aprovado, revisao]

@@ -1,0 +1,29 @@
+#!/bin/bash
+## #ddev-generated
+## Description: Setup RabbitMQ exchanges, queues, DLQ
+## Usage: rabbitmq-setup
+## Example: ddev rabbitmq-setup
+
+RABBIT_HOST="rabbitmq"
+RABBIT_PORT="15672"
+RABBIT_USER="${RABBITMQ_USER:-archtech}"
+RABBIT_PASS="${RABBITMQ_PASS:-archtech}"
+
+echo "Setting up RabbitMQ resources..."
+
+# Ensure password
+rabbitmqctl change_password "${RABBIT_USER}" "${RABBIT_PASS}" > /dev/null 2>&1 || true
+
+# Import definitions
+HTTP_CODE=$(curl -s -w "%{http_code}" -o /dev/null -u "${RABBIT_USER}:${RABBIT_PASS}" -X POST \
+  "http://${RABBIT_HOST}:${RABBIT_PORT}/api/definitions" \
+  -H "Content-Type: application/json" \
+  -d @/var/www/html/infrastructure/rabbitmq/definitions.json)
+
+if [ "$HTTP_CODE" = "204" ]; then
+  echo "✅ RabbitMQ setup complete!"
+else
+  echo "⚠️  Import failed with HTTP ${HTTP_CODE}"
+  echo "   Try: docker exec ddev-archtech-rabbitmq rabbitmqctl change_password ${RABBIT_USER} ${RABBIT_PASS}"
+  exit 1
+fi

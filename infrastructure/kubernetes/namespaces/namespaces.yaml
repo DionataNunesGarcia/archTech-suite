@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: archtech-dev
+  labels:
+    name: archtech-dev
+    environment: development
+    squad-platform: "true"
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: archtech-staging
+  labels:
+    name: archtech-staging
+    environment: staging
+    squad-platform: "true"
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: archtech-prod
+  labels:
+    name: archtech-prod
+    environment: production
+    squad-platform: "true"
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: archtech-observability
+  labels:
+    name: archtech-observability
+    environment: observability
+    squad-platform: "true"

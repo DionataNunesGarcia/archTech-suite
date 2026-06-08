@@ -1,0 +1,111 @@
+# Squad-isolation NetworkPolicies:
+# Modules de squad (ia_atendimento, ia_marketing, etc.) só se comunicam
+# com módulos de plataforma (archtech_core_api, archtech_events, etc.)
+# Nenhum módulo de squad se comunica diretamente com outro módulo de squad.
+
+# Allow all pods to communicate with platform modules (DNS, API, events)
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-egress-to-platform
+  namespace: archtech-dev
+spec:
+  podSelector:
+    matchExpressions:
+      - key: squad
+        operator: NotIn
+        values:
+          - platform
+  policyTypes:
+    - Egress
+  egress:
+    - to:
+        - podSelector:
+            matchLabels:
+              tier: platform
+    - to:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              tier: platform
+    # Allow DNS
+    - to:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              k8s-app: kube-dns
+      ports:
+        - port: 53
+          protocol: UDP
+        - port: 53
+          protocol: TCP
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-egress-to-platform
+  namespace: archtech-staging
+spec:
+  podSelector:
+    matchExpressions:
+      - key: squad
+        operator: NotIn
+        values:
+          - platform
+  policyTypes:
+    - Egress
+  egress:
+    - to:
+        - podSelector:
+            matchLabels:
+              tier: platform
+    - to:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              tier: platform
+    - to:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              k8s-app: kube-dns
+      ports:
+        - port: 53
+          protocol: UDP
+        - port: 53
+          protocol: TCP
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-egress-to-platform
+  namespace: archtech-prod
+spec:
+  podSelector:
+    matchExpressions:
+      - key: squad
+        operator: NotIn
+        values:
+          - platform
+  policyTypes:
+    - Egress
+  egress:
+    - to:
+        - podSelector:
+            matchLabels:
+              tier: platform
+    - to:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              tier: platform
+    - to:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              k8s-app: kube-dns
+      ports:
+        - port: 53
+          protocol: UDP
+        - port: 53
+          protocol: TCP

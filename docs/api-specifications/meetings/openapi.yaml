@@ -1,0 +1,85 @@
+openapi: 3.1.0
+info:
+  title: ArchTech Suite — Atas de Reunião Inteligentes (F12)
+  description: Transcrição, resumo IA, extração de decisões/ações e assinatura digital.
+  version: 1.0.0
+servers:
+  - url: https://archtech.ddev.site/api/v1
+  - url: https://api.archtech.com.br/v1
+paths:
+  /meetings:
+    post:
+      summary: Cria registro de reunião
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MeetingRecord'
+      responses:
+        '201':
+          description: Reunião criada
+  /meetings/{id}/transcribe:
+    post:
+      summary: Inicia transcrição de áudio/vídeo
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '202':
+          description: Transcrição iniciada (assíncrona)
+  /meetings/{id}/summarize:
+    post:
+      summary: Gera resumo e extrai decisões/ações via IA
+  /meetings/{id}/send:
+    post:
+      summary: Envia ata aprovada para participantes
+  /meetings/{id}/sign:
+    post:
+      summary: Participante assina digitalmente
+  /projects/{id}/meetings:
+    get:
+      summary: Lista histórico de reuniões do projeto
+components:
+  schemas:
+    MeetingRecord:
+      type: object
+      properties:
+        project_id:
+          type: string
+        titulo:
+          type: string
+        tipo:
+          type: string
+          enum: [kickoff, revisao, aprovacao, obra, cliente, interna, emergencia]
+        data_hora:
+          type: string
+          format: date-time
+        participantes:
+          type: array
+        pauta:
+          type: array
+        decisoes:
+          type: array
+        acoes:
+          type: array
+        status:
+          type: string
+          enum: [agendada, em_andamento, transcrevendo, rascunho, aprovada, enviada]
+    ActionItem:
+      type: object
+      properties:
+        meeting_id:
+          type: string
+        descricao:
+          type: string
+        responsavel_id:
+          type: string
+        prazo:
+          type: string
+          format: date
+        status:
+          type: string
+          enum: [pendente, em_andamento, concluida, cancelada]

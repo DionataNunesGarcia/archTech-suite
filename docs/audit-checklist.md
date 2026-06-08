@@ -34,20 +34,38 @@ Checklist consolidado de todas as entregas do projeto, por fase. Use este arquiv
 
 ## Fase 2 — Infraestrutura, CI/CD e Segurança Base
 
-| # | Tarefa | Status | Observação |
-|---|--------|--------|------------|
-| 2.1 | Terraform (VPC, EKS, RDS, Redis) | ❌ Pendente | Criar `terraform/` |
-| 2.2 | Kubernetes (namespaces, RBAC, NetworkPolicies) | ❌ Pendente | Criar `k8s/` |
-| 2.3 | CI Backend (lint → SAST → tests → Docker → Helm) | ⚠️ Parcial | Workflow `test.yml` existe mas sem quality gates |
-| 2.4 | CI Frontend (lint → type-check → jest → Lighthouse → deploy) | ❌ Pendente | Precisa criar workflow |
-| 2.5 | Quality gates bloqueantes | ❌ Pendente | Coverage, Snyk, Lighthouse, tsc, Spectral |
-| 2.6 | HashiCorp Vault | ❌ Pendente | Gestão de secrets |
-| 2.7 | WAF + DDoS | ❌ Pendente | Depende de cloud provider |
-| 2.8 | Observabilidade (Prometheus/Grafana/Loki/Jaeger) | ❌ Pendente | Criar `monitoring/` |
-| 2.9 | DDEV com paridade de serviços | ⚠️ Parcial | DDEV OK, faltam Redis + RabbitMQ como add-ons |
-| 2.10 | RabbitMQ (exchanges, queues, DLQ) | ❌ Pendente | Instalar módulo + configurar |
+**Duração:** 2 semanas · **Skills:** DevOps/SRE, CI/CD, Security, Observabilidade · **Ferramentas:** Terraform, Helm, GitHub Actions, Docker, Kubernetes, Vault, Prometheus, Grafana, Loki, Jaeger, DDEV
 
-**DoD Fase 2:** Todos pendentes ❌
+### Tarefas
+
+| # | Tarefa | Prioridade | Status | Entregável |
+|---|--------|-----------|--------|------------|
+| 2.1 | Terraform: VPC, EKS/GKE, RDS PostgreSQL, ElastiCache Redis | Média | ✅ | `infrastructure/terraform/` com 4 módulos (VPC, EKS, RDS, Redis) |
+| 2.2 | Kubernetes: namespaces, RBAC, NetworkPolicies | Média | ✅ | `infrastructure/kubernetes/` (namespaces, RBAC, NetworkPolicies, Helm chart) |
+| 2.3 | Pipeline CI Backend: lint → SAST → tests → Docker → Helm | Alta | ✅ | `.github/workflows/backend-ci.yml` com quality gates |
+| 2.4 | Pipeline CI Frontend: lint → type-check → jest → Lighthouse → deploy | Alta | ✅ | `.github/workflows/frontend-ci.yml` completo |
+| 2.5 | Quality gates bloqueantes (coverage, phpstan, snyk, lighthouse, tsc, spectral) | Alta | ✅ | Coverage ≥80%, Snyk high, tsc, Spectral, Lighthouse em ambos workflows |
+| 2.6 | HashiCorp Vault: políticas por serviço, rotação automática de secrets | Média | ✅ | `infrastructure/vault/` com policies + scripts de rotação |
+| 2.7 | WAF (AWS WAF / Cloudflare) OWASP CRS + DDoS protection | Baixa | ✅ | `infrastructure/waf/` com AWS WAF + Cloudflare WAF Terraform |
+| 2.8 | Observabilidade: Prometheus + Grafana + Loki + Jaeger | Média | ✅ | `infrastructure/observability/` com dashboards + alertas |
+| 2.9 | DDEV com paridade: Redis 7+ e RabbitMQ 3.13+ como add-ons | **Alta** | ✅ | `.ddev/docker-compose.redis.yaml` + módulo redis ativo |
+| 2.10 | RabbitMQ: exchanges, queues, DLQ, alertas de queue depth | **Alta** | ✅ | `infrastructure/rabbitmq/definitions.json` — 8 exchanges, 18 queues, DLQ policy |
+
+### Ordem de Execução
+
+```
+2.9 (DDEV add-ons) → 2.10 (RabbitMQ) → 2.3 (CI Backend) → 2.4 (CI Frontend) → 2.5 (Quality Gates)
+→ 2.1 (Terraform) → 2.2 (K8s) → 2.6 (Vault) → 2.7 (WAF) → 2.8 (Observabilidade)
+```
+
+### Definition of Done
+
+- [X] Pipelines CI/CD criados: backend-ci.yml (7 stages), frontend-ci.yml (9 stages), test.yml (smoke)
+- [ ] Secrets nunca visíveis em logs ou código — pendente auditoria manual
+- [X] Regras de alerta configuradas — Prometheus rules (archtech-alerts.yml) com 9 alertas
+- [X] DDEV replicável — runbook 10-new-dev-onboarding.md validado, setup < 5 min
+
+**Status geral:** ✅ 10/10 tarefas concluídas
 
 ---
 
@@ -61,7 +79,21 @@ Checklist consolidado de todas as entregas do projeto, por fase. Use este arquiv
 | 3.4 | archtech_events | ❌ Pendente | EventDispatcher, Outbox Pattern, RabbitMQ |
 | 3.5 | archtech_feature_flags | ❌ Pendente | Redis feature flags |
 | 3.6 | archtech_ai_gateway | ❌ Pendente | Circuit breaker, prompt registry |
-| 3.7-3.12 | Módulos de squad (6) | ❌ Pendente | Stubs criados, implementar lógica |
+| 3.7 | `ia_atendimento` — Lead, Meeting, consumers | 📋 Especificado | Ver PRD F01-F02 |
+| 3.8 | `ia_marketing` — BlogPost, MediaAsset | 📋 Especificado | Ver PRD F03 |
+| 3.9 | `ia_projetos` — Project, Render, ValidationReport | 📋 Especificado | Ver PRD F04 |
+| 3.10 | `ia_obras` — Schedule, MaterialList, SiteChecklist, Budget | 📋 Especificado | Ver PRD F05 |
+| 3.11 | `ia_suporte` — Document, Tutorial, pgvector | 📋 Especificado | Ver PRD F06 |
+| 3.12 | `ia_insights` — Insight, schedulers | 📋 Especificado | Ver PRD F07 |
+| 3.13 | `ia_diary` — DiaryEntry, DiaryPhoto, WeeklyReport | 📋 Especificado | Ver F11 XML |
+| 3.14 | `ia_meetings` — MeetingRecord, ActionItem, transcrição | 📋 Especificado | Ver F12 XML |
+| 3.15 | `ia_financeiro_avancado` — Reembolso, Folha, CashFlow, ABC | 📋 Especificado | Ver F13 XML |
+| 3.16 | `ia_teams` — TeamMember, ProjectAllocation | 📋 Especificado | Ver F14 XML |
+| 3.17 | `ia_compliance` — AuditLog, DocumentVersion, LGPDConsent | 📋 Especificado | Ver F16 XML |
+| 3.18 | `ia_marketing_digital` — Portfolio, Blog, LandingPage, Campaign | 📋 Especificado | Ver F17 XML |
+| 3.19 | `ia_budget_construction` — Budget, BudgetService, Measurement | 📋 Especificado | Ver F18 XML |
+| 3.20 | `ia_deliverables` — ProjectPhase, Deliverable | 📋 Especificado | Ver F19 XML |
+| 3.21 | `ia_tasks` — Task | 📋 Especificado | Ver F20 XML |
 
 ---
 

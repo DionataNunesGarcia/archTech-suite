@@ -1,0 +1,14 @@
+# Prometheus RabbitMQ Exporter — queue depth monitoring
+services:
+  rabbitmq-exporter:
+    image: kbudde/rabbitmq-exporter:latest
+    container_name: ddev-${DDEV_SITENAME}-rabbitmq-exporter
+    environment:
+      RABBIT_URL: "http://rabbitmq:15672"
+      RABBIT_USER: archtech
+      RABBIT_PASSWORD: archtech
+      PUBLISH_PORT: 9419
+    expose:
+      - "9419"
+    depends_on:
+      - rabbitmq

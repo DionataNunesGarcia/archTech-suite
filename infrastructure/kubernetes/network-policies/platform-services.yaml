@@ -1,0 +1,57 @@
+# Allow ingress from platform modules to all pods within the namespace
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-platform-ingress
+  namespace: archtech-dev
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              squad-platform: "true"
+    - from:
+        - podSelector:
+            matchLabels:
+              tier: platform
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-platform-ingress
+  namespace: archtech-staging
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              squad-platform: "true"
+    - from:
+        - podSelector:
+            matchLabels:
+              tier: platform
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-platform-ingress
+  namespace: archtech-prod
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              squad-platform: "true"
+    - from:
+        - podSelector:
+            matchLabels:
+              tier: platform

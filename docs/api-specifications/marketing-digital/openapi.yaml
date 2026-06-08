@@ -1,0 +1,83 @@
+openapi: 3.1.0
+info:
+  title: ArchTech Suite — Marketing Digital e Portfólio (F17)
+  description: Portfólio público, blog, landing pages, campanhas de marketing.
+  version: 1.0.0
+servers:
+  - url: https://archtech.ddev.site/api/v1
+  - url: https://api.archtech.com.br/v1
+paths:
+  /portfolio:
+    get:
+      summary: Lista projetos do portfólio público
+      responses:
+        '200':
+          description: Lista de projetos
+  /portfolio/{id}/publish:
+    post:
+      summary: Publica projeto no portfólio
+  /blog:
+    post:
+      summary: Cria artigo no blog
+  /campaigns:
+    post:
+      summary: Cria campanha de marketing
+  /marketing/seo-keywords:
+    get:
+      summary: Sugestões de palavras-chave SEO
+components:
+  schemas:
+    PortfolioProject:
+      type: object
+      properties:
+        project_id:
+          type: string
+        titulo_publico:
+          type: string
+        descricao:
+          type: string
+        tipo:
+          type: string
+          enum: [residencial, comercial, corporativo, urbanismo, interiores]
+        fotos:
+          type: array
+        slug:
+          type: string
+        seo_title:
+          type: string
+    BlogArticle:
+      type: object
+      properties:
+        titulo:
+          type: string
+        slug:
+          type: string
+        conteudo:
+          type: string
+        categoria:
+          type: string
+          enum: [tendencias, dicas, projetos, materiais, sustentabilidade, legislacao, negocios]
+        status:
+          type: string
+          enum: [rascunho, revisao, publicado, arquivado]
+    LandingPage:
+      type: object
+      properties:
+        titulo:
+          type: string
+        slug:
+          type: string
+        tipo:
+          type: string
+          enum: [servico, campanha, evento, portfolio, contato]
+    MarketingCampaign:
+      type: object
+      properties:
+        nome:
+          type: string
+        tipo:
+          type: string
+          enum: [email, whatsapp, instagram, google_ads, meta_ads]
+        status:
+          type: string
+          enum: [rascunho, agendada, ativa, pausada, encerrada]

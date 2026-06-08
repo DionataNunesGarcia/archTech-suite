@@ -1,0 +1,100 @@
+# ArchTech Suite — Helm values
+# Shared defaults, overridden per environment in values-{env}.yaml
+
+replicaCount: 2
+
+image:
+  repository: ghcr.io/archtech/suite/drupal
+  tag: latest
+  pullPolicy: IfNotPresent
+
+nameOverride: ""
+fullnameOverride: ""
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/proxy-body-size: "100m"
+  tls: []
+
+resources:
+  requests:
+    memory: "256Mi"
+    cpu: "250m"
+  limits:
+    memory: "1Gi"
+    cpu: "500m"
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 70
+  targetMemoryUtilizationPercentage: 80
+
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 1
+
+postgresql:
+  enabled: false
+  auth:
+    database: archnet
+    username: archnet
+  primary:
+    persistence:
+      size: 20Gi
+
+redis:
+  enabled: false
+  architecture: standalone
+  auth:
+    enabled: false
+  master:
+    persistence:
+      size: 5Gi
+
+rabbitmq:
+  enabled: false
+  auth:
+    username: archnet
+    password: ""
+  persistence:
+    size: 8Gi
+
+drupal:
+  existingSecret: ""
+  extraEnv: []
+  livenessProbe:
+    path: /health
+    initialDelaySeconds: 30
+    periodSeconds: 10
+  readinessProbe:
+    path: /health
+    initialDelaySeconds: 15
+    periodSeconds: 5
+
+vault:
+  enabled: true
+  address: "http://vault:8200"
+  role: "drupal"
+  authPath: "kubernetes"
+  secrets:
+    - path: "secret/data/archtech/drupal"
+      name: "DRUPAL_HASH_SALT"
+      key: "hash_salt"
+    - path: "secret/data/archtech/db"
+      name: "DATABASE_URL"
+      key: "database_url"
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

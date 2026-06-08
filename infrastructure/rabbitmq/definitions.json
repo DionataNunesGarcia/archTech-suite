@@ -1,0 +1,392 @@
+{
+  "rabbit_version": "3.13",
+  "users": [],
+  "vhosts": [],
+  "permissions": [],
+  "parameters": [],
+  "policies": [
+    {
+      "vhost": "/",
+      "name": "archtech.dlq-policy",
+      "pattern": "archtech\\..*",
+      "apply-to": "queues",
+      "definition": {
+        "dead-letter-exchange": "archtech.dlq",
+        "dead-letter-routing-key": "",
+        "message-ttl": 604800000,
+        "max-length": 100000
+      },
+      "priority": 10
+    },
+    {
+      "vhost": "/",
+      "name": "archtech.retry-policy",
+      "pattern": "archtech\\.retry\\..*",
+      "apply-to": "queues",
+      "definition": {
+        "message-ttl": 1000,
+        "dead-letter-exchange": "",
+        "dead-letter-routing-key": ""
+      },
+      "priority": 5
+    }
+  ],
+  "exchanges": [
+    {
+      "name": "archtech.leads",
+      "vhost": "/",
+      "type": "topic",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false
+    },
+    {
+      "name": "archtech.marketing",
+      "vhost": "/",
+      "type": "topic",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false
+    },
+    {
+      "name": "archtech.projects",
+      "vhost": "/",
+      "type": "topic",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false
+    },
+    {
+      "name": "archtech.construction",
+      "vhost": "/",
+      "type": "topic",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false
+    },
+    {
+      "name": "archtech.internal",
+      "vhost": "/",
+      "type": "topic",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false
+    },
+    {
+      "name": "archtech.ai.jobs",
+      "vhost": "/",
+      "type": "direct",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false
+    },
+    {
+      "name": "archtech.dlq",
+      "vhost": "/",
+      "type": "fanout",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false
+    },
+    {
+      "name": "archtech.retry",
+      "vhost": "/",
+      "type": "direct",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false
+    },
+    {
+      "name": "archtech.diary",
+      "vhost": "/",
+      "type": "topic",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false
+    },
+    {
+      "name": "archtech.meetings",
+      "vhost": "/",
+      "type": "topic",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false
+    },
+    {
+      "name": "archtech.financial_adv",
+      "vhost": "/",
+      "type": "topic",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false
+    },
+    {
+      "name": "archtech.tasks",
+      "vhost": "/",
+      "type": "topic",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false
+    }
+  ],
+  "queues": [
+    {
+      "name": "archtech.leads.lead_created",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "archtech.leads.lead_qualified",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "archtech.leads.meeting_scheduled",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "archtech.leads.followup_queue",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "archtech.marketing.content_published",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "archtech.marketing.campaign_optimized",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "archtech.projects.project_created",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "archtech.projects.project_validated",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "archtech.projects.render_generated",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "archtech.construction.construction_started",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "archtech.construction.budget_deviation",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "archtech.construction.checklist_alert",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "archtech.internal.document_indexed",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "archtech.insights.insight_generated",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "archtech.insights.trend_alert",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "archtech.ai.jobs.render_queue",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "archtech.ai.jobs.chat_queue",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "archtech.dlq.all",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "archtech.diary.diary_entry_created",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "archtech.diary.photo_queue",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "archtech.diary.report_queue",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "archtech.meetings.meeting_transcription_queue",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "archtech.meetings.actions_queue",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "archtech.meetings.meeting_transcribed",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "archtech.financial_adv.nf_processing_queue",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "archtech.financial_adv.payroll_calculation_queue",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "archtech.financial_adv.cashflow_alerts_queue",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "archtech.financial_adv.reimbursement_requested",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "archtech.financial_adv.payroll_processed",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "archtech.tasks.task_created",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "archtech.tasks.task_overdue",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "archtech.tasks.task_completed",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    }
+  ],
+  "bindings": [
+    { "source": "archtech.leads", "vhost": "/", "destination": "archtech.leads.lead_created", "destination_type": "queue", "routing_key": "lead.created" },
+    { "source": "archtech.leads", "vhost": "/", "destination": "archtech.leads.lead_qualified", "destination_type": "queue", "routing_key": "lead.qualified" },
+    { "source": "archtech.leads", "vhost": "/", "destination": "archtech.leads.meeting_scheduled", "destination_type": "queue", "routing_key": "meeting.scheduled" },
+    { "source": "archtech.leads", "vhost": "/", "destination": "archtech.leads.followup_queue", "destination_type": "queue", "routing_key": "lead.followup" },
+    { "source": "archtech.marketing", "vhost": "/", "destination": "archtech.marketing.content_published", "destination_type": "queue", "routing_key": "content.published" },
+    { "source": "archtech.marketing", "vhost": "/", "destination": "archtech.marketing.campaign_optimized", "destination_type": "queue", "routing_key": "campaign.optimized" },
+    { "source": "archtech.projects", "vhost": "/", "destination": "archtech.projects.project_created", "destination_type": "queue", "routing_key": "project.created" },
+    { "source": "archtech.projects", "vhost": "/", "destination": "archtech.projects.project_validated", "destination_type": "queue", "routing_key": "project.validated" },
+    { "source": "archtech.projects", "vhost": "/", "destination": "archtech.projects.render_generated", "destination_type": "queue", "routing_key": "render.generated" },
+    { "source": "archtech.construction", "vhost": "/", "destination": "archtech.construction.construction_started", "destination_type": "queue", "routing_key": "construction.started" },
+    { "source": "archtech.construction", "vhost": "/", "destination": "archtech.construction.budget_deviation", "destination_type": "queue", "routing_key": "budget.deviation" },
+    { "source": "archtech.construction", "vhost": "/", "destination": "archtech.construction.checklist_alert", "destination_type": "queue", "routing_key": "checklist.alert" },
+    { "source": "archtech.internal", "vhost": "/", "destination": "archtech.internal.document_indexed", "destination_type": "queue", "routing_key": "document.indexed" },
+    { "source": "archtech.internal", "vhost": "/", "destination": "archtech.insights.insight_generated", "destination_type": "queue", "routing_key": "insight.generated" },
+    { "source": "archtech.internal", "vhost": "/", "destination": "archtech.insights.trend_alert", "destination_type": "queue", "routing_key": "trend.alert" },
+    { "source": "archtech.ai.jobs", "vhost": "/", "destination": "archtech.ai.jobs.render_queue", "destination_type": "queue", "routing_key": "ai.render" },
+    { "source": "archtech.ai.jobs", "vhost": "/", "destination": "archtech.ai.jobs.chat_queue", "destination_type": "queue", "routing_key": "ai.chat" },
+    { "source": "archtech.dlq", "vhost": "/", "destination": "archtech.dlq.all", "destination_type": "queue", "routing_key": "" },
+    { "source": "archtech.diary", "vhost": "/", "destination": "archtech.diary.diary_entry_created", "destination_type": "queue", "routing_key": "diary.entry.created" },
+    { "source": "archtech.diary", "vhost": "/", "destination": "archtech.diary.photo_queue", "destination_type": "queue", "routing_key": "diary.photo.uploaded" },
+    { "source": "archtech.diary", "vhost": "/", "destination": "archtech.diary.report_queue", "destination_type": "queue", "routing_key": "diary.report.generate" },
+    { "source": "archtech.meetings", "vhost": "/", "destination": "archtech.meetings.meeting_transcription_queue", "destination_type": "queue", "routing_key": "meeting.transcribe" },
+    { "source": "archtech.meetings", "vhost": "/", "destination": "archtech.meetings.actions_queue", "destination_type": "queue", "routing_key": "meeting.action.created" },
+    { "source": "archtech.meetings", "vhost": "/", "destination": "archtech.meetings.meeting_transcribed", "destination_type": "queue", "routing_key": "meeting.transcribed" },
+    { "source": "archtech.financial_adv", "vhost": "/", "destination": "archtech.financial_adv.nf_processing_queue", "destination_type": "queue", "routing_key": "finance.nf.process" },
+    { "source": "archtech.financial_adv", "vhost": "/", "destination": "archtech.financial_adv.payroll_calculation_queue", "destination_type": "queue", "routing_key": "finance.payroll.calculate" },
+    { "source": "archtech.financial_adv", "vhost": "/", "destination": "archtech.financial_adv.cashflow_alerts_queue", "destination_type": "queue", "routing_key": "finance.cashflow.alert" },
+    { "source": "archtech.financial_adv", "vhost": "/", "destination": "archtech.financial_adv.reimbursement_requested", "destination_type": "queue", "routing_key": "finance.reimbursement.requested" },
+    { "source": "archtech.financial_adv", "vhost": "/", "destination": "archtech.financial_adv.payroll_processed", "destination_type": "queue", "routing_key": "finance.payroll.processed" },
+    { "source": "archtech.tasks", "vhost": "/", "destination": "archtech.tasks.task_created", "destination_type": "queue", "routing_key": "task.created" },
+    { "source": "archtech.tasks", "vhost": "/", "destination": "archtech.tasks.task_overdue", "destination_type": "queue", "routing_key": "task.overdue" },
+    { "source": "archtech.tasks", "vhost": "/", "destination": "archtech.tasks.task_completed", "destination_type": "queue", "routing_key": "task.completed" }
+  ]
+}

@@ -1,0 +1,82 @@
+openapi: 3.1.0
+info:
+  title: ArchTech Suite — Orçamento e Custos de Obra (F18)
+  description: Orçamento com composição unitária, SINAPI, medições, curva ABC.
+  version: 1.0.0
+servers:
+  - url: https://archtech.ddev.site/api/v1
+  - url: https://api.archtech.com.br/v1
+paths:
+  /construction/budget:
+    post:
+      summary: Cria orçamento de obra
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConstructionBudget'
+      responses:
+        '201':
+          description: Orçamento criado
+  /construction/budget/{id}/abc:
+    get:
+      summary: Curva ABC do orçamento
+  /construction/measurement:
+    post:
+      summary: Cria nova medição
+  /construction/sinapi/search:
+    get:
+      summary: Busca composições SINAPI
+components:
+  schemas:
+    ConstructionBudget:
+      type: object
+      properties:
+        construction_id:
+          type: string
+        versao:
+          type: integer
+        bdi:
+          type: number
+        valor_direto:
+          type: number
+        valor_total:
+          type: number
+        data_referencia:
+          type: string
+          format: date
+    BudgetService:
+      type: object
+      properties:
+        budget_id:
+          type: string
+        codigo_sinapi:
+          type: string
+        descricao:
+          type: string
+        unidade:
+          type: string
+        quantidade:
+          type: number
+        custo_unitario:
+          type: number
+        custo_total:
+          type: number
+        categoria_abc:
+          type: string
+          enum: [A, B, C]
+    ConstructionMeasurement:
+      type: object
+      properties:
+        budget_id:
+          type: string
+        numero:
+          type: integer
+        periodo_inicio:
+          type: string
+          format: date
+        periodo_fim:
+          type: string
+          format: date
+        valor_total:
+          type: number

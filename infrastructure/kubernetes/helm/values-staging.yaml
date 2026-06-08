@@ -1,0 +1,29 @@
+# ArchTech Suite — Staging values
+replicaCount: 2
+
+ingress:
+  enabled: true
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+
+resources:
+  requests:
+    memory: "512Mi"
+    cpu: "250m"
+  limits:
+    memory: "1Gi"
+    cpu: "500m"
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 5
+
+postgresql:
+  enabled: false
+
+redis:
+  enabled: false
+
+rabbitmq:
+  enabled: false

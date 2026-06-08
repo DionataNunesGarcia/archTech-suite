@@ -1,0 +1,39 @@
+# ArchTech Suite — Development values
+replicaCount: 1
+
+ingress:
+  enabled: true
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-staging
+
+resources:
+  requests:
+    memory: "256Mi"
+    cpu: "250m"
+  limits:
+    memory: "512Mi"
+    cpu: "500m"
+
+autoscaling:
+  enabled: false
+
+postgresql:
+  enabled: true
+  auth:
+    database: archnet
+    username: archnet
+    password: "archnet-dev-pass"
+  primary:
+    persistence:
+      size: 10Gi
+
+redis:
+  enabled: true
+  auth:
+    enabled: false
+
+rabbitmq:
+  enabled: true
+  auth:
+    username: archnet
+    password: "archnet-dev-pass"

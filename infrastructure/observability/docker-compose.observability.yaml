@@ -1,0 +1,66 @@
+# DDEV add-on: Observability stack (Prometheus + Grafana + Loki + Jaeger)
+services:
+  prometheus:
+    image: prom/prometheus:v2.53.0
+    container_name: ddev-${DDEV_SITENAME}-prometheus
+    volumes:
+      - ./prometheus:/etc/prometheus
+      - prometheus-data:/prometheus
+    expose:
+      - "9090"
+    labels:
+      com.ddev.site-name: ${DDEV_SITENAME}
+      com.ddev.platform: ddev
+
+  grafana:
+    image: grafana/grafana:11.1.0
+    container_name: ddev-${DDEV_SITENAME}-grafana
+    volumes:
+      - ./grafana/datasources:/etc/grafana/provisioning/datasources
+      - ./grafana/dashboards:/etc/grafana/provisioning/dashboards
+      - grafana-data:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    expose:
+      - "3000"
+    labels:
+      com.ddev.site-name: ${DDEV_SITENAME}
+      com.ddev.platform: ddev
+
+  loki:
+    image: grafana/loki:3.0.0
+    container_name: ddev-${DDEV_SITENAME}-loki
+    volumes:
+      - ./loki:/etc/loki
+      - loki-data:/loki
+    expose:
+      - "3100"
+    command: -config.file=/etc/loki/loki-config.yaml
+    labels:
+      com.ddev.site-name: ${DDEV_SITENAME}
+      com.ddev.platform: ddev
+
+  jaeger:
+    image: jaegertracing/all-in-one:1.60
+    container_name: ddev-${DDEV_SITENAME}-jaeger
+    volumes:
+      - jaeger-data:/jaeger
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+      - COLLECTOR_ZIPKIN_HOST_PORT=:9411
+      - JAEGER_SAMPLING_STRATEGIES_FILE=
+    expose:
+      - "16686"
+      - "4317"
+      - "4318"
+      - "6831"
+    labels:
+      com.ddev.site-name: ${DDEV_SITENAME}
+      com.ddev.platform: ddev
+
+volumes:
+  prometheus-data:
+  grafana-data:
+  loki-data:
+  jaeger-data:

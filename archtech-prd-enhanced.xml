@@ -1989,4 +1989,1318 @@
     </roadmap>
   </feature>
 
+
+  <!-- ==============================================================
+       FEATURE 11 — Diário de Obra Digital
+       Bounded Context: construction_diary
+       Módulo Drupal: ia_diary
+       Owner: Squad Obras
+       Diferencial vs. Vobi: IA resume e classifica entradas,
+       gera relatório gerencial automático, detecta anomalias em fotos
+       ============================================================== -->
+  <feature id="F11" name="Diário de Obra Digital" boundedContext="construction_diary" module="ia_diary" status="mvp">
+
+    <businessProblem>
+      O diário de obra é obrigação legal (NBR 16280) e instrumento de defesa jurídica do escritório.
+      Hoje é feito em papel ou planilha — lento, sem histórico fotográfico organizado e invisível ao
+      cliente. Digitalizar e enriquecer com IA reduz litígios, aumenta transparência e gera relatórios
+      gerenciais sem esforço manual.
+    </businessProblem>
+
+    <competitiveGap>
+      Vobi possui diário de obra com fotos e IA de resumo. ArchTech supera com: detecção de anomalias
+      em fotos via GPT-4o Vision, integração com checklist normativo (F05 Biblioteca), geração de
+      relatório gerencial semanal automatizado e compartilhamento seletivo com cliente via Portal (F01).
+    </competitiveGap>
+
+    <personas>
+      <persona role="primary">Técnico de Campo / Mestre de Obras</persona>
+      <persona role="secondary">Arquiteto Responsável</persona>
+      <persona role="secondary">Cliente (leitura via Portal)</persona>
+    </personas>
+
+    <legalBasis>NBR 16280:2015 — Reforma em edificações. Registro diário é requisito para cobertura de garantia.</legalBasis>
+
+    <contentTypes>
+      <contentType name="DiaryEntry">
+        <fields>
+          <field name="construction_id"   type="reference"  target="Schedule"   required="true"/>
+          <field name="project_id"        type="reference"  target="Project"    required="true"/>
+          <field name="data"              type="date"       required="true"/>
+          <field name="responsavel_id"    type="reference"  target="User"       required="true"/>
+          <field name="condicao_tempo"    type="select"     options="sol,nublado,chuva_leve,chuva_forte,impraticavel"/>
+          <field name="temperatura"       type="decimal"    unit="°C"/>
+          <field name="efetivo_presente"  type="json"       note="Array: funcao, quantidade, empresa"/>
+          <field name="atividades"        type="json"       note="Array: descricao, area, status, percentual"/>
+          <field name="ocorrencias"       type="json"       note="Array: tipo, descricao, gravidade, acao_tomada"/>
+          <field name="fotos"             type="file"       multiple="true"     note="Máx 50 fotos/entrada, compressão automática"/>
+          <field name="videos"            type="file"       multiple="true"     extensions="mp4,mov" note="Máx 3 videos/entrada"/>
+          <field name="materiais_recebidos" type="json"     note="Array: material, quantidade, fornecedor, nota_fiscal"/>
+          <field name="equipamentos"      type="json"       note="Array: equipamento, status"/>
+          <field name="resumo_ia"         type="text"       note="Gerado automaticamente pelo IA_DiaryAssistant"/>
+          <field name="anomalias_detectadas" type="json"    note="Saída do IA_SiteInspector (análise de fotos)"/>
+          <field name="assinado_por"      type="json"       note="Array: user_id, timestamp, hash — para validade jurídica"/>
+          <field name="visivel_cliente"   type="boolean"    default="false"     note="Controlado pelo PM antes de publicar no portal"/>
+        </fields>
+      </contentType>
+
+      <contentType name="DiaryPhoto">
+        <fields>
+          <field name="diary_entry_id"    type="reference"  target="DiaryEntry" required="true"/>
+          <field name="arquivo"           type="file"       required="true"/>
+          <field name="descricao"         type="string"/>
+          <field name="area_foto"         type="string"     note="Ex: Pavimento Térreo / Fachada Norte"/>
+          <field name="coordenadas"       type="json"       note="GPS: lat/lng capturado pelo mobile"/>
+          <field name="timestamp_foto"    type="datetime"   note="EXIF timestamp original"/>
+          <field name="tag_ia"            type="json"       note="Tags automáticas: estrutura, acabamento, instalação, problema"/>
+          <field name="anomalia"          type="boolean"    default="false"/>
+          <field name="anomalia_descricao" type="text"/>
+        </fields>
+      </contentType>
+
+      <contentType name="WeeklyConstructionReport">
+        <fields>
+          <field name="construction_id"   type="reference"  target="Schedule"   required="true"/>
+          <field name="semana_inicio"     type="date"/>
+          <field name="semana_fim"        type="date"/>
+          <field name="gerado_em"         type="datetime"/>
+          <field name="resumo_executivo"  type="text"       note="Gerado pelo IA_ReportGenerator"/>
+          <field name="avanço_fisico"     type="decimal"    unit="%"/>
+          <field name="ocorrencias_criticas" type="json"/>
+          <field name="fotos_destaque"    type="json"       note="Array de DiaryPhoto IDs selecionados pela IA"/>
+          <field name="comparativo_cronograma" type="json"  note="Previsto vs. realizado"/>
+          <field name="pdf_gerado"        type="file"/>
+          <field name="enviado_cliente"   type="boolean"    default="false"/>
+        </fields>
+      </contentType>
+    </contentTypes>
+
+    <apis>
+      <endpoint method="POST"  path="/api/v1/diary/entries"                  description="Cria nova entrada no diário (mobile-first)"/>
+      <endpoint method="GET"   path="/api/v1/diary/entries/{construction_id}" description="Lista entradas por obra com filtros"/>
+      <endpoint method="POST"  path="/api/v1/diary/entries/{id}/photos"      description="Upload de fotos para a entrada (multipart)"/>
+      <endpoint method="POST"  path="/api/v1/diary/entries/{id}/analyze"     description="Aciona análise IA nas fotos da entrada"/>
+      <endpoint method="GET"   path="/api/v1/diary/reports/weekly/{construction_id}" description="Gera/retorna relatório semanal da obra"/>
+      <endpoint method="POST"  path="/api/v1/diary/entries/{id}/sign"        description="Assina digitalmente a entrada do diário"/>
+    </apis>
+
+    <agents>
+      <agent name="IA_DiaryAssistant">
+        <skill>Construction Diary — sumariza entradas por voz/texto, preenche campos estruturados automaticamente</skill>
+        <promptRef>ia-diary/assistant@1.0.0</promptRef>
+        <promptTemplate>
+          O técnico de campo registrou: "{rawInput}" para a obra {constructionName} em {date}.
+          Extraia e estruture: atividades realizadas (com área e percentual estimado), efetivo presente,
+          materiais recebidos, ocorrências relevantes e condições climáticas.
+          Identifique se há alertas que precisam de atenção imediata.
+          Responda APENAS em JSON conforme schema DiaryEntry.atividades e DiaryEntry.ocorrencias.
+        </promptTemplate>
+        <trigger>Entrada de diário criada via mobile (texto ou transcrição de voz)</trigger>
+        <inputModes>texto, voz (transcrição via Whisper API), foto com legenda</inputModes>
+      </agent>
+
+      <agent name="IA_SiteInspector">
+        <skill>Photo Anomaly Detection — analisa fotos de obra e detecta problemas</skill>
+        <promptRef>ia-diary/site-inspector@1.0.0</promptRef>
+        <promptTemplate>
+          Analise as fotos da entrada de diário {entryId} da obra {constructionName}.
+          Para cada foto identifique: (1) área da obra fotografada, (2) atividade em andamento,
+          (3) problemas visíveis, (4) nível de gravidade: normal/atenção/critico.
+          Retorne JSON por foto.
+        </promptTemplate>
+        <trigger>Upload de fotos na entrada do diário (processamento assíncrono via queue)</trigger>
+        <model>gpt-4o (vision)</model>
+      </agent>
+
+      <agent name="IA_WeeklyReportGenerator">
+        <skill>Construction Report Generation — gera relatório gerencial semanal com fotos, KPIs e recomendações</skill>
+        <promptRef>ia-diary/weekly-report@1.0.0</promptRef>
+        <promptTemplate>
+          Gere o relatório semanal da obra {constructionName} para a semana {weekStart} a {weekEnd}.
+          Inclua: resumo executivo, principais atividades, ocorrências, avanço físico, pontos de atenção.
+        </promptTemplate>
+        <trigger>Cron toda sexta-feira às 17h + on-demand</trigger>
+      </agent>
+    </agents>
+
+    <workflows>
+      <workflow name="Workflow_DiaryPhotoProcessing" tool="n8n">
+        <description>Pipeline assíncrono: upload de fotos → compressão → análise IA → persistência → alerta se anomalia.</description>
+        <trigger>POST /api/v1/diary/entries/{id}/photos</trigger>
+        <steps>
+          <step>1. Recebe fotos via multipart upload (mobile app)</step>
+          <step>2. Comprime e otimiza imagens (WebP, max 1200px)</step>
+          <step>3. Extrai coordenadas GPS e timestamp EXIF</step>
+          <step>4. Publica PhotosUploaded event → queue para IA_SiteInspector</step>
+          <step>5. IA_SiteInspector analisa e classifica cada foto</step>
+          <step>6. Se anomalia crítica: publica DiaryAnomalyDetected → notifica PM + cria SiteChecklist item</step>
+          <step>7. Atualiza DiaryPhoto com tags e análise IA</step>
+        </steps>
+      </workflow>
+
+      <workflow name="Workflow_WeeklyReportDelivery" tool="n8n">
+        <description>Gera e entrega relatório semanal automaticamente toda sexta-feira.</description>
+        <trigger>Cron sexta-feira 17h</trigger>
+        <steps>
+          <step>1. Para cada obra ativa: coleta entradas da semana (DiaryEntry)</step>
+          <step>2. IA_WeeklyReportGenerator cria relatório</step>
+          <step>3. Gera PDF com logo do escritório, fotos e dados</step>
+          <step>4. Salva como WeeklyConstructionReport</step>
+          <step>5. Se PM aprovar: publica no Portal do Cliente</step>
+          <step>6. Envia notificação ao cliente via email + push no app</step>
+        </steps>
+      </workflow>
+    </workflows>
+
+    <queues>
+      <queue name="diary_photo_queue"      exchange="archtech.diary" type="topic"
+             description="Processamento assíncrono de fotos do diário"/>
+      <queue name="diary_report_queue"     exchange="archtech.diary" type="topic"
+             description="Geração de relatórios semanais de obra"/>
+    </queues>
+
+    <domainEvents>
+      <event name="DiaryEntryCreated"      emits="ia_diary"  consumes="ia_obras, ia_client_portal"/>
+      <event name="DiaryAnomalyDetected"   emits="ia_diary"  consumes="ia_obras, ia_suporte"/>
+      <event name="WeeklyReportGenerated"  emits="ia_diary"  consumes="ia_client_portal, ia_suporte"/>
+    </domainEvents>
+
+    <notifications>
+      <notification trigger="DiaryAnomalyDetected" channel="push,slack,email" audience="arquiteto_responsavel,pm"/>
+      <notification trigger="WeeklyReportGenerated" channel="email,push" audience="cliente"/>
+      <notification trigger="DiaryEntryCreated" channel="in_app" audience="equipe_projeto"/>
+    </notifications>
+
+    <externalIntegrations>
+      <integration name="OpenAI Whisper API" purpose="Transcrição de voz para texto nas entradas de diário via mobile"/>
+      <integration name="Google Maps API"    purpose="Mapa da obra com localização GPS das fotos"/>
+    </externalIntegrations>
+
+    <dashboards>
+      <dashboard name="ConstructionDiaryTimeline">
+        <description>Timeline visual da obra com fotos, atividades, ocorrências e progresso por semana.</description>
+        <audience>Arquiteto, PM, Cliente (via portal)</audience>
+        <components>timeline_photos, activity_progress_chart, anomaly_heatmap, weather_log</components>
+      </dashboard>
+    </dashboards>
+
+    <kpis>
+      <kpi name="DiaryComplianceRate"       target="100% dos dias úteis de obra com entrada registrada"/>
+      <kpi name="AnomalyDetectionTime"      target="≤ 15min entre foto e alerta de anomalia"/>
+      <kpi name="ReportDeliveryTime"        target="Relatório semanal entregue até sexta 18h"/>
+      <kpi name="ClientPortalOpenRate"      target="≥ 80% dos clientes abrem o relatório semanal"/>
+    </kpis>
+
+    <roadmap>
+      <phase name="MVP">
+        <feature>Registro de entradas com fotos, clima e atividades via mobile</feature>
+        <feature>Resumo automático de texto pelo IA_DiaryAssistant</feature>
+        <feature>Relatório semanal em PDF</feature>
+      </phase>
+      <phase name="Growth">
+        <feature>Detecção de anomalias em fotos via GPT-4o Vision</feature>
+        <feature>Compartilhamento com cliente via Portal</feature>
+        <feature>Entrada por voz com transcrição (Whisper)</feature>
+        <feature>Assinatura digital da entrada (validade jurídica)</feature>
+      </phase>
+      <phase name="Enterprise">
+        <feature>Integração com câmeras IP na obra (timelapse automático)</feature>
+        <feature>Análise de progresso físico por comparação de fotos (computer vision)</feature>
+        <feature>Exportação em formato RDO (Relatório Diário de Obras) para órgãos públicos</feature>
+      </phase>
+    </roadmap>
+  </feature>
+
+
+  <!-- ==============================================================
+       FEATURE 12 — Atas de Reunião Inteligentes
+       Bounded Context: meeting_intelligence
+       Módulo Drupal: ia_meetings
+       Owner: Squad Projetos / Suporte
+       Diferencial único vs. Vobi: não existe na Vobi
+       ============================================================== -->
+  <feature id="F12" name="Atas de Reunião Inteligentes" boundedContext="meeting_intelligence" module="ia_meetings" status="mvp">
+
+    <businessProblem>
+      Escritórios perdem decisões críticas tomadas em reuniões por falta de documentação adequada.
+      Atas manuais demoram horas, ficam em arquivos locais e nunca chegam ao cliente.
+      Reuniões sem ata são indefensáveis juridicamente em disputas sobre escopo de projeto.
+    </businessProblem>
+
+    <competitiveGap>
+      Funcionalidade ausente na Vobi. Diferencial exclusivo do ArchTech: gravação + transcrição +
+      resumo IA + extração de decisões/tarefas + assinatura digital + entrega automática ao cliente.
+    </competitiveGap>
+
+    <personas>
+      <persona role="primary">Arquiteto / PM do Projeto</persona>
+      <persona role="secondary">Cliente</persona>
+      <persona role="secondary">Equipe de Projeto</persona>
+    </personas>
+
+    <contentTypes>
+      <contentType name="MeetingRecord">
+        <fields>
+          <field name="project_id"        type="reference"  target="Project"    required="true"/>
+          <field name="titulo"            type="string"     required="true"/>
+          <field name="tipo"              type="select"     options="kickoff,revisao,aprovacao,obra,cliente,interna,emergencia"/>
+          <field name="data_hora"         type="datetime"   required="true"/>
+          <field name="duracao_min"       type="integer"/>
+          <field name="local"             type="select"     options="video_call,presencial,hibrido"/>
+          <field name="link_gravacao"     type="url"        note="Google Meet, Zoom, Teams"/>
+          <field name="arquivo_audio"     type="file"       extensions="mp3,mp4,wav,ogg"/>
+          <field name="transcricao"       type="longtext"   note="Transcrição completa gerada pelo Whisper"/>
+          <field name="participantes"     type="json"       note="Array: nome, email, role, confirmou_presenca"/>
+          <field name="pauta"             type="json"       note="Array: item de pauta"/>
+          <field name="decisoes"          type="json"       note="Extraído pela IA: Array: decisao, responsavel, data"/>
+          <field name="acoes"             type="json"       note="Extraído pela IA: Array: tarefa, responsavel, prazo"/>
+          <field name="resumo_executivo"  type="text"       note="Resumo gerado pelo IA_MeetingScribe"/>
+          <field name="status"            type="select"     options="agendada,em_andamento,transcrevendo,rascunho,aprovada,enviada"/>
+          <field name="assinaturas"       type="json"       note="Array: participante, hash, timestamp"/>
+          <field name="versao"            type="integer"    default="1"/>
+          <field name="pdf_ata"           type="file"/>
+        </fields>
+      </contentType>
+
+      <contentType name="ActionItem">
+        <fields>
+          <field name="meeting_id"        type="reference"  target="MeetingRecord" required="true"/>
+          <field name="project_id"        type="reference"  target="Project"/>
+          <field name="descricao"         type="string"     required="true"/>
+          <field name="responsavel_id"    type="reference"  target="User"/>
+          <field name="prazo"             type="date"/>
+          <field name="status"            type="select"     options="pendente,em_andamento,concluida,cancelada"/>
+          <field name="prioridade"        type="select"     options="baixa,media,alta,critica"/>
+          <field name="relacionada_task"  type="reference"  target="Task" note="Vinculada ao sistema de tarefas (F20)"/>
+        </fields>
+      </contentType>
+    </contentTypes>
+
+    <apis>
+      <endpoint method="POST"  path="/api/v1/meetings"                       description="Cria registro de reunião"/>
+      <endpoint method="POST"  path="/api/v1/meetings/{id}/transcribe"       description="Inicia transcrição de áudio/vídeo"/>
+      <endpoint method="POST"  path="/api/v1/meetings/{id}/summarize"        description="Gera resumo e extrai decisões/ações via IA"/>
+      <endpoint method="POST"  path="/api/v1/meetings/{id}/send"             description="Envia ata aprovada para participantes"/>
+      <endpoint method="POST"  path="/api/v1/meetings/{id}/sign"             description="Participante assina digitalmente a ata"/>
+      <endpoint method="GET"   path="/api/v1/projects/{id}/meetings"         description="Lista histórico de reuniões do projeto"/>
+    </apis>
+
+    <agents>
+      <agent name="IA_MeetingScribe">
+        <skill>Meeting Intelligence — transcreve, resume, extrai decisões e action items de reuniões</skill>
+        <promptRef>ia-meetings/scribe@1.0.0</promptRef>
+        <promptTemplate>
+          Analise a transcrição da reunião "{meetingTitle}" do projeto {projectName} realizada em {date}.
+          Extraia e estruture: RESUMO EXECUTIVO, DECISÕES, AÇÕES, PONTOS EM ABERTO, PRÓXIMA REUNIÃO.
+          Responda em JSON estruturado conforme schema MeetingRecord.
+        </promptTemplate>
+        <trigger>POST /api/v1/meetings/{id}/summarize após transcrição concluída</trigger>
+        <model>gpt-4o</model>
+      </agent>
+
+      <agent name="IA_TranscriptionAgent">
+        <skill>Audio/Video Transcription — transcreve gravações de reuniões com identificação de falantes</skill>
+        <promptRef>ia-meetings/transcription@1.0.0</promptRef>
+        <trigger>POST /api/v1/meetings/{id}/transcribe</trigger>
+        <model>OpenAI Whisper API (transcrição) + GPT-4o (diarização de falantes)</model>
+        <async>true — processamento em background, notifica quando concluído</async>
+      </agent>
+    </agents>
+
+    <workflows>
+      <workflow name="Workflow_MeetingAutoProcess" tool="n8n">
+        <description>Pipeline completo: upload de gravação → transcrição → resumo → ata → envio.</description>
+        <trigger>Arquivo de áudio/vídeo anexado à MeetingRecord</trigger>
+        <steps>
+          <step>1. Recebe arquivo de áudio/vídeo (ou link de gravação)</step>
+          <step>2. IA_TranscriptionAgent transcreve via Whisper</step>
+          <step>3. IA_MeetingScribe gera resumo + extrai decisões e ações</step>
+          <step>4. Cria ActionItems no sistema de tarefas (F20) para cada ação extraída</step>
+          <step>5. Gera PDF da ata com template do escritório</step>
+          <step>6. Notifica PM para revisão (status=rascunho)</step>
+          <step>7. PM aprova → workflow envia para participantes assinarem digitalmente</step>
+          <step>8. Após todas assinaturas: publica ata no Portal do Cliente (F01) se reunião inclui cliente</step>
+        </steps>
+      </workflow>
+
+      <workflow name="Workflow_ActionItemTracking" tool="n8n">
+        <description>Monitora action items extraídos de atas e envia lembretes automáticos.</description>
+        <trigger>Cron diário + criação de ActionItem</trigger>
+        <steps>
+          <step>D-2: Lembrete ao responsável sobre prazo da ação</step>
+          <step>D+0: Alerta de vencimento se não concluída</step>
+          <step>D+1: Escalonamento para PM com relatório de ações em atraso</step>
+        </steps>
+      </workflow>
+    </workflows>
+
+    <queues>
+      <queue name="meeting_transcription_queue" exchange="archtech.meetings" type="direct"
+             description="Jobs de transcrição de áudio (processamento pesado em worker dedicado)"/>
+      <queue name="meeting_actions_queue"        exchange="archtech.meetings" type="topic"
+             description="Action items criados e lembretes de prazo"/>
+    </queues>
+
+    <domainEvents>
+      <event name="MeetingTranscribed"     emits="ia_meetings"  consumes="ia_projetos"/>
+      <event name="MeetingAtaApproved"     emits="ia_meetings"  consumes="ia_client_portal, ia_crm"/>
+      <event name="ActionItemCreated"      emits="ia_meetings"  consumes="ia_suporte"/>
+      <event name="ActionItemOverdue"      emits="ia_meetings"  consumes="ia_suporte"/>
+    </domainEvents>
+
+    <externalIntegrations>
+      <integration name="OpenAI Whisper API"   purpose="Transcrição de áudio/vídeo"/>
+      <integration name="Google Meet API"      purpose="Recuperação automática de gravações"/>
+      <integration name="Zoom API"             purpose="Recuperação automática de gravações"/>
+      <integration name="Microsoft Teams API"  purpose="Recuperação automática de gravações"/>
+      <integration name="DocuSign / D4Sign"    purpose="Assinatura digital da ata"/>
+    </externalIntegrations>
+
+    <dashboards>
+      <dashboard name="MeetingHistoryDashboard">
+        <description>Histórico de reuniões por projeto: datas, participantes, decisões e status de ações.</description>
+        <audience>PM, Arquiteto, Cliente (atas aprovadas via portal)</audience>
+        <components>meeting_timeline, action_items_kanban, pending_signatures, decisions_log</components>
+      </dashboard>
+    </dashboards>
+
+    <kpis>
+      <kpi name="AtaCompletionTime"      target="≤ 30min entre fim da reunião e ata pronta (IA)"/>
+      <kpi name="ActionItemCloseRate"    target="≥ 85% fechados no prazo"/>
+      <kpi name="SignatureCompletionRate" target="≥ 95% das atas assinadas em 48h"/>
+    </kpis>
+
+    <roadmap>
+      <phase name="MVP">
+        <feature>Registro manual de reunião com pauta e participantes</feature>
+        <feature>Upload de áudio e transcrição via Whisper</feature>
+        <feature>Resumo e extração de ações por IA</feature>
+        <feature>PDF de ata com template do escritório</feature>
+      </phase>
+      <phase name="Growth">
+        <feature>Integração automática com Google Meet, Zoom e Teams</feature>
+        <feature>Assinatura digital de atas</feature>
+        <feature>Action items sincronizados com sistema de tarefas (F20)</feature>
+        <feature>Compartilhamento automático no Portal do Cliente</feature>
+      </phase>
+      <phase name="Enterprise">
+        <feature>Análise semântica de reuniões ao longo do projeto (temas recorrentes)</feature>
+        <feature>Alertas de risco identificados nas transcrições</feature>
+        <feature>Multilíngue (projetos internacionais)</feature>
+      </phase>
+    </roadmap>
+  </feature>
+
+
+  <!-- ==============================================================
+       FEATURE 13 — Financeiro Avançado
+       Bounded Context: advanced_financial
+       Módulo Drupal: ia_financeiro_avancado
+       Owner: Squad Financeiro
+       ============================================================== -->
+  <feature id="F13" name="Financeiro Avançado" boundedContext="advanced_financial" module="ia_financeiro_avancado" status="mvp">
+
+    <businessProblem>
+      Escritórios de arquitetura têm três problemas financeiros críticos:
+      (1) Reembolso de compras ao cliente com nota fiscal,
+      (2) Pagamento de funcionários por projeto com rateio,
+      (3) Fluxo de caixa por obra para controle de margem real.
+    </businessProblem>
+
+    <businessRules>
+      <rule id="BR-FIN-01" name="Reembolso de Compras ao Cliente">
+        <description>Quando o escritório compra material em nome do cliente, a NF deve ser anexada.
+          O sistema gera AccountReceivable de reembolso vinculada ao projeto.
+          Reembolsos acima de R$ 500,00 requerem aprovação explícita do cliente no portal.</description>
+      </rule>
+      <rule id="BR-FIN-02" name="Pagamento de Funcionários por Projeto">
+        <description>Colaboradores podem ser pagos por hora, por projeto ou por entrega.
+          Horas registradas por projeto geram rateio automático de custo.
+          Periodicidades: semanal, quinzenal, mensal.</description>
+      </rule>
+      <rule id="BR-FIN-03" name="Fluxo de Caixa Separado por Obra">
+        <description>Cada obra tem fluxo de caixa isolado. Alertas automáticos quando
+          despesas &gt; 80% da receita recebida (amarelo) e &gt; 95% (vermelho).</description>
+      </rule>
+      <rule id="BR-FIN-04" name="Curva ABC de Insumos">
+        <description>Classifica insumos por valor acumulado: A (70%), B (20%), C (10%).
+          Itens A exigem cotação com 3 fornecedores; B com 2; C compra direta.</description>
+      </rule>
+    </businessRules>
+
+    <contentTypes>
+      <contentType name="ReimbursablePurchase">
+        <fields>
+          <field name="project_id"        type="reference"  target="Project"    required="true"/>
+          <field name="client_id"         type="reference"  target="Client"     required="true"/>
+          <field name="descricao"         type="string"     required="true"/>
+          <field name="valor"             type="decimal"    required="true"/>
+          <field name="data_compra"       type="date"       required="true"/>
+          <field name="nota_fiscal"       type="file"       required="true"/>
+          <field name="categoria"         type="select"     options="material,servico,locacao,transporte,outro"/>
+          <field name="status_aprovacao"  type="select"     options="pendente,aprovado,rejeitado"/>
+          <field name="receivable_id"     type="reference"  target="AccountReceivable"/>
+        </fields>
+      </contentType>
+
+      <contentType name="EmployeeTimeEntry">
+        <fields>
+          <field name="employee_id"       type="reference"  target="User"       required="true"/>
+          <field name="project_id"        type="reference"  target="Project"    required="true"/>
+          <field name="data"              type="date"       required="true"/>
+          <field name="horas"             type="decimal"    required="true"/>
+          <field name="descricao"         type="string"/>
+          <field name="tipo_atividade"    type="select"     options="projeto,obra,reuniao,deslocamento,administrativo"/>
+          <field name="aprovado"          type="boolean"    default="false"/>
+          <field name="valor_hora"        type="decimal"/>
+          <field name="valor_total"       type="decimal"/>
+        </fields>
+      </contentType>
+
+      <contentType name="PayrollRun">
+        <fields>
+          <field name="periodo_inicio"    type="date"       required="true"/>
+          <field name="periodo_fim"       type="date"       required="true"/>
+          <field name="periodicidade"     type="select"     options="semanal,quinzenal,mensal"/>
+          <field name="status"            type="select"     options="calculando,rascunho,aprovado,pago"/>
+          <field name="items"             type="json"/>
+          <field name="valor_total"       type="decimal"/>
+          <field name="data_pagamento"    type="date"/>
+        </fields>
+      </contentType>
+
+      <contentType name="ConstructionCashFlow">
+        <fields>
+          <field name="construction_id"   type="reference"  target="Schedule"   required="true"/>
+          <field name="mes_referencia"    type="date"/>
+          <field name="receita_contratada" type="decimal"/>
+          <field name="receita_recebida"  type="decimal"/>
+          <field name="despesa_material"  type="decimal"/>
+          <field name="despesa_mao_obra"  type="decimal"/>
+          <field name="despesa_honorario" type="decimal"/>
+          <field name="margem_bruta"      type="decimal"/>
+          <field name="curva_abc"         type="json"/>
+        </fields>
+      </contentType>
+    </contentTypes>
+
+    <apis>
+      <endpoint method="POST"  path="/api/v1/finance/reimbursable"            description="Registra compra reembolsável com NF"/>
+      <endpoint method="POST"  path="/api/v1/finance/time-entries"            description="Lança horas trabalhadas por projeto"/>
+      <endpoint method="GET"   path="/api/v1/finance/time-entries/{employee_id}" description="Horas lançadas no período"/>
+      <endpoint method="POST"  path="/api/v1/finance/payroll/calculate"       description="Calcula folha do período"/>
+      <endpoint method="POST"  path="/api/v1/finance/payroll/{id}/approve"    description="Aprova folha de pagamento"/>
+      <endpoint method="GET"   path="/api/v1/finance/cashflow/{construction_id}" description="Fluxo de caixa detalhado por obra"/>
+      <endpoint method="GET"   path="/api/v1/finance/abc-curve/{construction_id}" description="Curva ABC de insumos da obra"/>
+    </apis>
+
+    <agents>
+      <agent name="IA_NFExtractor">
+        <skill>NF-e Processing — extrai dados de notas fiscais automaticamente</skill>
+        <promptRef>ia-financeiro/nf-extractor@1.0.0</promptRef>
+        <trigger>Upload de NF em ReimbursablePurchase</trigger>
+      </agent>
+    </agents>
+
+    <domainEvents>
+      <event name="ReimbursementRequested"   emits="ia_financeiro_avancado"  consumes="ia_client_portal"/>
+      <event name="ReimbursementApproved"    emits="ia_financeiro_avancado"  consumes="ia_financeiro"/>
+      <event name="PayrollProcessed"         emits="ia_financeiro_avancado"  consumes="ia_suporte"/>
+      <event name="CashFlowRiskDetected"     emits="ia_financeiro_avancado"  consumes="ia_obras, ia_suporte"/>
+    </domainEvents>
+
+    <dashboards>
+      <dashboard name="ConstructionFinancialDashboard">
+        <description>Fluxo de caixa por obra: receita vs. despesa, margem, curva ABC, projeção.</description>
+        <audience>PM, CEO, Gerente Financeiro</audience>
+        <components>cashflow_waterfall, abc_curve_chart, margin_gauge, payroll_by_project_table</components>
+      </dashboard>
+    </dashboards>
+
+    <roadmap>
+      <phase name="MVP">
+        <feature>Registro de compras reembolsáveis com upload de NF</feature>
+        <feature>Lançamento de horas por projeto</feature>
+        <feature>Fluxo de caixa básico por obra</feature>
+      </phase>
+      <phase name="Growth">
+        <feature>Cálculo automático de folha por projeto</feature>
+        <feature>Extração de dados de NF-e via IA</feature>
+        <feature>Curva ABC de insumos</feature>
+      </phase>
+      <phase name="Enterprise">
+        <feature>Integração bancária (Open Finance / CNAB)</feature>
+        <feature>Folha de pagamento completa (INSS, IRRF, FGTS)</feature>
+        <feature>Integração com sistemas contábeis</feature>
+      </phase>
+    </roadmap>
+  </feature>
+
+
+  <!-- ==============================================================
+       FEATURE 14 — Gestão de Equipes e Produtividade
+       Bounded Context: team_management
+       Módulo Drupal: ia_teams
+       Owner: Squad Operações
+       ============================================================== -->
+  <feature id="F14" name="Gestão de Equipes e Produtividade" boundedContext="team_management" module="ia_teams" status="mvp">
+
+    <businessProblem>
+      Escritórios não sabem quais colaboradores estão sobrecarregados, quais estão ociosos e
+      quanto custa cada pessoa por projeto. Decisões de contratação são feitas no feeling.
+    </businessProblem>
+
+    <contentTypes>
+      <contentType name="TeamMember">
+        <fields>
+          <field name="user_id"           type="reference"  target="User"       required="true"/>
+          <field name="cargo"             type="select"     options="socio,arquiteto_senior,arquiteto_pleno,arquiteto_junior,estagiario,engenheiro,tecnico,administrativo"/>
+          <field name="especialidades"    type="json"/>
+          <field name="valor_hora"        type="decimal"    required="true"/>
+          <field name="carga_horaria_semana" type="integer" default="40"/>
+          <field name="projetos_ativos"   type="json"/>
+          <field name="capacidade_atual"  type="decimal"    unit="%"/>
+          <field name="ativo"             type="boolean"    default="true"/>
+        </fields>
+      </contentType>
+
+      <contentType name="ProjectAllocation">
+        <fields>
+          <field name="member_id"         type="reference"  target="TeamMember"  required="true"/>
+          <field name="project_id"        type="reference"  target="Project"     required="true"/>
+          <field name="percentual"        type="integer"    range="0-100"/>
+          <field name="data_inicio"       type="date"/>
+          <field name="data_fim"          type="date"/>
+          <field name="papel"             type="string"/>
+        </fields>
+      </contentType>
+    </contentTypes>
+
+    <apis>
+      <endpoint method="GET"   path="/api/v1/teams/capacity"               description="Capacidade e alocação de toda a equipe"/>
+      <endpoint method="POST"  path="/api/v1/teams/allocations"            description="Aloca colaborador a projeto"/>
+      <endpoint method="GET"   path="/api/v1/teams/{member_id}/workload"   description="Carga de trabalho do colaborador"/>
+      <endpoint method="GET"   path="/api/v1/teams/availability"           description="Disponibilidade para novo projeto"/>
+    </apis>
+
+    <agents>
+      <agent name="IA_TeamOptimizer">
+        <skill>Team Allocation — sugere melhor alocação para novos projetos</skill>
+        <promptRef>ia-teams/optimizer@1.0.0</promptRef>
+        <trigger>Evento ProjectCreated</trigger>
+      </agent>
+    </agents>
+
+    <domainEvents>
+      <event name="TeamMemberOverloaded"    emits="ia_teams"  consumes="ia_suporte"/>
+      <event name="AllocationChanged"       emits="ia_teams"  consumes="ia_financeiro_avancado"/>
+    </domainEvents>
+
+    <dashboards>
+      <dashboard name="TeamCapacityDashboard">
+        <description>Mapa de calor de capacidade: sobrecarregados, disponíveis e projetos.</description>
+        <audience>Sócio, PM</audience>
+        <components>capacity_heatmap, allocation_by_project, cost_by_project_table</components>
+      </dashboard>
+    </dashboards>
+
+    <kpis>
+      <kpi name="TeamUtilizationRate"    target="70–85%"/>
+      <kpi name="AllocationAccuracy"     target="Desvio ≤ 10%"/>
+    </kpis>
+
+    <roadmap>
+      <phase name="MVP">
+        <feature>Cadastro de membros com cargo e valor/hora</feature>
+        <feature>Alocação por projeto com percentual</feature>
+        <feature>Dashboard de capacidade</feature>
+      </phase>
+      <phase name="Growth">
+        <feature>Sugestão de alocação por IA</feature>
+        <feature>Alertas de sobrecarga e ociosidade</feature>
+      </phase>
+    </roadmap>
+  </feature>
+
+
+  <!-- ==============================================================
+       FEATURE 15 — Mobile PWA Profissional
+       Bounded Context: mobile_experience
+       Módulo: PWA (Next.js) + API Gateway
+       Owner: Squad Platform
+       ============================================================== -->
+  <feature id="F15" name="Mobile PWA Profissional" boundedContext="mobile_experience" module="pwa_mobile" status="mvp">
+
+    <businessProblem>
+      Arquitetos e técnicos de campo precisam de acesso completo no celular: registrar diário de obra,
+      tirar fotos geolocalizadas, lançar horas, aprovar compras — tudo sem conexão constante.
+    </businessProblem>
+
+    <competitiveGap>
+      Vobi possui app mobile. ArchTech supera com: offline mode via Service Worker,
+      captura de voz para diário (Whisper), geolocalização automática de fotos e push notifications.
+    </competitiveGap>
+
+    <mobileFeatures>
+      <module name="Diário de Obra Mobile">
+        <features>
+          <feature>Criar entrada de diário com texto, fotos e voz</feature>
+          <feature>Captura de fotos com GPS automático</feature>
+          <feature>Modo offline: entradas salvas localmente e sincronizadas</feature>
+          <feature>Gravação de voz com transcrição automática</feature>
+        </features>
+      </module>
+      <module name="Projetos e Tarefas Mobile">
+        <features>
+          <feature>Lista de projetos ativos com status</feature>
+          <feature>Tarefas atribuídas com check-in/check-out</feature>
+          <feature>Visualização de documentos e renders</feature>
+        </features>
+      </module>
+      <module name="Aprovações Mobile">
+        <features>
+          <feature>Fila de aprovações pendentes</feature>
+          <feature>Aprovação/rejeição com swipe</feature>
+          <feature>Assinatura digital por toque/PIN</feature>
+        </features>
+      </module>
+      <module name="Notificações Push">
+        <features>
+          <feature>Alertas de anomalia em fotos</feature>
+          <feature>Novas tarefas atribuídas</feature>
+          <feature>Relatório semanal disponível</feature>
+        </features>
+      </module>
+    </mobileFeatures>
+
+    <technicalSpecs>
+      <spec name="Framework">Next.js 15 PWA com Workbox (Service Worker)</spec>
+      <spec name="Offline">IndexedDB para dados locais, sync em background</spec>
+      <spec name="Camera">MediaDevices API + Geolocation API</spec>
+      <spec name="Voice">MediaRecorder API → stream para Whisper API</spec>
+      <spec name="Push">Web Push API com VAPID keys</spec>
+      <spec name="Performance">First Load JS ≤ 150KB; LCP ≤ 2s em 4G</spec>
+    </technicalSpecs>
+
+    <domainEvents>
+      <event name="MobilePhotoUploaded"    emits="pwa_mobile"  consumes="ia_diary"/>
+      <event name="OfflineSyncCompleted"   emits="pwa_mobile"  consumes="ia_obras"/>
+    </domainEvents>
+
+    <roadmap>
+      <phase name="MVP">
+        <feature>Diário de obra mobile com fotos e texto</feature>
+        <feature>Lista de projetos e tarefas</feature>
+        <feature>Push notifications</feature>
+        <feature>Modo offline para diário</feature>
+      </phase>
+      <phase name="Growth">
+        <feature>Portal do cliente mobile</feature>
+        <feature>Aprovações por toque</feature>
+        <feature>Entrada de diário por voz</feature>
+      </phase>
+    </roadmap>
+  </feature>
+
+
+  <!-- ==============================================================
+       FEATURE 16 — Compliance, Auditoria e LGPD
+       Bounded Context: compliance_audit
+       Módulo Drupal: ia_compliance
+       Owner: Squad Platform / Security Champion
+       ============================================================== -->
+  <feature id="F16" name="Compliance, Auditoria e LGPD" boundedContext="compliance_audit" module="ia_compliance" status="mvp">
+
+    <businessProblem>
+      Escritórios processam dados pessoais (CPF, endereço, imagens) e precisam de conformidade LGPD.
+      Decisões de projeto precisam de trilha de auditoria imutável para defesa em litígios.
+    </businessProblem>
+
+    <contentTypes>
+      <contentType name="AuditLog">
+        <fields>
+          <field name="entity_type"       type="string"     required="true"/>
+          <field name="entity_id"         type="integer"    required="true"/>
+          <field name="action"            type="select"     options="create,update,delete,view,export,sign,approve,reject"/>
+          <field name="user_id"           type="reference"  target="User"    required="true"/>
+          <field name="timestamp"         type="datetime"   required="true"/>
+          <field name="ip_address"        type="string"/>
+          <field name="changes"           type="json"/>
+          <field name="trace_id"          type="string"/>
+          <field name="modulo"            type="string"/>
+        </fields>
+        <immutability>true</immutability>
+      </contentType>
+
+      <contentType name="DocumentVersion">
+        <fields>
+          <field name="entity_type"       type="string"     required="true"/>
+          <field name="entity_id"         type="integer"    required="true"/>
+          <field name="versao"            type="integer"    required="true"/>
+          <field name="criado_por"        type="reference"  target="User"/>
+          <field name="snapshot"          type="json"/>
+          <field name="hash"              type="string"     note="SHA-256"/>
+        </fields>
+      </contentType>
+
+      <contentType name="LGPDConsent">
+        <fields>
+          <field name="user_id"           type="reference"  target="User"    required="true"/>
+          <field name="finalidade"        type="select"     options="marketing,contrato,comunicacao,analytics,terceiros"/>
+          <field name="consentiu"         type="boolean"    required="true"/>
+          <field name="timestamp"         type="datetime"/>
+          <field name="versao_politica"   type="string"/>
+        </fields>
+      </contentType>
+    </contentTypes>
+
+    <businessRules>
+      <rule id="BR-COMP-01" name="Versionamento Obrigatório">
+        <description>Alterações em Project, Contract, CommercialProposal, DiaryEntry e MeetingRecord
+          geram DocumentVersion com snapshot + SHA-256. Impossível deletar versões.</description>
+      </rule>
+      <rule id="BR-COMP-02" name="Direito ao Esquecimento LGPD">
+        <description>DELETE /api/v1/lgpd/users/{id}/data anonimiza PII mantendo dados financeiros
+          por 5 anos (obrigação legal).</description>
+      </rule>
+      <rule id="BR-COMP-03" name="Audit Log Imutável">
+        <description>AuditLog é append-only. Zero updates ou deletes. Retenção mínima: 5 anos.</description>
+      </rule>
+    </businessRules>
+
+    <apis>
+      <endpoint method="GET"   path="/api/v1/audit-log"                   description="Consulta audit log com filtros"/>
+      <endpoint method="GET"   path="/api/v1/versions/{entity}/{id}"      description="Histórico de versões"/>
+      <endpoint method="DELETE" path="/api/v1/lgpd/users/{id}/data"       description="Anonimização LGPD"/>
+      <endpoint method="GET"   path="/api/v1/lgpd/users/{id}/export"      description="Portabilidade LGPD"/>
+      <endpoint method="POST"  path="/api/v1/lgpd/consent"                description="Registra consentimento"/>
+    </apis>
+
+    <dashboards>
+      <dashboard name="AuditDashboard">
+        <description>Atividade de usuários, alterações sensíveis, acessos a dados confidenciais.</description>
+        <audience>Security Champion, CEO</audience>
+        <components>user_activity_log, sensitive_actions_chart, failed_login_attempts</components>
+      </dashboard>
+    </dashboards>
+
+    <kpis>
+      <kpi name="AuditCoverage"              target="100% das ações sensíveis rastreadas"/>
+      <kpi name="LGPDRequestResponseTime"    target="≤ 15 dias úteis (prazo ANPD)"/>
+    </kpis>
+
+    <roadmap>
+      <phase name="MVP">
+        <feature>Audit log imutável em entidades principais</feature>
+        <feature>Versionamento de projetos, contratos e propostas</feature>
+        <feature>Registro de consentimento LGPD</feature>
+      </phase>
+      <phase name="Growth">
+        <feature>Dashboard de auditoria</feature>
+        <feature>Exportação de dados (portabilidade LGPD)</feature>
+        <feature>Alertas de acesso anômalo</feature>
+      </phase>
+    </roadmap>
+  </feature>
+
+
+  <!-- ==============================================================
+       FEATURE 17 — Marketing Digital e Portfólio
+       Bounded Context: digital_marketing
+       Módulo Drupal: ia_marketing_digital
+       Owner: Squad Marketing
+       ============================================================== -->
+  <feature id="F17" name="Marketing Digital e Portfólio" boundedContext="digital_marketing" module="ia_marketing_digital" status="growth">
+
+    <businessProblem>
+      Escritórios perdem clientes por falta de presença digital. Portfólio em PDF desatualizado,
+      conteúdo técnico que gera leads nunca é produzido por falta de tempo.
+    </businessProblem>
+
+    <contentTypes>
+      <contentType name="PortfolioProject">
+        <fields>
+          <field name="project_id"        type="reference"  target="Project"/>
+          <field name="titulo_publico"    type="string"     required="true"/>
+          <field name="descricao"         type="text"/>
+          <field name="area_total"        type="decimal"    unit="m²"/>
+          <field name="tipo"              type="select"     options="residencial,comercial,corporativo,urbanismo,interiores"/>
+          <field name="ano"               type="integer"/>
+          <field name="fotos"             type="file"       multiple="true"/>
+          <field name="tags_estilo"       type="json"/>
+          <field name="publicado"         type="boolean"    default="false"/>
+          <field name="slug"              type="string"     unique="true"/>
+          <field name="seo_title"         type="string"/>
+          <field name="seo_description"   type="text"/>
+        </fields>
+      </contentType>
+
+      <contentType name="BlogArticle">
+        <fields>
+          <field name="titulo"            type="string"     required="true"/>
+          <field name="slug"              type="string"     unique="true"/>
+          <field name="conteudo"          type="rich_text"/>
+          <field name="categoria"         type="select"     options="tendencias,dicas,projetos,materiais,sustentabilidade,legislacao,negocios"/>
+          <field name="status"            type="select"     options="rascunho,revisao,publicado,arquivado"/>
+          <field name="gerado_por_ia"     type="boolean"/>
+          <field name="prompt_version"    type="string"/>
+        </fields>
+      </contentType>
+
+      <contentType name="LandingPage">
+        <fields>
+          <field name="titulo"            type="string"     required="true"/>
+          <field name="slug"              type="string"     unique="true"/>
+          <field name="tipo"              type="select"     options="servico,campanha,evento,portfolio,contato"/>
+          <field name="conteudo"          type="json"/>
+          <field name="ativa"             type="boolean"    default="true"/>
+        </fields>
+      </contentType>
+
+      <contentType name="MarketingCampaign">
+        <fields>
+          <field name="nome"              type="string"     required="true"/>
+          <field name="tipo"              type="select"     options="email,whatsapp,instagram,google_ads,meta_ads"/>
+          <field name="status"            type="select"     options="rascunho,agendada,ativa,pausada,encerrada"/>
+          <field name="orcamento"         type="decimal"/>
+          <field name="gasto_real"        type="decimal"/>
+          <field name="leads_gerados"     type="integer"/>
+          <field name="custo_por_lead"    type="decimal"/>
+        </fields>
+      </contentType>
+    </contentTypes>
+
+    <apis>
+      <endpoint method="GET"   path="/api/v1/portfolio"                     description="Lista projetos do portfólio público"/>
+      <endpoint method="POST"  path="/api/v1/portfolio/{id}/publish"       description="Publica projeto no portfólio"/>
+      <endpoint method="POST"  path="/api/v1/blog"                         description="Cria artigo no blog"/>
+      <endpoint method="POST"  path="/api/v1/campaigns"                    description="Cria campanha de marketing"/>
+      <endpoint method="GET"   path="/api/v1/marketing/seo-keywords"       description="Sugestões de palavras-chave SEO"/>
+    </apis>
+
+    <agents>
+      <agent name="IA_ContentCalendar">
+        <skill>Content Planning — gera calendário editorial mensal baseado em tendências e SEO</skill>
+        <promptRef>ia-marketing-digital/content-calendar@1.0.0</promptRef>
+        <trigger>Mensal (primeiro dia do mês)</trigger>
+      </agent>
+      <agent name="IA_PortfolioPublisher">
+        <skill>Portfolio Optimization — seleciona fotos, gera descrição e otimiza SEO</skill>
+        <promptRef>ia-marketing-digital/portfolio-publisher@1.0.0</promptRef>
+        <trigger>PM marca projeto como publicável</trigger>
+        <humanInLoop>true</humanInLoop>
+      </agent>
+    </agents>
+
+    <externalIntegrations>
+      <integration name="Buffer / Hootsuite"   purpose="Agendamento de posts"/>
+      <integration name="Google Search Console" purpose="SEO"/>
+      <integration name="Mailchimp / RD Station" purpose="Email marketing"/>
+      <integration name="Meta Ads API"          purpose="Anúncios"/>
+      <integration name="Google Ads API"        purpose="Busca paga"/>
+    </externalIntegrations>
+
+    <dashboards>
+      <dashboard name="MarketingROIDashboard">
+        <description>ROI de campanhas, tráfego orgânico, leads por canal.</description>
+        <audience>CEO, Marketing</audience>
+        <components>leads_by_channel, content_performance, campaign_roi</components>
+      </dashboard>
+    </dashboards>
+
+    <kpis>
+      <kpi name="OrganicLeadsFromBlog"     target="≥ 20% dos leads via conteúdo orgânico"/>
+      <kpi name="PortfolioConversionRate"  target="≥ 5%"/>
+      <kpi name="CostPerLead"              target="≤ R$ 80"/>
+    </kpis>
+
+    <roadmap>
+      <phase name="MVP">
+        <feature>Portfólio digital público com cases</feature>
+        <feature>Blog com editor de conteúdo</feature>
+        <feature>Landing pages com formulário de lead</feature>
+      </phase>
+      <phase name="Growth">
+        <feature>Geração de conteúdo por IA</feature>
+        <feature>Calendário editorial automático</feature>
+        <feature>Integração com redes sociais</feature>
+      </phase>
+    </roadmap>
+  </feature>
+
+
+  <!-- ==============================================================
+       FEATURE 18 — Orçamento e Composição de Custos de Obra
+       Bounded Context: construction_budget
+       Módulo Drupal: ia_budget_construction
+       Owner: Squad Obras
+       ============================================================== -->
+  <feature id="F18" name="Orçamento e Composição de Custos de Obra" boundedContext="construction_budget" module="ia_budget_construction" status="mvp">
+
+    <businessProblem>
+      Orçamentos de obra em planilhas, sem padronização, demoram dias e ficam desatualizados
+      quando materiais mudam de preço. Sem composição unitária, é impossível rastrear estouro.
+    </businessProblem>
+
+    <contentTypes>
+      <contentType name="ConstructionBudget">
+        <fields>
+          <field name="construction_id"   type="reference"  target="Schedule"  required="true"/>
+          <field name="versao"            type="integer"    default="1"/>
+          <field name="bdi"               type="decimal"    unit="%"/>
+          <field name="valor_direto"      type="decimal"/>
+          <field name="valor_total"       type="decimal"/>
+          <field name="data_referencia"   type="date"/>
+          <field name="status"            type="select"     options="rascunho,aprovado,em_execucao,revisado"/>
+        </fields>
+      </contentType>
+
+      <contentType name="BudgetService">
+        <fields>
+          <field name="budget_id"         type="reference"  target="ConstructionBudget" required="true"/>
+          <field name="codigo_sinapi"     type="string"/>
+          <field name="descricao"         type="string"     required="true"/>
+          <field name="unidade"           type="string"/>
+          <field name="quantidade"        type="decimal"/>
+          <field name="custo_unitario"    type="decimal"/>
+          <field name="custo_total"       type="decimal"/>
+          <field name="categoria_abc"     type="select"     options="A,B,C"/>
+          <field name="composicao"        type="json"/>
+        </fields>
+      </contentType>
+
+      <contentType name="ConstructionMeasurement">
+        <fields>
+          <field name="budget_id"         type="reference"  target="ConstructionBudget" required="true"/>
+          <field name="numero"            type="integer"/>
+          <field name="periodo_inicio"    type="date"/>
+          <field name="periodo_fim"       type="date"/>
+          <field name="items"             type="json"/>
+          <field name="valor_total"       type="decimal"/>
+          <field name="percentual_acumulado" type="decimal" unit="%"/>
+          <field name="status"            type="select"     options="rascunho,enviado,aprovado,pago"/>
+        </fields>
+      </contentType>
+    </contentTypes>
+
+    <apis>
+      <endpoint method="POST"  path="/api/v1/construction/budget"           description="Cria orçamento de obra"/>
+      <endpoint method="GET"   path="/api/v1/construction/budget/{id}/abc"  description="Curva ABC do orçamento"/>
+      <endpoint method="POST"  path="/api/v1/construction/measurement"      description="Cria nova medição"/>
+      <endpoint method="GET"   path="/api/v1/construction/sinapi/search"    description="Busca composições SINAPI"/>
+    </apis>
+
+    <agents>
+      <agent name="IA_BudgetAnalyzer">
+        <skill>Budget Intelligence — analisa orçamento e sugere economias</skill>
+        <promptRef>ia-budget/analyzer@1.0.0</promptRef>
+        <trigger>POST /api/v1/construction/budget/{id}/analyze</trigger>
+      </agent>
+    </agents>
+
+    <externalIntegrations>
+      <integration name="SINAPI (Caixa)" purpose="Composições e preços de insumos por UF"/>
+      <integration name="SICRO (DNIT)"   purpose="Composições para infraestrutura"/>
+    </externalIntegrations>
+
+    <domainEvents>
+      <event name="BudgetApproved"      emits="ia_budget_construction"  consumes="ia_obras, ia_financeiro"/>
+      <event name="MeasurementApproved" emits="ia_budget_construction"  consumes="ia_financeiro, ia_client_portal"/>
+    </domainEvents>
+
+    <roadmap>
+      <phase name="MVP">
+        <feature>Orçamento com itens de serviço e quantitativos</feature>
+        <feature>Curva ABC automática</feature>
+        <feature>Medições com aprovação</feature>
+      </phase>
+      <phase name="Growth">
+        <feature>Composição unitária com tabela SINAPI</feature>
+        <feature>BDI configurável</feature>
+        <feature>Análise de desvio por IA</feature>
+      </phase>
+    </roadmap>
+  </feature>
+
+
+  <!-- ==============================================================
+       FEATURE 19 — Documentos de Entrega por Fase de Projeto
+       Bounded Context: project_deliverables
+       Módulo Drupal: ia_deliverables
+       Owner: Squad Projetos
+       ============================================================== -->
+  <feature id="F19" name="Documentos de Entrega por Fase de Projeto" boundedContext="project_deliverables" module="ia_deliverables" status="mvp">
+
+    <businessProblem>
+      Cada fase do projeto (Estudo Preliminar, Anteprojeto, Projeto Executivo) tem documentos específicos.
+      Sem gestão estruturada, entregas ficam incompletas e o escritório não tem registro de aceitação.
+    </businessProblem>
+
+    <contentTypes>
+      <contentType name="ProjectPhase">
+        <fields>
+          <field name="project_id"        type="reference"  target="Project"   required="true"/>
+          <field name="nome"              type="select"     options="levantamento,estudo_preliminar,anteprojeto,projeto_legal,projeto_executivo,detalhamento,pos_obra"/>
+          <field name="status"            type="select"     options="nao_iniciada,em_andamento,entregue,aprovada,revisao"/>
+          <field name="data_inicio"       type="date"/>
+          <field name="data_entrega_prev" type="date"/>
+          <field name="responsavel_id"    type="reference"  target="User"/>
+          <field name="percentual_honorario" type="decimal" unit="%"/>
+        </fields>
+      </contentType>
+
+      <contentType name="Deliverable">
+        <fields>
+          <field name="phase_id"          type="reference"  target="ProjectPhase" required="true"/>
+          <field name="project_id"        type="reference"  target="Project"      required="true"/>
+          <field name="nome"              type="string"     required="true"/>
+          <field name="tipo"              type="select"     options="planta,corte,fachada,memorial,especificacao,planilha,relatorio,render,modelo3d"/>
+          <field name="obrigatorio"       type="boolean"    default="true"/>
+          <field name="arquivo"           type="file"/>
+          <field name="versao"            type="integer"    default="1"/>
+          <field name="status"            type="select"     options="pendente,em_elaboracao,entregue,aprovado,revisao"/>
+          <field name="aprovado_por"      type="reference"  target="User"/>
+          <field name="aprovado_em"       type="datetime"/>
+        </fields>
+      </contentType>
+    </contentTypes>
+
+    <apis>
+      <endpoint method="GET"   path="/api/v1/projects/{id}/phases"          description="Fases do projeto com status"/>
+      <endpoint method="POST"  path="/api/v1/projects/{id}/deliverables"    description="Adiciona entregável"/>
+      <endpoint method="POST"  path="/api/v1/deliverables/{id}/approve"     description="Aprova entregável"/>
+    </apis>
+
+    <businessRules>
+      <rule id="BR-DEL-01" name="Aprovação de Fase">
+        <description>Fase só é APROVADA quando 100% dos entregáveis obrigatórios estão aprovados.</description>
+      </rule>
+      <rule id="BR-DEL-02" name="Versionamento Obrigatório">
+        <description>Cada novo arquivo cria nova versão. Versões anteriores mantidas com SHA-256.</description>
+      </rule>
+    </businessRules>
+
+    <domainEvents>
+      <event name="DeliverableApproved"   emits="ia_deliverables"  consumes="ia_financeiro, ia_client_portal"/>
+      <event name="PhaseCompleted"        emits="ia_deliverables"  consumes="ia_crm, ia_client_portal, ia_financeiro"/>
+    </domainEvents>
+
+    <roadmap>
+      <phase name="MVP">
+        <feature>Gestão de fases com checklist de entregáveis</feature>
+        <feature>Upload com versionamento</feature>
+        <feature>Aprovação pelo cliente via Portal</feature>
+      </phase>
+      <phase name="Growth">
+        <feature>Templates de fases por tipo de projeto</feature>
+        <feature>Liberação automática de parcela</feature>
+      </phase>
+    </roadmap>
+  </feature>
+
+
+  <!-- ==============================================================
+       FEATURE 20 — Gestão de Tarefas Unificada
+       Bounded Context: task_management
+       Módulo Drupal: ia_tasks
+       Owner: Squad Platform
+       ============================================================== -->
+  <feature id="F20" name="Gestão de Tarefas Unificada" boundedContext="task_management" module="ia_tasks" status="mvp">
+
+    <businessProblem>
+      Tarefas de projetos, obras, atas e compras ficam em sistemas distintos.
+      Arquiteto não tem visão única das pendências. Action items de reunião nunca são acompanhados.
+    </businessProblem>
+
+    <contentTypes>
+      <contentType name="Task">
+        <fields>
+          <field name="titulo"            type="string"     required="true"/>
+          <field name="descricao"         type="text"/>
+          <field name="origem_tipo"       type="select"     options="projeto,obra,reuniao,proposta,marketing,suporte,manual"/>
+          <field name="origem_id"         type="integer"/>
+          <field name="project_id"        type="reference"  target="Project"/>
+          <field name="assignee_id"       type="reference"  target="User"      required="true"/>
+          <field name="criado_por"        type="reference"  target="User"/>
+          <field name="prazo"             type="datetime"/>
+          <field name="prioridade"        type="select"     options="baixa,media,alta,critica"/>
+          <field name="status"            type="select"     options="backlog,a_fazer,em_andamento,revisao,concluida,cancelada"/>
+          <field name="estimativa_horas"  type="decimal"/>
+          <field name="horas_reais"       type="decimal"/>
+          <field name="tags"              type="json"/>
+          <field name="subtasks"          type="json"/>
+          <field name="anexos"            type="file"       multiple="true"/>
+          <field name="comentarios"       type="json"/>
+        </fields>
+      </contentType>
+    </contentTypes>
+
+    <apis>
+      <endpoint method="GET"   path="/api/v1/tasks/my"                      description="Minhas tarefas (hoje, semana, atrasadas)"/>
+      <endpoint method="POST"  path="/api/v1/tasks"                         description="Cria tarefa"/>
+      <endpoint method="PATCH" path="/api/v1/tasks/{id}/status"             description="Atualiza status"/>
+      <endpoint method="GET"   path="/api/v1/tasks/project/{id}"            description="Tarefas do projeto"/>
+    </apis>
+
+    <agents>
+      <agent name="IA_TaskPrioritizer">
+        <skill>Task Prioritization — sugere ordem de execução diária</skill>
+        <promptRef>ia-tasks/prioritizer@1.0.0</promptRef>
+        <trigger>Daily digest: enviado às 8h</trigger>
+      </agent>
+    </agents>
+
+    <domainEvents>
+      <event name="TaskCreated"     emits="ia_tasks"  consumes="ia_suporte"/>
+      <event name="TaskOverdue"     emits="ia_tasks"  consumes="ia_suporte"/>
+      <event name="TaskCompleted"   emits="ia_tasks"  consumes="ia_projetos, ia_obras"/>
+    </domainEvents>
+
+    <notifications>
+      <notification trigger="TaskOverdue"   channel="push,email"    audience="assignee,project_lead"/>
+      <notification trigger="TaskCreated"   channel="push,in_app"   audience="assignee"/>
+      <notification trigger="DailyDigest"   channel="email,push"    audience="all_users" schedule="08:00"/>
+    </notifications>
+
+    <dashboards>
+      <dashboard name="MyWorkDashboard">
+        <description>Minhas tarefas de hoje, atrasadas, por projeto.</description>
+        <audience>Todo colaborador</audience>
+        <components>my_tasks_today, overdue_list, tasks_by_project, daily_ai_suggestions</components>
+      </dashboard>
+      <dashboard name="ProjectTaskBoard">
+        <description>Kanban de tarefas do projeto.</description>
+        <audience>PM</audience>
+        <components>kanban_board, task_burndown, time_tracking_summary</components>
+      </dashboard>
+    </dashboards>
+
+    <kpis>
+      <kpi name="TaskCompletionRate"    target="≥ 80% fechadas no prazo"/>
+      <kpi name="OverdueRate"           target="≤ 15%"/>
+    </kpis>
+
+    <roadmap>
+      <phase name="MVP">
+        <feature>Criação e atribuição de tarefas</feature>
+        <feature>Status Kanban</feature>
+        <feature>Alertas de vencimento</feature>
+        <feature>Action items de reunião automáticos (F12)</feature>
+      </phase>
+      <phase name="Growth">
+        <feature>Daily digest personalizado com IA</feature>
+        <feature>Time tracking integrado (F13)</feature>
+      </phase>
+    </roadmap>
+  </feature>
+
+
+  <!-- ==============================================================
+       SEÇÃO: INTEGRAÇÕES EXTERNAS CONSOLIDADAS
+       ============================================================== -->
+  <externalIntegrationsConsolidated>
+
+    <category name="Comunicação">
+      <integration name="WhatsApp Business API (Meta)" purpose="Follow-up de leads, notificações, cobrança"/>
+      <integration name="Twilio SMS"                   purpose="SMS para aprovações urgentes e MFA"/>
+      <integration name="SendGrid"                     purpose="Email transacional e campanhas"/>
+      <integration name="Slack / Microsoft Teams"      purpose="Notificações internas"/>
+    </category>
+
+    <category name="Agenda e Reuniões">
+      <integration name="Google Calendar API"   purpose="Agendamento"/>
+      <integration name="Google Meet / Zoom / Teams API"  purpose="Gravações"/>
+      <integration name="Calendly"              purpose="Link de agendamento para leads"/>
+    </category>
+
+    <category name="Assinatura Digital">
+      <integration name="D4Sign"     purpose="Assinatura ICP-Brasil"/>
+      <integration name="ClickSign"  purpose="Alternativa white-label"/>
+      <integration name="DocuSign"   purpose="Enterprise internacional"/>
+    </category>
+
+    <category name="Pagamentos e Financeiro">
+      <integration name="Open Banking / CNAB"         purpose="Pagamentos em lote"/>
+      <integration name="SEFAZ NF-e API"              purpose="Validação de NF-e"/>
+      <integration name="Stripe / PagSeguro"          purpose="Marketplace"/>
+      <integration name="Conta Azul / Omie"           purpose="Sincronização contábil"/>
+    </category>
+
+    <category name="IA e Processamento">
+      <integration name="OpenAI GPT-4o"               purpose="Agentes e análise"/>
+      <integration name="OpenAI Whisper"               purpose="Transcrição de áudio"/>
+      <integration name="OpenAI DALL·E 3"              purpose="Geração de imagens"/>
+      <integration name="Runway Gen-3"                 purpose="Renders animados"/>
+      <integration name="Microsoft Presidio"           purpose="Detecção de PII"/>
+    </category>
+
+    <category name="BIM e Projetos">
+      <integration name="Autodesk Platform Services"  purpose="Revit, AutoCAD, BIM 360"/>
+      <integration name="Trimble Connect"              purpose="SketchUp"/>
+      <integration name="Speckle"                      purpose="BIM collaboration"/>
+    </category>
+
+    <category name="Marketing e SEO">
+      <integration name="Google Search Console"        purpose="SEO"/>
+      <integration name="Google Analytics 4"           purpose="Analytics"/>
+      <integration name="Meta Ads API"                 purpose="Anúncios"/>
+      <integration name="Google Ads API"               purpose="Busca paga"/>
+      <integration name="Buffer"                       purpose="Agendamento de posts"/>
+      <integration name="RD Station"                   purpose="Automação de marketing"/>
+    </category>
+
+    <category name="Governo e Regulatório">
+      <integration name="SINAPI (Caixa Econômica)"     purpose="Composições de obra"/>
+      <integration name="Receita Federal API"          purpose="Consulta CNPJ"/>
+      <integration name="CAU/BR API"                   purpose="Registro de arquitetos"/>
+      <integration name="CREA API"                     purpose="Registro de engenheiros"/>
+    </category>
+
+  </externalIntegrationsConsolidated>
+
+
+  <!-- ==============================================================
+       SEÇÃO: OBSERVABILIDADE — PADRÕES POR FEATURE
+       ============================================================== -->
+  <observabilityStandards>
+
+    <standard name="Log Estruturado (JSON) Obrigatório">
+      <format>
+        {
+          "trace_id": "uuid-v4",
+          "span_id": "uuid-v4",
+          "feature_id": "F11",
+          "bounded_context": "construction_diary",
+          "module": "ia_diary",
+          "action": "diary_entry.create",
+          "user_id": 42,
+          "project_id": 15,
+          "ai_model": "gpt-4o",
+          "ai_tokens_input": 312,
+          "ai_tokens_output": 89,
+          "duration_ms": 183,
+          "level": "info",
+          "timestamp": "ISO8601"
+        }
+      </format>
+      <rule>Todo agente de IA deve logar: modelo, prompt_version, tokens (input/output) e latência</rule>
+    </standard>
+
+    <standard name="Alertas por Feature">
+      <alert feature="F11" condition="DiaryAnomalyDetected.gravidade = critico" severity="P1" channel="pagerduty"/>
+      <alert feature="F12" condition="meeting_transcription_queue.depth > 50" severity="P2" channel="slack"/>
+      <alert feature="F13" condition="CashFlowRiskDetected.tipo = vermelho" severity="P1" channel="pagerduty,email"/>
+      <alert feature="F13" condition="payroll_calculation_queue.failed > 0" severity="P1" channel="pagerduty"/>
+      <alert feature="F16" condition="audit_log.action = delete AND entity_type = Contract" severity="P1" channel="pagerduty"/>
+    </standard>
+
+    <standard name="Dashboards Grafana por Feature">
+      <dashboard feature="F11">diary_entries_per_day, photos_processed, anomaly_detection_latency</dashboard>
+      <dashboard feature="F12">transcription_queue_depth, avg_transcription_time, action_items_created</dashboard>
+      <dashboard feature="F13">reimbursement_approval_rate, payroll_errors, cashflow_alerts</dashboard>
+      <dashboard feature="F16">audit_log_write_rate, lgpd_requests_pending, failed_access_attempts</dashboard>
+    </standard>
+
+  </observabilityStandards>
+
 </productFeatures>

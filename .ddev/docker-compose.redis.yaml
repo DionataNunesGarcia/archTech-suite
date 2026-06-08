@@ -1,0 +1,56 @@
+#ddev-generated
+services:
+  redis:
+    container_name: ddev-${DDEV_SITENAME}-redis
+    image: redis:7-alpine
+    labels:
+      com.ddev.site-name: ${DDEV_SITENAME}
+      com.ddev.platform: ddev
+      com.ddev.app-type: drupal11
+      com.ddev.approot: $DDEV_APPROOT
+    restart: "no"
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    expose:
+      - "6379"
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+
+  rabbitmq:
+    container_name: ddev-${DDEV_SITENAME}-rabbitmq
+    image: rabbitmq:3.13-management-alpine
+    labels:
+      com.ddev.site-name: ${DDEV_SITENAME}
+      com.ddev.platform: ddev
+      com.ddev.app-type: drupal11
+      com.ddev.approot: $DDEV_APPROOT
+    restart: "no"
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "check_port_connectivity"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    expose:
+      - "5672"
+      - "15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=archtech
+      - RABBITMQ_DEFAULT_PASS=archtech
+      - RABBITMQ_DEFAULT_VHOST=/
+    # Host ports for external access
+    ports:
+      - "127.0.0.1::15672"
+      - "127.0.0.1::5672"
+
+volumes:
+  redis-data:
+    name: "${DDEV_SITENAME}-redis-data"
+  rabbitmq-data:
+    name: "${DDEV_SITENAME}-rabbitmq-data"
