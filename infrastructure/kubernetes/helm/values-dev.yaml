@@ -8,11 +8,11 @@ ingress:
 
 resources:
   requests:
-    memory: "256Mi"
-    cpu: "250m"
+    memory: '256Mi'
+    cpu: '250m'
   limits:
-    memory: "512Mi"
-    cpu: "500m"
+    memory: '512Mi'
+    cpu: '500m'
 
 autoscaling:
   enabled: false
@@ -22,7 +22,7 @@ postgresql:
   auth:
     database: archnet
     username: archnet
-    password: "archnet-dev-pass"
+    password: 'archnet-dev-pass'
   primary:
     persistence:
       size: 10Gi
@@ -36,4 +36,4 @@ rabbitmq:
   enabled: true
   auth:
     username: archnet
-    password: "archnet-dev-pass"
+    password: 'archnet-dev-pass'

@@ -1,0 +1,37 @@
+#!/bin/bash
+## Description: Run Playwright E2E tests (inside DDEV)
+## Usage: test-e2e
+## Example: ddev test-e2e
+set -euo pipefail
+
+cd frontend || { echo "❌ frontend/ not found"; exit 1; }
+
+FAIL=0
+
+echo "=== Installing Playwright (chromium) ==="
+npx playwright install --with-deps chromium 2>&1 | tail -5
+
+echo ""
+echo "=== Building Next.js ==="
+npm run build 2>&1 | tail -5
+
+echo ""
+echo "=== Starting Next.js server ==="
+npm run start &
+SERVER_PID=$!
+
+trap "kill $SERVER_PID 2>/dev/null; exit" EXIT INT TERM
+
+echo "Waiting for server..."
+for i in $(seq 1 30); do
+  curl -s http://localhost:3000 > /dev/null 2>&1 && break
+  sleep 1
+done
+
+echo ""
+echo "=== Running E2E tests ==="
+npx playwright test e2e/home.spec.ts --reporter=list 2>&1 || FAIL=1
+
+echo ""
+echo "=== E2E tests: $([ "$FAIL" -eq 0 ] && echo 'PASSED' || echo "FAILED") ==="
+exit $FAIL

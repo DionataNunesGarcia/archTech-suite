@@ -12,7 +12,7 @@ spec:
     - from:
         - namespaceSelector:
             matchLabels:
-              squad-platform: "true"
+              squad-platform: 'true'
     - from:
         - podSelector:
             matchLabels:
@@ -31,7 +31,7 @@ spec:
     - from:
         - namespaceSelector:
             matchLabels:
-              squad-platform: "true"
+              squad-platform: 'true'
     - from:
         - podSelector:
             matchLabels:
@@ -50,7 +50,7 @@ spec:
     - from:
         - namespaceSelector:
             matchLabels:
-              squad-platform: "true"
+              squad-platform: 'true'
     - from:
         - podSelector:
             matchLabels:

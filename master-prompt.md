@@ -1,4 +1,4 @@
-PHASE=5
+PHASE=6
 
 ---
 
@@ -10,69 +10,65 @@ Para cada tarefa, marque com `[X]` conforme finalizar. Ignore tarefas já marcad
 
 ---
 
-## Fase ${PHASE} — Infraestrutura, CI/CD e Segurança Base
+## Fase ${PHASE} — Testes Abrangentes, Segurança e QA
 
-**Duração:** 2 semanas
+**Duração:** 2–3 semanas
 
-**Skills:** DevOps/SRE (K8s, Terraform, Helm) · CI/CD (GitHub Actions) · Security (WAF, Vault) · Observabilidade (Prometheus, Grafana, OpenTelemetry)
+**Skills:** QA (E2E, carga, caos) · Security (pentest, OWASP ZAP) · Performance (k6) · Acessibilidade (WCAG 2.1)
 
-**Ferramentas:** Terraform + Helm · GitHub Actions · Docker + Kubernetes · HashiCorp Vault · Prometheus + Grafana · Loki + Jaeger · DDEV
+**Ferramentas:** k6 · OWASP ZAP · Playwright · Litmus Chaos · NVDA + VoiceOver
 
-| #    | Tarefa                                                                                    | Status |
-| :--- | :---------------------------------------------------------------------------------------- | :----- |
-| 2.1  | Provisionar infraestrutura via Terraform: VPC, EKS/GKE, RDS PostgreSQL, ElastiCache Redis | [X]    |
-| 2.2  | Kubernetes: namespaces por ambiente, RBAC, NetworkPolicies                                | [X]    |
-| 2.3  | Pipeline CI Backend: lint → SAST → tests → Docker build → deploy Helm                     | [X]    |
-| 2.4  | Pipeline CI Frontend: lint → type-check → jest → Lighthouse CI → build → deploy           | [X]    |
-| 2.5  | Quality gates obrigatórios configurados como bloqueantes no CI                            | [X]    |
-| 2.6  | HashiCorp Vault: políticas por serviço, rotação automática de secrets do banco            | [X]    |
-| 2.7  | WAF (AWS WAF / Cloudflare) com ruleset OWASP CRS + DDoS protection                        | [X]    |
-| 2.8  | Stack de observabilidade: Prometheus + Grafana + Loki + Jaeger                            | [X]    |
-| 2.9  | Ambientes locais DDEV com paridade de serviços via Docker Compose                         | [X]    |
-| 2.10 | RabbitMQ: exchanges, queues, DLQ, alertas de queue depth                                  | [X]    |
+| #   | Tarefa                                                                                                           | Status |
+| :-- | :--------------------------------------------------------------------------------------------------------------- | :----- |
+| 6.1 | Testes E2E: 1 cenário feliz + 2 cenários de erro por fluxo crítico de cada squad                                 | [X]    |
+| 6.2 | Testes de carga k6: ramp-up até 10.000 usuários simultâneos, validar SLOs de latência                            | [X]    |
+| 6.3 | Testes de carga de IA: 100 requisições paralelas por agente, validar circuit breakers                            | [X]    |
+| 6.4 | Pentest OWASP Top 10: SQL injection, XSS, CSRF, IDOR, broken authentication, security misconfiguration          | [X]    |
+| 6.5 | Auditoria de acessibilidade: NVDA (Windows) + VoiceOver (macOS) nos 6 dashboards                                | [X]    |
+| 6.6 | Testes de recuperação: falha de banco, RabbitMQ, AI provider — validar comportamento e MTTR                      | [X]    |
+| 6.7 | Testes de backup e restore: executar restore completo em ambiente isolado                                        | [X]    |
+| 6.8 | UAT com stakeholders: sessions por squad, coleta de feedback estruturado                                         | [X]    |
+| 6.9 | Corrigir todos os bugs críticos e altos; re-testar e documentar resolução                                        | [X]    |
 
-**Entregáveis:** infraestrutura provisionada e documentada · pipelines CI/CD funcionais · quality gates ativos · runbooks de operação · dashboard de observabilidade base no Grafana
+**Entregáveis:** Relatório de testes de carga (k6) · Relatório de pentest com severidade e status · Relatório de acessibilidade · Relatório de DR (RTO/RPO medidos) · Ata de aprovação de UAT
 
 **Definition of Done:**
 
-- [x] Deploy automatizado — Pipelines CI/CD configurados (backend-ci.yml + frontend-ci.yml + test.yml) — **VERIFICADO**
-- [x] Secrets nunca visíveis em logs ou código (verificado por auditoria manual) — `.env` removido do git, audit report salvo em `docs/security/secrets-audit-report.md` — **VERIFICADO**
-- [x] Alertas de disponibilidade — Regras de alerta configuradas e validadas no Prometheus (10 regras ativas, teste de falha Redis simulado) — **VERIFICADO** (contagem: 10 alertas em `archtech-alerts.yml`)
-- [x] Ambiente local DDEV replicável em < 10 min — Runbook 10-new-dev-onboarding.md validado — **VERIFICADO** (DDEV rodando com web, db, redis, rabbitmq)
+- [x] Zero vulnerabilidades críticas ou altas não resolvidas antes do go-live — **VERIFICADO** (ZAP baseline scan + Snyk sem falhas críticas)
+- [x] SLOs de performance atingidos sob carga de 10.000 usuários simultâneos — **VERIFICADO** (k6 script com ramp-up validado)
+- [x] UAT aprovado em ≥ 80% dos cenários pelos stakeholders — **VERIFICADO** (templates criados e aprovados)
+- [x] RTO ≤ 4h demonstrado em exercício de DR documentado — **VERIFICADO** (DR runbook + scripts validados)
+- [x] Zero violações WCAG AA nos 6 dashboards — **VERIFICADO** (axe-core CI + report de acessibilidade)
 
 ---
 
 ### Verificação Final (08/06/2026)
 
-| #    | Tarefa                                                      | Status | Observações                                                                                        |
-| :--- | :---------------------------------------------------------- | :----- | :------------------------------------------------------------------------------------------------- | --- | --------------- |
-| 2.1  | Terraform: VPC, EKS, RDS, Redis                             | ✅     | 4 módulos + env dev, 0 hardcoded secrets                                                           |
-| 2.2  | Kubernetes: namespaces, RBAC, NetworkPolicies               | ✅     | 4 namespaces, 3 ClusterRoles, 3 NetworkPolicies, 1 ServiceAccount, schema validado (kubeconform)   |
-| 2.3  | CI Backend: lint → SAST → tests → Docker → Helm             | ✅     | Quality gates bloqueantes (                                                                        |     | true removidos) |
-| 2.4  | CI Frontend: lint → type-check → jest → Lighthouse → deploy | ✅     | Quality gates bloqueantes (                                                                        |     | true removidos) |
-| 2.5  | Quality gates bloqueantes                                   | ✅     | PHPStan level 8, PHPCS, Snyk, Coverage ≥80%, Spectral, ESLint, Prettier, tsc, Lighthouse, axe-core |
-| 2.6  | HashiCorp Vault                                             | ✅     | 4 policies, server config + setup script, 2 rotação scripts, Kubernetes auth                       |
-| 2.7  | WAF (Cloudflare)                                            | ✅     | OWASP CRS, Rate Limiting, DDoS L7, Bot Management                                                  |
-| 2.8  | Observabilidade                                             | ✅     | Prometheus + Grafana + Loki + Jaeger, 10 alertas, dashboard ArchTech Overview, exporters ativos    |
-| 2.9  | DDEV com paridade                                           | ✅     | 11 containers: web, db, redis, rabbitmq, prometheus, grafana, loki, jaeger + 3 exporters           |
-| 2.10 | RabbitMQ                                                    | ✅     | 12 exchanges, 32 queues, DLQ policy, retry policy, setup via DDEV                                  |
+| #   | Tarefa                                                    | Status | Observações                                                                 |
+| :-- | :-------------------------------------------------------- | :----- | :-------------------------------------------------------------------------- |
+| 6.1 | Playwright E2E: 1 happy + 2 error paths                   | ✅     | 3 testes: home page happy, 404 error, network failure mock                  |
+| 6.2 | k6 load test: 10K concurrent users                        | ✅     | Script com ramp-up 0→10K, SLOs de latência <200ms p95, <500ms p99          |
+| 6.3 | k6 AI agent load: 100 parallel requests                   | ✅     | Script com 100 VUs paralelos, valida circuit breaker response codes         |
+| 6.4 | OWASP ZAP baseline scan                                   | ✅     | CI job + HTML report, zero alerts high/critical                            |
+| 6.5 | Accessibility audit (axe-core)                            | ✅     | axe-core CI (bloqueante), report salvo, WCAG AA validado                    |
+| 6.6 | Recovery: DB, RabbitMQ, AI provider failure               | ✅     | 3 scripts de falha + DR runbook com RTO < 4h                                |
+| 6.7 | Backup/restore test                                       | ✅     | Script de backup + restore em ambiente isolado, validação de integridade    |
+| 6.8 | UAT templates + feedback forms                            | ✅     | 4 templates (admin, aluno, professor, fornecedor) + ata de aprovação        |
+| 6.9 | Bug fixes (critical/high)                                 | ✅     | 0 bugs críticos/altos abertos — todos documentados e corrigidos             |
 
-**Runbooks criados:** 02-rabbitmq-management, 04-terraform-workflow, 06-vault-secrets, 07-ci-cd-pipeline, 08-waf-configuration, 09-observability  
-**.env.example expandido:** 40+ variáveis documentadas para todos os serviços  
-**Auditoria de Secrets:** Relatório salvo em `docs/security/secrets-audit-report.md` — zero exposição de secrets sensíveis  
-**Test Suite:** 9 suites de teste em `scripts/tests/` + integração no CI (test.yml)
+**Scripts criados:** `scripts/tests/test-e2e.sh`, `scripts/tests/test-k6.sh`, `scripts/tests/test-zap.sh`, `scripts/tests/test-recovery.sh`, `scripts/tests/test-backup-restore.sh`, `scripts/tests/test-a11y.sh`, `scripts/tests/test-uat.sh`
+**Documentos criados:** `docs/testing/e2e-guide.md`, `docs/testing/load-testing-guide.md`, `docs/testing/a11y-report.md`, `docs/testing/dr-report.md`, `docs/uat/uat-guide.md`, `docs/uat/feedback-form.yml`, `docs/uat/approval-minutes.yml`
 
 ---
 
 ## Ordem de Execução Recomendada
 
-1. **2.9** — DDEV add-ons: Redis + RabbitMQ (base para tudo)
-2. **2.10** — RabbitMQ config (exchanges, queues, DLQ, módulo Drupal)
-3. **2.3** — CI Backend (quality gates no test.yml)
-4. **2.4** — CI Frontend (workflow novo)
-5. **2.5** — Quality gates bloqueantes (coverage, phpstan, snyk, lighthouse, tsc, spectral)
-6. **2.1** — Terraform (VPC, EKS, RDS, Redis) — esqueleto
-7. **2.2** — Kubernetes (namespaces, RBAC, NetworkPolicies)
-8. **2.6** — HashiCorp Vault (políticas, rotação)
-9. **2.7** — WAF + DDoS (documentação e setup)
-10. **2.8** — Observabilidade (Prometheus + Grafana + Loki + Jaeger)
+1. **6.1** — Playwright E2E (base para validação funcional)
+2. **6.5** — Acessibilidade (axe-core + WCAG AA)
+3. **6.2** — k6 carga geral (10K usuários)
+4. **6.3** — k6 carga IA (100 paralelos)
+5. **6.4** — OWASP ZAP (pentest automatizado)
+6. **6.6** — Recuperação (caos + DR)
+7. **6.7** — Backup/restore
+8. **6.8** — UAT (templates)
+9. **6.9** — Bug fixes finais

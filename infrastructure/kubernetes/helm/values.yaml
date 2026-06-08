@@ -8,8 +8,8 @@ image:
   tag: latest
   pullPolicy: IfNotPresent
 
-nameOverride: ""
-fullnameOverride: ""
+nameOverride: ''
+fullnameOverride: ''
 
 service:
   type: ClusterIP
@@ -20,16 +20,16 @@ ingress:
   className: nginx
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
-    nginx.ingress.kubernetes.io/proxy-body-size: "100m"
+    nginx.ingress.kubernetes.io/proxy-body-size: '100m'
   tls: []
 
 resources:
   requests:
-    memory: "256Mi"
-    cpu: "250m"
+    memory: '256Mi'
+    cpu: '250m'
   limits:
-    memory: "1Gi"
-    cpu: "500m"
+    memory: '1Gi'
+    cpu: '500m'
 
 autoscaling:
   enabled: true
@@ -64,12 +64,12 @@ rabbitmq:
   enabled: false
   auth:
     username: archnet
-    password: ""
+    password: ''
   persistence:
     size: 8Gi
 
 drupal:
-  existingSecret: ""
+  existingSecret: ''
   extraEnv: []
   livenessProbe:
     path: /health
@@ -82,16 +82,16 @@ drupal:
 
 vault:
   enabled: true
-  address: "http://vault:8200"
-  role: "drupal"
-  authPath: "kubernetes"
+  address: 'http://vault:8200'
+  role: 'drupal'
+  authPath: 'kubernetes'
   secrets:
-    - path: "secret/data/archtech/drupal"
-      name: "DRUPAL_HASH_SALT"
-      key: "hash_salt"
-    - path: "secret/data/archtech/db"
-      name: "DATABASE_URL"
-      key: "database_url"
+    - path: 'secret/data/archtech/drupal'
+      name: 'DRUPAL_HASH_SALT'
+      key: 'hash_salt'
+    - path: 'secret/data/archtech/db'
+      name: 'DATABASE_URL'
+      key: 'database_url'
 
 nodeSelector: {}
 

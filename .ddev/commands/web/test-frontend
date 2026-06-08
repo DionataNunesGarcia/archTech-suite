@@ -19,5 +19,13 @@ echo "=== 4. Build ===" && npm run build 2>&1 | tail -5 && echo "✅ Build" || {
 echo "=== 5. Prettier ===" && npx --no-install prettier --check "src/**/*.{ts,tsx,js,json,css}" 2>&1 && echo "✅ Prettier" || { echo "❌ Prettier FAILED"; FAIL=1; }
 
 echo ""
+echo "=== 6. E2E (Playwright) ==="
+echo "   Run separately: ddev test-e2e"
+
+echo ""
+echo "=== 7. A11y (axe-core) ==="
+echo "   Run separately: ddev test-a11y"
+
+echo ""
 echo "=== Frontend Checks: $([ "$FAIL" -eq 0 ] && echo 'ALL PASSED' || echo "FAILURES: $FAIL") ==="
 exit $FAIL

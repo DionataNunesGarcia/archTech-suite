@@ -8,10 +8,10 @@ alerting:
   alertmanagers:
     - static_configs:
         - targets:
-          - alertmanager:9093
+            - alertmanager:9093
 
 rule_files:
-  - "rules/*.yml"
+  - 'rules/*.yml'
 
 scrape_configs:
   - job_name: 'kubernetes-pods'
@@ -53,25 +53,25 @@ scrape_configs:
   - job_name: 'rabbitmq'
     static_configs:
       - targets:
-        - rabbitmq-exporter:9419
+          - rabbitmq-exporter:9419
 
   - job_name: 'postgres-exporter'
     static_configs:
       - targets:
-        - postgres-exporter:9187
+          - postgres-exporter:9187
 
   - job_name: 'redis-exporter'
     static_configs:
       - targets:
-        - redis-exporter:9121
+          - redis-exporter:9121
 
   - job_name: 'drupal'
     metrics_path: '/metrics'
     static_configs:
       - targets:
-        - drupal:80
+          - drupal:80
 
   - job_name: 'jaeger'
     static_configs:
       - targets:
-        - jaeger:14269
+          - jaeger:14269

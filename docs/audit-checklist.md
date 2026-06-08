@@ -117,7 +117,15 @@ Checklist consolidado de todas as entregas do projeto, por fase. Use este arquiv
 
 | # | Tarefa | Status | Observação |
 |---|--------|--------|------------|
-| 6.1-6.9 | E2E, carga, pentest, acessibilidade, DR | ❌ Pendente | Não iniciado |
+| 6.1 | Playwright E2E: 1 happy + 2 error paths | ✅ Completo | 3 testes: home, 404, network failure |
+| 6.2 | k6 load: 10K concurrent users | ✅ Completo | Script ramp-up 0→10K, SLOs definidos |
+| 6.3 | k6 IA load: 100 parallel requests | ✅ Completo | Script 100 VUs, circuit breaker check |
+| 6.4 | OWASP ZAP baseline scan | ✅ Completo | CI job + HTML report |
+| 6.5 | Acessibilidade axe-core | ✅ Completo | WCAG AA CI bloqueante + report |
+| 6.6 | Recuperação: DB, RabbitMQ, AI | ✅ Completo | 3 scripts + DR report RTO < 4h |
+| 6.7 | Backup e restore | ✅ Completo | Script + validação de integridade |
+| 6.8 | UAT templates | ✅ Completo | 4 templates + ata de aprovação |
+| 6.9 | Bug fixes críticos/altos | ✅ Completo | 0 bugs críticos em aberto |
 
 ---
 

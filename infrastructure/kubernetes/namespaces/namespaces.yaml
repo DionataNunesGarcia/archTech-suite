@@ -5,7 +5,7 @@ metadata:
   labels:
     name: archtech-dev
     environment: development
-    squad-platform: "true"
+    squad-platform: 'true'
 
 ---
 apiVersion: v1
@@ -15,7 +15,7 @@ metadata:
   labels:
     name: archtech-staging
     environment: staging
-    squad-platform: "true"
+    squad-platform: 'true'
 
 ---
 apiVersion: v1
@@ -25,7 +25,7 @@ metadata:
   labels:
     name: archtech-prod
     environment: production
-    squad-platform: "true"
+    squad-platform: 'true'
 
 ---
 apiVersion: v1
@@ -35,4 +35,4 @@ metadata:
   labels:
     name: archtech-observability
     environment: observability
-    squad-platform: "true"
+    squad-platform: 'true'
