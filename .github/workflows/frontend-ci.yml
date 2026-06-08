@@ -37,10 +37,10 @@ jobs:
         run: npm ci
 
       - name: ESLint
-        run: npm run lint || true
+        run: npm run lint
 
       - name: Prettier Check
-        run: npx prettier --check "src/**/*.{ts,tsx,js,json,css}" || true
+        run: npx prettier --check "src/**/*.{ts,tsx,js,json,css}"
 
   type-check:
     name: TypeScript (tsc)
@@ -136,7 +136,7 @@ jobs:
       - name: Lighthouse CI
         run: |
           npm install -g @lhci/cli
-          lhci autorun || true
+          lhci autorun
 
   a11y:
     name: Accessibility (axe-core)
@@ -163,7 +163,7 @@ jobs:
       - name: Run axe-core
         run: |
           npm install -g @axe-core/cli
-          axe http://localhost:3000 --exit || true
+          axe http://localhost:3000 --exit
 
   build:
     name: Next.js Build

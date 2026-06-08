@@ -1,13 +1,16 @@
-# DDEV add-on: Observability stack (Prometheus + Grafana + Loki + Jaeger)
+# DDEV add-on: Observability stack (Prometheus + Grafana + Loki + Jaeger + Exporters)
 services:
   prometheus:
     image: prom/prometheus:v2.53.0
     container_name: ddev-${DDEV_SITENAME}-prometheus
     volumes:
-      - ./prometheus:/etc/prometheus
+      - "${DDEV_APPROOT}/infrastructure/observability/prometheus:/etc/prometheus"
       - prometheus-data:/prometheus
     expose:
       - "9090"
+    command:
+      - '--config.file=/etc/prometheus/prometheus-local.yml'
+      - '--web.enable-lifecycle'
     labels:
       com.ddev.site-name: ${DDEV_SITENAME}
       com.ddev.platform: ddev
@@ -16,8 +19,8 @@ services:
     image: grafana/grafana:11.1.0
     container_name: ddev-${DDEV_SITENAME}-grafana
     volumes:
-      - ./grafana/datasources:/etc/grafana/provisioning/datasources
-      - ./grafana/dashboards:/etc/grafana/provisioning/dashboards
+      - "${DDEV_APPROOT}/infrastructure/observability/grafana/datasources:/etc/grafana/provisioning/datasources"
+      - "${DDEV_APPROOT}/infrastructure/observability/grafana/dashboards:/etc/grafana/provisioning/dashboards"
       - grafana-data:/var/lib/grafana
     environment:
       - GF_SECURITY_ADMIN_USER=admin
@@ -32,7 +35,7 @@ services:
     image: grafana/loki:3.0.0
     container_name: ddev-${DDEV_SITENAME}-loki
     volumes:
-      - ./loki:/etc/loki
+      - "${DDEV_APPROOT}/infrastructure/observability/loki:/etc/loki"
       - loki-data:/loki
     expose:
       - "3100"
@@ -55,6 +58,48 @@ services:
       - "4317"
       - "4318"
       - "6831"
+    labels:
+      com.ddev.site-name: ${DDEV_SITENAME}
+      com.ddev.platform: ddev
+
+  postgres-exporter:
+    image: prometheuscommunity/postgres-exporter:latest
+    container_name: ddev-${DDEV_SITENAME}-postgres-exporter
+    environment:
+      DATA_SOURCE_NAME: "postgresql://db:db@db:5432/db?sslmode=disable"
+    expose:
+      - "9187"
+    depends_on:
+      - db
+    labels:
+      com.ddev.site-name: ${DDEV_SITENAME}
+      com.ddev.platform: ddev
+
+  redis-exporter:
+    image: oliver006/redis_exporter:latest
+    container_name: ddev-${DDEV_SITENAME}-redis-exporter
+    environment:
+      REDIS_ADDR: "redis://redis:6379"
+    expose:
+      - "9121"
+    depends_on:
+      - redis
+    labels:
+      com.ddev.site-name: ${DDEV_SITENAME}
+      com.ddev.platform: ddev
+
+  rabbitmq-exporter:
+    image: kbudde/rabbitmq-exporter:latest
+    container_name: ddev-${DDEV_SITENAME}-rabbitmq-exporter
+    environment:
+      RABBIT_URL: "http://rabbitmq:15672"
+      RABBIT_USER: archtech
+      RABBIT_PASSWORD: archtech
+      PUBLISH_PORT: 9419
+    expose:
+      - "9419"
+    depends_on:
+      - rabbitmq
     labels:
       com.ddev.site-name: ${DDEV_SITENAME}
       com.ddev.platform: ddev

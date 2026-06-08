@@ -5,7 +5,7 @@
 
 OPTIONS=""
 PARAMETERS=""
-for argument in $@;
+for argument in "$@";
 do
   if [[ $argument == -* ]];
   then
@@ -27,7 +27,7 @@ PARAMETERS=$(echo $PARAMETERS | sed -r "s|[^ ]+/$DDEV_DOCROOT/modules/|$DDEV_DOC
 PARAMETERS=$(echo $PARAMETERS | sed -r "s|[^ ]+/$DDEV_DOCROOT/recipes/|$DDEV_DOCROOT/recipes/|g")
 
 function _echo() {
-  echo -e "$1""${@:2}"$NORM$RESET
+  echo -e "$1${*:2}${NORM}${RESET}"
 }
 
 BLACK='\033[0;30m'
