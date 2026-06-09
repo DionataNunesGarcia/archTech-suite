@@ -1,0 +1,5 @@
+name: 'ArchTech Feature Flags'
+type: module
+description: 'Feature flag store in Redis with API endpoints and Twig extension for conditional rendering.'
+core_version_requirement: ^11
+package: 'ArchTech'

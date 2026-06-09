@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_supplier_category
+    - node.type.supplier
+id: node.supplier.field_supplier_category
+field_name: field_supplier_category
+entity_type: node
+bundle: supplier
+label: 'Category'
+description: 'Supplier category'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

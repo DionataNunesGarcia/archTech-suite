@@ -1,0 +1,6 @@
+services:
+  archtech_crm.lead_event_subscriber:
+    class: Drupal\archtech_crm\EventSubscriber\LeadEventSubscriber
+    arguments: ['@event_dispatcher', '@entity_type.manager']
+    tags:
+      - { name: event_subscriber }

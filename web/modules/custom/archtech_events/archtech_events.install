@@ -1,0 +1,169 @@
+<?php
+
+/**
+ * @file
+ * Install hooks for archtech_events.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function archtech_events_schema(): array {
+  $schema['archtech_outbox'] = [
+    'description' => 'Transactional outbox for domain events.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'not null' => TRUE,
+        'description' => 'Primary key.',
+      ],
+      'event_id' => [
+        'type' => 'varchar',
+        'length' => 36,
+        'not null' => TRUE,
+        'description' => 'UUID v4 for the event.',
+      ],
+      'event_type' => [
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+        'description' => 'Dot-separated event type.',
+      ],
+      'aggregate_id' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+        'description' => 'Aggregate root ID.',
+      ],
+      'event_data' => [
+        'type' => 'text',
+        'size' => 'big',
+        'not null' => TRUE,
+        'description' => 'Full event payload as JSON.',
+        'pgsql_type' => 'jsonb',
+        'mysql_type' => 'json',
+      ],
+      'status' => [
+        'type' => 'varchar',
+        'length' => 20,
+        'not null' => TRUE,
+        'default' => 'pending',
+        'description' => 'pending | processing | processed | failed | dlq',
+      ],
+      'retry_count' => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Number of delivery attempts.',
+      ],
+      'max_retries' => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 3,
+        'description' => 'Maximum delivery attempts before DLQ.',
+      ],
+      'last_error' => [
+        'type' => 'text',
+        'size' => 'normal',
+        'not null' => FALSE,
+        'description' => 'Last error message on failure.',
+      ],
+      'created_at' => [
+        'type' => 'varchar',
+        'length' => 30,
+        'not null' => TRUE,
+        'description' => 'ISO 8601 UTC creation timestamp.',
+      ],
+      'processed_at' => [
+        'type' => 'varchar',
+        'length' => 30,
+        'not null' => FALSE,
+        'description' => 'ISO 8601 UTC processing timestamp.',
+      ],
+      'next_retry_at' => [
+        'type' => 'varchar',
+        'length' => 30,
+        'not null' => FALSE,
+        'description' => 'ISO 8601 UTC next retry timestamp.',
+      ],
+    ],
+    'primary key' => ['id'],
+    'unique keys' => [
+      'uk_event_id' => ['event_id'],
+    ],
+    'indexes' => [
+      'idx_status' => ['status'],
+      'idx_created_at' => ['created_at'],
+      'idx_event_type' => ['event_type'],
+    ],
+  ];
+
+  $schema['archtech_event_store'] = [
+    'description' => 'Append-only domain event store.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'not null' => TRUE,
+        'size' => 'big',
+        'description' => 'Primary key.',
+      ],
+      'event_id' => [
+        'type' => 'varchar',
+        'length' => 36,
+        'not null' => TRUE,
+        'description' => 'UUID v4 for the event.',
+      ],
+      'event_type' => [
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+        'description' => 'Dot-separated event type.',
+      ],
+      'aggregate_id' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+        'description' => 'Aggregate root ID.',
+      ],
+      'event_data' => [
+        'type' => 'text',
+        'size' => 'big',
+        'not null' => TRUE,
+        'description' => 'Full event payload as JSON.',
+        'pgsql_type' => 'jsonb',
+        'mysql_type' => 'json',
+      ],
+      'metadata' => [
+        'type' => 'text',
+        'size' => 'big',
+        'not null' => FALSE,
+        'description' => 'Additional metadata JSON.',
+        'pgsql_type' => 'jsonb',
+        'mysql_type' => 'json',
+      ],
+      'occurred_at' => [
+        'type' => 'varchar',
+        'length' => 30,
+        'not null' => TRUE,
+        'description' => 'ISO 8601 UTC when the event occurred.',
+      ],
+      'recorded_at' => [
+        'type' => 'varchar',
+        'length' => 30,
+        'not null' => TRUE,
+        'description' => 'ISO 8601 UTC when the event was recorded.',
+      ],
+    ],
+    'primary key' => ['id'],
+    'unique keys' => [
+      'uk_event_id' => ['event_id'],
+    ],
+    'indexes' => [
+      'idx_event_type' => ['event_type'],
+      'idx_aggregate_id' => ['aggregate_id'],
+      'idx_occurred_at' => ['occurred_at'],
+    ],
+  ];
+
+  return $schema;
+}

@@ -1,0 +1,18 @@
+services:
+  archtech_ai_gateway.cost_tracker:
+    class: Drupal\archtech_ai_gateway\Service\CostTrackerService
+    arguments:
+      - '@database'
+
+  archtech_ai_gateway.prompt_registry:
+    class: Drupal\archtech_ai_gateway\Service\PromptRegistryService
+    arguments:
+      - '@entity_type.manager'
+
+  archtech_ai_gateway.ai_gateway:
+    class: Drupal\archtech_ai_gateway\Service\AiGatewayService
+    arguments:
+      - '@archtech_ai_gateway.cost_tracker'
+      - '@archtech_ai_gateway.prompt_registry'
+      - '@cache.default'
+      - '@datetime.time'

@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_proposal_status
+    - node.type.proposal
+id: node.proposal.field_proposal_status
+field_name: field_proposal_status
+entity_type: node
+bundle: proposal
+label: 'Status'
+description: 'Current status of the proposal'
+required: true
+translatable: false
+default_value:
+  -
+    value: draft
+default_value_callback: ''
+settings: {  }
+field_type: list_string

@@ -1,0 +1,7 @@
+name: 'ArchTech Security'
+type: module
+description: 'OAuth2/OIDC integration, RBAC by squad, and immutable audit logging.'
+core_version_requirement: ^11
+package: 'ArchTech'
+dependencies:
+  - archtech_core_api:archtech_core_api

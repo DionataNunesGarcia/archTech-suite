@@ -1,0 +1,11 @@
+name: 'ArchTech Deliverables'
+type: module
+description: 'Project deliverables — tracking submissions and approvals'
+core_version_requirement: ^11
+package: 'ArchTech'
+dependencies:
+  - drupal:node
+  - drupal:user
+  - drupal:datetime
+  - drupal:file
+  - drupal:options

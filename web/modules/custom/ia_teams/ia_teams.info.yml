@@ -1,0 +1,10 @@
+name: 'ArchTech Teams'
+type: module
+description: 'Team management — members, squads, and project allocations'
+core_version_requirement: ^11
+package: 'ArchTech'
+dependencies:
+  - drupal:node
+  - drupal:user
+  - drupal:datetime
+  - drupal:options

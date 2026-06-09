@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_deliverable_phase
+    - node.type.deliverable
+id: node.deliverable.field_deliverable_phase
+field_name: field_deliverable_phase
+entity_type: node
+bundle: deliverable
+label: 'Phase'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

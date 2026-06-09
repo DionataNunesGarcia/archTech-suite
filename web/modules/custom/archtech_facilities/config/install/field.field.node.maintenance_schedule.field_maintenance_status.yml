@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_maintenance_status
+    - node.type.maintenance_schedule
+id: node.maintenance_schedule.field_maintenance_status
+field_name: field_maintenance_status
+entity_type: node
+bundle: maintenance_schedule
+label: 'Status'
+description: 'Current maintenance status'
+required: true
+translatable: false
+default_value:
+  -
+    value: scheduled
+default_value_callback: ''
+settings: {  }
+field_type: list_string

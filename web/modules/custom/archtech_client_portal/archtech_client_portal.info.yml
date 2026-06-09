@@ -1,5 +1,14 @@
-name: 'ArchTech archtech_client_portal'
+name: 'ArchTech Client Portal'
 type: module
-description: 'ArchTech archtech_client_portal module'
+description: 'Client portal for project updates, approvals, and notifications'
 core_version_requirement: ^11
 package: 'ArchTech'
+dependencies:
+  - drupal:node
+  - drupal:user
+  - drupal:text
+  - drupal:options
+  - drupal:datetime
+  - drupal:jsonapi
+  - drupal:rest
+  - drupal:file

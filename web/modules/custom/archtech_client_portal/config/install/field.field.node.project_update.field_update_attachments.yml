@@ -1,0 +1,24 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_update_attachments
+    - node.type.project_update
+id: node.project_update.field_update_attachments
+field_name: field_update_attachments
+entity_type: node
+bundle: project_update
+label: 'Attachments'
+description: 'Files attached to this update'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  file_directory: 'updates/[date:custom:Y]-[date:custom:m]'
+  file_extensions: 'pdf doc docx xls xlsx jpg jpeg png dwg rvt ifc'
+  max_filesize: '50 MB'
+  description_field: true
+  handler: 'default:file'
+  handler_settings: {  }
+field_type: file

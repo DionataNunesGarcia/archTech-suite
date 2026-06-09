@@ -1,0 +1,30 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_meeting_action_items
+    - node.type.meeting_record
+    - paragraphs.paragraphs_type.action_item
+  module:
+    - entity_reference_revisions
+id: node.meeting_record.field_meeting_action_items
+field_name: field_meeting_action_items
+entity_type: node
+bundle: meeting_record
+label: 'Action Items'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      action_item: action_item
+    negate: 0
+    target_bundles_drag_drop:
+      action_item:
+        weight: 0
+        enabled: true
+field_type: entity_reference_revisions

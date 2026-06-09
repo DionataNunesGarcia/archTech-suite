@@ -1,0 +1,35 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - options
+id: node.field_lead_status
+field_name: field_lead_status
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: new
+      label: 'New'
+    -
+      value: qualified
+      label: 'Qualified'
+    -
+      value: contacted
+      label: 'Contacted'
+    -
+      value: converted
+      label: 'Converted'
+    -
+      value: lost
+      label: 'Lost'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

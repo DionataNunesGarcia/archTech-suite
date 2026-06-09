@@ -1,0 +1,24 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_lead_score
+    - node.type.lead
+id: node.lead.field_lead_score
+field_name: field_lead_score
+entity_type: node
+bundle: lead
+label: 'Score'
+description: 'Lead score from 1 to 10'
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  min: 0
+  max: 10
+  prefix: ''
+  suffix: ''
+field_type: integer

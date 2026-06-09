@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_campaign_metrics
+    - node.type.campaign
+id: node.campaign.field_campaign_metrics
+field_name: field_campaign_metrics
+entity_type: node
+bundle: campaign
+label: 'Metrics'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_meeting_attendees
+    - node.type.meeting_record
+id: node.meeting_record.field_meeting_attendees
+field_name: field_meeting_attendees
+entity_type: node
+bundle: meeting_record
+label: 'Attendees'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

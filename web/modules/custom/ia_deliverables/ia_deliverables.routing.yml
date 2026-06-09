@@ -1,0 +1,19 @@
+ia_deliverables.collection:
+  path: '/api/v1/deliverables'
+  methods: [GET]
+  defaults:
+    _controller: '\Drupal\ia_deliverables\Controller\DeliverableController::collection'
+    _title: 'Deliverables'
+  requirements:
+    _permission: 'access content'
+    _format: json
+
+ia_deliverables.create:
+  path: '/api/v1/deliverables'
+  methods: [POST]
+  defaults:
+    _controller: '\Drupal\ia_deliverables\Controller\DeliverableController::createItem'
+    _title: 'Create Deliverable'
+  requirements:
+    _permission: 'create deliverable content'
+    _format: json

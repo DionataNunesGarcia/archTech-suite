@@ -1,0 +1,17 @@
+services:
+  archtech_feature_flags.redis_client:
+    class: Drupal\archtech_feature_flags\Service\RedisClient
+    arguments: []
+
+  archtech_feature_flags.feature_flag_service:
+    class: Drupal\archtech_feature_flags\Service\FeatureFlagService
+    arguments:
+      - '@archtech_feature_flags.redis_client'
+      - '@current_user'
+
+  archtech_feature_flags.twig_extension:
+    class: Drupal\archtech_feature_flags\Twig\FeatureFlagExtension
+    arguments:
+      - '@archtech_feature_flags.feature_flag_service'
+    tags:
+      - { name: twig.extension }

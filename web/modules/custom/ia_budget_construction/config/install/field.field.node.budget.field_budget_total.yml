@@ -1,0 +1,19 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_budget_total
+    - node.type.budget
+
+id: node.budget.field_budget_total
+field_name: field_budget_total
+entity_type: node
+bundle: budget
+label: 'Total'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: decimal

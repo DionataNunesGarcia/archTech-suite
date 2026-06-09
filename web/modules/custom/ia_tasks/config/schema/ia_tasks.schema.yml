@@ -1,0 +1,10 @@
+node.type.task:
+  type: config_entity
+  label: 'Task content type'
+  mapping:
+    name:
+      type: label
+      label: 'Name'
+    type:
+      type: string
+      label: 'Machine-readable name'

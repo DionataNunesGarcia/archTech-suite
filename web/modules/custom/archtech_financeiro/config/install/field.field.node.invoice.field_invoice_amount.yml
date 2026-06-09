@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_invoice_amount
+    - node.type.invoice
+id: node.invoice.field_invoice_amount
+field_name: field_invoice_amount
+entity_type: node
+bundle: invoice
+label: 'Amount'
+description: 'Invoice amount in local currency'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: 0
+  prefix: ''
+  suffix: ''
+field_type: decimal

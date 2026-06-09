@@ -1,0 +1,28 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_budget_items
+    - node.type.budget
+    - paragraphs.paragraphs_type.budget_item
+id: node.budget.field_budget_items
+field_name: field_budget_items
+entity_type: node
+bundle: budget
+label: 'Items'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      budget_item: budget_item
+    negate: 0
+    target_bundles_drag_drop:
+      budget_item:
+        weight: 0
+        enabled: true
+field_type: entity_reference_revisions

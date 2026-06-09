@@ -1,0 +1,12 @@
+archtech_client_portal.updates:
+  path: '/api/v1/client/updates'
+  methods: [GET]
+  defaults:
+    _controller: '\Drupal\archtech_client_portal\Controller\UpdateController::listUpdates'
+    _title: 'Client Updates'
+  requirements:
+    _permission: 'access content'
+  options:
+    _auth: ['basic_auth', 'cookie']
+  formats:
+    json: application/json

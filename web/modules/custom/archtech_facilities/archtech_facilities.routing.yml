@@ -1,0 +1,12 @@
+archtech_facilities.maintenance.collection:
+  path: '/api/v1/facilities/maintenance'
+  methods: [GET, POST]
+  defaults:
+    _controller: '\Drupal\archtech_facilities\Controller\MaintenanceController::collection'
+    _title: 'Maintenance Schedules'
+  requirements:
+    _permission: 'access content'
+  options:
+    _auth: ['basic_auth', 'cookie']
+  formats:
+    json: application/json

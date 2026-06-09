@@ -1,0 +1,5 @@
+name: 'ArchTech Core API'
+type: module
+description: 'Base API controller with cursor-based pagination, declarative filters, and standardized error response contracts.'
+core_version_requirement: ^11
+package: 'ArchTech'

@@ -1,0 +1,25 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_meeting_project
+    - node.type.meeting_record
+id: node.meeting_record.field_meeting_project
+field_name: field_meeting_project
+entity_type: node
+bundle: meeting_record
+label: 'Project'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles: null
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+field_type: entity_reference

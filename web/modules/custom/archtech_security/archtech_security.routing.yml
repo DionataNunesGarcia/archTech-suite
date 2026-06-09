@@ -1,0 +1,17 @@
+archtech_security.audit_log:
+  path: '/api/admin/audit-log'
+  methods: [GET]
+  defaults:
+    _controller: '\Drupal\archtech_security\Controller\AuditLogController::list'
+    _title: 'Audit Log'
+  requirements:
+    _permission: 'view audit log'
+
+archtech_security.audit_log.user:
+  path: '/api/admin/audit-log/user/{user}'
+  methods: [GET]
+  defaults:
+    _controller: '\Drupal\archtech_security\Controller\AuditLogController::listByUser'
+    _title: 'User Audit Log'
+  requirements:
+    _permission: 'view audit log'

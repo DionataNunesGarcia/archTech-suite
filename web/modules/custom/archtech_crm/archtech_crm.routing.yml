@@ -1,0 +1,29 @@
+archtech_crm.leads.collection:
+  path: '/api/v1/leads'
+  methods: [GET, POST]
+  defaults:
+    _controller: '\Drupal\archtech_crm\Controller\LeadController::collection'
+    _title: 'Leads'
+  requirements:
+    _permission: 'access content'
+  options:
+    _auth: ['basic_auth', 'cookie']
+  formats:
+    json: application/json
+
+archtech_crm.leads.status:
+  path: '/api/v1/leads/{node}/status'
+  methods: [PATCH]
+  defaults:
+    _controller: '\Drupal\archtech_crm\Controller\LeadController::updateStatus'
+    _title: 'Update Lead Status'
+  requirements:
+    _permission: 'access content'
+    node: \d+
+  options:
+    _auth: ['basic_auth', 'cookie']
+    parameters:
+      node:
+        type: entity:node
+  formats:
+    json: application/json

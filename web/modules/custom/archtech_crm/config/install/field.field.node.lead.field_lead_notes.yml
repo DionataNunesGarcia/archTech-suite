@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_lead_notes
+    - node.type.lead
+id: node.lead.field_lead_notes
+field_name: field_lead_notes
+entity_type: node
+bundle: lead
+label: 'Notes'
+description: 'Internal notes about this lead'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

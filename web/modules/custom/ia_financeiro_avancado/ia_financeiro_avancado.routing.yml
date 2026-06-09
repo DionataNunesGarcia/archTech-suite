@@ -1,0 +1,30 @@
+ia_financeiro_avancado.reimbursements.collection:
+  path: '/api/v1/finance/reimbursements'
+  methods: [GET]
+  defaults:
+    _controller: '\Drupal\ia_financeiro_avancado\Controller\FinanceController::reimbursements'
+    _title: 'Reimbursements'
+  requirements:
+    _permission: 'access content'
+    _format: json
+
+ia_financeiro_avancado.reimbursements.create:
+  path: '/api/v1/finance/reimbursements'
+  methods: [POST]
+  defaults:
+    _controller: '\Drupal\ia_financeiro_avancado\Controller\FinanceController::createReimb'
+    _title: 'Create Reimbursement'
+  requirements:
+    _permission: 'create reimbursement content'
+    _format: json
+
+ia_financeiro_avancado.cashflow.by_project:
+  path: '/api/v1/finance/cashflow/project/{id}'
+  methods: [GET]
+  defaults:
+    _controller: '\Drupal\ia_financeiro_avancado\Controller\FinanceController::cashflowByProject'
+    _title: 'Project Cashflow'
+  requirements:
+    _permission: 'access content'
+    _format: json
+    id: '\d+'

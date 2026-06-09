@@ -1,0 +1,4 @@
+view audit log:
+  title: 'View audit log'
+  description: 'Access the immutable audit trail.'
+  restrict access: true

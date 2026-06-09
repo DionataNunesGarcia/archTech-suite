@@ -1,0 +1,41 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - options
+id: node.field_document_category
+field_name: field_document_category
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: technical
+      label: 'Technical'
+    -
+      value: legal
+      label: 'Legal'
+    -
+      value: financial
+      label: 'Financial'
+    -
+      value: design
+      label: 'Design'
+    -
+      value: contractual
+      label: 'Contractual'
+    -
+      value: regulatory
+      label: 'Regulatory'
+    -
+      value: other
+      label: 'Other'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

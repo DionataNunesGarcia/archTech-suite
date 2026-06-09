@@ -1,0 +1,7 @@
+services:
+  archtech_security.audit_logger:
+    class: Drupal\archtech_security\Service\AuditLogger
+    arguments:
+      - '@database'
+      - '@request_stack'
+

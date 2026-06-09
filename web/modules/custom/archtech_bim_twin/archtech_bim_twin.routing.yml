@@ -1,0 +1,29 @@
+archtech_bim_twin.models.collection:
+  path: '/api/v1/bim/models'
+  methods: [GET, POST]
+  defaults:
+    _controller: '\Drupal\archtech_bim_twin\Controller\BimModelController::collection'
+    _title: 'BIM Models'
+  requirements:
+    _permission: 'access content'
+  options:
+    _auth: ['basic_auth', 'cookie']
+  formats:
+    json: application/json
+
+archtech_bim_twin.models.validate:
+  path: '/api/v1/bim/models/{node}/validate'
+  methods: [POST]
+  defaults:
+    _controller: '\Drupal\archtech_bim_twin\Controller\BimModelController::validate'
+    _title: 'Validate BIM Model'
+  requirements:
+    _permission: 'access content'
+    node: \d+
+  options:
+    _auth: ['basic_auth', 'cookie']
+    parameters:
+      node:
+        type: entity:node
+  formats:
+    json: application/json

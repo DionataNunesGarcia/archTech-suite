@@ -1,0 +1,40 @@
+ia_tasks.collection:
+  path: '/api/v1/tasks'
+  methods: [GET]
+  defaults:
+    _controller: '\Drupal\ia_tasks\Controller\TaskController::collection'
+    _title: 'Tasks'
+  requirements:
+    _permission: 'access content'
+    _format: json
+
+ia_tasks.create:
+  path: '/api/v1/tasks'
+  methods: [POST]
+  defaults:
+    _controller: '\Drupal\ia_tasks\Controller\TaskController::createTask'
+    _title: 'Create Task'
+  requirements:
+    _permission: 'create task content'
+    _format: json
+
+ia_tasks.update_status:
+  path: '/api/v1/tasks/{id}/status'
+  methods: [PATCH]
+  defaults:
+    _controller: '\Drupal\ia_tasks\Controller\TaskController::updateStatus'
+    _title: 'Update Task Status'
+  requirements:
+    _permission: 'edit any task content'
+    _format: json
+    id: '\d+'
+
+ia_tasks.kanban:
+  path: '/api/v1/tasks/kanban'
+  methods: [GET]
+  defaults:
+    _controller: '\Drupal\ia_tasks\Controller\TaskController::kanban'
+    _title: 'Kanban Board'
+  requirements:
+    _permission: 'access content'
+    _format: json

@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_campaign_channel
+    - node.type.campaign
+id: node.campaign.field_campaign_channel
+field_name: field_campaign_channel
+entity_type: node
+bundle: campaign
+label: 'Channel'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

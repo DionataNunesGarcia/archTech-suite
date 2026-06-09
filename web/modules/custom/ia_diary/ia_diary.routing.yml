@@ -1,0 +1,30 @@
+ia_diary.entries.collection:
+  path: '/api/v1/diary/entries'
+  methods: [GET]
+  defaults:
+    _controller: '\Drupal\ia_diary\Controller\DiaryController::collection'
+    _title: 'Diary Entries'
+  requirements:
+    _permission: 'access content'
+    _format: json
+
+ia_diary.entries.create:
+  path: '/api/v1/diary/entries'
+  methods: [POST]
+  defaults:
+    _controller: '\Drupal\ia_diary\Controller\DiaryController::createEntry'
+    _title: 'Create Diary Entry'
+  requirements:
+    _permission: 'create diary_entry content'
+    _format: json
+
+ia_diary.project.entries:
+  path: '/api/v1/diary/project/{project_id}'
+  methods: [GET]
+  defaults:
+    _controller: '\Drupal\ia_diary\Controller\DiaryController::byProject'
+    _title: 'Project Diary Entries'
+  requirements:
+    _permission: 'access content'
+    _format: json
+    project_id: '\d+'

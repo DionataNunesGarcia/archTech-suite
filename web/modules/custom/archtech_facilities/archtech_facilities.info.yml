@@ -1,5 +1,13 @@
-name: 'ArchTech archtech_facilities'
+name: 'ArchTech Facilities'
 type: module
-description: 'ArchTech archtech_facilities module'
+description: 'Facility management with maintenance scheduling and warranty tracking'
 core_version_requirement: ^11
 package: 'ArchTech'
+dependencies:
+  - drupal:node
+  - drupal:user
+  - drupal:text
+  - drupal:options
+  - drupal:datetime
+  - drupal:jsonapi
+  - drupal:rest

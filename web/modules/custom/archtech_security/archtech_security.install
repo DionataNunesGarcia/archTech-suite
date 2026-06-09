@@ -1,0 +1,82 @@
+<?php
+
+/**
+ * @file
+ * Install hooks for archtech_security.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function archtech_security_schema(): array {
+  $schema['archtech_audit_log'] = [
+    'description' => 'Immutable audit log for security and admin actions.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'not null' => TRUE,
+        'description' => 'Primary key.',
+      ],
+      'user_id' => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'size' => 'big',
+        'description' => 'UID of the acting user (0 for anonymous/system).',
+      ],
+      'action' => [
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+        'description' => 'Machine name of the action.',
+      ],
+      'entity_type' => [
+        'type' => 'varchar',
+        'length' => 64,
+        'not null' => FALSE,
+        'description' => 'Target entity type, if applicable.',
+      ],
+      'entity_id' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+        'description' => 'Target entity ID, if applicable.',
+      ],
+      'details' => [
+        'type' => 'text',
+        'size' => 'big',
+        'not null' => FALSE,
+        'description' => 'JSON-encoded contextual details.',
+        'pgsql_type' => 'jsonb',
+        'mysql_type' => 'json',
+      ],
+      'ip_address' => [
+        'type' => 'varchar',
+        'length' => 45,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'Client IP address (IPv4 or IPv6).',
+      ],
+      'session_id' => [
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => FALSE,
+        'description' => 'Session ID associated with the action.',
+      ],
+      'created_at' => [
+        'type' => 'varchar',
+        'length' => 30,
+        'not null' => TRUE,
+        'description' => 'ISO 8601 UTC timestamp of the action.',
+      ],
+    ],
+    'primary key' => ['id'],
+    'indexes' => [
+      'idx_action' => ['action'],
+      'idx_user_id' => ['user_id'],
+      'idx_created_at' => ['created_at'],
+      'idx_entity' => ['entity_type', 'entity_id'],
+    ],
+  ];
+
+  return $schema;
+}

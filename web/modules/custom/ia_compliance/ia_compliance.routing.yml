@@ -1,0 +1,9 @@
+ia_compliance.audit.collection:
+  path: '/api/v1/compliance/audit'
+  methods: [GET]
+  defaults:
+    _controller: '\Drupal\ia_compliance\Controller\ComplianceController::audit'
+    _title: 'Audit Log'
+  requirements:
+    _permission: 'administer compliance'
+    _format: json

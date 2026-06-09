@@ -1,0 +1,29 @@
+ia_teams.members.collection:
+  path: '/api/v1/teams/members'
+  methods: [GET]
+  defaults:
+    _controller: '\Drupal\ia_teams\Controller\TeamController::members'
+    _title: 'Team Members'
+  requirements:
+    _permission: 'access content'
+    _format: json
+
+ia_teams.squad.members:
+  path: '/api/v1/teams/squad/{name}'
+  methods: [GET]
+  defaults:
+    _controller: '\Drupal\ia_teams\Controller\TeamController::squad'
+    _title: 'Squad Members'
+  requirements:
+    _permission: 'access content'
+    _format: json
+
+ia_teams.allocations.create:
+  path: '/api/v1/teams/allocations'
+  methods: [POST]
+  defaults:
+    _controller: '\Drupal\ia_teams\Controller\TeamController::createAllocation'
+    _title: 'Create Allocation'
+  requirements:
+    _permission: 'create project_allocation content'
+    _format: json

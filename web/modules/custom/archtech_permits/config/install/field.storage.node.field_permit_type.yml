@@ -1,0 +1,41 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - options
+id: node.field_permit_type
+field_name: field_permit_type
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: construction
+      label: 'Construction Permit'
+    -
+      value: demolition
+      label: 'Demolition Permit'
+    -
+      value: environmental
+      label: 'Environmental Permit'
+    -
+      value: occupancy
+      label: 'Occupancy Permit'
+    -
+      value: renovation
+      label: 'Renovation Permit'
+    -
+      value: zoning
+      label: 'Zoning Permit'
+    -
+      value: other
+      label: 'Other'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_maintenance_facility
+    - node.type.maintenance_schedule
+id: node.maintenance_schedule.field_maintenance_facility
+field_name: field_maintenance_facility
+entity_type: node
+bundle: maintenance_schedule
+label: 'Facility'
+description: 'Name or identifier of the facility'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

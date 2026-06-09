@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_lead_status
+    - node.type.lead
+id: node.lead.field_lead_status
+field_name: field_lead_status
+entity_type: node
+bundle: lead
+label: 'Status'
+description: 'Current status in the lead pipeline'
+required: true
+translatable: false
+default_value:
+  -
+    value: new
+default_value_callback: ''
+settings: {  }
+field_type: list_string

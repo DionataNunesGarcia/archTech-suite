@@ -31,7 +31,7 @@ class CustomMenuCommands extends DrushCommands {
       'menu-footer-privacy-terms' => 'Privacidade',
     ];
 
-    $menu_storage = $this->entityTypeManager->getStorage('menu');
+    $menu_storage = $this->entityTypeManager()->getStorage('menu');
 
     foreach ($menus as $id => $label) {
       $existing = $menu_storage->load($id);

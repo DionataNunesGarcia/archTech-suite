@@ -1,5 +1,13 @@
-name: 'ArchTech archtech_financeiro'
+name: 'ArchTech Financeiro'
 type: module
-description: 'ArchTech archtech_financeiro module'
+description: 'Financial module for invoices, cashflow prediction, and collections'
 core_version_requirement: ^11
 package: 'ArchTech'
+dependencies:
+  - drupal:node
+  - drupal:user
+  - drupal:text
+  - drupal:options
+  - drupal:datetime
+  - drupal:jsonapi
+  - drupal:rest

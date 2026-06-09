@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_alloc_percentage
+    - node.type.project_allocation
+id: node.project_allocation.field_alloc_percentage
+field_name: field_alloc_percentage
+entity_type: node
+bundle: project_allocation
+label: 'Percentage'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: integer

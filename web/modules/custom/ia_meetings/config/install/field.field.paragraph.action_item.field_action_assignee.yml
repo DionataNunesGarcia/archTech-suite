@@ -1,0 +1,25 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_action_assignee
+    - paragraphs.paragraphs_type.action_item
+id: paragraph.action_item.field_action_assignee
+field_name: field_action_assignee
+entity_type: paragraph
+bundle: action_item
+label: 'Assignee'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:user'
+  handler_settings:
+    target_bundles: null
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+field_type: entity_reference

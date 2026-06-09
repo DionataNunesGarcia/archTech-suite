@@ -1,0 +1,31 @@
+ia_budget_construction.budget.by_project:
+  path: '/api/v1/budget/projects/{id}'
+  methods: [GET]
+  defaults:
+    _controller: '\Drupal\ia_budget_construction\Controller\BudgetController::byProject'
+    _title: 'Project Budget'
+  requirements:
+    _permission: 'access content'
+    _format: json
+    id: '\d+'
+
+ia_budget_construction.budget.create:
+  path: '/api/v1/budget/projects/{id}'
+  methods: [POST]
+  defaults:
+    _controller: '\Drupal\ia_budget_construction\Controller\BudgetController::createBudget'
+    _title: 'Create Budget'
+  requirements:
+    _permission: 'create budget content'
+    _format: json
+    id: '\d+'
+
+ia_budget_construction.measurements.create:
+  path: '/api/v1/budget/measurements'
+  methods: [POST]
+  defaults:
+    _controller: '\Drupal\ia_budget_construction\Controller\BudgetController::createMeasurement'
+    _title: 'Create Measurement'
+  requirements:
+    _permission: 'create measurement content'
+    _format: json

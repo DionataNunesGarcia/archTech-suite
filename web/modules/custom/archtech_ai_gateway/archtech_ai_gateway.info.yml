@@ -1,0 +1,5 @@
+name: 'ArchTech AI Gateway'
+type: module
+description: 'AI service gateway with circuit breaker, retry backoff, prompt registry, and cost tracking.'
+core_version_requirement: ^11
+package: 'ArchTech'

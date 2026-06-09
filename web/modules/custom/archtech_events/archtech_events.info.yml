@@ -1,0 +1,5 @@
+name: 'ArchTech Events'
+type: module
+description: 'Event dispatcher over RabbitMQ with Outbox Pattern, EventStore, retry, and DLQ.'
+core_version_requirement: ^11
+package: 'ArchTech'

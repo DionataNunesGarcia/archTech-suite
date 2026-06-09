@@ -1,0 +1,6 @@
+services:
+  archtech_client_portal.update_event_subscriber:
+    class: Drupal\archtech_client_portal\EventSubscriber\UpdateEventSubscriber
+    arguments: ['@entity_type.manager', '@current_user']
+    tags:
+      - { name: event_subscriber }

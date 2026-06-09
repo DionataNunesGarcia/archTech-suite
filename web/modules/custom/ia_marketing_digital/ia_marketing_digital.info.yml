@@ -1,0 +1,9 @@
+name: 'ArchTech Marketing'
+type: module
+description: 'Digital marketing — campaign management with multi-channel support'
+core_version_requirement: ^11
+package: 'ArchTech'
+dependencies:
+  - drupal:node
+  - drupal:datetime
+  - drupal:options

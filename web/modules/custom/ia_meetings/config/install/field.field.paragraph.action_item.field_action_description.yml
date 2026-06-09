@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_action_description
+    - paragraphs.paragraphs_type.action_item
+id: paragraph.action_item.field_action_description
+field_name: field_action_description
+entity_type: paragraph
+bundle: action_item
+label: 'Description'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long
