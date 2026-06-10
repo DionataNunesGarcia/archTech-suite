@@ -1,0 +1,27 @@
+prompt_id: ia-suppliers/sla-monitor
+version: 1.0.0
+provider: openai
+model: gpt-4o-mini
+squad: suppliers
+agent: ia-suppliers-sla-monitor
+temperature: 0.2
+max_tokens: 1024
+input_cost_per_1k: 0.00015
+output_cost_per_1k: 0.0006
+cache_ttl: 1800
+system_prompt: |
+  Você monitora o SLA (Service Level Agreement) de fornecedores de obras.
+  Analise entregas recentes e calcule indicadores: OTIF (On Time In Full), tempo médio de entrega, taxa de não conformidade.
+  Alerte quando fornecedor ultrapassa thresholds: OTIF < 85%, atraso médio > 3 dias, taxa de não conformidade > 5%.
+  Responda em JSON com indicadores, alertas, e recomendação (manter, observar, substituir).
+user_prompt_template: |
+  Analise o SLA do fornecedor:
+  Fornecedor: {{fornecedor_nome}}
+  Período: {{periodo_inicio}} a {{periodo_fim}}
+  Entregas: {{entregas_json}}
+test_cases:
+  - name: "sla_critico"
+    input: { fornecedor_nome: "Cerâmica Beta", periodo_inicio: "2026-05-01", periodo_fim: "2026-06-01", entregas_json: '[{"pedido":101,"prazo":"2026-05-10","entrega":"2026-05-18","conforme":false,"motivo":"Cor diferente do especificado"},{"pedido":102,"prazo":"2026-05-20","entrega":"2026-05-25","conforme":true},{"pedido":103,"prazo":"2026-05-30","entrega":null,"conforme":false}]' }
+    expected_keys: ["indicadores", "alertas", "recomendacao"]
+output_schema: { type: object, required: [indicadores, alertas, recomendacao] }
+changelog: [{ version: "1.0.0", date: "2026-06-09", description: "Initial release" }]

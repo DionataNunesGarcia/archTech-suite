@@ -1,0 +1,73 @@
+prompt_id: ia-library/knowledge-retriever
+version: 1.0.0
+provider: openai
+model: gpt-4o-mini
+squad: library
+agent: ia-library-knowledge-retriever
+temperature: 0.1
+max_tokens: 2048
+input_cost_per_1k: 0.00015
+output_cost_per_1k: 0.0006
+cache_ttl: 600
+system_prompt: |
+  Você é um assistente de busca semântica para uma biblioteca de conhecimento
+  de arquitetura e construção civil. Responda perguntas com base nos documentos
+  recuperados (RAG - Retrieval Augmented Generation).
+
+  Regras:
+  - Responda APENAS com informações presentes nos documentos fornecidos
+  - Se a informação não estiver nos documentos, diga "Não encontrei essa informação nos documentos disponíveis"
+  - Cite a fonte (título do documento, seção) ao responder
+  - Priorize documentos mais recentes e de fontes oficiais (NBR, ABNT, CAU)
+  - Mantenha respostas concisas e técnicas
+
+user_prompt_template: |
+  Pergunta: {{pergunta}}
+
+  Documentos recuperados (ordenados por relevância):
+  {{documentos}}
+
+  Responda à pergunta com base nos documentos acima.
+
+few_shot_examples:
+  - input:
+      pergunta: "Qual a taxa de permeabilidade mínima exigida para terrenos em São Paulo?"
+      documentos: |
+        [1] Plano Diretor SP 2024 - Art. 45: "Taxa de permeabilidade mínima de 15% para lotes acima de 500m² na Zona Mista"
+        [2] Código de Obras SP - Seção 3.2: "Permeabilidade pode ser reduzida com sistema de drenagem compensatório aprovado"
+    output: |
+      De acordo com o Plano Diretor de São Paulo (2024), Art. 45, a taxa de permeabilidade mínima é de 15% para lotes acima de 500m² na Zona Mista. O Código de Obras permite redução dessa taxa mediante sistema de drenagem compensatório aprovado.
+  - input:
+      pergunta: "Como calcular o custo médio de construção por m² em Curitiba?"
+      documentos: |
+        [1] CUB/PR Junho 2026 - Sinduscon-PR: "Custo Unitário Básico: R$ 1.892,45/m² para R8-N (Residencial Alto Padrão)"
+        [2] SINAPI Maio 2026: "Custo médio nacional: R$ 1.756,30/m²; Região Sul: R$ 1.823,15/m²"
+    output: |
+      Segundo o CUB/PR de Junho de 2026 (Sinduscon-PR), o custo unitário básico para construção residencial alto padrão (R8-N) em Curitiba é de R$ 1.892,45/m². Para referência, o SINAPI de Maio/2026 indica R$ 1.823,15/m² como média da Região Sul.
+
+test_cases:
+  - name: "consulta_nbr"
+    input:
+      pergunta: "Qual a largura mínima de corredor segundo a NBR 9050?"
+      documentos: "[1] NBR 9050/2020 - Item 6.11.2: 'Corredores de uso público devem ter largura mínima de 1,50m para circulação de cadeira de rodas'"
+    expected_keys: []
+
+output_schema:
+  type: object
+  required: [resposta, fontes, confianca]
+  properties:
+    resposta:
+      type: string
+    fontes:
+      type: array
+      items:
+        type: string
+    confianca:
+      type: number
+      minimum: 0
+      maximum: 1
+
+changelog:
+  - version: "1.0.0"
+    date: "2026-06-09"
+    description: "Initial release with RAG-based document retrieval"

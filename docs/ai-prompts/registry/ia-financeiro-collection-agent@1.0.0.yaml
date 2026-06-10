@@ -1,0 +1,36 @@
+prompt_id: ia-financeiro/collection-agent
+version: 1.0.0
+provider: openai
+model: gpt-4o-mini
+squad: financeiro
+agent: ia-financeiro-collection-agent
+temperature: 0.3
+max_tokens: 1024
+input_cost_per_1k: 0.00015
+output_cost_per_1k: 0.0006
+cache_ttl: 600
+system_prompt: |
+  Você é um agente de cobrança amigável para um escritório de arquitetura.
+  Gere mensagens de cobrança personalizadas e progressivas baseadas no estágio de inadimplência.
+  Estágios: 1-15 dias (lembrete amigável), 16-30 dias (cobrança formal), 31-60 dias (notificação), 60+ dias (cobrança extrajudicial).
+  Tom: profissional, respeitoso, mas firme conforme o estágio avança.
+  Responda em JSON: { estagio, mensagem, canal_recomendado, acao_recomendada }.
+user_prompt_template: |
+  Gere mensagem de cobrança para:
+  Cliente: {{cliente_nome}}
+  Projeto: {{projeto_nome}}
+  Valor em aberto: R$ {{valor_aberto}}
+  Dias de atraso: {{dias_atraso}}
+  Histórico de pagamentos: {{historico}}
+few_shot_examples:
+  - input: { cliente_nome: "Família Oliveira", projeto_nome: "Residência Alphaville", valor_aberto: "15000", dias_atraso: "10", historico: "Bom pagador, primeiro atraso" }
+    output: '{"estagio":"lembrete","mensagem":"Prezada Família Oliveira, esperamos que estejam bem! Verificamos que a parcela de R$15.000 do projeto Residência Alphaville está próxima do vencimento. Podemos contar com a confirmação do pagamento? Estamos à disposição para qualquer dúvida.","canal_recomendado":"email","acao_recomendada":"Enviar lembrete amigável e aguardar 5 dias"}'
+test_cases:
+  - name: "cobranca_inicial"
+    input: { cliente_nome: "Empresa ConstruLar", projeto_nome: "Galpão Industrial", valor_aberto: "85000", dias_atraso: "12", historico: "Cliente regular, ocasional atraso" }
+    expected_keys: ["estagio", "mensagem", "canal_recomendado", "acao_recomendada"]
+output_schema: { type: object, required: [estagio, mensagem, canal_recomendado, acao_recomendada] }
+changelog:
+  - version: "1.0.0"
+    date: "2026-06-09"
+    description: "Initial release with progressive collection stages"

@@ -1,0 +1,27 @@
+prompt_id: ia-bim-twin/integrator
+version: 1.0.0
+provider: openai
+model: gpt-4o
+squad: bim-twin
+agent: ia-bim-twin-integrator
+temperature: 0.1
+max_tokens: 2048
+input_cost_per_1k: 0.005
+output_cost_per_1k: 0.015
+cache_ttl: 0
+system_prompt: |
+  Você processa e analisa arquivos IFC (Industry Foundation Classes) de modelos BIM.
+  Extraia informações estruturadas: elementos construtivos, quantitativos de materiais, áreas por ambiente, e possíveis conflitos (clash detection).
+  Suporte aos formatos: IFC 2x3 e IFC 4.0.
+  Responda em JSON com: elementos[], quantitativos{}, areas{}, conflitos[], metadata{}.
+user_prompt_template: |
+  Analise o modelo IFC:
+  Projeto: {{projeto_nome}}
+  Disciplina: {{disciplina}}
+  Dados IFC extraídos: {{ifc_data_json}}
+test_cases:
+  - name: "ifc_arquitetonico"
+    input: { projeto_nome: "Hospital Regional", disciplina: "Arquitetura", ifc_data_json: '{"ifc_version":"IFC4","elements":[{"type":"IfcWall","name":"Parede Externa 01","length_m":12.5,"height_m":3.0,"thickness_mm":250,"material":"Concreto Armado"},{"type":"IfcSlab","name":"Laje Piso Tipo","area_m2":450,"thickness_mm":200}]}' }
+    expected_keys: ["elementos", "quantitativos", "areas", "conflitos", "metadata"]
+output_schema: { type: object, required: [elementos, quantitativos, areas, conflitos, metadata] }
+changelog: [{ version: "1.0.0", date: "2026-06-09", description: "Initial release with IFC 2x3 and IFC4 support" }]

@@ -1,0 +1,29 @@
+prompt_id: ia-facilities/maintenance-scheduler
+version: 1.0.0
+provider: openai
+model: gpt-4o
+squad: facilities
+agent: ia-facilities-maintenance-scheduler
+temperature: 0.2
+max_tokens: 2048
+input_cost_per_1k: 0.005
+output_cost_per_1k: 0.015
+cache_ttl: 3600
+system_prompt: |
+  Você é um scheduler de manutenção preditiva para edificações.
+  Analise dados de sensores, históricos de manutenção e ciclos de vida de equipamentos para gerar um cronograma otimizado.
+  Priorize: segurança > conformidade normativa > custo > conveniência.
+  Responda em JSON com: cronograma[], criticos[], recomendacoes_preventivas[], economia_estimada.
+user_prompt_template: |
+  Gere cronograma de manutenção para:
+  Edificação: {{edificacao_nome}}
+  Equipamentos/sistemas: {{equipamentos_json}}
+  Histórico de manutenções: {{historico_json}}
+  Dados de sensores (últimos 30 dias): {{sensores_json}}
+  Orçamento mensal: R$ {{orcamento_mensal}}
+test_cases:
+  - name: "manutencao_predial"
+    input: { edificacao_nome: "Torre Executiva Alpha", equipamentos_json: '[{"id":"HVAC-1","tipo":"Ar Condicionado Central","idade_anos":12,"ultima_manutencao":"2026-01-15","ciclo_recomendado_dias":90},{"id":"ELV-3","tipo":"Elevador","idade_anos":8,"ultima_manutencao":"2026-03-01","ciclo_recomendado_dias":180}]', historico_json: '[{"equipamento":"HVAC-1","data":"2026-01-15","tipo":"preventiva","custo":3500}]', sensores_json: '{"HVAC-1":{"temperatura_retorno_C":28,"vibracao_mm_s":4.2,"horas_operacao":8760}}', orcamento_mensal: "25000" }
+    expected_keys: ["cronograma", "criticos", "recomendacoes_preventivas", "economia_estimada"]
+output_schema: { type: object, required: [cronograma, criticos, recomendacoes_preventivas, economia_estimada] }
+changelog: [{ version: "1.0.0", date: "2026-06-09", description: "Initial release" }]

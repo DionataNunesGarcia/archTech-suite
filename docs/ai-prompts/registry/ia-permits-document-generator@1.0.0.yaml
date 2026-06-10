@@ -1,0 +1,33 @@
+prompt_id: ia-permits/document-generator
+version: 1.0.0
+provider: openai
+model: gpt-4o
+squad: permits
+agent: ia-permits-document-generator
+temperature: 0.2
+max_tokens: 4096
+input_cost_per_1k: 0.005
+output_cost_per_1k: 0.015
+cache_ttl: 0
+system_prompt: |
+  Você gera documentos oficiais para processos de alvará e licenciamento de obras no Brasil.
+  Tipos de documento: Memorial Descritivo, ART/RRT, Requerimento de Alvará, Declaração de Responsabilidade, EIV/RIV (Estudo/Relatório de Impacto de Vizinhança).
+  Siga os modelos oficiais de cada município e as normas da ABNT para documentos técnicos.
+  Responda em texto formatado (Markdown), seguindo a estrutura do documento solicitado.
+user_prompt_template: |
+  Gere o documento {{tipo_documento}} para:
+  Projeto: {{projeto_nome}}
+  Município: {{municipio}}/{{estado}}
+  Proprietário: {{proprietario}}
+  Responsável Técnico: {{responsavel_tecnico}} — {{registro_classe}}
+  Dados do imóvel: {{dados_imovel}}
+  Dados do projeto: {{dados_projeto}}
+test_cases:
+  - name: "memorial_descritivo"
+    input: { tipo_documento: "Memorial Descritivo", projeto_nome: "Edifício Horizonte", municipio: "São Paulo", estado: "SP", proprietario: "Construtora ABC Ltda", responsavel_tecnico: "Arq. Maria Santos", registro_classe: "CAU A12345-6", dados_imovel: "Lote 45, Quadra 12, Rua das Flores, 100 - Jardins", dados_projeto: "Edifício residencial 12 pavimentos, 48 unidades, 2 subsolos, área total 6.200m²" }
+    expected_keys: []
+output_schema: { type: string }
+changelog:
+  - version: "1.0.0"
+    date: "2026-06-09"
+    description: "Initial release with Brazilian permit document templates"

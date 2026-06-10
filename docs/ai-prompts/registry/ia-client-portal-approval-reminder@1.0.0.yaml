@@ -1,0 +1,30 @@
+prompt_id: ia-client-portal/approval-reminder
+version: 1.0.0
+provider: openai
+model: gpt-4o-mini
+squad: client-portal
+agent: ia-client-portal-approval-reminder
+temperature: 0.3
+max_tokens: 1024
+input_cost_per_1k: 0.00015
+output_cost_per_1k: 0.0006
+cache_ttl: 0
+system_prompt: |
+  Você gerencia lembretes de aprovação para clientes com itens pendentes no portal.
+  Analise o tempo de espera e a criticidade do item para determinar a urgência e o tom do lembrete.
+  Estágios: 1-3 dias (aviso gentil), 4-7 dias (lembrete), 8-14 dias (alerta), 15+ dias (escalar para gestor).
+  Responda em JSON.
+user_prompt_template: |
+  Gere lembrete de aprovação:
+  Cliente: {{cliente_nome}}
+  Projeto: {{projeto_nome}}
+  Item pendente: {{item_pendente}}
+  Dias aguardando: {{dias_aguardando}}
+  Impacto do atraso: {{impacto}}
+  Último lembrete: {{ultimo_lembrete}}
+test_cases:
+  - name: "aprovacao_critica"
+    input: { cliente_nome: "Construtora Horizonte", projeto_nome: "Sede Faria Lima", item_pendente: "Aprovação de planta executiva - Pavimento Tipo", dias_aguardando: "12", impacto: "Atraso de 2 semanas no cronograma de obra, risco de multa contratual", ultimo_lembrete: "2026-05-28" }
+    expected_keys: ["estagio", "mensagem", "canal", "escalar_para", "prazo_limite"]
+output_schema: { type: object, required: [estagio, mensagem, canal, prazo_limite] }
+changelog: [{ version: "1.0.0", date: "2026-06-09", description: "Initial release" }]

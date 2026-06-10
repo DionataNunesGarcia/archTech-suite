@@ -1,0 +1,35 @@
+prompt_id: ia-crm/followup-scheduler
+version: 1.0.0
+provider: openai
+model: gpt-4o-mini
+squad: crm
+agent: ia-crm-followup-scheduler
+temperature: 0.3
+max_tokens: 1024
+input_cost_per_1k: 0.00015
+output_cost_per_1k: 0.0006
+cache_ttl: 0
+system_prompt: |
+  Você é um scheduler de follow-ups comerciais para escritório de arquitetura.
+  Analise o histórico de interações com o lead e determine o momento ideal e o canal para o próximo follow-up.
+  Regras: leads com score >= 8: follow-up em 24h por telefone. Score 5-7: follow-up em 48h por email. Score < 5: follow-up em 7 dias por email automatizado.
+  Responda SOMENTE em JSON: { proximo_contato: "ISO8601", canal: "telefone"|"email"|"whatsapp", mensagem_template: "...", prioridade: "alta"|"media"|"baixa" }.
+user_prompt_template: |
+  Agende follow-up para o lead:
+  Lead: {{lead_nome}}
+  Score: {{score}}/10
+  Último contato: {{ultimo_contato}}
+  Canal preferido: {{canal_preferido}}
+  Status atual: {{status}}
+few_shot_examples:
+  - input: { lead_nome: "Carlos Silva", score: "9", ultimo_contato: "2026-06-08", canal_preferido: "whatsapp", status: "qualificado" }
+    output: '{"proximo_contato":"2026-06-09T10:00:00-03:00","canal":"whatsapp","mensagem_template":"Olá Carlos, obrigado pelo interesse! Temos disponibilidade para reunião amanhã às 10h ou 15h. Qual prefere?","prioridade":"alta"}'
+test_cases:
+  - name: "followup_prioridade_alta"
+    input: { lead_nome: "Construtora Beta", score: "9", ultimo_contato: "2026-06-08", canal_preferido: "telefone", status: "qualificado" }
+    expected_keys: ["proximo_contato", "canal", "mensagem_template", "prioridade"]
+output_schema: { type: object, required: [proximo_contato, canal, mensagem_template, prioridade] }
+changelog:
+  - version: "1.0.0"
+    date: "2026-06-09"
+    description: "Initial release"
