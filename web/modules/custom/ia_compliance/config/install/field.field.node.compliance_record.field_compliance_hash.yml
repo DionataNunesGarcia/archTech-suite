@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_compliance_hash
+    - node.type.compliance_record
+id: node.compliance_record.field_compliance_hash
+field_name: field_compliance_hash
+entity_type: node
+bundle: compliance_record
+label: 'SHA-256 Hash'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

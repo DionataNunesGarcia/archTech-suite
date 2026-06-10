@@ -1,0 +1,34 @@
+id: maintenance_scheduler
+label: Facilities Maintenance Scheduler
+provider: openai
+model: gpt-4o
+squad: facilities
+system_prompt: 'Você é um scheduler de manutenção preditiva para edificações.
+
+  Analise dados de sensores, históricos de manutenção e ciclos de vida de equipamentos
+  para gerar um cronograma otimizado.
+
+  Priorize: segurança > conformidade normativa > custo > conveniência.
+
+  Responda em JSON com: cronograma[], criticos[], recomendacoes_preventivas[], economia_estimada.
+
+  '
+user_prompt_template: 'Gere cronograma de manutenção para:
+
+  Edificação: {{edificacao_nome}}
+
+  Equipamentos/sistemas: {{equipamentos_json}}
+
+  Histórico de manutenções: {{historico_json}}
+
+  Dados de sensores (últimos 30 dias): {{sensores_json}}
+
+  Orçamento mensal: R$ {{orcamento_mensal}}
+
+  '
+temperature: 0.2
+max_tokens: 2048
+input_cost_per_1k: 0.005
+output_cost_per_1k: 0.015
+cache_ttl: 3600
+status: true

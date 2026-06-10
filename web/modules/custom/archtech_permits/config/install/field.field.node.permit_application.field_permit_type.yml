@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_permit_type
+    - node.type.permit_application
+id: node.permit_application.field_permit_type
+field_name: field_permit_type
+entity_type: node
+bundle: permit_application
+label: 'Permit Type'
+description: 'Type of permit being applied for'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

@@ -1,0 +1,106 @@
+<?php
+
+/**
+ * @file
+ * Install hooks for archtech_ai_gateway.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function archtech_ai_gateway_schema(): array {
+  $schema['archtech_ai_cost_log'] = [
+    'description' => 'AI API call cost and token usage tracking.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'not null' => TRUE,
+        'size' => 'big',
+        'description' => 'Primary key.',
+      ],
+      'provider' => [
+        'type' => 'varchar',
+        'length' => 64,
+        'not null' => TRUE,
+        'description' => 'AI provider (openai, anthropic, etc.).',
+      ],
+      'model' => [
+        'type' => 'varchar',
+        'length' => 64,
+        'not null' => TRUE,
+        'description' => 'Model name (gpt-4o, claude-3-opus, etc.).',
+      ],
+      'prompt_name' => [
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+        'description' => 'Logical prompt name from the registry.',
+      ],
+      'input_tokens' => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Number of input/prompt tokens.',
+      ],
+      'output_tokens' => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Number of output/completion tokens.',
+      ],
+      'total_tokens' => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Total tokens consumed.',
+      ],
+      'cost' => [
+        'type' => 'numeric',
+        'precision' => 14,
+        'scale' => 10,
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Calculated cost in configured currency.',
+      ],
+      'duration_ms' => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'API call wall-clock duration in milliseconds.',
+      ],
+      'status' => [
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'description' => 'success | error | circuit_open',
+      ],
+      'error_message' => [
+        'type' => 'text',
+        'size' => 'normal',
+        'not null' => FALSE,
+        'description' => 'Error message on failure, truncated to 2000 chars.',
+      ],
+      'user_id' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'description' => 'UID of the acting user, NULL for system calls.',
+      ],
+      'created_at' => [
+        'type' => 'varchar',
+        'length' => 30,
+        'not null' => TRUE,
+        'description' => 'ISO 8601 UTC timestamp of the API call.',
+      ],
+    ],
+    'primary key' => ['id'],
+    'indexes' => [
+      'idx_provider' => ['provider'],
+      'idx_prompt_name' => ['prompt_name'],
+      'idx_created_at' => ['created_at'],
+      'idx_status' => ['status'],
+      'idx_user_id' => ['user_id'],
+    ],
+  ];
+
+  return $schema;
+}

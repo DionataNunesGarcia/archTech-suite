@@ -15,11 +15,11 @@ label: 'Image Tablet'
 description: 'Used on screens 768px to 1024px'
 required: false
 translatable: true
-default_value: {  }
+default_value: {}
 default_value_callback: ''
 settings:
   handler: 'default:file'
-  handler_settings: {  }
+  handler_settings: {}
   file_directory: '[date:custom:Y]-[date:custom:m]'
   file_extensions: 'png gif jpg jpeg webp'
   max_filesize: ''

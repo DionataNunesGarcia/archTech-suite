@@ -3,8 +3,13 @@ replicaCount: 1
 
 ingress:
   enabled: true
+  host: dev.api.archtech.com.br
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-staging
+  tls:
+    - hosts:
+        - dev.api.archtech.com.br
+      secretName: archtech-dev-tls
 
 resources:
   requests:

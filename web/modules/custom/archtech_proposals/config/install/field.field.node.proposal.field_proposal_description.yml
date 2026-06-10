@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_proposal_description
+    - node.type.proposal
+id: node.proposal.field_proposal_description
+field_name: field_proposal_description
+entity_type: node
+bundle: proposal
+label: 'Description'
+description: 'Detailed description of the proposal'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

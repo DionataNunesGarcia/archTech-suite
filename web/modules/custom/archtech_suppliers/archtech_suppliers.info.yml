@@ -1,5 +1,12 @@
-name: 'ArchTech archtech_suppliers'
+name: 'ArchTech Suppliers'
 type: module
-description: 'ArchTech archtech_suppliers module'
+description: 'Supplier management with SLA monitoring and recommendation engine'
 core_version_requirement: ^11
 package: 'ArchTech'
+dependencies:
+  - drupal:node
+  - drupal:user
+  - drupal:text
+  - drupal:options
+  - drupal:jsonapi
+  - drupal:rest

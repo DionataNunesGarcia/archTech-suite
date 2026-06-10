@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://archtech.com.br/schemas/prompt-registry-v1.schema.json",
+  "title": "ArchTech Prompt Registry Entry",
+  "type": "object",
+  "required": ["prompt_id", "version", "provider", "model", "squad", "system_prompt", "user_prompt_template"],
+  "properties": {
+    "prompt_id": {
+      "type": "string",
+      "pattern": "^ia-[a-z-]+/[a-z-]+$",
+      "description": "Fully qualified prompt ID (e.g. ia-crm/lead-scorer)"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "Semantic version (major.minor.patch)"
+    },
+    "provider": {
+      "type": "string",
+      "enum": ["openai", "anthropic", "google", "azure", "local"]
+    },
+    "model": {
+      "type": "string",
+      "description": "Model name (e.g. gpt-4o, claude-3-opus)"
+    },
+    "squad": {
+      "type": "string",
+      "enum": [
+        "crm",
+        "proposals",
+        "financeiro",
+        "library",
+        "permits",
+        "suppliers",
+        "facilities",
+        "bim-twin",
+        "client-portal"
+      ]
+    },
+    "agent": {
+      "type": "string",
+      "description": "Agent skill name matching .agents/skills/ directory"
+    },
+    "temperature": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 2,
+      "default": 0.7
+    },
+    "max_tokens": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 128000,
+      "default": 4096
+    },
+    "input_cost_per_1k": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Cost per 1000 input tokens in USD"
+    },
+    "output_cost_per_1k": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Cost per 1000 output tokens in USD"
+    },
+    "cache_ttl": {
+      "type": "integer",
+      "minimum": 0,
+      "default": 0,
+      "description": "Cache TTL in seconds (0 = no cache)"
+    },
+    "system_prompt": {
+      "type": "string",
+      "minLength": 10,
+      "description": "System-level instructions for the AI model"
+    },
+    "user_prompt_template": {
+      "type": "string",
+      "minLength": 10,
+      "description": "Template with {{variable}} placeholders"
+    },
+    "few_shot_examples": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["input", "output"],
+        "properties": {
+          "input": {
+            "type": "object",
+            "description": "Input variables as key-value pairs"
+          },
+          "output": {
+            "type": "string",
+            "description": "Expected output"
+          }
+        }
+      }
+    },
+    "test_cases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "input", "expected_keys"],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "input": {
+            "type": "object"
+          },
+          "expected_keys": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Keys that must be present in the JSON output"
+          },
+          "expected_values": {
+            "type": "object",
+            "description": "Exact value assertions (optional)"
+          }
+        }
+      }
+    },
+    "output_schema": {
+      "type": "object",
+      "description": "Expected JSON output schema for structured responses"
+    },
+    "fallback_prompt": {
+      "type": "string",
+      "description": "Degraded-mode prompt when primary provider is unavailable"
+    },
+    "changelog": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["version", "date", "description"],
+        "properties": {
+          "version": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

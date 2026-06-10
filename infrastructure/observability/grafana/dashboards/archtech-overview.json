@@ -166,6 +166,94 @@
         }
       ],
       "gridPos": { "h": 6, "w": 8, "x": 16, "y": 22 }
+    },
+    {
+      "title": "AI Cost Today (USD)",
+      "type": "stat",
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "currencyUSD",
+          "decimals": 2,
+          "thresholds": {
+            "steps": [
+              { "value": -Infinity, "color": "green" },
+              { "value": 50, "color": "yellow" },
+              { "value": 100, "color": "red" }
+            ]
+          }
+        }
+      },
+      "targets": [
+        {
+          "expr": "sum(ai_cost_total{period=\"24h\"})",
+          "legendFormat": "Daily AI Cost"
+        }
+      ],
+      "gridPos": { "h": 6, "w": 8, "x": 0, "y": 28 }
+    },
+    {
+      "title": "AI Calls / min",
+      "type": "timeseries",
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "cpm",
+          "custom": { "fillOpacity": 20 }
+        }
+      },
+      "targets": [
+        {
+          "expr": "rate(ai_calls_total[5m])",
+          "legendFormat": "{{provider}}"
+        }
+      ],
+      "gridPos": { "h": 6, "w": 8, "x": 8, "y": 28 }
+    },
+    {
+      "title": "AI Circuit Breaker Status",
+      "type": "stat",
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            { "type": "value", "value": "0", "text": "CLOSED" },
+            { "type": "value", "value": "1", "text": "OPEN" }
+          ],
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "steps": [
+              { "value": -Infinity, "color": "green" },
+              { "value": 1, "color": "red" }
+            ]
+          }
+        }
+      },
+      "targets": [
+        {
+          "expr": "max(ai_circuit_state)",
+          "legendFormat": "Circuit State"
+        }
+      ],
+      "gridPos": { "h": 6, "w": 8, "x": 16, "y": 28 }
+    },
+    {
+      "title": "AI Cost by Squad (7d)",
+      "type": "barchart",
+      "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "currencyUSD",
+          "color": { "mode": "palette-classic" }
+        }
+      },
+      "targets": [
+        {
+          "expr": "sum by (squad) (ai_cost_total{period=\"7d\"})",
+          "legendFormat": "{{squad}}"
+        }
+      ],
+      "gridPos": { "h": 6, "w": 24, "x": 0, "y": 34 }
     }
   ]
 }

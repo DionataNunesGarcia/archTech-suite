@@ -1,0 +1,96 @@
+{
+  "name": "Report Generation Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [{ "field": "weeks", "weeksInterval": 1 }]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [250, 300],
+      "name": "Weekly (Monday 7am BRT)"
+    },
+    {
+      "parameters": {
+        "jsCode": "const squads = ['crm', 'projetos', 'obras', 'suporte', 'insights', 'financeiro'];\nconst reports = [];\nfor (const squad of squads) {\n  const data = await $http.get(`/api/v1/${squad}/weekly-summary`);\n  reports.push({ squad, ...data });\n}\nreturn reports;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [500, 300],
+      "name": "Collect Squad Data"
+    },
+    {
+      "parameters": {
+        "url": "/api/ai/insights/weekly-report",
+        "method": "POST",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "squads_data",
+              "value": "={{ JSON.stringify($json) }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [750, 300],
+      "name": "Generate via AI"
+    },
+    {
+      "parameters": {
+        "jsCode": "const report = $input.first().json;\nconst pdf = await $http.post('/api/v1/reports/pdf', {\n  title: report.title,\n  content: report.content,\n  template: 'weekly-executive'\n}, { responseType: 'arraybuffer' });\n\n// Upload to library\nconst formData = new FormData();\nformData.append('file', new Blob([pdf], { type: 'application/pdf' }), `relatorio-semanal-${report.week}.pdf`);\nformData.append('type', 'weekly_report');\nformData.append('tags', 'semanal,executivo');\n\nawait $http.post('/api/v1/library/documents', formData);\nreturn { ...report, pdfGenerated: true };"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1000, 300],
+      "name": "Generate PDF & Archive"
+    },
+    {
+      "parameters": {
+        "template": "📊 *Relatório Semanal — {{ $json.week }}*\n\n{{ $json.highlights }}\n\n📎 PDF arquivado na Biblioteca de Documentos.\n🔗 {{ $json.libraryUrl }}",
+        "channel": "geral"
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2,
+      "position": [1250, 200],
+      "name": "Notify on Slack"
+    },
+    {
+      "parameters": {
+        "template": "<h2>Relatório Semanal — {{ $json.week }}</h2>\n{{ $json.content }}\n<hr>\n<p><small>Gerado automaticamente pelo ArchTech Suite em {{ $json.generatedAt }}</small></p>",
+        "to": "={{ $env.EXECUTIVE_RECIPIENTS }}",
+        "subject": "ArchTech — Relatório Semanal {{ $json.week }}"
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2,
+      "position": [1250, 400],
+      "name": "Email to Executives"
+    }
+  ],
+  "connections": {
+    "Weekly (Monday 7am BRT)": {
+      "main": [[{ "node": "Collect Squad Data", "type": "main", "index": 0 }]]
+    },
+    "Collect Squad Data": {
+      "main": [[{ "node": "Generate via AI", "type": "main", "index": 0 }]]
+    },
+    "Generate via AI": {
+      "main": [[{ "node": "Generate PDF & Archive", "type": "main", "index": 0 }]]
+    },
+    "Generate PDF & Archive": {
+      "main": [
+        [{ "node": "Notify on Slack", "type": "main", "index": 0 }],
+        [{ "node": "Email to Executives", "type": "main", "index": 0 }]
+      ]
+    }
+  },
+  "settings": {
+    "saveExecutionProgress": true,
+    "saveManualExecutions": true,
+    "timezone": "America/Sao_Paulo"
+  }
+}

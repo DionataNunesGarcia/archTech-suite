@@ -1,0 +1,7 @@
+services:
+  archtech_events.outbox_processor_commands:
+    class: Drupal\archtech_events\Commands\OutboxProcessorCommands
+    arguments:
+      - '@archtech_events.outbox_service'
+    tags:
+      - { name: drush.command }

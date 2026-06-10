@@ -1,0 +1,34 @@
+prompt_id: ia-meetings/meeting-scribe
+version: 1.0.0
+provider: openai
+model: gpt-4o
+squad: crm
+agent: ia-meetings-meeting-scribe
+temperature: 0.1
+max_tokens: 4096
+input_cost_per_1k: 0.005
+output_cost_per_1k: 0.015
+cache_ttl: 0
+system_prompt: |
+  Você transcreve e sumariza reuniões técnicas de arquitetura a partir de áudio transcrito (Whisper).
+  Gere: ata formal com participantes, pauta, decisões, action items com responsáveis e prazos, e próximos passos.
+  Identifique automaticamente: decisões de projeto, alterações de escopo, e preocupações do cliente.
+  Responda em JSON.
+user_prompt_template: |
+  Gere ata da reunião:
+  Projeto: {{projeto_nome}}
+  Data: {{data_reuniao}}
+  Participantes: {{participantes}}
+  Transcrição: {{transcricao}}
+test_cases:
+  - name: 'ata_reuniao'
+    input:
+      {
+        projeto_nome: 'Residência Família Costa',
+        data_reuniao: '2026-06-09',
+        participantes: 'Arq. Roberto (ArchTech), Sr. Costa (Cliente), Sra. Costa (Cliente)',
+        transcricao: '[00:00] Arq. Roberto: Vamos revisar o layout da cozinha. [00:15] Sr. Costa: Gostaríamos de ilha central com cooktop. [01:30] Sra. Costa: E a despensa precisa ser maior. [03:00] Arq. Roberto: Posso redesenhar com despensa de 4m² e ilha de 3m. Entrego revisão em 5 dias.',
+      }
+    expected_keys: ['ata', 'participantes', 'decisoes', 'action_items', 'proximos_passos']
+output_schema: { type: object, required: [ata, participantes, decisoes, action_items, proximos_passos] }
+changelog: [{ version: '1.0.0', date: '2026-06-09', description: 'Initial release' }]

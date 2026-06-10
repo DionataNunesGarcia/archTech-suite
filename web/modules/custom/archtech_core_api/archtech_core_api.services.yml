@@ -1,0 +1,13 @@
+services:
+  archtech_core_api.paginator:
+    class: Drupal\archtech_core_api\Api\Paginator
+    arguments: []
+
+  archtech_core_api.error_response:
+    class: Drupal\archtech_core_api\Api\ErrorResponse
+    arguments: []
+
+  archtech_core_api.trace_id_subscriber:
+    class: Drupal\archtech_core_api\EventSubscriber\TraceIdSubscriber
+    tags:
+      - { name: event_subscriber }

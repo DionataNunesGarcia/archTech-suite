@@ -7,6 +7,9 @@ on:
       - 'web/**'
       - 'config/**'
       - 'recipes/**'
+      - 'docs/ai-prompts/**'
+      - 'docs/api-specifications/**'
+      - 'scripts/ci/**'
       - 'composer.json'
       - 'composer.lock'
       - '.github/workflows/backend-ci.yml'
@@ -16,6 +19,9 @@ on:
       - 'web/**'
       - 'config/**'
       - 'recipes/**'
+      - 'docs/ai-prompts/**'
+      - 'docs/api-specifications/**'
+      - 'scripts/ci/**'
       - 'composer.json'
       - 'composer.lock'
       - '.github/workflows/backend-ci.yml'
@@ -75,6 +81,23 @@ jobs:
         with:
           file_glob: 'docs/api-specifications/**/*.yaml'
           spectral_ruleset: .spectral.yaml
+
+  prompt-validate:
+    name: Validate Prompt Registry
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install pyyaml jsonschema
+
+      - name: Validate prompts against schema
+        run: python3 scripts/ci/validate-prompts.py
 
   test:
     name: PHPUnit Tests

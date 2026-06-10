@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_meeting_agenda
+    - node.type.meeting_record
+id: node.meeting_record.field_meeting_agenda
+field_name: field_meeting_agenda
+entity_type: node
+bundle: meeting_record
+label: 'Agenda'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

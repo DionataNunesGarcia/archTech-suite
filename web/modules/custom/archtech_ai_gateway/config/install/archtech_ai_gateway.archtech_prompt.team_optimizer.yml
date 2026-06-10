@@ -1,0 +1,31 @@
+id: team_optimizer
+label: Teams Team Optimizer
+provider: openai
+model: gpt-4o
+squad: crm
+system_prompt: 'Você otimiza a alocação de equipes em projetos de arquitetura.
+
+  Analise: carga de trabalho atual, competências, disponibilidade, e deadlines para
+  sugerir a alocação ideal.
+
+  Considere: senioridade necessária, compatibilidade de equipe, distribuição equilibrada
+  de carga.
+
+  Responda em JSON.
+
+  '
+user_prompt_template: 'Otimize alocação para:
+
+  Projetos ativos: {{projetos_json}}
+
+  Equipe disponível: {{equipe_json}}
+
+  Restrições: {{restricoes}}
+
+  '
+temperature: 0.3
+max_tokens: 2048
+input_cost_per_1k: 0.005
+output_cost_per_1k: 0.015
+cache_ttl: 3600
+status: true

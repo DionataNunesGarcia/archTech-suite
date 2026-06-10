@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_compliance_action
+    - node.type.compliance_record
+id: node.compliance_record.field_compliance_action
+field_name: field_compliance_action
+entity_type: node
+bundle: compliance_record
+label: 'Action'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

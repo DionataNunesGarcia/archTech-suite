@@ -1,0 +1,106 @@
+{
+  "name": "Checklist Alert Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [{ "field": "hours", "hoursInterval": 6 }]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [250, 300],
+      "name": "Every 6 Hours"
+    },
+    {
+      "parameters": {
+        "url": "/api/v1/obras/checklists/pending",
+        "method": "GET"
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [500, 300],
+      "name": "Fetch Pending Checklists"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $json.items.length }}",
+              "operation": "larger",
+              "value2": 0
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [750, 300],
+      "name": "Has Pending?"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.first().json.items;\nconst overdue = items.filter(i => new Date(i.dueDate) < new Date());\nconst today = items.filter(i => new Date(i.dueDate).toDateString() === new Date().toDateString());\nconst upcoming = items.filter(i => new Date(i.dueDate) > new Date());\nreturn [\n  { category: 'overdue', count: overdue.length, items: overdue },\n  { category: 'today', count: today.length, items: today },\n  { category: 'upcoming', count: upcoming.length, items: upcoming }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1000, 300],
+      "name": "Categorize by Due Date"
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $input.all();\nconst overdue = data.find(d => d.json.category === 'overdue');\nconst today = data.find(d => d.json.category === 'today');\n\nlet message = '📋 *Checklist Alert — Obras*\n';\nif (overdue.json.count > 0) {\n  message += `\n🔴 *${overdue.json.count} checklists VENCIDOS:*`;\n  overdue.json.items.forEach(i => message += `\n  • Obra #${i.obraId}: ${i.title} (vencido em ${i.dueDate})`);\n}\nif (today.json.count > 0) {\n  message += `\n\n🟡 *${today.json.count} checklists para HOJE:*`;\n  today.json.items.forEach(i => message += `\n  • Obra #${i.obraId}: ${i.title}`);\n}\nif (overdue.json.count === 0 && today.json.count === 0) {\n  message += '\n✅ Nenhum checklist pendente crítico.';\n}\nreturn { text: message };"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1250, 300],
+      "name": "Format Alert Message"
+    },
+    {
+      "parameters": {
+        "text": "={{ $json.text }}",
+        "channel": "obras-alerts"
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2,
+      "position": [1500, 300],
+      "name": "Send to Slack"
+    },
+    {
+      "parameters": {
+        "event": "ChecklistAlertPublished",
+        "routingKey": "obras.alerts"
+      },
+      "type": "n8n-nodes-base.rabbitmq",
+      "typeVersion": 1,
+      "position": [1750, 300],
+      "name": "Publish Alert Event"
+    }
+  ],
+  "connections": {
+    "Every 6 Hours": {
+      "main": [[{ "node": "Fetch Pending Checklists", "type": "main", "index": 0 }]]
+    },
+    "Fetch Pending Checklists": {
+      "main": [[{ "node": "Has Pending?", "type": "main", "index": 0 }]]
+    },
+    "Has Pending?": {
+      "main": [[{ "node": "Categorize by Due Date", "type": "main", "index": 0 }], []]
+    },
+    "Categorize by Due Date": {
+      "main": [[{ "node": "Format Alert Message", "type": "main", "index": 0 }]]
+    },
+    "Format Alert Message": {
+      "main": [[{ "node": "Send to Slack", "type": "main", "index": 0 }]]
+    },
+    "Send to Slack": {
+      "main": [[{ "node": "Publish Alert Event", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": {
+    "saveExecutionProgress": true,
+    "saveManualExecutions": true,
+    "timezone": "America/Sao_Paulo"
+  }
+}

@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_maintenance_notes
+    - node.type.maintenance_schedule
+id: node.maintenance_schedule.field_maintenance_notes
+field_name: field_maintenance_notes
+entity_type: node
+bundle: maintenance_schedule
+label: 'Notes'
+description: 'Additional notes about this maintenance task'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

@@ -1,0 +1,25 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_proposal_client
+    - node.type.proposal
+id: node.proposal.field_proposal_client
+field_name: field_proposal_client
+entity_type: node
+bundle: proposal
+label: 'Client'
+description: 'Client associated with this proposal'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:user'
+  handler_settings:
+    target_bundles: null
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+field_type: entity_reference

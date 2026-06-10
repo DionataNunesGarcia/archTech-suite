@@ -1,0 +1,6 @@
+services:
+  archtech_crm.commands:
+    class: Drupal\archtech_crm\Drush\Commands\CrmCommands
+    arguments: ['@entity_type.manager', '@event_dispatcher']
+    tags:
+      - { name: drush.command }

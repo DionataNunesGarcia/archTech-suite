@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies: {  }
+name: 'Project Allocation'
+type: project_allocation
+description: 'Team member allocation to a project'
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: false

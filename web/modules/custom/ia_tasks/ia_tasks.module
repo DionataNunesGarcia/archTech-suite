@@ -1,0 +1,9 @@
+<?php
+
+declare(strict_types=1);
+
+use Drupal\Core\Entity\EntityTypeInterface;
+
+function ia_tasks_entity_base_field_info(EntityTypeInterface $entity_type): array {
+  return [];
+}

@@ -1,7 +1,7 @@
 uuid: 57048de6-f4f5-46e3-8fbe-37f731c7dbd0
 langcode: pt-br
 status: true
-dependencies: {  }
+dependencies: {}
 _core:
   default_config_hash: U5VlGjd_SfV0Qm_EfnaynOfc549cNscFAx48JfYoMRI
 id: default

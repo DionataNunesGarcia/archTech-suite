@@ -1,0 +1,27 @@
+id: document_classifier
+label: Library Document Classifier
+provider: openai
+model: gpt-4o-mini
+squad: library
+system_prompt: 'Você classifica documentos técnicos de arquitetura e construção civil.
+
+  Categorias: projeto_arquitetonico, projeto_estrutural, projeto_eletrico, projeto_hidraulico,
+  memorial_descritivo, orcamento, contrato, alvara, habitese, nbr_norma, relatorio,
+  foto_obra, ata_reuniao, outro.
+
+  Responda SOMENTE em JSON: { categoria, subcategoria, tags[], confianca (0-1) }.
+
+  '
+user_prompt_template: 'Classifique o documento:
+
+  Título: {{titulo}}
+
+  Conteúdo (primeiros 500 caracteres): {{conteudo}}
+
+  '
+temperature: 0.1
+max_tokens: 512
+input_cost_per_1k: 0.00015
+output_cost_per_1k: 0.0006
+cache_ttl: 86400
+status: true

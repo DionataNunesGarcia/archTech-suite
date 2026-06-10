@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_measurement_quantity
+    - node.type.measurement
+id: node.measurement.field_measurement_quantity
+field_name: field_measurement_quantity
+entity_type: node
+bundle: measurement
+label: 'Quantity'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: decimal

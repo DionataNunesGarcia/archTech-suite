@@ -1,0 +1,18 @@
+services:
+  archtech_events.rabbitmq_publisher:
+    class: Drupal\archtech_events\EventBus\RabbitMqPublisher
+    arguments:
+      - '@config.factory'
+
+  archtech_events.outbox_service:
+    class: Drupal\archtech_events\EventBus\OutboxService
+    arguments:
+      - '@database'
+      - '@archtech_events.rabbitmq_publisher'
+      - '@uuid'
+      - '@datetime.time'
+
+  archtech_events.event_store:
+    class: Drupal\archtech_events\EventBus\EventStore
+    arguments:
+      - '@database'

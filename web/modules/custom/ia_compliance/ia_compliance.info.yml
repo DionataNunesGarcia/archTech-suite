@@ -1,0 +1,10 @@
+name: 'ArchTech Compliance'
+type: module
+description: 'Audit logging — immutable compliance trail for all entity changes'
+core_version_requirement: ^11
+package: 'ArchTech'
+dependencies:
+  - drupal:node
+  - drupal:user
+  - drupal:datetime
+  - drupal:options

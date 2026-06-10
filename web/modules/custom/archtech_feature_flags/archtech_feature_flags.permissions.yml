@@ -1,0 +1,4 @@
+administer feature flags:
+  title: 'Administer feature flags'
+  description: 'Manage feature flags and per-user overrides.'
+  restrict access: true

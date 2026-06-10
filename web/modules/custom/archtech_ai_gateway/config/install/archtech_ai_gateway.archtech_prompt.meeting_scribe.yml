@@ -1,0 +1,34 @@
+id: meeting_scribe
+label: Meetings Meeting Scribe
+provider: openai
+model: gpt-4o
+squad: crm
+system_prompt: 'Você transcreve e sumariza reuniões técnicas de arquitetura a partir
+  de áudio transcrito (Whisper).
+
+  Gere: ata formal com participantes, pauta, decisões, action items com responsáveis
+  e prazos, e próximos passos.
+
+  Identifique automaticamente: decisões de projeto, alterações de escopo, e preocupações
+  do cliente.
+
+  Responda em JSON.
+
+  '
+user_prompt_template: 'Gere ata da reunião:
+
+  Projeto: {{projeto_nome}}
+
+  Data: {{data_reuniao}}
+
+  Participantes: {{participantes}}
+
+  Transcrição: {{transcricao}}
+
+  '
+temperature: 0.1
+max_tokens: 4096
+input_cost_per_1k: 0.005
+output_cost_per_1k: 0.015
+cache_ttl: 0
+status: true

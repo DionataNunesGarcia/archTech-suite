@@ -1,0 +1,29 @@
+archtech_suppliers.collection:
+  path: '/api/v1/suppliers'
+  methods: [GET, POST]
+  defaults:
+    _controller: '\Drupal\archtech_suppliers\Controller\SupplierController::collection'
+    _title: 'Suppliers'
+  requirements:
+    _permission: 'access content'
+  options:
+    _auth: ['basic_auth', 'cookie']
+  formats:
+    json: application/json
+
+archtech_suppliers.sla:
+  path: '/api/v1/suppliers/{node}/sla'
+  methods: [GET]
+  defaults:
+    _controller: '\Drupal\archtech_suppliers\Controller\SupplierController::sla'
+    _title: 'Supplier SLA'
+  requirements:
+    _permission: 'access content'
+    node: \d+
+  options:
+    _auth: ['basic_auth', 'cookie']
+    parameters:
+      node:
+        type: entity:node
+  formats:
+    json: application/json

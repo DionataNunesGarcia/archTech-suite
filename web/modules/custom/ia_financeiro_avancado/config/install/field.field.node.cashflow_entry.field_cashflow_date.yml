@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_cashflow_date
+    - node.type.cashflow_entry
+id: node.cashflow_entry.field_cashflow_date
+field_name: field_cashflow_date
+entity_type: node
+bundle: cashflow_entry
+label: 'Date'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

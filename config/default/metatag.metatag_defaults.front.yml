@@ -1,7 +1,7 @@
 uuid: 12eb8c13-f24c-4777-befb-400089c41812
 langcode: pt-br
 status: true
-dependencies: {  }
+dependencies: {}
 id: front
 label: 'Front page'
 tags:

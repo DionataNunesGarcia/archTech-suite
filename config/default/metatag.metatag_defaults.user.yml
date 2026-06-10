@@ -1,7 +1,7 @@
 uuid: 3a6c4660-916f-4602-8fa7-9b363ad2d793
 langcode: pt-br
 status: true
-dependencies: {  }
+dependencies: {}
 id: user
 label: User
 tags:

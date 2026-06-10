@@ -1,0 +1,92 @@
+{
+  "name": "Meeting Scheduling Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "event": "LeadScored"
+      },
+      "type": "n8n-nodes-base.rabbitmqTrigger",
+      "typeVersion": 1,
+      "position": [250, 300],
+      "name": "Lead Scored Event"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $json.score }}",
+              "operation": "largerEqual",
+              "value2": 7
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [500, 300],
+      "name": "Score >= 7?"
+    },
+    {
+      "parameters": {
+        "jsCode": "const lead = $input.first().json;\nconst availability = await $http.get('/api/v1/crm/availability?days=5');\nconst slots = availability.slots.filter(s => s.type === 'meeting');\nreturn slots.slice(0, 3);"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [750, 200],
+      "name": "Get Available Slots"
+    },
+    {
+      "parameters": {
+        "template": "Olá {{ $json.leadNome }},\n\nObrigado pelo interesse em nosso escritório! Temos as seguintes datas disponíveis para uma reunião inicial:\n\n{{ $json.slots.join('\\n') }}\n\nQual funciona melhor para você?",
+        "to": "={{ $json.leadEmail }}",
+        "subject": "ArchTech — Agendamento de Reunião"
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2,
+      "position": [1000, 200],
+      "name": "Send Scheduling Email"
+    },
+    {
+      "parameters": {
+        "jsCode": "const lead = $input.first().json;\nreturn {\n  event: 'ProposalRequested',\n  correlationId: lead.correlationId,\n  payload: {\n    leadId: lead.leadId,\n    meetingStatus: 'scheduling_requested',\n    timestamp: new Date().toISOString()\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [750, 400],
+      "name": "Enqueue for CRM"
+    },
+    {
+      "parameters": {
+        "template": "Lead {{ $json.leadNome }} (Score: {{ $json.score }}/10) — Disponibilidade enviada. Aguardando confirmação.",
+        "channel": "crm-leads"
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2,
+      "position": [1000, 400],
+      "name": "Notify Squad"
+    }
+  ],
+  "connections": {
+    "Lead Scored Event": {
+      "main": [[{ "node": "Score >= 7?", "type": "main", "index": 0 }]]
+    },
+    "Score >= 7?": {
+      "main": [
+        [{ "node": "Get Available Slots", "type": "main", "index": 0 }],
+        [{ "node": "Enqueue for CRM", "type": "main", "index": 0 }]
+      ]
+    },
+    "Get Available Slots": {
+      "main": [[{ "node": "Send Scheduling Email", "type": "main", "index": 0 }]]
+    },
+    "Enqueue for CRM": {
+      "main": [[{ "node": "Notify Squad", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": {
+    "saveExecutionProgress": true,
+    "saveManualExecutions": true,
+    "timezone": "America/Sao_Paulo"
+  }
+}

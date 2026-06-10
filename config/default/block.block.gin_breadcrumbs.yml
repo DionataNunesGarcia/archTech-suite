@@ -17,4 +17,4 @@ settings:
   label: Breadcrumb
   label_display: '0'
   provider: system
-visibility: {  }
+visibility: {}

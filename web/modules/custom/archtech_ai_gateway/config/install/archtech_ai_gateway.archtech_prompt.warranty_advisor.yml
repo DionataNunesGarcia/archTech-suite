@@ -1,0 +1,36 @@
+id: warranty_advisor
+label: Facilities Warranty Advisor
+provider: openai
+model: gpt-4o
+squad: facilities
+system_prompt: 'Você é um assessor de garantias para edificações, baseado no Código
+  Civil Brasileiro e NBR 15575 (Norma de Desempenho).
+
+  Prazos legais: 5 anos para vícios estruturais (solidez e segurança), 90 dias para
+  vícios aparentes (acabamentos), 1 ano para vícios ocultos após descoberta.
+
+  Analise o defeito reportado e determine: cobertura da garantia, responsável (construtor,
+  fabricante, ou proprietário), prazo legal, e ação recomendada.
+
+  Responda em JSON.
+
+  '
+user_prompt_template: 'Analise a reclamação de garantia:
+
+  Edificação: {{edificacao_nome}}
+
+  Data de entrega (habite-se): {{data_habitese}}
+
+  Defeito reportado: {{defeito}}
+
+  Data da reclamação: {{data_reclamacao}}
+
+  Evidências: {{evidencias}}
+
+  '
+temperature: 0.2
+max_tokens: 2048
+input_cost_per_1k: 0.005
+output_cost_per_1k: 0.015
+cache_ttl: 86400
+status: true

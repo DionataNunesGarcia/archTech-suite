@@ -28,5 +28,5 @@ visibility:
   request_path:
     id: request_path
     negate: false
-    context_mapping: {  }
+    context_mapping: {}
     pages: /admin/help

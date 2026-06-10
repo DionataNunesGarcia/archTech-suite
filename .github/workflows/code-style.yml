@@ -1,7 +1,27 @@
 # Code Style and Linting
 name: Code Style
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - '**.js'
+      - '**.json'
+      - '**.md'
+      - '**.yml'
+      - '**.yaml'
+      - '**.css'
+      - '.github/workflows/code-style.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - '**.js'
+      - '**.json'
+      - '**.md'
+      - '**.yml'
+      - '**.yaml'
+      - '**.css'
+      - '.github/workflows/code-style.yml'
 
 jobs:
   code-style:
@@ -20,8 +40,9 @@ jobs:
         run: npm install -g prettier
 
       - name: Check code style with Prettier
+        continue-on-error: true
         run: |
-          prettier --check "**/*.{js,json,md,yml,yaml,css}" || true
+          prettier --check "**/*.{js,json,md,yml,yaml,css}" || echo "⚠️ Some files need formatting"
 
       - name: EditorConfig Checker
         uses: editorconfig-checker/action-editorconfig-checker@main

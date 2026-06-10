@@ -1,0 +1,24 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_document_file
+    - node.type.document
+id: node.document.field_document_file
+field_name: field_document_file
+entity_type: node
+bundle: document
+label: 'File'
+description: 'The document file'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  file_directory: 'library/[date:custom:Y]/[date:custom:m]'
+  file_extensions: 'pdf doc docx xls xlsx dwg rvt ifc txt csv jpg png'
+  max_filesize: '100 MB'
+  description_field: false
+  handler: 'default:file'
+  handler_settings: {  }
+field_type: file

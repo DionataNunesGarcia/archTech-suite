@@ -22,4 +22,4 @@ selection_criteria:
       contents: contents
 selection_logic: and
 weight: -5
-relationships: {  }
+relationships: {}

@@ -1,0 +1,30 @@
+ia_meetings.collection:
+  path: '/api/v1/meetings'
+  methods: [GET]
+  defaults:
+    _controller: '\Drupal\ia_meetings\Controller\MeetingController::collection'
+    _title: 'Meetings'
+  requirements:
+    _permission: 'access content'
+    _format: json
+
+ia_meetings.create:
+  path: '/api/v1/meetings'
+  methods: [POST]
+  defaults:
+    _controller: '\Drupal\ia_meetings\Controller\MeetingController::createMeeting'
+    _title: 'Create Meeting'
+  requirements:
+    _permission: 'create meeting_record content'
+    _format: json
+
+ia_meetings.transcript:
+  path: '/api/v1/meetings/{id}/transcript'
+  methods: [PATCH]
+  defaults:
+    _controller: '\Drupal\ia_meetings\Controller\MeetingController::updateTranscript'
+    _title: 'Update Transcript'
+  requirements:
+    _permission: 'edit any meeting_record content'
+    _format: json
+    id: '\d+'

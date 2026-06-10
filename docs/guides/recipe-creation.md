@@ -22,16 +22,16 @@ type: 'Site'
 recipes:
   - archtech_base
 install:
-  - {module_custom}
+  - { module_custom }
 config:
   strict: false
   import:
-    {module}:
-      - {config_entity}
+    { module }:
+      - { config_entity }
   actions:
-    {config_object}:
+    { config_object }:
       simpleConfigUpdate:
-        {key}: {value}
+        { key }: { value }
 ```
 
 ## Regras
@@ -46,36 +46,36 @@ config:
 
 ### Base (do drupal-recipes-base)
 
-| Recipe | Descrição |
-|--------|-----------|
-| `base_core` | Configuração core do Drupal |
-| `base_admin` | Admin UI (Gin, toolbar) |
-| `base_media` | Media types e library |
-| `base_seo` | SEO (metatag, sitemap) |
-| `base_i18n` | Internacionalização |
-| `base_pt_br` | Português BR |
-| `base_es` | Espanhol |
-| `base_theme` | Tema Tailwind |
-| `base_theme_bootstrap` | Tema Bootstrap |
-| `base_lp` | Landing pages (paragraphs) |
-| `base_contents` | Content types |
-| `base_courses` | Cursos |
-| `base_ai` | AI Core (OpenAI) |
-| `base_ai_contents` | AI Content automation |
-| `base_ai_search` | AI Search (pgvector) |
-| `base_menus` | Menu links |
+| Recipe                 | Descrição                   |
+| ---------------------- | --------------------------- |
+| `base_core`            | Configuração core do Drupal |
+| `base_admin`           | Admin UI (Gin, toolbar)     |
+| `base_media`           | Media types e library       |
+| `base_seo`             | SEO (metatag, sitemap)      |
+| `base_i18n`            | Internacionalização         |
+| `base_pt_br`           | Português BR                |
+| `base_es`              | Espanhol                    |
+| `base_theme`           | Tema Tailwind               |
+| `base_theme_bootstrap` | Tema Bootstrap              |
+| `base_lp`              | Landing pages (paragraphs)  |
+| `base_contents`        | Content types               |
+| `base_courses`         | Cursos                      |
+| `base_ai`              | AI Core (OpenAI)            |
+| `base_ai_contents`     | AI Content automation       |
+| `base_ai_search`       | AI Search (pgvector)        |
+| `base_menus`           | Menu links                  |
 
 ### ArchTech (bounded contexts)
 
-| Recipe | Contexto | Depende de |
-|--------|----------|------------|
-| `archtech_base` | Plataforma base | — |
-| `archtech_client_portal` | Portal do Cliente | base |
-| `archtech_crm` | CRM | base |
-| `archtech_proposals` | Propostas | base |
-| `archtech_financeiro` | Financeiro | base |
-| `archtech_library` | Biblioteca Técnica | base |
-| `archtech_permits` | Aprovação | base + library |
-| `archtech_suppliers` | Fornecedores | base |
-| `archtech_facilities` | Facilities | base |
-| `archtech_bim_twin` | BIM Digital Twin | base |
+| Recipe                   | Contexto           | Depende de     |
+| ------------------------ | ------------------ | -------------- |
+| `archtech_base`          | Plataforma base    | —              |
+| `archtech_client_portal` | Portal do Cliente  | base           |
+| `archtech_crm`           | CRM                | base           |
+| `archtech_proposals`     | Propostas          | base           |
+| `archtech_financeiro`    | Financeiro         | base           |
+| `archtech_library`       | Biblioteca Técnica | base           |
+| `archtech_permits`       | Aprovação          | base + library |
+| `archtech_suppliers`     | Fornecedores       | base           |
+| `archtech_facilities`    | Facilities         | base           |
+| `archtech_bim_twin`      | BIM Digital Twin   | base           |

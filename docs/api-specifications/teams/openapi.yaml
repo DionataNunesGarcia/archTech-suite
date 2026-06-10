@@ -39,7 +39,17 @@ components:
           type: string
         cargo:
           type: string
-          enum: [socio, arquiteto_senior, arquiteto_pleno, arquiteto_junior, estagiario, engenheiro, tecnico, administrativo]
+          enum:
+            [
+              socio,
+              arquiteto_senior,
+              arquiteto_pleno,
+              arquiteto_junior,
+              estagiario,
+              engenheiro,
+              tecnico,
+              administrativo,
+            ]
         valor_hora:
           type: number
         carga_horaria_semana:

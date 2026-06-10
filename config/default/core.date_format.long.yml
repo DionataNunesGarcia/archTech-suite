@@ -1,7 +1,7 @@
 uuid: 6bc3e788-0d48-4a2e-8b7c-009d5a425d69
 langcode: pt-br
 status: true
-dependencies: {  }
+dependencies: {}
 _core:
   default_config_hash: 5B4_r5Vd0_9UaJwtAC5yFCm9-k8NNvp1xiQNhFFkknU
 id: long

@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_document_category
+    - node.type.document
+id: node.document.field_document_category
+field_name: field_document_category
+entity_type: node
+bundle: document
+label: 'Category'
+description: 'Document category for classification'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

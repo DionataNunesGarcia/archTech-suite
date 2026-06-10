@@ -1,0 +1,12 @@
+archtech_library.search:
+  path: '/api/v1/library/search'
+  methods: [GET]
+  defaults:
+    _controller: '\Drupal\archtech_library\Controller\SearchController::search'
+    _title: 'Library Search'
+  requirements:
+    _permission: 'access content'
+  options:
+    _auth: ['basic_auth', 'cookie']
+  formats:
+    json: application/json

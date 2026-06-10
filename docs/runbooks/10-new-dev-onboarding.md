@@ -32,11 +32,11 @@ ddev drush cr
 
 ## Passo 3: Verificar Acessos
 
-| URL | Credenciais |
-|-----|-------------|
-| https://archtech.ddev.site | admin / admin |
+| URL                              | Credenciais         |
+| -------------------------------- | ------------------- |
+| https://archtech.ddev.site       | admin / admin       |
 | https://archtech.ddev.site:15672 | archtech / archtech |
-| https://archtech.ddev.site:3001 | admin / admin |
+| https://archtech.ddev.site:3001  | admin / admin       |
 
 ## Passo 4: Conhecendo o Projeto
 

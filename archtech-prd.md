@@ -32,24 +32,24 @@ O **ArchTech Suite** é um ecossistema de squads de inteligência artificial vol
 
 ### Repositório e Documentação
 
-| Recurso | Localização |
-|---|---|
-| Repositório principal | `https://github.com/DionataNunesGarcia/drupal-recipes-base` |
-| API Specs (OpenAPI 3.1) | `./docs/api-specifications/` |
-| ADRs | `./docs/adr/` |
-| Prompt Registry | `./docs/ai-prompts/` |
-| Data Contracts | `./docs/data-contracts/` |
-| Runbooks | `./docs/runbooks/` |
-| Security Guidelines | `./docs/security-guidelines/` |
+| Recurso                 | Localização                                                 |
+| ----------------------- | ----------------------------------------------------------- |
+| Repositório principal   | `https://github.com/DionataNunesGarcia/drupal-recipes-base` |
+| API Specs (OpenAPI 3.1) | `./docs/api-specifications/`                                |
+| ADRs                    | `./docs/adr/`                                               |
+| Prompt Registry         | `./docs/ai-prompts/`                                        |
+| Data Contracts          | `./docs/data-contracts/`                                    |
+| Runbooks                | `./docs/runbooks/`                                          |
+| Security Guidelines     | `./docs/security-guidelines/`                               |
 
 ### Responsáveis
 
-| Papel | Responsável |
-|---|---|
-| Tech Lead | A definir |
-| Product Owner | A definir |
-| Security Champion | A definir |
-| AI Team Lead | A definir |
+| Papel             | Responsável |
+| ----------------- | ----------- |
+| Tech Lead         | A definir   |
+| Product Owner     | A definir   |
+| Security Champion | A definir   |
+| AI Team Lead      | A definir   |
 
 ---
 
@@ -86,6 +86,7 @@ Estes princípios são **regras arquiteturais**, não sugestões. Qualquer decis
 **Por quê:** Chamadas síncronas criam cadeias de falha. Se o Squad de Projetos fizer uma chamada direta ao Squad de Obras e este estiver lento, o Squad de Projetos também fica lento. Com eventos, cada squad processa no seu ritmo.
 
 **Padrões obrigatórios:**
+
 - **Outbox Pattern** — garante publicação atômica do evento junto ao write no banco
 - **Idempotência** — todo consumer deve ser idempotente (at-least-once delivery)
 - **Dead Letter Queue (DLQ)** — mensagens não processadas vão para fila de erro com alerta
@@ -109,18 +110,19 @@ Estes princípios são **regras arquiteturais**, não sugestões. Qualquer decis
 **Por quê:** Em um sistema com 20 agentes de IA, múltiplos filas e 6 squads, encontrar a origem de um bug sem tracing distribuído é inviável.
 
 **Formato mínimo de log:**
+
 ```json
 {
-  "trace_id": "abc123",
-  "squad": "ia_atendimento",
-  "agent": "qualificadora",
-  "action": "qualify_lead",
-  "lead_id": 42,
-  "duration_ms": 183,
-  "ai_model": "gpt-4o",
-  "tokens_used": 312,
-  "level": "info",
-  "timestamp": "2025-06-01T10:00:00Z"
+	"trace_id": "abc123",
+	"squad": "ia_atendimento",
+	"agent": "qualificadora",
+	"action": "qualify_lead",
+	"lead_id": 42,
+	"duration_ms": 183,
+	"ai_model": "gpt-4o",
+	"tokens_used": 312,
+	"level": "info",
+	"timestamp": "2025-06-01T10:00:00Z"
 }
 ```
 
@@ -164,10 +166,10 @@ Os ADRs registram **por que** cada decisão arquitetural foi tomada e quais alte
 
 ### ADR-001 · Drupal 11 como Backend Headless
 
-| Campo | Valor |
-|---|---|
+| Campo  | Valor        |
+| ------ | ------------ |
 | Status | **accepted** |
-| Data | 2025-06 |
+| Data   | 2025-06      |
 
 **Decisão:** Usar Drupal 11 como CMS headless com JSON:API e GraphQL.
 
@@ -176,6 +178,7 @@ Os ADRs registram **por que** cada decisão arquitetural foi tomada e quais alte
 **Justificativa:** Drupal tem 20+ anos de battle-testing em enterprise, content modelling declarativo via UI (sem código para criar campos), Recipes para instalação reproduzível de configurações, e suporte nativo a JSON:API e GraphQL sem plugins adicionais.
 
 **Alternativas descartadas:**
+
 - **Strapi** — content modelling menos maduro para enterprise, sem suporte nativo a multisite
 - **WordPress + ACF** — modelo de dados menos estruturado, REST API limitada, arquitetura menos adequada para headless
 
@@ -183,16 +186,17 @@ Os ADRs registram **por que** cada decisão arquitetural foi tomada e quais alte
 
 ### ADR-002 · Next.js 15 com App Router
 
-| Campo | Valor |
-|---|---|
+| Campo  | Valor        |
+| ------ | ------------ |
 | Status | **accepted** |
-| Data | 2025-06 |
+| Data   | 2025-06      |
 
 **Decisão:** Usar Next.js 15 com App Router como framework frontend.
 
 **Justificativa:** SEO nativo via SSR/ISR, API routes para o padrão BFF (Backend for Frontend), ISR (Incremental Static Regeneration) para páginas de marketing com revalidação automática, e Server Components para reduzir bundle no cliente.
 
 **Alternativas descartadas:**
+
 - **SPA pura (Vite + React)** — SEO inadequado para landing pages e blog sem SSR
 - **Remix** — ecossistema menor, menos integrações com ferramentas de deploy
 
@@ -200,10 +204,10 @@ Os ADRs registram **por que** cada decisão arquitetural foi tomada e quais alte
 
 ### ADR-003 · RabbitMQ como Message Broker Principal
 
-| Campo | Valor |
-|---|---|
+| Campo  | Valor        |
+| ------ | ------------ |
 | Status | **accepted** |
-| Data | 2025-06 |
+| Data   | 2025-06      |
 
 **Decisão:** RabbitMQ para mensageria principal + Redis para cache e pub/sub efêmero. Kafka reservado para escala futura.
 
@@ -215,16 +219,17 @@ Os ADRs registram **por que** cada decisão arquitetural foi tomada e quais alte
 
 ### ADR-004 · n8n Self-Hosted como Orquestrador de Workflows de IA
 
-| Campo | Valor |
-|---|---|
+| Campo  | Valor        |
+| ------ | ------------ |
 | Status | **proposed** |
-| Data | 2025-06 |
+| Data   | 2025-06      |
 
 **Decisão:** Usar n8n self-hosted (deploy Kubernetes) para orquestração de workflows de IA e integrações externas.
 
 **Justificativa:** Workflows visuais aceleram desenvolvimento de integrações. Self-hosted elimina vendor lock-in e custos variáveis por execução. Suporte nativo a webhooks, HTTP nodes, código JavaScript customizado e dezenas de integrações pré-built.
 
 **Alternativas descartadas:**
+
 - **Zapier** — caro em volume alto de execuções, sem self-hosting
 - **Temporal** — complexidade operacional elevada para o estágio atual do projeto
 - **Make (Integromat)** — sem self-hosting, vendor lock-in
@@ -235,16 +240,17 @@ Os ADRs registram **por que** cada decisão arquitetural foi tomada e quais alte
 
 ### ADR-005 · PostgreSQL 18 Gerenciado
 
-| Campo | Valor |
-|---|---|
+| Campo  | Valor        |
+| ------ | ------------ |
 | Status | **accepted** |
-| Data | 2025-06 |
+| Data   | 2025-06      |
 
 **Decisão:** PostgreSQL 18 como banco principal via managed service (RDS ou Cloud SQL).
 
 **Justificativa:** JSONB para dados semi-estruturados, full-text search nativo, extensão pgvector para embeddings semânticos (Squad Suporte), PostGIS para dados geoespaciais de projetos, e point-in-time recovery via managed service.
 
 **Extensões críticas:**
+
 - `pgvector` — busca por similaridade de embeddings
 - `PostGIS` — dados geoespaciais de projetos urbanos
 - `pg_trgm` — trigram search para full-text fuzzy
@@ -257,43 +263,43 @@ Cada NFR tem um SLO mensurável, prioridade e ferramenta de medição definidos.
 
 ### Performance
 
-| ID | Descrição | SLO | Prioridade | Ferramenta |
-|---|---|---|---|---|
-| NFR-P01 | Tempo de resposta de APIs | P90 ≤ 200ms · P99 ≤ 500ms | **Critical** | Prometheus + k6 |
-| NFR-P02 | LCP (Largest Contentful Paint) | P75 ≤ 2.5s | High | Web Vitals + Lighthouse CI |
-| NFR-P03 | Resposta de agentes de IA | P90 ≤ 5s (streaming) · P99 ≤ 15s | High | AI Observability dashboard |
+| ID      | Descrição                      | SLO                              | Prioridade   | Ferramenta                 |
+| ------- | ------------------------------ | -------------------------------- | ------------ | -------------------------- |
+| NFR-P01 | Tempo de resposta de APIs      | P90 ≤ 200ms · P99 ≤ 500ms        | **Critical** | Prometheus + k6            |
+| NFR-P02 | LCP (Largest Contentful Paint) | P75 ≤ 2.5s                       | High         | Web Vitals + Lighthouse CI |
+| NFR-P03 | Resposta de agentes de IA      | P90 ≤ 5s (streaming) · P99 ≤ 15s | High         | AI Observability dashboard |
 
 ### Escalabilidade
 
-| ID | Descrição | SLO | Prioridade | Ferramenta |
-|---|---|---|---|---|
+| ID      | Descrição            | SLO                             | Prioridade   | Ferramenta          |
+| ------- | -------------------- | ------------------------------- | ------------ | ------------------- |
 | NFR-S01 | Usuários simultâneos | 10.000 conc. · degradação ≤ 20% | **Critical** | k6 + Kubernetes HPA |
 
 ### Disponibilidade
 
-| ID | Descrição | SLO | Prioridade | Ferramenta |
-|---|---|---|---|---|
-| NFR-R01 | Uptime do sistema | 99.9% (≤ 8.76h downtime/ano) | **Critical** | Checkly + PagerDuty |
-| NFR-R02 | MTTR de falhas críticas | ≤ 4 horas | High | Incident tracking + runbooks |
+| ID      | Descrição               | SLO                          | Prioridade   | Ferramenta                   |
+| ------- | ----------------------- | ---------------------------- | ------------ | ---------------------------- |
+| NFR-R01 | Uptime do sistema       | 99.9% (≤ 8.76h downtime/ano) | **Critical** | Checkly + PagerDuty          |
+| NFR-R02 | MTTR de falhas críticas | ≤ 4 horas                    | High         | Incident tracking + runbooks |
 
 ### Segurança
 
-| ID | Descrição | SLO | Prioridade | Ferramenta |
-|---|---|---|---|---|
+| ID       | Descrição                        | SLO                                   | Prioridade   | Ferramenta                    |
+| -------- | -------------------------------- | ------------------------------------- | ------------ | ----------------------------- |
 | NFR-SE01 | Conformidade OWASP Top 10 + LGPD | Zero vulns críticas · auditoria anual | **Critical** | Snyk + OWASP ZAP + Burp Suite |
 
 ### Manutenibilidade
 
-| ID | Descrição | SLO | Prioridade | Ferramenta |
-|---|---|---|---|---|
-| NFR-M01 | Cobertura de testes | ≥ 80% unitário + integração | High | PHPUnit + Jest + Codecov |
-| NFR-M02 | Tempo de build do CI | ≤ 10 minutos por pipeline | Medium | GitHub Actions metrics |
+| ID      | Descrição            | SLO                         | Prioridade | Ferramenta               |
+| ------- | -------------------- | --------------------------- | ---------- | ------------------------ |
+| NFR-M01 | Cobertura de testes  | ≥ 80% unitário + integração | High       | PHPUnit + Jest + Codecov |
+| NFR-M02 | Tempo de build do CI | ≤ 10 minutos por pipeline   | Medium     | GitHub Actions metrics   |
 
 ### Usabilidade
 
-| ID | Descrição | SLO | Prioridade | Ferramenta |
-|---|---|---|---|---|
-| NFR-U01 | Acessibilidade | WCAG 2.1 AA · zero violações A/AA | Medium | axe-core CI + NVDA/VoiceOver |
+| ID      | Descrição      | SLO                               | Prioridade | Ferramenta                   |
+| ------- | -------------- | --------------------------------- | ---------- | ---------------------------- |
+| NFR-U01 | Acessibilidade | WCAG 2.1 AA · zero violações A/AA | Medium     | axe-core CI + NVDA/VoiceOver |
 
 ---
 
@@ -301,14 +307,14 @@ Cada NFR tem um SLO mensurável, prioridade e ferramenta de medição definidos.
 
 ### Backend
 
-| Camada | Tecnologia | Versão | Observação |
-|---|---|---|---|
-| Plataforma | Drupal | 11 | Headless, JSON:API + GraphQL |
-| Linguagem | PHP | 8.4+ | Strict types, readonly, fibers |
-| Banco principal | PostgreSQL | 18 | Managed (RDS/Cloud SQL) + pgvector |
-| Cache / Pub-Sub | Redis | 7+ | Object cache, sessão, rate limiting |
-| Message broker | RabbitMQ | 3.13+ | Domain events, DLQ |
-| Event streaming | Kafka | — | Reservado para >1M eventos/dia |
+| Camada          | Tecnologia | Versão | Observação                          |
+| --------------- | ---------- | ------ | ----------------------------------- |
+| Plataforma      | Drupal     | 11     | Headless, JSON:API + GraphQL        |
+| Linguagem       | PHP        | 8.4+   | Strict types, readonly, fibers      |
+| Banco principal | PostgreSQL | 18     | Managed (RDS/Cloud SQL) + pgvector  |
+| Cache / Pub-Sub | Redis      | 7+     | Object cache, sessão, rate limiting |
+| Message broker  | RabbitMQ   | 3.13+  | Domain events, DLQ                  |
+| Event streaming | Kafka      | —      | Reservado para >1M eventos/dia      |
 
 **Recipes Drupal (ordem de instalação):**
 
@@ -330,44 +336,44 @@ Cada NFR tem um SLO mensurável, prioridade e ferramenta de medição definidos.
 
 ### Frontend
 
-| Camada | Tecnologia | Versão | Observação |
-|---|---|---|---|
-| Framework | Next.js | 15 | App Router, SSR/ISR, Server Components |
-| UI Library | React | 19 | Concurrent features, Server Components |
-| Linguagem | TypeScript | 5.x | Strict mode obrigatório |
-| Styling | TailwindCSS | 4.x | + CSS Modules para escopo local |
-| Design System | Storybook | 8 | Atomic Design, visual regression |
-| State (server) | TanStack Query | 5 | Cache, sincronização, mutations |
-| State (client) | Zustand | — | Evitar Redux salvo necessidade comprovada |
-| Auth | NextAuth.js | — | Provider OAuth2 → Drupal OIDC |
-| Realtime | Socket.IO ou Ably | — | Fallback para polling com backoff |
-| PWA | Workbox | — | Service Worker, push notifications |
+| Camada         | Tecnologia        | Versão | Observação                                |
+| -------------- | ----------------- | ------ | ----------------------------------------- |
+| Framework      | Next.js           | 15     | App Router, SSR/ISR, Server Components    |
+| UI Library     | React             | 19     | Concurrent features, Server Components    |
+| Linguagem      | TypeScript        | 5.x    | Strict mode obrigatório                   |
+| Styling        | TailwindCSS       | 4.x    | + CSS Modules para escopo local           |
+| Design System  | Storybook         | 8      | Atomic Design, visual regression          |
+| State (server) | TanStack Query    | 5      | Cache, sincronização, mutations           |
+| State (client) | Zustand           | —      | Evitar Redux salvo necessidade comprovada |
+| Auth           | NextAuth.js       | —      | Provider OAuth2 → Drupal OIDC             |
+| Realtime       | Socket.IO ou Ably | —      | Fallback para polling com backoff         |
+| PWA            | Workbox           | —      | Service Worker, push notifications        |
 
 **Estratégias de rendering por tipo de página:**
 
-| Tipo de Página | Estratégia | Motivo |
-|---|---|---|
-| Dashboards de squad | SSR | Dados dinâmicos por usuário |
-| Landing pages / blog | ISR (revalidate: 3600) | SEO + performance |
-| Editor de conteúdo | CSR | Interatividade alta, SEO não necessário |
-| Relatórios | SSR | Dados atualizados a cada acesso |
+| Tipo de Página       | Estratégia             | Motivo                                  |
+| -------------------- | ---------------------- | --------------------------------------- |
+| Dashboards de squad  | SSR                    | Dados dinâmicos por usuário             |
+| Landing pages / blog | ISR (revalidate: 3600) | SEO + performance                       |
+| Editor de conteúdo   | CSR                    | Interatividade alta, SEO não necessário |
+| Relatórios           | SSR                    | Dados atualizados a cada acesso         |
 
 ---
 
 ### Inteligência Artificial
 
-| Recurso | Tecnologia | Uso |
-|---|---|---|
-| Texto / chat | OpenAI GPT-4o | Agentes conversacionais, qualificação, análise |
-| Texto (custo menor) | GPT-4o-mini | Tarefas simples, fallback de custo |
-| Imagens | DALL·E 3 | Geração de assets de marketing |
-| Imagens alternativo | MidJourney API | Renders arquitetônicos fotorrealistas |
-| Vídeo / render | Runway Gen-3 | Renders animados de projetos |
-| Embeddings | text-embedding-3-large | Busca semântica de documentos |
-| Orquestração | n8n (self-hosted) | Workflows visuais de IA |
-| AI tracing | LangSmith ou Helicone | Logging e custo de chamadas LLM |
-| PII masking | Microsoft Presidio | Mascara dados pessoais antes de APIs externas |
-| Moderação | OpenAI Moderation API | Filtra conteúdo gerado antes de persistir |
+| Recurso             | Tecnologia             | Uso                                            |
+| ------------------- | ---------------------- | ---------------------------------------------- |
+| Texto / chat        | OpenAI GPT-4o          | Agentes conversacionais, qualificação, análise |
+| Texto (custo menor) | GPT-4o-mini            | Tarefas simples, fallback de custo             |
+| Imagens             | DALL·E 3               | Geração de assets de marketing                 |
+| Imagens alternativo | MidJourney API         | Renders arquitetônicos fotorrealistas          |
+| Vídeo / render      | Runway Gen-3           | Renders animados de projetos                   |
+| Embeddings          | text-embedding-3-large | Busca semântica de documentos                  |
+| Orquestração        | n8n (self-hosted)      | Workflows visuais de IA                        |
+| AI tracing          | LangSmith ou Helicone  | Logging e custo de chamadas LLM                |
+| PII masking         | Microsoft Presidio     | Mascara dados pessoais antes de APIs externas  |
+| Moderação           | OpenAI Moderation API  | Filtra conteúdo gerado antes de persistir      |
 
 ---
 
@@ -465,23 +471,23 @@ São os únicos módulos que podem ser importados por módulos de squad. **Não 
 
 Cada módulo é um Bounded Context com ownership claro. **Nunca importam uns aos outros.**
 
-| Módulo | Bounded Context | Squad | APIs Públicas |
-|---|---|---|---|---|
-| `ia_atendimento` | `leads` | Atendimento | `/api/v1/leads`, `/api/v1/meetings` |
-| `ia_marketing` | `marketing` | Marketing | `/api/v1/blog_posts`, `/api/v1/media/images` |
-| `ia_projetos` | `projects` | Projetos | `/api/v1/projects`, `/api/v1/media/renders` |
-| `ia_obras` | `construction` | Obras | `/api/v1/construction/*` |
-| `ia_suporte` | `internal_ops` | Suporte | `/api/v1/documents`, `/api/v1/tutorials` |
-| `ia_insights` | `intelligence` | Insights | `/api/v1/insights/*` |
-| `ia_diary` | `construction_diary` | Obras | `/api/v1/diary/*` |
-| `ia_meetings` | `meeting_intelligence` | Projetos | `/api/v1/meetings`, `/api/v1/projects/{id}/meetings` |
-| `ia_financeiro_avancado` | `advanced_financial` | Financeiro | `/api/v1/finance/*` |
-| `ia_teams` | `team_management` | Operações | `/api/v1/teams/*` |
-| `ia_compliance` | `compliance_audit` | Platform | `/api/v1/audit-log`, `/api/v1/versions/*`, `/api/v1/lgpd/*` |
-| `ia_marketing_digital` | `digital_marketing` | Marketing | `/api/v1/portfolio`, `/api/v1/blog`, `/api/v1/campaigns` |
-| `ia_budget_construction` | `construction_budget` | Obras | `/api/v1/construction/budget`, `/api/v1/construction/measurement` |
-| `ia_deliverables` | `project_deliverables` | Projetos | `/api/v1/projects/{id}/phases`, `/api/v1/projects/{id}/deliverables` |
-| `ia_tasks` | `task_management` | Platform | `/api/v1/tasks/*` |
+| Módulo                   | Bounded Context        | Squad       | APIs Públicas                                                        |
+| ------------------------ | ---------------------- | ----------- | -------------------------------------------------------------------- |
+| `ia_atendimento`         | `leads`                | Atendimento | `/api/v1/leads`, `/api/v1/meetings`                                  |
+| `ia_marketing`           | `marketing`            | Marketing   | `/api/v1/blog_posts`, `/api/v1/media/images`                         |
+| `ia_projetos`            | `projects`             | Projetos    | `/api/v1/projects`, `/api/v1/media/renders`                          |
+| `ia_obras`               | `construction`         | Obras       | `/api/v1/construction/*`                                             |
+| `ia_suporte`             | `internal_ops`         | Suporte     | `/api/v1/documents`, `/api/v1/tutorials`                             |
+| `ia_insights`            | `intelligence`         | Insights    | `/api/v1/insights/*`                                                 |
+| `ia_diary`               | `construction_diary`   | Obras       | `/api/v1/diary/*`                                                    |
+| `ia_meetings`            | `meeting_intelligence` | Projetos    | `/api/v1/meetings`, `/api/v1/projects/{id}/meetings`                 |
+| `ia_financeiro_avancado` | `advanced_financial`   | Financeiro  | `/api/v1/finance/*`                                                  |
+| `ia_teams`               | `team_management`      | Operações   | `/api/v1/teams/*`                                                    |
+| `ia_compliance`          | `compliance_audit`     | Platform    | `/api/v1/audit-log`, `/api/v1/versions/*`, `/api/v1/lgpd/*`          |
+| `ia_marketing_digital`   | `digital_marketing`    | Marketing   | `/api/v1/portfolio`, `/api/v1/blog`, `/api/v1/campaigns`             |
+| `ia_budget_construction` | `construction_budget`  | Obras       | `/api/v1/construction/budget`, `/api/v1/construction/measurement`    |
+| `ia_deliverables`        | `project_deliverables` | Projetos    | `/api/v1/projects/{id}/phases`, `/api/v1/projects/{id}/deliverables` |
+| `ia_tasks`               | `task_management`      | Platform    | `/api/v1/tasks/*`                                                    |
 
 ---
 
@@ -517,22 +523,22 @@ Todos os schemas estão em `./docs/data-contracts/` no formato JSON Schema. **Al
 
 #### Eventos Emitidos por Squad
 
-| Evento | Squad Emissor | Consumidores | Schema |
-|---|---|---|---|
-| `LeadCreated` | Atendimento | Marketing, Suporte | `leads/LeadCreated.json` |
-| `LeadQualified` | Atendimento | — | `leads/LeadQualified.json` |
-| `MeetingScheduled` | Atendimento | Suporte | `leads/MeetingScheduled.json` |
-| `ContentPublished` | Marketing | Insights | `marketing/ContentPublished.json` |
-| `CampaignOptimized` | Marketing | — | `marketing/CampaignOptimized.json` |
-| `ProjectCreated` | Projetos | Obras, Suporte, Insights | `projects/ProjectCreated.json` |
-| `ProjectValidated` | Projetos | Obras | `projects/ProjectValidated.json` |
-| `RenderGenerated` | Projetos | — | `projects/RenderGenerated.json` |
-| `ConstructionStarted` | Obras | Suporte | `construction/ConstructionStarted.json` |
-| `BudgetDeviation` | Obras | Suporte | `construction/BudgetDeviation.json` |
-| `ChecklistAlert` | Obras | Suporte | `construction/ChecklistAlert.json` |
-| `DocumentIndexed` | Suporte | — | `internal/DocumentIndexed.json` |
-| `InsightGenerated` | Insights | — | `insights/InsightGenerated.json` |
-| `TrendAlert` | Insights | Suporte | `insights/TrendAlert.json` |
+| Evento                | Squad Emissor | Consumidores             | Schema                                  |
+| --------------------- | ------------- | ------------------------ | --------------------------------------- |
+| `LeadCreated`         | Atendimento   | Marketing, Suporte       | `leads/LeadCreated.json`                |
+| `LeadQualified`       | Atendimento   | —                        | `leads/LeadQualified.json`              |
+| `MeetingScheduled`    | Atendimento   | Suporte                  | `leads/MeetingScheduled.json`           |
+| `ContentPublished`    | Marketing     | Insights                 | `marketing/ContentPublished.json`       |
+| `CampaignOptimized`   | Marketing     | —                        | `marketing/CampaignOptimized.json`      |
+| `ProjectCreated`      | Projetos      | Obras, Suporte, Insights | `projects/ProjectCreated.json`          |
+| `ProjectValidated`    | Projetos      | Obras                    | `projects/ProjectValidated.json`        |
+| `RenderGenerated`     | Projetos      | —                        | `projects/RenderGenerated.json`         |
+| `ConstructionStarted` | Obras         | Suporte                  | `construction/ConstructionStarted.json` |
+| `BudgetDeviation`     | Obras         | Suporte                  | `construction/BudgetDeviation.json`     |
+| `ChecklistAlert`      | Obras         | Suporte                  | `construction/ChecklistAlert.json`      |
+| `DocumentIndexed`     | Suporte       | —                        | `internal/DocumentIndexed.json`         |
+| `InsightGenerated`    | Insights      | —                        | `insights/InsightGenerated.json`        |
+| `TrendAlert`          | Insights      | Suporte                  | `insights/TrendAlert.json`              |
 
 ### Configuração RabbitMQ
 
@@ -562,15 +568,15 @@ Políticas obrigatórias:
 
 ```json
 {
-  "event_id": "uuid-v4",
-  "event_type": "LeadCreated",
-  "event_version": "1.0",
-  "source_module": "ia_atendimento",
-  "trace_id": "abc123",
-  "occurred_at": "2025-06-01T10:00:00Z",
-  "payload": {
-    // dados específicos do evento
-  }
+	"event_id": "uuid-v4",
+	"event_type": "LeadCreated",
+	"event_version": "1.0",
+	"source_module": "ia_atendimento",
+	"trace_id": "abc123",
+	"occurred_at": "2025-06-01T10:00:00Z",
+	"payload": {
+		// dados específicos do evento
+	}
 }
 ```
 
@@ -586,12 +592,12 @@ Políticas obrigatórias:
 
 #### Agentes
 
-| Agente | Skill | Endpoint | Trigger |
-|---|---|---|---|
-| IA Recepcionista | Lead Chat — coleta estruturada via conversação | `POST /api/v1/leads` | Visitante inicia chat |
-| IA Qualificadora | Lead Scoring (0–100) por orçamento, prazo e fit | `PATCH /api/v1/leads/{id}/qualify` | Evento `LeadCreated` |
-| IA Agenda | Meeting Scheduling via Google Calendar / Outlook | `POST /api/v1/meetings` | Lead score ≥ 60 ou ação manual |
-| IA Follow-up | Nurturing automatizado por email e WhatsApp | Queue: `followup_queue` | Cron: leads sem meeting há 3 dias |
+| Agente           | Skill                                            | Endpoint                           | Trigger                           |
+| ---------------- | ------------------------------------------------ | ---------------------------------- | --------------------------------- |
+| IA Recepcionista | Lead Chat — coleta estruturada via conversação   | `POST /api/v1/leads`               | Visitante inicia chat             |
+| IA Qualificadora | Lead Scoring (0–100) por orçamento, prazo e fit  | `PATCH /api/v1/leads/{id}/qualify` | Evento `LeadCreated`              |
+| IA Agenda        | Meeting Scheduling via Google Calendar / Outlook | `POST /api/v1/meetings`            | Lead score ≥ 60 ou ação manual    |
+| IA Follow-up     | Nurturing automatizado por email e WhatsApp      | Queue: `followup_queue`            | Cron: leads sem meeting há 3 dias |
 
 **Fluxo: Lead novo até reunião agendada**
 
@@ -614,6 +620,7 @@ Se score ≥ 60:
 ```
 
 **Tratamento de falhas:**
+
 - GPT-4o indisponível → lead criado sem score, alerta para qualificação manual
 - Google Calendar indisponível → meeting salvo como pendente, reprocessado via queue
 - Timeout de qualificação → circuit breaker abre após 3 falhas consecutivas, alerta PagerDuty
@@ -622,38 +629,38 @@ Se score ≥ 60:
 
 **Lead**
 
-| Campo | Tipo | Observação |
-|---|---|---|
-| `nome` | string | required |
-| `email` | email | required · unique |
-| `telefone` | phone | |
-| `tipo_projeto` | select | residencial · comercial · urbanismo · reforma |
-| `orcamento_estimado` | decimal | |
-| `prazo_desejado` | date | |
-| `score_qualificacao` | integer | range: 0–100 |
-| `status` | select | novo · qualificado · agendado · convertido · perdido |
-| `historico_interacoes` | json | array de interações com timestamp |
-| `canal_origem` | select | chat · email · whatsapp · indicacao · organico |
+| Campo                  | Tipo    | Observação                                           |
+| ---------------------- | ------- | ---------------------------------------------------- |
+| `nome`                 | string  | required                                             |
+| `email`                | email   | required · unique                                    |
+| `telefone`             | phone   |                                                      |
+| `tipo_projeto`         | select  | residencial · comercial · urbanismo · reforma        |
+| `orcamento_estimado`   | decimal |                                                      |
+| `prazo_desejado`       | date    |                                                      |
+| `score_qualificacao`   | integer | range: 0–100                                         |
+| `status`               | select  | novo · qualificado · agendado · convertido · perdido |
+| `historico_interacoes` | json    | array de interações com timestamp                    |
+| `canal_origem`         | select  | chat · email · whatsapp · indicacao · organico       |
 
 **Meeting**
 
-| Campo | Tipo | Observação |
-|---|---|---|
-| `lead_id` | reference | → Lead |
-| `arquiteto_id` | reference | → User |
-| `data_hora` | datetime | |
-| `tipo` | select | video · presencial · telefone |
-| `link_video` | url | |
-| `status` | select | agendado · confirmado · realizado · cancelado |
+| Campo          | Tipo      | Observação                                    |
+| -------------- | --------- | --------------------------------------------- |
+| `lead_id`      | reference | → Lead                                        |
+| `arquiteto_id` | reference | → User                                        |
+| `data_hora`    | datetime  |                                               |
+| `tipo`         | select    | video · presencial · telefone                 |
+| `link_video`   | url       |                                               |
+| `status`       | select    | agendado · confirmado · realizado · cancelado |
 
 #### Métricas
 
-| Métrica | Target |
-|---|---|
-| Taxa de conversão de leads | ≥ 15% |
-| Tempo médio de qualificação | ≤ 5 min |
-| Follow-up response rate | ≥ 20% |
-| Reuniões agendadas/semana | baseline S1 |
+| Métrica                     | Target      |
+| --------------------------- | ----------- |
+| Taxa de conversão de leads  | ≥ 15%       |
+| Tempo médio de qualificação | ≤ 5 min     |
+| Follow-up response rate     | ≥ 20%       |
+| Reuniões agendadas/semana   | baseline S1 |
 
 ---
 
@@ -663,12 +670,12 @@ Se score ≥ 60:
 
 #### Agentes
 
-| Agente | Skill | Endpoint | Trigger |
-|---|---|---|---|
-| IA Conteudista | Geração de posts/artigos SEO-otimizados | `POST /api/v1/blog_posts` | Manual ou schedule |
-| IA Designer | Visual assets via DALL·E 3 / MidJourney | `POST /api/v1/media/images` | Manual |
-| IA Ads | Otimização de campanhas Google/Meta Ads | n8n workflow | Diário |
-| IA Analytics | Analytics preditivo via GA4 + dados CRM | `GET /api/v1/analytics/marketing` | Semanal + on-demand |
+| Agente         | Skill                                   | Endpoint                          | Trigger             |
+| -------------- | --------------------------------------- | --------------------------------- | ------------------- |
+| IA Conteudista | Geração de posts/artigos SEO-otimizados | `POST /api/v1/blog_posts`         | Manual ou schedule  |
+| IA Designer    | Visual assets via DALL·E 3 / MidJourney | `POST /api/v1/media/images`       | Manual              |
+| IA Ads         | Otimização de campanhas Google/Meta Ads | n8n workflow                      | Diário              |
+| IA Analytics   | Analytics preditivo via GA4 + dados CRM | `GET /api/v1/analytics/marketing` | Semanal + on-demand |
 
 > **Human-in-the-loop:** Todo conteúdo gerado pela IA Conteudista entra com `status: revisao`. Publicação requer aprovação humana. Mudanças de budget em campanhas >20% exigem aprovação do gestor.
 
@@ -682,11 +689,11 @@ Se score ≥ 60:
 
 #### Métricas
 
-| Métrica | Target |
-|---|---|
+| Métrica                         | Target    |
+| ------------------------------- | --------- |
 | Crescimento de tráfego orgânico | ≥ 10%/mês |
-| Engajamento de conteúdo | ≥ 3% |
-| ROAS de campanhas | ≥ 4x |
+| Engajamento de conteúdo         | ≥ 3%      |
+| ROAS de campanhas               | ≥ 4x      |
 
 ---
 
@@ -696,12 +703,12 @@ Se score ≥ 60:
 
 #### Agentes
 
-| Agente | Skill | Endpoint | Observação |
-|---|---|---|---|
-| IA Drafting | Plantas iniciais a partir de briefing estruturado | `POST /api/v1/projects/draft` | |
-| IA BIM | Parse IFC, detecção de conflitos multidisciplinares | `POST /api/v1/bim/integrate` | Integra Autodesk APS, Trimble |
-| IA Render | Renders fotorrealistas Runway Gen-3 / MidJourney | `POST /api/v1/media/renders` | **Assíncrono** via RabbitMQ |
-| IA Verificador | Checklist normativo NBR/ABNT + acessibilidade | `POST /api/v1/projects/{id}/validate` | |
+| Agente         | Skill                                               | Endpoint                              | Observação                    |
+| -------------- | --------------------------------------------------- | ------------------------------------- | ----------------------------- |
+| IA Drafting    | Plantas iniciais a partir de briefing estruturado   | `POST /api/v1/projects/draft`         |                               |
+| IA BIM         | Parse IFC, detecção de conflitos multidisciplinares | `POST /api/v1/bim/integrate`          | Integra Autodesk APS, Trimble |
+| IA Render      | Renders fotorrealistas Runway Gen-3 / MidJourney    | `POST /api/v1/media/renders`          | **Assíncrono** via RabbitMQ   |
+| IA Verificador | Checklist normativo NBR/ABNT + acessibilidade       | `POST /api/v1/projects/{id}/validate` |                               |
 
 > **Renders são assíncronos:** a requisição é aceita imediatamente (HTTP 202), processada em background via RabbitMQ, e o usuário recebe notificação via WebSocket quando o render estiver pronto. Tempo esperado: ≤ 2h para 4K.
 
@@ -715,11 +722,11 @@ Se score ≥ 60:
 
 #### Métricas
 
-| Métrica | Target |
-|---|---|
-| Tempo de criação de rascunho | ≤ 24h após briefing completo |
-| Taxa de conformidade normativa | ≥ 95% |
-| Turnaround de render 4K | ≤ 2 horas |
+| Métrica                        | Target                       |
+| ------------------------------ | ---------------------------- |
+| Tempo de criação de rascunho   | ≤ 24h após briefing completo |
+| Taxa de conformidade normativa | ≥ 95%                        |
+| Turnaround de render 4K        | ≤ 2 horas                    |
 
 ---
 
@@ -729,12 +736,12 @@ Se score ≥ 60:
 
 #### Agentes
 
-| Agente | Skill | Endpoint | Trigger |
-|---|---|---|---|
-| IA Planejadora | Cronograma CPM/PERT, otimização de recursos | `POST /api/v1/construction/schedules` | Evento `ProjectValidated` |
-| IA Compras | Comparação de fornecedores, lista de materiais | `POST /api/v1/construction/materials` | Manual ou schedule |
-| IA Supervisora | Análise de imagens de campo (GPT-4o Vision) | Queue: `construction_monitoring_queue` | Upload via Mobile PWA |
-| IA Custos | Orçamento em tempo real, previsão de desvios | `POST /api/v1/construction/budgets` | Diário (cron) + on-demand |
+| Agente         | Skill                                          | Endpoint                               | Trigger                   |
+| -------------- | ---------------------------------------------- | -------------------------------------- | ------------------------- |
+| IA Planejadora | Cronograma CPM/PERT, otimização de recursos    | `POST /api/v1/construction/schedules`  | Evento `ProjectValidated` |
+| IA Compras     | Comparação de fornecedores, lista de materiais | `POST /api/v1/construction/materials`  | Manual ou schedule        |
+| IA Supervisora | Análise de imagens de campo (GPT-4o Vision)    | Queue: `construction_monitoring_queue` | Upload via Mobile PWA     |
+| IA Custos      | Orçamento em tempo real, previsão de desvios   | `POST /api/v1/construction/budgets`    | Diário (cron) + on-demand |
 
 **Fluxo: Supervisão de campo**
 
@@ -744,7 +751,7 @@ Técnico de campo faz upload de foto via Mobile PWA
     → Publica ImageUploaded → RabbitMQ
     → archtech_ai_gateway → GPT-4o Vision (análise de anomalias)
     → Cria/atualiza SiteChecklist com resultado
-    
+
 Se alerta crítico detectado:
     → Publica ChecklistAlert → RabbitMQ
     → n8n workflow → notificação Slack para Squad Obras + Suporte
@@ -763,10 +770,10 @@ Se alerta crítico detectado:
 
 #### Métricas
 
-| Métrica | Target |
-|---|---|
-| Aderência ao cronograma | ≥ 85% |
-| Desvio orçamentário | ≤ 10% |
+| Métrica                         | Target      |
+| ------------------------------- | ----------- |
+| Aderência ao cronograma         | ≥ 85%       |
+| Desvio orçamentário             | ≤ 10%       |
 | Não conformidades por checklist | ≤ 2 (média) |
 
 ---
@@ -777,12 +784,12 @@ Se alerta crítico detectado:
 
 #### Agentes
 
-| Agente | Skill | Endpoint | Observação |
-|---|---|---|---|
-| IA Documental | OCR + indexação semântica + busca por similaridade | `POST /api/v1/documents` | Usa pgvector/Pinecone |
-| IA Relatórios | BI automatizado com visualizações interativas | `GET /api/v1/reports/internal` | Semanal + mensal |
-| IA Comunicadora | Notificações contextuais via Slack/Teams | n8n workflow | Triggered por eventos críticos |
-| IA Treinamento | Trilhas de onboarding adaptativas por perfil | `POST /api/v1/tutorials` | |
+| Agente          | Skill                                              | Endpoint                       | Observação                     |
+| --------------- | -------------------------------------------------- | ------------------------------ | ------------------------------ |
+| IA Documental   | OCR + indexação semântica + busca por similaridade | `POST /api/v1/documents`       | Usa pgvector/Pinecone          |
+| IA Relatórios   | BI automatizado com visualizações interativas      | `GET /api/v1/reports/internal` | Semanal + mensal               |
+| IA Comunicadora | Notificações contextuais via Slack/Teams           | n8n workflow                   | Triggered por eventos críticos |
+| IA Treinamento  | Trilhas de onboarding adaptativas por perfil       | `POST /api/v1/tutorials`       |                                |
 
 > **Busca Semântica:** O campo `embedding_vector` nos documentos armazena o vetor gerado pelo modelo `text-embedding-3-large`. A busca por `GET /api/v1/documents/search?q=consulta` faz similarity search via pgvector (cosine distance), retornando os documentos mais relevantes mesmo sem correspondência exata de palavras.
 
@@ -794,10 +801,10 @@ Se alerta crítico detectado:
 
 #### Métricas
 
-| Métrica | Target |
-|---|---|
-| Taxa de sucesso de busca semântica | ≥ 90% |
-| Completion rate de onboarding | ≥ 95% |
+| Métrica                              | Target   |
+| ------------------------------------ | -------- |
+| Taxa de sucesso de busca semântica   | ≥ 90%    |
+| Completion rate de onboarding        | ≥ 95%    |
 | Tempo de resposta a alertas críticos | ≤ 15 min |
 
 ---
@@ -808,11 +815,11 @@ Se alerta crítico detectado:
 
 #### Agentes
 
-| Agente | Skill | Endpoint | Schedule |
-|---|---|---|---|
-| IA Pesquisa | Web scraping + NLP em fontes técnicas | `POST /api/v1/insights/trends` | Diário às 6h |
-| IA Benchmark | Análise competitiva de fornecedores e inovações | `POST /api/v1/insights/benchmark` | Semanal (domingo) |
-| IA Sustentável | Sugestões de materiais por impacto ambiental | `POST /api/v1/insights/sustainable` | Triggered por `ProjectCreated` |
+| Agente         | Skill                                           | Endpoint                            | Schedule                       |
+| -------------- | ----------------------------------------------- | ----------------------------------- | ------------------------------ |
+| IA Pesquisa    | Web scraping + NLP em fontes técnicas           | `POST /api/v1/insights/trends`      | Diário às 6h                   |
+| IA Benchmark   | Análise competitiva de fornecedores e inovações | `POST /api/v1/insights/benchmark`   | Semanal (domingo)              |
+| IA Sustentável | Sugestões de materiais por impacto ambiental    | `POST /api/v1/insights/sustainable` | Triggered por `ProjectCreated` |
 
 #### Content Types
 
@@ -820,10 +827,10 @@ Se alerta crítico detectado:
 
 #### Métricas
 
-| Métrica | Target |
-|---|---|
-| Insights acionáveis por semana | ≥ 5 |
-| Insight-to-action rate | ≥ 30% |
+| Métrica                        | Target |
+| ------------------------------ | ------ |
+| Insights acionáveis por semana | ≥ 5    |
+| Insight-to-action rate         | ≥ 30%  |
 
 ---
 
@@ -831,16 +838,17 @@ Se alerta crítico detectado:
 
 ### Ambientes
 
-| Ambiente | Propósito | Deploy | Banco |
-|---|---|---|---|
-| `local` | Desenvolvimento individual | DDEV / Docker Compose | PostgreSQL local |
-| `development` | Integração de branches | Auto via CI em push | Instância dev isolada |
-| `staging` | Validação pré-produção | Auto via CI em merge para main | Dados anonimizados de prod |
-| `production` | Sistema em uso real | Canary deployment via Argo CD | Managed (RDS/Cloud SQL) |
+| Ambiente      | Propósito                  | Deploy                         | Banco                      |
+| ------------- | -------------------------- | ------------------------------ | -------------------------- |
+| `local`       | Desenvolvimento individual | DDEV / Docker Compose          | PostgreSQL local           |
+| `development` | Integração de branches     | Auto via CI em push            | Instância dev isolada      |
+| `staging`     | Validação pré-produção     | Auto via CI em merge para main | Dados anonimizados de prod |
+| `production`  | Sistema em uso real        | Canary deployment via Argo CD  | Managed (RDS/Cloud SQL)    |
 
 ### Pipelines CI/CD
 
 **Backend (GitHub Actions):**
+
 ```
 trigger: push em qualquer branch
 
@@ -854,6 +862,7 @@ trigger: push em qualquer branch
 ```
 
 **Frontend (GitHub Actions):**
+
 ```
 trigger: push em qualquer branch
 
@@ -916,6 +925,7 @@ Estratégia de rollout para mudanças de alto risco:
 **Duração:** 2–3 semanas
 
 **Skills necessárias:**
+
 - Solution Architecture, Domain-Driven Design (DDD)
 - API Design (OpenAPI 3.1), Event Storming
 - Security (STRIDE, Threat Modeling)
@@ -923,20 +933,21 @@ Estratégia de rollout para mudanças de alto risco:
 
 **Ferramentas:** Miro/Mural · Stoplight Studio · Spectral · Structurizr · Notion/Confluence
 
-| # | Tarefa |
-|---|---|
-| 1.1 | Event Storming com stakeholders — mapear domain events, bounded contexts e agregados por squad |
-| 1.2 | Definir e documentar ADRs para decisões arquiteturais críticas (stack, comunicação, AI providers) |
-| 1.3 | Modelagem de dados por bounded context — Content Types, relações, Data Contracts iniciais |
-| 1.4 | Contract-First API Design — esboço de endpoints OpenAPI 3.1 por squad |
-| 1.5 | Threat Modeling STRIDE — identificação de superfícies de ataque e requisitos de segurança |
+| #   | Tarefa                                                                                                 |
+| --- | ------------------------------------------------------------------------------------------------------ |
+| 1.1 | Event Storming com stakeholders — mapear domain events, bounded contexts e agregados por squad         |
+| 1.2 | Definir e documentar ADRs para decisões arquiteturais críticas (stack, comunicação, AI providers)      |
+| 1.3 | Modelagem de dados por bounded context — Content Types, relações, Data Contracts iniciais              |
+| 1.4 | Contract-First API Design — esboço de endpoints OpenAPI 3.1 por squad                                  |
+| 1.5 | Threat Modeling STRIDE — identificação de superfícies de ataque e requisitos de segurança              |
 | 1.6 | Design System: tokens (cores, tipografia, espaçamento), guia de componentes atômicos, referência Figma |
-| 1.7 | Backlog detalhado: Epics → Features → User Stories com critérios de aceite BDD |
-| 1.8 | Definição de SLOs por endpoint crítico e estratégia de observabilidade |
+| 1.7 | Backlog detalhado: Epics → Features → User Stories com critérios de aceite BDD                         |
+| 1.8 | Definição de SLOs por endpoint crítico e estratégia de observabilidade                                 |
 
 **Entregáveis:** Documento de Arquitetura (C4 L1–L3) · ADRs versionados · Schemas OpenAPI 3.1 iniciais · Data Contracts JSON Schema · Design System Guidelines · Backlog priorizado · Threat Model document
 
 **Definition of Done:**
+
 - [ ] ADRs revisados e aprovados pelo Tech Lead e PO
 - [ ] APIs spec aprovadas via PR com Spectral lint passando (zero erros)
 - [ ] Backlog com estimativas para Sprint 1
@@ -949,6 +960,7 @@ Estratégia de rollout para mudanças de alto risco:
 **Duração:** 2 semanas
 
 **Skills necessárias:**
+
 - DevOps / SRE: Kubernetes, Terraform, Helm
 - CI/CD: GitHub Actions, pipelines de qualidade
 - Security: WAF, secrets management, network policies
@@ -956,22 +968,23 @@ Estratégia de rollout para mudanças de alto risco:
 
 **Ferramentas:** Terraform + Helm · GitHub Actions · Docker + Kubernetes · HashiCorp Vault · Prometheus + Grafana · Loki + Jaeger · DDEV
 
-| # | Tarefa |
-|---|---|
-| 2.1 | Provisionar infraestrutura via Terraform: VPC, EKS/GKE, RDS PostgreSQL, ElastiCache Redis |
-| 2.2 | Kubernetes: namespaces por ambiente, RBAC, NetworkPolicies |
-| 2.3 | Pipeline CI Backend: lint → SAST → tests → Docker build → deploy Helm |
-| 2.4 | Pipeline CI Frontend: lint → type-check → jest → Lighthouse CI → build → deploy |
-| 2.5 | Quality gates obrigatórios configurados como bloqueantes no CI |
-| 2.6 | HashiCorp Vault: políticas por serviço, rotação automática de secrets do banco |
-| 2.7 | WAF (AWS WAF / Cloudflare) com ruleset OWASP CRS + DDoS protection |
-| 2.8 | Stack de observabilidade: Prometheus + Grafana + Loki + Jaeger |
-| 2.9 | Ambientes locais DDEV com paridade de serviços via Docker Compose |
-| 2.10 | RabbitMQ: exchanges, queues, DLQ, alertas de queue depth |
+| #    | Tarefa                                                                                    |
+| ---- | ----------------------------------------------------------------------------------------- |
+| 2.1  | Provisionar infraestrutura via Terraform: VPC, EKS/GKE, RDS PostgreSQL, ElastiCache Redis |
+| 2.2  | Kubernetes: namespaces por ambiente, RBAC, NetworkPolicies                                |
+| 2.3  | Pipeline CI Backend: lint → SAST → tests → Docker build → deploy Helm                     |
+| 2.4  | Pipeline CI Frontend: lint → type-check → jest → Lighthouse CI → build → deploy           |
+| 2.5  | Quality gates obrigatórios configurados como bloqueantes no CI                            |
+| 2.6  | HashiCorp Vault: políticas por serviço, rotação automática de secrets do banco            |
+| 2.7  | WAF (AWS WAF / Cloudflare) com ruleset OWASP CRS + DDoS protection                        |
+| 2.8  | Stack de observabilidade: Prometheus + Grafana + Loki + Jaeger                            |
+| 2.9  | Ambientes locais DDEV com paridade de serviços via Docker Compose                         |
+| 2.10 | RabbitMQ: exchanges, queues, DLQ, alertas de queue depth                                  |
 
 **Entregáveis:** Infraestrutura provisionada e documentada · Pipelines CI/CD funcionais · Quality gates ativos · Runbooks de operação · Dashboard de observabilidade base no Grafana
 
 **Definition of Done:**
+
 - [ ] Deploy automatizado de uma mudança simples passa em todos os environments
 - [ ] Secrets nunca visíveis em logs ou código (verificado por auditoria manual)
 - [ ] Alertas de disponibilidade disparando corretamente em teste de falha simulada
@@ -984,6 +997,7 @@ Estratégia de rollout para mudanças de alto risco:
 **Duração:** 4–5 semanas
 
 **Skills necessárias:**
+
 - Drupal 11 avançado: módulos customizados, Content Types, Recipes, JSON:API, GraphQL
 - PHP 8.4+: tipos estritos, atributos, fibers, readonly properties
 - Event-Driven Architecture: RabbitMQ, Outbox Pattern, idempotência
@@ -992,35 +1006,36 @@ Estratégia de rollout para mudanças de alto risco:
 
 **Ferramentas:** Drush · PHPStan nível 8 · PHPCS · PHPUnit + Drupal Test Traits · Spectral · Postman/Hoppscotch
 
-| # | Tarefa |
-|---|---|
-| 3.1 | Clonar e configurar drupal-recipes-base; aplicar Recipes na ordem definida |
-| 3.2 | `archtech_core_api`: controller base, paginação cursor-based, filtros declarativos, error response contracts |
-| 3.3 | `archtech_security`: OAuth2/OIDC provider, MFA, RBAC por squad, audit log imutável |
-| 3.4 | `archtech_events`: EventDispatcher sobre RabbitMQ, Outbox Pattern, EventStore, retry/DLQ handling |
-| 3.5 | `archtech_feature_flags`: flag store no Redis, API de flags, Twig extension |
-| 3.6 | `archtech_ai_gateway`: circuit breaker, retry backoff, prompt registry, cost tracking por chamada |
-| 3.7 | `ia_atendimento`: Content Types Lead + Meeting, endpoints, consumers, testes |
-| 3.8 | `ia_marketing`: Content Types BlogPost + MediaAsset, endpoints, testes |
-| 3.9 | `ia_projetos`: Content Types Project + Render + ValidationReport, endpoints, testes |
-| 3.10 | `ia_obras`: Content Types Schedule + MaterialList + SiteChecklist + Budget, endpoints, testes |
-| 3.11 | `ia_suporte`: Document com pgvector embedding, Tutorial, semantic search endpoint, testes |
-| 3.12 | `ia_insights`: Insight content type, schedulers de coleta, testes |
+| #    | Tarefa                                                                                                                    |
+| ---- | ------------------------------------------------------------------------------------------------------------------------- |
+| 3.1  | Clonar e configurar drupal-recipes-base; aplicar Recipes na ordem definida                                                |
+| 3.2  | `archtech_core_api`: controller base, paginação cursor-based, filtros declarativos, error response contracts              |
+| 3.3  | `archtech_security`: OAuth2/OIDC provider, MFA, RBAC por squad, audit log imutável                                        |
+| 3.4  | `archtech_events`: EventDispatcher sobre RabbitMQ, Outbox Pattern, EventStore, retry/DLQ handling                         |
+| 3.5  | `archtech_feature_flags`: flag store no Redis, API de flags, Twig extension                                               |
+| 3.6  | `archtech_ai_gateway`: circuit breaker, retry backoff, prompt registry, cost tracking por chamada                         |
+| 3.7  | `ia_atendimento`: Content Types Lead + Meeting, endpoints, consumers, testes                                              |
+| 3.8  | `ia_marketing`: Content Types BlogPost + MediaAsset, endpoints, testes                                                    |
+| 3.9  | `ia_projetos`: Content Types Project + Render + ValidationReport, endpoints, testes                                       |
+| 3.10 | `ia_obras`: Content Types Schedule + MaterialList + SiteChecklist + Budget, endpoints, testes                             |
+| 3.11 | `ia_suporte`: Document com pgvector embedding, Tutorial, semantic search endpoint, testes                                 |
+| 3.12 | `ia_insights`: Insight content type, schedulers de coleta, testes                                                         |
 | 3.13 | `ia_diary`: Diário de Obra Digital — DiaryEntry, DiaryPhoto, WeeklyReport, endpoints, IA_DiaryAssistant, IA_SiteInspector |
-| 3.14 | `ia_meetings`: Atas Inteligentes — MeetingRecord, ActionItem, transcrição Whisper, IA_MeetingScribe |
-| 3.15 | `ia_financeiro_avancado`: Reembolso, Folha por Projeto, Fluxo de Caixa por Obra, Curva ABC |
-| 3.16 | `ia_teams`: Gestão de Equipes — TeamMember, ProjectAllocation, IA_TeamOptimizer |
-| 3.17 | `ia_compliance`: Auditoria Imutável, Versionamento SHA-256, LGPD Consent |
-| 3.18 | `ia_marketing_digital`: Portfólio, Blog, Landing Pages, Campanhas, IA_ContentCalendar |
-| 3.19 | `ia_budget_construction`: Orçamento com Composição Unitária, SINAPI, Medições, Curva ABC |
-| 3.20 | `ia_deliverables`: Fases de Projeto, Checklist de Entregáveis, Versionamento, Aprovação |
-| 3.21 | `ia_tasks`: Tarefas Unificadas, Kanban, IA_TaskPrioritizer |
-| 3.22 | OpenTelemetry trace_id em todas as requisições HTTP e mensagens de fila |
-| 3.23 | Documentar APIs finais em OpenAPI 3.1 + gerar Postman collection automaticamente |
+| 3.14 | `ia_meetings`: Atas Inteligentes — MeetingRecord, ActionItem, transcrição Whisper, IA_MeetingScribe                       |
+| 3.15 | `ia_financeiro_avancado`: Reembolso, Folha por Projeto, Fluxo de Caixa por Obra, Curva ABC                                |
+| 3.16 | `ia_teams`: Gestão de Equipes — TeamMember, ProjectAllocation, IA_TeamOptimizer                                           |
+| 3.17 | `ia_compliance`: Auditoria Imutável, Versionamento SHA-256, LGPD Consent                                                  |
+| 3.18 | `ia_marketing_digital`: Portfólio, Blog, Landing Pages, Campanhas, IA_ContentCalendar                                     |
+| 3.19 | `ia_budget_construction`: Orçamento com Composição Unitária, SINAPI, Medições, Curva ABC                                  |
+| 3.20 | `ia_deliverables`: Fases de Projeto, Checklist de Entregáveis, Versionamento, Aprovação                                   |
+| 3.21 | `ia_tasks`: Tarefas Unificadas, Kanban, IA_TaskPrioritizer                                                                |
+| 3.22 | OpenTelemetry trace_id em todas as requisições HTTP e mensagens de fila                                                   |
+| 3.23 | Documentar APIs finais em OpenAPI 3.1 + gerar Postman collection automaticamente                                          |
 
 **Entregáveis:** 5 módulos de plataforma + 15 módulos de squad funcionais e testados · Cobertura ≥ 80% por módulo · OpenAPI specs validadas (Spectral) · Postman collection · Event Catalog completo
 
 **Definition of Done:**
+
 - [ ] Todos os endpoints retornam respostas conformes com o schema OpenAPI (validação automatizada via Dredd ou Schemathesis)
 - [ ] Eventos publicados no RabbitMQ e consumidos corretamente (teste de integração com broker real)
 - [ ] Cobertura ≥ 80% no CI (bloqueante para merge)
@@ -1034,6 +1049,7 @@ Estratégia de rollout para mudanças de alto risco:
 **Duração:** 4–5 semanas
 
 **Skills necessárias:**
+
 - Next.js 15 App Router (SSR/ISR, Server Components, route groups)
 - React 19 + TypeScript 5.x strict mode
 - TailwindCSS 4.x + CSS Modules
@@ -1043,26 +1059,27 @@ Estratégia de rollout para mudanças de alto risco:
 
 **Ferramentas:** Storybook 8 · Chromatic · Playwright · Lighthouse CI · axe-core · Bundle Analyzer (next-bundle-analyzer) · Figma
 
-| # | Tarefa |
-|---|---|
-| 4.1 | Setup Next.js 15 App Router + TypeScript strict + TailwindCSS + ESLint/Prettier |
-| 4.2 | Design System: design tokens → Atoms (Button, Input, Badge, Icon) → Molecules (Card, Form, Alert) → documentação Storybook |
-| 4.3 | NextAuth.js com provider OAuth2 (Drupal OIDC); protected routes por squad/role |
-| 4.4 | Camada de data fetching: TanStack Query + abstração de API client gerada do OpenAPI spec |
-| 4.5 | Dashboard Squad Atendimento: pipeline Kanban de leads, agenda, histórico de interações |
-| 4.6 | Dashboard Squad Marketing: editor de conteúdo com preview, galeria de assets, analytics overview |
-| 4.7 | Dashboard Squad Projetos: viewer de projetos, upload BIM, galeria de renders, relatório de validação |
-| 4.8 | Dashboard Squad Obras: cronograma Gantt, lista de materiais, checklist mobile-first, dashboard de custos |
-| 4.9 | Dashboard Squad Suporte: busca semântica de documentos, viewer de relatórios, módulo de treinamento |
-| 4.10 | Dashboard Squad Insights: feed de insights, cards de tendências, comparativo de benchmark |
-| 4.11 | WebSocket client (Socket.IO) para notificações em tempo real |
-| 4.12 | PWA: Service Worker (Workbox), manifest.json, push notifications via Web Push API |
-| 4.13 | Testes: unitários (Jest/RTL), E2E Playwright (fluxos por squad), visual regression (Chromatic) |
-| 4.14 | Lighthouse CI com performance budgets; axe-core no CI para acessibilidade |
+| #    | Tarefa                                                                                                                     |
+| ---- | -------------------------------------------------------------------------------------------------------------------------- |
+| 4.1  | Setup Next.js 15 App Router + TypeScript strict + TailwindCSS + ESLint/Prettier                                            |
+| 4.2  | Design System: design tokens → Atoms (Button, Input, Badge, Icon) → Molecules (Card, Form, Alert) → documentação Storybook |
+| 4.3  | NextAuth.js com provider OAuth2 (Drupal OIDC); protected routes por squad/role                                             |
+| 4.4  | Camada de data fetching: TanStack Query + abstração de API client gerada do OpenAPI spec                                   |
+| 4.5  | Dashboard Squad Atendimento: pipeline Kanban de leads, agenda, histórico de interações                                     |
+| 4.6  | Dashboard Squad Marketing: editor de conteúdo com preview, galeria de assets, analytics overview                           |
+| 4.7  | Dashboard Squad Projetos: viewer de projetos, upload BIM, galeria de renders, relatório de validação                       |
+| 4.8  | Dashboard Squad Obras: cronograma Gantt, lista de materiais, checklist mobile-first, dashboard de custos                   |
+| 4.9  | Dashboard Squad Suporte: busca semântica de documentos, viewer de relatórios, módulo de treinamento                        |
+| 4.10 | Dashboard Squad Insights: feed de insights, cards de tendências, comparativo de benchmark                                  |
+| 4.11 | WebSocket client (Socket.IO) para notificações em tempo real                                                               |
+| 4.12 | PWA: Service Worker (Workbox), manifest.json, push notifications via Web Push API                                          |
+| 4.13 | Testes: unitários (Jest/RTL), E2E Playwright (fluxos por squad), visual regression (Chromatic)                             |
+| 4.14 | Lighthouse CI com performance budgets; axe-core no CI para acessibilidade                                                  |
 
 **Entregáveis:** Design System documentado no Storybook (publicado) · 6 dashboards funcionais · PWA com offline básico · Cobertura ≥ 80% · Lighthouse Performance ≥ 85
 
 **Definition of Done:**
+
 - [ ] axe-core: zero violações A e AA em todas as páginas
 - [ ] Lighthouse CI ≥ 85 performance, 100 accessibility (bloqueante)
 - [ ] Chromatic visual regression aprovado no PR
@@ -1076,6 +1093,7 @@ Estratégia de rollout para mudanças de alto risco:
 **Duração:** 3–4 semanas
 
 **Skills necessárias:**
+
 - Prompt Engineering: system prompts, few-shot, chain-of-thought, structured outputs
 - LLM Integration: OpenAI API, function calling, streaming, Assistants API
 - n8n: workflows visuais, custom nodes, error handling
@@ -1084,23 +1102,24 @@ Estratégia de rollout para mudanças de alto risco:
 
 **Ferramentas:** n8n self-hosted (Kubernetes) · LangSmith ou Helicone · Microsoft Presidio · OpenAI Playground + Evals · YAML-based Prompt Registry (Git-versioned)
 
-| # | Tarefa |
-|---|---|
-| 5.1 | Deploy n8n no Kubernetes com persistent storage e backup automático de workflows |
-| 5.2 | Configurar LangSmith/Helicone: logging de todas as chamadas LLM, dashboard de latência e custo por squad |
-| 5.3 | Prompt Registry: estrutura YAML, CI para validação de schema, script de deploy de nova versão |
-| 5.4 | Desenvolver e testar prompts v1.0.0 para os 20 agentes (system + user template + few-shot + test cases) |
-| 5.5 | Integrar `archtech_ai_gateway` com todos os providers: OpenAI, MidJourney (proxy), Runway |
-| 5.6 | Circuit breakers por provider com fallback para provider alternativo ou degradação graciosa |
-| 5.7 | PII masking (Presidio) no gateway antes de enviar dados para APIs externas |
-| 5.8 | Content moderation de outputs gerados (OpenAI Moderation API) |
-| 5.9 | n8n workflows: lead_nurturing, meeting_scheduling, campaign_optimization, render_notification, checklist_alert, report_generation |
-| 5.10 | Alertas de custo de IA por squad (threshold diário + semanal) no Grafana |
-| 5.11 | Testes de qualidade: test cases por prompt, avaliação LLM-as-judge (amostragem 20% em staging) |
+| #    | Tarefa                                                                                                                            |
+| ---- | --------------------------------------------------------------------------------------------------------------------------------- |
+| 5.1  | Deploy n8n no Kubernetes com persistent storage e backup automático de workflows                                                  |
+| 5.2  | Configurar LangSmith/Helicone: logging de todas as chamadas LLM, dashboard de latência e custo por squad                          |
+| 5.3  | Prompt Registry: estrutura YAML, CI para validação de schema, script de deploy de nova versão                                     |
+| 5.4  | Desenvolver e testar prompts v1.0.0 para os 20 agentes (system + user template + few-shot + test cases)                           |
+| 5.5  | Integrar `archtech_ai_gateway` com todos os providers: OpenAI, MidJourney (proxy), Runway                                         |
+| 5.6  | Circuit breakers por provider com fallback para provider alternativo ou degradação graciosa                                       |
+| 5.7  | PII masking (Presidio) no gateway antes de enviar dados para APIs externas                                                        |
+| 5.8  | Content moderation de outputs gerados (OpenAI Moderation API)                                                                     |
+| 5.9  | n8n workflows: lead_nurturing, meeting_scheduling, campaign_optimization, render_notification, checklist_alert, report_generation |
+| 5.10 | Alertas de custo de IA por squad (threshold diário + semanal) no Grafana                                                          |
+| 5.11 | Testes de qualidade: test cases por prompt, avaliação LLM-as-judge (amostragem 20% em staging)                                    |
 
 **Entregáveis:** 20 agentes funcionais com prompts v1.0.0 versionados · n8n com workflows críticos ativos · Dashboard de AI Observability · Prompt Registry com test suite · Documentação de governança de IA
 
 **Definition of Done:**
+
 - [ ] 100% dos test cases do Prompt Registry passando por agente
 - [ ] PII masking validado com dataset de teste (zero PII em logs de chamadas externas)
 - [ ] Custo por squad monitorado e dentro do budget estimado
@@ -1114,6 +1133,7 @@ Estratégia de rollout para mudanças de alto risco:
 **Duração:** 2–3 semanas
 
 **Skills necessárias:**
+
 - QA: testes E2E, testes de carga, testes de caos
 - Security: penetration testing, OWASP ZAP, análise de vulnerabilidades
 - Performance Testing: k6, JMeter, análise de bottlenecks
@@ -1121,21 +1141,22 @@ Estratégia de rollout para mudanças de alto risco:
 
 **Ferramentas:** k6 · OWASP ZAP · Burp Suite · Playwright · Grafana k6 Cloud · Litmus Chaos · NVDA + VoiceOver
 
-| # | Tarefa |
-|---|---|
-| 6.1 | Testes E2E: 1 cenário feliz + 2 cenários de erro por fluxo crítico de cada squad |
-| 6.2 | Testes de carga k6: ramp-up até 10.000 usuários simultâneos, validar SLOs de latência |
-| 6.3 | Testes de carga de IA: 100 requisições paralelas por agente, validar circuit breakers |
+| #   | Tarefa                                                                                                 |
+| --- | ------------------------------------------------------------------------------------------------------ |
+| 6.1 | Testes E2E: 1 cenário feliz + 2 cenários de erro por fluxo crítico de cada squad                       |
+| 6.2 | Testes de carga k6: ramp-up até 10.000 usuários simultâneos, validar SLOs de latência                  |
+| 6.3 | Testes de carga de IA: 100 requisições paralelas por agente, validar circuit breakers                  |
 | 6.4 | Pentest OWASP Top 10: SQL injection, XSS, CSRF, IDOR, broken authentication, security misconfiguration |
-| 6.5 | Auditoria de acessibilidade: NVDA (Windows) + VoiceOver (macOS) nos 6 dashboards |
-| 6.6 | Testes de recuperação: falha de banco, RabbitMQ, AI provider — validar comportamento e MTTR |
-| 6.7 | Testes de backup e restore: executar restore completo em ambiente isolado |
-| 6.8 | UAT com stakeholders: sessions por squad, coleta de feedback estruturado |
-| 6.9 | Corrigir todos os bugs críticos e altos; re-testar e documentar resolução |
+| 6.5 | Auditoria de acessibilidade: NVDA (Windows) + VoiceOver (macOS) nos 6 dashboards                       |
+| 6.6 | Testes de recuperação: falha de banco, RabbitMQ, AI provider — validar comportamento e MTTR            |
+| 6.7 | Testes de backup e restore: executar restore completo em ambiente isolado                              |
+| 6.8 | UAT com stakeholders: sessions por squad, coleta de feedback estruturado                               |
+| 6.9 | Corrigir todos os bugs críticos e altos; re-testar e documentar resolução                              |
 
 **Entregáveis:** Relatório de testes de carga (k6) · Relatório de pentest com severidade e status · Relatório de acessibilidade · Relatório de DR (RTO/RPO medidos) · Ata de aprovação de UAT
 
 **Definition of Done:**
+
 - [ ] Zero vulnerabilidades críticas ou altas não resolvidas antes do go-live
 - [ ] SLOs de performance atingidos sob carga de 10.000 usuários simultâneos
 - [ ] UAT aprovado em ≥ 80% dos cenários pelos stakeholders
@@ -1149,24 +1170,26 @@ Estratégia de rollout para mudanças de alto risco:
 **Duração:** 1–2 semanas + ciclo contínuo
 
 **Skills necessárias:**
+
 - SRE: SLOs, error budgets, on-call, runbooks
 - Release Management: canary deployments, feature flags, rollback
 - FinOps: otimização de custos cloud e IA
 
 **Ferramentas:** Argo CD (GitOps) · PagerDuty · Checkly · AWS Cost Explorer / GCP Billing
 
-| # | Tarefa |
-|---|---|
+| #   | Tarefa                                                                                       |
+| --- | -------------------------------------------------------------------------------------------- |
 | 7.1 | Deploy em produção via GitOps (Argo CD) com sync automático do repositório de manifests Helm |
-| 7.2 | Checkly: synthetic tests nos fluxos críticos a cada 5 minutos |
-| 7.3 | PagerDuty: escalation policies, on-call rotations por squad, runbooks linkados nos alertas |
-| 7.4 | Dashboards de negócio no Grafana por squad + SLO dashboard público interno |
-| 7.5 | Canary deployment: 5% → 25% → 100% com análise automática de error rate |
-| 7.6 | Revisão de custos cloud e IA após 2 semanas — ajustar recursos e modelos |
-| 7.7 | Retrospectiva técnica: lessons learned, atualizar ADRs e runbooks |
-| 7.8 | Planejar Fase 8 baseado em feedback de UAT e métricas de negócio |
+| 7.2 | Checkly: synthetic tests nos fluxos críticos a cada 5 minutos                                |
+| 7.3 | PagerDuty: escalation policies, on-call rotations por squad, runbooks linkados nos alertas   |
+| 7.4 | Dashboards de negócio no Grafana por squad + SLO dashboard público interno                   |
+| 7.5 | Canary deployment: 5% → 25% → 100% com análise automática de error rate                      |
+| 7.6 | Revisão de custos cloud e IA após 2 semanas — ajustar recursos e modelos                     |
+| 7.7 | Retrospectiva técnica: lessons learned, atualizar ADRs e runbooks                            |
+| 7.8 | Planejar Fase 8 baseado em feedback de UAT e métricas de negócio                             |
 
 **Definition of Done:**
+
 - [ ] SLOs atingidos por 7 dias consecutivos em produção
 - [ ] Nenhum incidente P1 nas primeiras 2 semanas pós-launch
 - [ ] On-call treinado com runbooks dos 5 cenários de falha mais prováveis por squad
@@ -1208,23 +1231,23 @@ user_template: |
   - Orçamento estimado: R$ {{orcamento_estimado}}
   - Prazo desejado: {{prazo_desejado}}
   - Informações adicionais: {{notas}}
-  
+
   Retorne: {"score": 0-100, "justificativa": "...", "proximos_passos": "..."}
 
 test_cases:
   - input:
-      tipo_projeto: "residencial"
+      tipo_projeto: 'residencial'
       orcamento_estimado: 500000
-      prazo_desejado: "12 meses"
-      notas: "Casa de alto padrão, 400m²"
+      prazo_desejado: '12 meses'
+      notas: 'Casa de alto padrão, 400m²'
     expected:
       score_min: 70
       score_max: 95
   - input:
-      tipo_projeto: "residencial"
+      tipo_projeto: 'residencial'
       orcamento_estimado: 15000
-      prazo_desejado: "1 mês"
-      notas: "Apartamento pequeno"
+      prazo_desejado: '1 mês'
+      notas: 'Apartamento pequeno'
     expected:
       score_min: 0
       score_max: 30
@@ -1290,14 +1313,14 @@ Busca semântica:
 
 ### Compliance LGPD / GDPR
 
-| Requisito | Implementação |
-|---|---|
-| Classificação de dados | Todos os Content Types têm campo `sensibilidade` (público/interno/restrito/confidencial) |
-| Consentimento | Registro de consentimento com timestamp em Lead.historico_interacoes |
-| Direito ao esquecimento | `DELETE /api/v1/users/{id}/data` — anonimiza PII em todos os content types relacionados |
-| Retenção | Dados de Lead: 2 anos após última interação. Job mensal de anonimização. |
-| Portabilidade | `GET /api/v1/users/{id}/export` — exporta dados em formato JSON/CSV |
-| Notificação de breach | Processo documentado no runbook de segurança. ANPD notificada em ≤ 72h. |
+| Requisito               | Implementação                                                                            |
+| ----------------------- | ---------------------------------------------------------------------------------------- |
+| Classificação de dados  | Todos os Content Types têm campo `sensibilidade` (público/interno/restrito/confidencial) |
+| Consentimento           | Registro de consentimento com timestamp em Lead.historico_interacoes                     |
+| Direito ao esquecimento | `DELETE /api/v1/users/{id}/data` — anonimiza PII em todos os content types relacionados  |
+| Retenção                | Dados de Lead: 2 anos após última interação. Job mensal de anonimização.                 |
+| Portabilidade           | `GET /api/v1/users/{id}/export` — exporta dados em formato JSON/CSV                      |
+| Notificação de breach   | Processo documentado no runbook de segurança. ANPD notificada em ≤ 72h.                  |
 
 ### Backup e Recovery
 
@@ -1367,15 +1390,15 @@ Antes de qualquer merge em `main`:
 
 ### Stack
 
-| Camada | Ferramenta | Propósito |
-|---|---|---|
-| Métricas | Prometheus + Grafana | RED metrics (Rate, Errors, Duration) por serviço e squad |
-| Logs | Loki (ou ELK) | Logs estruturados JSON com trace_id e correlação |
-| Tracing | Jaeger + OpenTelemetry | Distributed tracing ponta a ponta (frontend → IA) |
-| Uptime | Checkly | Synthetic monitoring de fluxos críticos a cada 5 min |
-| Alertas | PagerDuty | On-call com escalation policies por squad |
-| AI | LangSmith / Helicone | Tracing específico de chamadas LLM com inputs/outputs |
-| Erros (frontend) | Sentry | Error tracking com source maps e session replay |
+| Camada           | Ferramenta             | Propósito                                                |
+| ---------------- | ---------------------- | -------------------------------------------------------- |
+| Métricas         | Prometheus + Grafana   | RED metrics (Rate, Errors, Duration) por serviço e squad |
+| Logs             | Loki (ou ELK)          | Logs estruturados JSON com trace_id e correlação         |
+| Tracing          | Jaeger + OpenTelemetry | Distributed tracing ponta a ponta (frontend → IA)        |
+| Uptime           | Checkly                | Synthetic monitoring de fluxos críticos a cada 5 min     |
+| Alertas          | PagerDuty              | On-call com escalation policies por squad                |
+| AI               | LangSmith / Helicone   | Tracing específico de chamadas LLM com inputs/outputs    |
+| Erros (frontend) | Sentry                 | Error tracking com source maps e session replay          |
 
 ### Dashboards no Grafana
 
@@ -1413,7 +1436,7 @@ Cada squad deve ter runbooks para os seguintes cenários antes do go-live:
 
 ---
 
-*Fim do documento PRD v2.0 — ArchTech Suite Enhanced*
+_Fim do documento PRD v2.0 — ArchTech Suite Enhanced_
 
 ---
 

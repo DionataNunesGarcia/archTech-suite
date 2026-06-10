@@ -1,7 +1,7 @@
 uuid: 6e7eba6a-eb81-4e58-840b-39b20a0052e8
 langcode: pt-br
 status: true
-dependencies: {  }
+dependencies: {}
 _core:
   default_config_hash: yrvYt4IlFH9AKX1vx-_N6OfeG_6HgylGP7hhB9AMH3k
 name: large

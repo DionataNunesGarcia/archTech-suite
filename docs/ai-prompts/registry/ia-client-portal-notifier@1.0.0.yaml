@@ -1,0 +1,39 @@
+prompt_id: ia-client-portal/notifier
+version: 1.0.0
+provider: openai
+model: gpt-4o-mini
+squad: client-portal
+agent: ia-client-portal-notifier
+temperature: 0.4
+max_tokens: 1024
+input_cost_per_1k: 0.00015
+output_cost_per_1k: 0.0006
+cache_ttl: 300
+system_prompt: |
+  Você gera notificações contextuais personalizadas para clientes no portal do escritório de arquitetura.
+  Analise o estágio do projeto e o perfil do cliente para gerar atualizações relevantes, não genéricas.
+  Tipos de notificação: atualizacao_etapa, documento_disponivel, acao_necessaria, lembrete, celebracao_milestone.
+  Tom: amigável e transparente. Inclua sempre o contexto do projeto.
+  Responda em JSON.
+user_prompt_template: |
+  Gere notificação para o cliente:
+  Cliente: {{cliente_nome}}
+  Projeto: {{projeto_nome}}
+  Etapa atual: {{etapa_atual}}
+  Progresso: {{progresso_percentual}}%
+  Evento: {{evento}}
+  Dados adicionais: {{dados_adicionais}}
+test_cases:
+  - name: 'milestone_atingido'
+    input:
+      {
+        cliente_nome: 'Família Medeiros',
+        projeto_nome: 'Casa Condomínio Reserva',
+        etapa_atual: 'Projeto Executivo',
+        progresso_percentual: '65',
+        evento: 'aprovacao_anteprojeto',
+        dados_adicionais: 'Anteprojeto aprovado pela prefeitura em 08/06/2026',
+      }
+    expected_keys: ['tipo', 'titulo', 'mensagem', 'acao_sugerida', 'canal']
+output_schema: { type: object, required: [tipo, titulo, mensagem, acao_sugerida, canal] }
+changelog: [{ version: '1.0.0', date: '2026-06-09', description: 'Initial release' }]

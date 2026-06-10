@@ -1,11 +1,10 @@
 // layout
-import "./layout/header";
-import "./layout/messages";
+import './layout/header';
+import './layout/messages';
 
 // components
-import "./components/accordions";
-import "./components/gsap-auto";
-
+import './components/accordions';
+import './components/gsap-auto';
 
 /**
  * @file
@@ -25,24 +24,23 @@ import 'glightbox/dist/css/glightbox.css';
 
 // Drupal behaviors
 (function (Drupal) {
-  'use strict';
+	'use strict';
 
-  Drupal.behaviors.frontTheme = {
-    attach(context) {
-      // AOS init
-      AOS.init({ once: true, duration: 600 });
+	Drupal.behaviors.frontTheme = {
+		attach(context) {
+			// AOS init
+			AOS.init({ once: true, duration: 600 });
 
-      // Bootstrap tooltips
-      const tooltipEls = context.querySelectorAll('[data-bs-toggle="tooltip"]');
-      tooltipEls.forEach(el => new bootstrap.Tooltip(el));
+			// Bootstrap tooltips
+			const tooltipEls = context.querySelectorAll('[data-bs-toggle="tooltip"]');
+			tooltipEls.forEach(el => new bootstrap.Tooltip(el));
 
-      // Bootstrap popovers
-      const popoverEls = context.querySelectorAll('[data-bs-toggle="popover"]');
-      popoverEls.forEach(el => new bootstrap.Popover(el));
+			// Bootstrap popovers
+			const popoverEls = context.querySelectorAll('[data-bs-toggle="popover"]');
+			popoverEls.forEach(el => new bootstrap.Popover(el));
 
-      // GLightbox
-      GLightbox({ selector: '.glightbox' });
-    },
-  };
-
+			// GLightbox
+			GLightbox({ selector: '.glightbox' });
+		},
+	};
 })(Drupal);

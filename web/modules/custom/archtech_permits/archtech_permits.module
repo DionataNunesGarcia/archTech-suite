@@ -1,0 +1,12 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * Implements hook_entity_type_alter().
+ */
+function archtech_permits_entity_type_alter(array &$entity_types): void {
+  if (isset($entity_types['node'])) {
+    $entity_types['node']->set('jsonapi_include_entity_type', TRUE);
+  }
+}

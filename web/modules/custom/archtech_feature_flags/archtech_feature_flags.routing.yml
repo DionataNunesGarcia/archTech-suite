@@ -1,0 +1,44 @@
+archtech_feature_flags.list:
+  path: '/api/admin/feature-flags'
+  methods: [GET]
+  defaults:
+    _controller: '\Drupal\archtech_feature_flags\Controller\FeatureFlagController::list'
+    _title: 'Feature Flags'
+  requirements:
+    _permission: 'administer feature flags'
+
+archtech_feature_flags.get:
+  path: '/api/admin/feature-flags/{name}'
+  methods: [GET]
+  defaults:
+    _controller: '\Drupal\archtech_feature_flags\Controller\FeatureFlagController::get'
+    _title: 'Feature Flag'
+  requirements:
+    _permission: 'administer feature flags'
+
+archtech_feature_flags.set:
+  path: '/api/admin/feature-flags/{name}'
+  methods: [PUT]
+  defaults:
+    _controller: '\Drupal\archtech_feature_flags\Controller\FeatureFlagController::set'
+    _title: 'Set Feature Flag'
+  requirements:
+    _permission: 'administer feature flags'
+
+archtech_feature_flags.delete:
+  path: '/api/admin/feature-flags/{name}'
+  methods: [DELETE]
+  defaults:
+    _controller: '\Drupal\archtech_feature_flags\Controller\FeatureFlagController::delete'
+    _title: 'Delete Feature Flag'
+  requirements:
+    _permission: 'administer feature flags'
+
+archtech_feature_flags.user_override:
+  path: '/api/admin/feature-flags/{name}/user/{user}'
+  methods: [PUT]
+  defaults:
+    _controller: '\Drupal\archtech_feature_flags\Controller\FeatureFlagController::setUserOverride'
+    _title: 'User Feature Flag Override'
+  requirements:
+    _permission: 'administer feature flags'

@@ -1,0 +1,12 @@
+archtech_permits.collection:
+  path: '/api/v1/permits'
+  methods: [GET, POST]
+  defaults:
+    _controller: '\Drupal\archtech_permits\Controller\PermitController::collection'
+    _title: 'Permit Applications'
+  requirements:
+    _permission: 'access content'
+  options:
+    _auth: ['basic_auth', 'cookie']
+  formats:
+    json: application/json

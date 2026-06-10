@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: ArchTech Suite Documentation
+    url: https://github.com/DionataNunesGarcia/drupal-recipes-base/tree/main/docs
+    about: Check the project documentation first
+  - name: Security Issue
+    url: mailto:security@archtech.com.br
+    about: Report security vulnerabilities privately

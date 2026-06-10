@@ -1,7 +1,7 @@
 uuid: 316e9c68-e2f3-41aa-8093-48767b3a44dc
 langcode: pt-br
 status: true
-dependencies: {  }
+dependencies: {}
 id: menu-footer-programs
 label: Programas
 description: 'Menu do rodapé com programas'

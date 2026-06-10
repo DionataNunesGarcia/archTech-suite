@@ -9,30 +9,36 @@
       "title": "Insights Coletados (7d)",
       "type": "stat",
       "gridPos": { "h": 6, "w": 4, "x": 0, "y": 0 },
-      "targets": [{
-        "expr": "sum(increase(insights_collected_total[7d]))",
-        "legendFormat": "Insights"
-      }],
+      "targets": [
+        {
+          "expr": "sum(increase(insights_collected_total[7d]))",
+          "legendFormat": "Insights"
+        }
+      ],
       "datasource": "Prometheus"
     },
     {
       "title": "Insights Acionáveis (7d)",
       "type": "stat",
       "gridPos": { "h": 6, "w": 4, "x": 4, "y": 0 },
-      "targets": [{
-        "expr": "sum(increase(insights_actionable_total[7d]))",
-        "legendFormat": "Acionáveis"
-      }],
+      "targets": [
+        {
+          "expr": "sum(increase(insights_actionable_total[7d]))",
+          "legendFormat": "Acionáveis"
+        }
+      ],
       "datasource": "Prometheus"
     },
     {
       "title": "Insight-to-Action Rate (30d)",
       "type": "stat",
       "gridPos": { "h": 6, "w": 4, "x": 8, "y": 0 },
-      "targets": [{
-        "expr": "sum(insights_actioned_total[30d]) / sum(insights_collected_total[30d]) * 100",
-        "legendFormat": "Ação %"
-      }],
+      "targets": [
+        {
+          "expr": "sum(insights_actioned_total[30d]) / sum(insights_collected_total[30d]) * 100",
+          "legendFormat": "Ação %"
+        }
+      ],
       "datasource": "Prometheus",
       "fieldConfig": { "defaults": { "unit": "percent" } }
     },
@@ -40,20 +46,24 @@
       "title": "Insights by Category (30d)",
       "type": "piechart",
       "gridPos": { "h": 8, "w": 12, "x": 0, "y": 6 },
-      "targets": [{
-        "expr": "sum(increase(insights_collected_total[30d])) by (category)",
-        "legendFormat": "{{ category }}"
-      }],
+      "targets": [
+        {
+          "expr": "sum(increase(insights_collected_total[30d])) by (category)",
+          "legendFormat": "{{ category }}"
+        }
+      ],
       "datasource": "Prometheus"
     },
     {
       "title": "Trend Line — Insights Over Time",
       "type": "graph",
       "gridPos": { "h": 8, "w": 12, "x": 12, "y": 6 },
-      "targets": [{
-        "expr": "increase(insights_collected_total[24h])",
-        "legendFormat": "Insights/dia"
-      }],
+      "targets": [
+        {
+          "expr": "increase(insights_collected_total[24h])",
+          "legendFormat": "Insights/dia"
+        }
+      ],
       "datasource": "Prometheus"
     }
   ],

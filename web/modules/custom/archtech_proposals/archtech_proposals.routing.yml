@@ -1,0 +1,29 @@
+archtech_proposals.collection:
+  path: '/api/v1/proposals'
+  methods: [GET, POST]
+  defaults:
+    _controller: '\Drupal\archtech_proposals\Controller\ProposalController::collection'
+    _title: 'Proposals'
+  requirements:
+    _permission: 'access content'
+  options:
+    _auth: ['basic_auth', 'cookie']
+  formats:
+    json: application/json
+
+archtech_proposals.status:
+  path: '/api/v1/proposals/{node}/status'
+  methods: [PATCH]
+  defaults:
+    _controller: '\Drupal\archtech_proposals\Controller\ProposalController::updateStatus'
+    _title: 'Update Proposal Status'
+  requirements:
+    _permission: 'access content'
+    node: \d+
+  options:
+    _auth: ['basic_auth', 'cookie']
+    parameters:
+      node:
+        type: entity:node
+  formats:
+    json: application/json

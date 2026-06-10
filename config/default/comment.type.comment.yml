@@ -1,7 +1,7 @@
 uuid: 53baca27-a284-451a-95e2-ccbe09955a72
 langcode: pt-br
 status: true
-dependencies: {  }
+dependencies: {}
 _core:
   default_config_hash: bqZsN31T2n0UjcbyCpOPi9D2iO0sAOHR7FnEs9qMvaA
 id: comment

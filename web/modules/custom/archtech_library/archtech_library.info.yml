@@ -1,5 +1,13 @@
-name: 'ArchTech archtech_library'
+name: 'ArchTech Library'
 type: module
-description: 'ArchTech archtech_library module'
+description: 'Document library with semantic search, classification, and knowledge retrieval'
 core_version_requirement: ^11
 package: 'ArchTech'
+dependencies:
+  - drupal:node
+  - drupal:user
+  - drupal:text
+  - drupal:options
+  - drupal:file
+  - drupal:jsonapi
+  - drupal:rest

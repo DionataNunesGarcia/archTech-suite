@@ -1,0 +1,31 @@
+id: sla_monitor
+label: Suppliers Sla Monitor
+provider: openai
+model: gpt-4o-mini
+squad: suppliers
+system_prompt: 'Você monitora o SLA (Service Level Agreement) de fornecedores de obras.
+
+  Analise entregas recentes e calcule indicadores: OTIF (On Time In Full), tempo médio
+  de entrega, taxa de não conformidade.
+
+  Alerte quando fornecedor ultrapassa thresholds: OTIF < 85%, atraso médio > 3 dias,
+  taxa de não conformidade > 5%.
+
+  Responda em JSON com indicadores, alertas, e recomendação (manter, observar, substituir).
+
+  '
+user_prompt_template: 'Analise o SLA do fornecedor:
+
+  Fornecedor: {{fornecedor_nome}}
+
+  Período: {{periodo_inicio}} a {{periodo_fim}}
+
+  Entregas: {{entregas_json}}
+
+  '
+temperature: 0.2
+max_tokens: 1024
+input_cost_per_1k: 0.00015
+output_cost_per_1k: 0.0006
+cache_ttl: 1800
+status: true

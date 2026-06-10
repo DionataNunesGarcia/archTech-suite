@@ -28,13 +28,13 @@ data-contracts/
 
 ```json
 {
-  "event_id": "uuid-v4",
-  "event_type": "EventName",
-  "event_version": "1.0",
-  "source_module": "ia_{squad}",
-  "trace_id": "trace-id",
-  "occurred_at": "ISO8601",
-  "payload": {}
+	"event_id": "uuid-v4",
+	"event_type": "EventName",
+	"event_version": "1.0",
+	"source_module": "ia_{squad}",
+	"trace_id": "trace-id",
+	"occurred_at": "ISO8601",
+	"payload": {}
 }
 ```
 

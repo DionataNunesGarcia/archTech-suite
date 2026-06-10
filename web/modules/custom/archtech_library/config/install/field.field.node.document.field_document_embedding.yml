@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_document_embedding
+    - node.type.document
+id: node.document.field_document_embedding
+field_name: field_document_embedding
+entity_type: node
+bundle: document
+label: 'Embedding'
+description: 'Vector embedding for semantic search (hidden field)'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

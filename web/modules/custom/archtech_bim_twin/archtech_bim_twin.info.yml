@@ -1,5 +1,13 @@
-name: 'ArchTech archtech_bim_twin'
+name: 'ArchTech BIM Twin'
 type: module
-description: 'ArchTech archtech_bim_twin module'
+description: 'BIM digital twin integration with IFC processing and performance optimization'
 core_version_requirement: ^11
 package: 'ArchTech'
+dependencies:
+  - drupal:node
+  - drupal:user
+  - drupal:text
+  - drupal:options
+  - drupal:file
+  - drupal:jsonapi
+  - drupal:rest

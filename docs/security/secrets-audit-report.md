@@ -6,16 +6,16 @@
 
 ## Checks Performed
 
-| Check | Status | Details |
-|-------|--------|---------|
-| `.env` in `.gitignore` | ✅ | `.env` is listed in `.gitignore` |
-| `.env` not tracked | ✅ | `git ls-files` confirms `.env` not tracked |
-| `.env` in git history | ⚠️ | Found in commit ec0d2e1 (initial), removed in 135245a — content was non-sensitive (theme config only) |
-| `.env.local` in history | ✅ | Never committed |
-| `.env.production` in history | ✅ | Never committed |
-| `.pem`/`.key`/`.cert` files | ✅ | None found in history |
-| Hardcoded passwords in code | ✅ | Only DDEV defaults (archtech/archtech, admin/admin) in config files — acceptable for local dev |
-| Secrets in CI logs | ✅ | All secrets use `${{ secrets.* }}` in GitHub Actions |
+| Check                        | Status | Details                                                                                               |
+| ---------------------------- | ------ | ----------------------------------------------------------------------------------------------------- |
+| `.env` in `.gitignore`       | ✅     | `.env` is listed in `.gitignore`                                                                      |
+| `.env` not tracked           | ✅     | `git ls-files` confirms `.env` not tracked                                                            |
+| `.env` in git history        | ⚠️     | Found in commit ec0d2e1 (initial), removed in 135245a — content was non-sensitive (theme config only) |
+| `.env.local` in history      | ✅     | Never committed                                                                                       |
+| `.env.production` in history | ✅     | Never committed                                                                                       |
+| `.pem`/`.key`/`.cert` files  | ✅     | None found in history                                                                                 |
+| Hardcoded passwords in code  | ✅     | Only DDEV defaults (archtech/archtech, admin/admin) in config files — acceptable for local dev        |
+| Secrets in CI logs           | ✅     | All secrets use `${{ secrets.* }}` in GitHub Actions                                                  |
 
 ## Findings
 

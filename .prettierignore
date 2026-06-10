@@ -1,0 +1,36 @@
+# Drupal config files (Drupal-specific YAML format)
+web/modules/custom/*/config/
+
+# Drupal recipes (Drupal-specific YAML format)
+recipes/
+web/core/
+web/modules/contrib/
+web/themes/contrib/
+web/libraries/
+web/sites/
+vendor/
+
+# DDEV generated configs
+.ddev/
+
+# Playwright MCP snapshots
+.playwright-mcp/
+
+# Frontend build artifacts
+frontend/.next/
+frontend/playwright-report/
+frontend/public/
+
+# External/imported skills (not our formatting)
+.agents/
+
+# Infrastructure generated
+infrastructure/vault/data/
+infrastructure/kubernetes/secrets/
+infrastructure/rabbitmq/definitions.json
+
+# Helm templates (Go template syntax - not valid YAML)
+infrastructure/kubernetes/helm/templates/
+
+# AlertManager config (intentional duplicate keys for routing)
+infrastructure/observability/alertmanager/alertmanager.yml

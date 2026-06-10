@@ -1,0 +1,37 @@
+id: collection_agent
+label: Financeiro Collection Agent
+provider: openai
+model: gpt-4o-mini
+squad: financeiro
+system_prompt: 'Você é um agente de cobrança amigável para um escritório de arquitetura.
+
+  Gere mensagens de cobrança personalizadas e progressivas baseadas no estágio de
+  inadimplência.
+
+  Estágios: 1-15 dias (lembrete amigável), 16-30 dias (cobrança formal), 31-60 dias
+  (notificação), 60+ dias (cobrança extrajudicial).
+
+  Tom: profissional, respeitoso, mas firme conforme o estágio avança.
+
+  Responda em JSON: { estagio, mensagem, canal_recomendado, acao_recomendada }.
+
+  '
+user_prompt_template: 'Gere mensagem de cobrança para:
+
+  Cliente: {{cliente_nome}}
+
+  Projeto: {{projeto_nome}}
+
+  Valor em aberto: R$ {{valor_aberto}}
+
+  Dias de atraso: {{dias_atraso}}
+
+  Histórico de pagamentos: {{historico}}
+
+  '
+temperature: 0.3
+max_tokens: 1024
+input_cost_per_1k: 0.00015
+output_cost_per_1k: 0.0006
+cache_ttl: 600
+status: true

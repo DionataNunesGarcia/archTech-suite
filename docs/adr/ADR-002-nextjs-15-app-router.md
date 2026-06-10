@@ -1,9 +1,9 @@
 # ADR-002: Next.js 15 com App Router
 
-| Campo | Valor |
-|-------|-------|
+| Campo  | Valor        |
+| ------ | ------------ |
 | Status | **accepted** |
-| Data | 2025-06 |
+| Data   | 2025-06      |
 
 **Decisão:** Usar Next.js 15 com App Router como framework frontend.
 

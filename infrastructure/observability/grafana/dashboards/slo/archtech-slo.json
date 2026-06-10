@@ -11,10 +11,12 @@
       "title": "Uptime (30d rolling)",
       "type": "stat",
       "gridPos": { "h": 6, "w": 4, "x": 0, "y": 0 },
-      "targets": [{
-        "expr": "sum(up{namespace=~\"archtech-.*\"}) / count(up{namespace=~\"archtech-.*\"}) * 100",
-        "legendFormat": "Uptime %"
-      }],
+      "targets": [
+        {
+          "expr": "sum(up{namespace=~\"archtech-.*\"}) / count(up{namespace=~\"archtech-.*\"}) * 100",
+          "legendFormat": "Uptime %"
+        }
+      ],
       "datasource": "Prometheus",
       "options": {
         "colorMode": "value",
@@ -36,10 +38,12 @@
       "title": "API Latency P95 (last 24h)",
       "type": "stat",
       "gridPos": { "h": 6, "w": 4, "x": 4, "y": 0 },
-      "targets": [{
-        "expr": "histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket[5m])) by (le))",
-        "legendFormat": "P95 latency"
-      }],
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket[5m])) by (le))",
+          "legendFormat": "P95 latency"
+        }
+      ],
       "datasource": "Prometheus",
       "options": {
         "colorMode": "value",
@@ -60,10 +64,12 @@
       "title": "API Latency P99 (last 24h)",
       "type": "stat",
       "gridPos": { "h": 6, "w": 4, "x": 8, "y": 0 },
-      "targets": [{
-        "expr": "histogram_quantile(0.99, sum(rate(http_request_duration_seconds_bucket[5m])) by (le))",
-        "legendFormat": "P99 latency"
-      }],
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.99, sum(rate(http_request_duration_seconds_bucket[5m])) by (le))",
+          "legendFormat": "P99 latency"
+        }
+      ],
       "datasource": "Prometheus",
       "options": {
         "colorMode": "value",
@@ -84,10 +90,12 @@
       "title": "Error Rate — All Services",
       "type": "graph",
       "gridPos": { "h": 8, "w": 12, "x": 0, "y": 6 },
-      "targets": [{
-        "expr": "sum(rate(http_requests_total{status=~\"5..\"}[5m])) / sum(rate(http_requests_total[5m])) * 100",
-        "legendFormat": "Error Rate %"
-      }],
+      "targets": [
+        {
+          "expr": "sum(rate(http_requests_total{status=~\"5..\"}[5m])) / sum(rate(http_requests_total[5m])) * 100",
+          "legendFormat": "Error Rate %"
+        }
+      ],
       "datasource": "Prometheus",
       "thresholds": [
         { "color": "red", "value": 1.0 },
@@ -98,10 +106,12 @@
       "title": "Error Budget — API (30d, SLO 99.9%)",
       "type": "gauge",
       "gridPos": { "h": 6, "w": 6, "x": 12, "y": 6 },
-      "targets": [{
-        "expr": "clamp_max((1 - (sum(rate(http_requests_total{status=~\"5..\"}[30d])) / sum(rate(http_requests_total[30d])))) / 0.001, 1) * 100",
-        "legendFormat": "Error Budget Remaining %"
-      }],
+      "targets": [
+        {
+          "expr": "clamp_max((1 - (sum(rate(http_requests_total{status=~\"5..\"}[30d])) / sum(rate(http_requests_total[30d])))) / 0.001, 1) * 100",
+          "legendFormat": "Error Budget Remaining %"
+        }
+      ],
       "datasource": "Prometheus",
       "options": {
         "reduceOptions": { "calcs": ["mean"] },
@@ -121,24 +131,31 @@
       "title": "SLO Compliance by Squad (7d)",
       "type": "table",
       "gridPos": { "h": 8, "w": 12, "x": 0, "y": 14 },
-      "targets": [{
-        "expr": "sum(rate(http_requests_total{status=~\"2..\"}[7d])) by (squad) / sum(rate(http_requests_total[7d])) by (squad) * 100",
-        "legendFormat": "{{ squad }}"
-      }],
+      "targets": [
+        {
+          "expr": "sum(rate(http_requests_total{status=~\"2..\"}[7d])) by (squad) / sum(rate(http_requests_total[7d])) by (squad) * 100",
+          "legendFormat": "{{ squad }}"
+        }
+      ],
       "datasource": "Prometheus",
       "options": {},
       "transformations": [
-        { "id": "organize", "options": { "excludeByName": {}, "indexByName": {}, "renameByName": { "squad": "Squad", "Value": "SLO %" } } }
+        {
+          "id": "organize",
+          "options": { "excludeByName": {}, "indexByName": {}, "renameByName": { "squad": "Squad", "Value": "SLO %" } }
+        }
       ]
     },
     {
       "title": "AI Agent Response Time P90 (7d)",
       "type": "stat",
       "gridPos": { "h": 6, "w": 6, "x": 12, "y": 12 },
-      "targets": [{
-        "expr": "histogram_quantile(0.90, sum(rate(ai_agent_duration_seconds_bucket[7d])) by (le))",
-        "legendFormat": "P90 AI Response"
-      }],
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.90, sum(rate(ai_agent_duration_seconds_bucket[7d])) by (le))",
+          "legendFormat": "P90 AI Response"
+        }
+      ],
       "datasource": "Prometheus",
       "thresholds": {
         "steps": [
@@ -153,10 +170,12 @@
       "title": "Active Incidents by Severity",
       "type": "stat",
       "gridPos": { "h": 6, "w": 6, "x": 18, "y": 12 },
-      "targets": [{
-        "expr": "count(ALERTS{alertstate=\"firing\"}) by (severity)",
-        "legendFormat": "{{ severity }}"
-      }],
+      "targets": [
+        {
+          "expr": "count(ALERTS{alertstate=\"firing\"}) by (severity)",
+          "legendFormat": "{{ severity }}"
+        }
+      ],
       "datasource": "Prometheus"
     }
   ],

@@ -1,0 +1,5 @@
+name: 'ArchTech Health'
+type: module
+description: 'Provides health check endpoints for monitoring and canary analysis'
+core_version_requirement: ^11
+package: 'ArchTech'

@@ -1,0 +1,125 @@
+{
+  "name": "Campaign Optimization Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [{ "field": "hours", "hoursInterval": 24 }]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [250, 300],
+      "name": "Daily at 8am BRT"
+    },
+    {
+      "parameters": {
+        "url": "/api/v1/marketing/campaigns/active",
+        "method": "GET"
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [500, 300],
+      "name": "Fetch Active Campaigns"
+    },
+    {
+      "parameters": {
+        "jsCode": "const campaigns = $input.first().json.items;\nfor (const campaign of campaigns) {\n  const analytics = await $http.get(`/api/v1/marketing/campaigns/${campaign.id}/analytics?days=7`);\n  campaign.metrics = analytics;\n}\nreturn campaigns;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [750, 300],
+      "name": "Enrich with Analytics"
+    },
+    {
+      "parameters": {
+        "url": "/api/ai/marketing/campaign-optimizer",
+        "method": "POST",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "campaigns",
+              "value": "={{ JSON.stringify($json) }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [1000, 300],
+      "name": "AI Optimization"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "={{ $json.action }}",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "action-adjust",
+              "leftValue": "={{ $json.action }}",
+              "rightValue": "adjust",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1250, 300],
+      "name": "Action = Adjust?"
+    },
+    {
+      "parameters": {
+        "template": "📊 *Campanha: {{ $json.campaignName }}*\nMétrica-chave: {{ $json.metric }} (atual: {{ $json.currentValue }}, meta: {{ $json.targetValue }})\nRecomendação: {{ $json.recommendation }}\nImpacto estimado: {{ $json.estimatedImpact }}",
+        "channel": "marketing-alerts"
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2,
+      "position": [1500, 200],
+      "name": "Notify Marketing Squad"
+    },
+    {
+      "parameters": {
+        "template": "✅ *Campanha: {{ $json.campaignName }}*\nPerformance dentro do esperado. Nenhum ajuste necessário.",
+        "channel": "marketing-alerts"
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2,
+      "position": [1500, 400],
+      "name": "Notify Status OK"
+    }
+  ],
+  "connections": {
+    "Daily at 8am BRT": {
+      "main": [[{ "node": "Fetch Active Campaigns", "type": "main", "index": 0 }]]
+    },
+    "Fetch Active Campaigns": {
+      "main": [[{ "node": "Enrich with Analytics", "type": "main", "index": 0 }]]
+    },
+    "Enrich with Analytics": {
+      "main": [[{ "node": "AI Optimization", "type": "main", "index": 0 }]]
+    },
+    "AI Optimization": {
+      "main": [[{ "node": "Action = Adjust?", "type": "main", "index": 0 }]]
+    },
+    "Action = Adjust?": {
+      "main": [
+        [{ "node": "Notify Marketing Squad", "type": "main", "index": 0 }],
+        [{ "node": "Notify Status OK", "type": "main", "index": 0 }]
+      ]
+    }
+  },
+  "settings": {
+    "saveExecutionProgress": true,
+    "saveManualExecutions": true,
+    "timezone": "America/Sao_Paulo"
+  }
+}

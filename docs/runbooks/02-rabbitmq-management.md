@@ -2,29 +2,29 @@
 
 ## Acessos
 
-| Interface | URL | Credenciais |
-|-----------|-----|-------------|
-| Management UI | https://archtech.ddev.site:15672 | archet / archet |
-| AMQP | amqp://archtech:archtech@localhost:5672/ |
+| Interface     | URL                                      | Credenciais     |
+| ------------- | ---------------------------------------- | --------------- |
+| Management UI | https://archtech.ddev.site:15672         | archet / archet |
+| AMQP          | amqp://archtech:archtech@localhost:5672/ |
 
 ## Estrutura
 
 ### Exchanges
 
-| Exchange | Type | Routing Key Pattern |
-|----------|------|-------------------|
-| `archtech.leads` | topic | `lead.#`, `meeting.#` |
-| `archtech.marketing` | topic | `content.#`, `campaign.#` |
-| `archtech.projects` | topic | `project.#`, `render.#` |
-| `archtech.construction` | topic | `construction.#`, `budget.#` |
-| `archtech.internal` | topic | `internal.#` |
-| `archtech.diary` | topic | `diary.#` |
-| `archtech.meetings` | topic | `meetings.#` |
-| `archtech.financial_adv` | topic | `financial_adv.#` |
-| `archtech.tasks` | topic | `task.#` |
-| `archtech.ai.jobs` | direct | `ai.jobs` |
-| `archtech.retry` | direct | `retry` |
-| `archtech.dlq` | fanout | — |
+| Exchange                 | Type   | Routing Key Pattern          |
+| ------------------------ | ------ | ---------------------------- |
+| `archtech.leads`         | topic  | `lead.#`, `meeting.#`        |
+| `archtech.marketing`     | topic  | `content.#`, `campaign.#`    |
+| `archtech.projects`      | topic  | `project.#`, `render.#`      |
+| `archtech.construction`  | topic  | `construction.#`, `budget.#` |
+| `archtech.internal`      | topic  | `internal.#`                 |
+| `archtech.diary`         | topic  | `diary.#`                    |
+| `archtech.meetings`      | topic  | `meetings.#`                 |
+| `archtech.financial_adv` | topic  | `financial_adv.#`            |
+| `archtech.tasks`         | topic  | `task.#`                     |
+| `archtech.ai.jobs`       | direct | `ai.jobs`                    |
+| `archtech.retry`         | direct | `retry`                      |
+| `archtech.dlq`           | fanout | —                            |
 
 ### Dead Letter Queue
 
@@ -61,12 +61,12 @@ rabbitmqctl purge_queue archet.<contexto>.<evento>
 
 ## Troubleshooting
 
-| Problema | Causa Comum | Solução |
-|----------|-------------|---------|
-| Mensagens acumuladas | Consumer caiu | Reiniciar consumer, verificar logs |
-| DLQ com mensagens | Falha no processamento | Verificar logs do consumer, reprocessar da DLQ |
-| Exchange não encontrada | Config ausente | Executar `ddev rabbitmq-setup` |
-| Conexão recusada | RabbitMQ não iniciou | `ddev restart` |
+| Problema                | Causa Comum            | Solução                                        |
+| ----------------------- | ---------------------- | ---------------------------------------------- |
+| Mensagens acumuladas    | Consumer caiu          | Reiniciar consumer, verificar logs             |
+| DLQ com mensagens       | Falha no processamento | Verificar logs do consumer, reprocessar da DLQ |
+| Exchange não encontrada | Config ausente         | Executar `ddev rabbitmq-setup`                 |
+| Conexão recusada        | RabbitMQ não iniciou   | `ddev restart`                                 |
 
 ## Referências
 

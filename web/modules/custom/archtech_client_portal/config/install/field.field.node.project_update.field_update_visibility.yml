@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_update_visibility
+    - node.type.project_update
+id: node.project_update.field_update_visibility
+field_name: field_update_visibility
+entity_type: node
+bundle: project_update
+label: 'Visibility'
+description: 'Who can see this update'
+required: true
+translatable: false
+default_value:
+  -
+    value: client_only
+default_value_callback: ''
+settings: {  }
+field_type: list_string

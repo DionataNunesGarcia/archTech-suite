@@ -1,8 +1,28 @@
 {
   "rabbit_version": "3.13",
-  "users": [],
-  "vhosts": [],
-  "permissions": [],
+  "users": [
+    {
+      "name": "archtech",
+      "password_hash": "",
+      "hashing_algorithm": "rabbit_password_hashing_sha256",
+      "tags": "administrator",
+      "limits": {}
+    }
+  ],
+  "vhosts": [
+    {
+      "name": "/"
+    }
+  ],
+  "permissions": [
+    {
+      "user": "archtech",
+      "vhost": "/",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    }
+  ],
   "parameters": [],
   "policies": [
     {

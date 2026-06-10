@@ -1,0 +1,36 @@
+<?php
+
+declare(strict_types=1);
+
+use Drupal\user\UserInterface;
+
+/**
+ * Implements hook_user_login().
+ */
+function archtech_security_user_login(UserInterface $account): void {
+  \Drupal::service('archtech_security.audit_logger')->log(
+    userId: (int) $account->id(),
+    action: 'user.login',
+    entityType: 'user',
+    entityId: $account->id(),
+    details: [
+      'username' => $account->getAccountName(),
+      'roles' => $account->getRoles(),
+    ],
+  );
+}
+
+/**
+ * Implements hook_user_logout().
+ */
+function archtech_security_user_logout(UserInterface $account): void {
+  \Drupal::service('archtech_security.audit_logger')->log(
+    userId: (int) $account->id(),
+    action: 'user.logout',
+    entityType: 'user',
+    entityId: $account->id(),
+    details: [
+      'username' => $account->getAccountName(),
+    ],
+  );
+}

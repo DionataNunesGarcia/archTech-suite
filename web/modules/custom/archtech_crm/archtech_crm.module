@@ -1,0 +1,14 @@
+<?php
+
+declare(strict_types=1);
+
+use Drupal\Core\Entity\EntityTypeInterface;
+
+/**
+ * Implements hook_entity_type_alter().
+ */
+function archtech_crm_entity_type_alter(array &$entity_types): void {
+  if (isset($entity_types['node'])) {
+    $entity_types['node']->set('jsonapi_bundle_resource_class', \Drupal\archtech_crm\Jsonapi\LeadResource::class);
+  }
+}

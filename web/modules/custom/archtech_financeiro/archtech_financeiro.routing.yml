@@ -1,0 +1,29 @@
+archtech_financeiro.invoices.collection:
+  path: '/api/v1/invoices'
+  methods: [GET, POST]
+  defaults:
+    _controller: '\Drupal\archtech_financeiro\Controller\InvoiceController::collection'
+    _title: 'Invoices'
+  requirements:
+    _permission: 'access content'
+  options:
+    _auth: ['basic_auth', 'cookie']
+  formats:
+    json: application/json
+
+archtech_financeiro.invoices.status:
+  path: '/api/v1/invoices/{node}/status'
+  methods: [PATCH]
+  defaults:
+    _controller: '\Drupal\archtech_financeiro\Controller\InvoiceController::updateStatus'
+    _title: 'Update Invoice Status'
+  requirements:
+    _permission: 'access content'
+    node: \d+
+  options:
+    _auth: ['basic_auth', 'cookie']
+    parameters:
+      node:
+        type: entity:node
+  formats:
+    json: application/json

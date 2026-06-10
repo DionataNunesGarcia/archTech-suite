@@ -1,0 +1,6 @@
+services:
+  archtech_permits.permit_event_subscriber:
+    class: Drupal\archtech_permits\EventSubscriber\PermitEventSubscriber
+    arguments: ['@entity_type.manager']
+    tags:
+      - { name: event_subscriber }

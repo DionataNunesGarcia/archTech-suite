@@ -1,0 +1,97 @@
+{
+  "name": "Lead Nurturing Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "event": "LeadCreated, BriefingCreated"
+      },
+      "type": "n8n-nodes-base.rabbitmqTrigger",
+      "typeVersion": 1,
+      "position": [250, 300],
+      "name": "Lead Created Event"
+    },
+    {
+      "parameters": {
+        "jsCode": "const lead = $input.first().json;\nconst scoreResponse = await $http.post('/api/ai/crm/lead-scorer', lead);\nreturn {\n  leadId: lead.id,\n  score: scoreResponse.score,\n  justificativa: scoreResponse.justificativa,\n  acoes: scoreResponse.acoes_sugeridas\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [500, 300],
+      "name": "Score Lead via AI"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $json.score }}",
+              "operation": "largerEqual",
+              "value2": 7
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [750, 300],
+      "name": "High Score?"
+    },
+    {
+      "parameters": {
+        "template": "Novo lead de alto potencial!\nCliente: {{ $json.leadId }}\nScore: {{ $json.score }}/10\nAções: {{ $json.acoes }}\nPrioridade: {{ $json.score >= 9 ? 'IMEDIATA' : 'ALTA' }}",
+        "channel": "crm-leads"
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2,
+      "position": [1000, 200],
+      "name": "Notify Squad (High)"
+    },
+    {
+      "parameters": {
+        "template": "Lead recebido — Score {{ $json.score }}/10\n{{ $json.justificativa }}\nEntrará na fila de follow-up automático.",
+        "channel": "crm-leads"
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2,
+      "position": [1000, 400],
+      "name": "Notify Squad (Normal)"
+    },
+    {
+      "parameters": {
+        "event": "FollowUpScheduled",
+        "routingKey": "crm.followup"
+      },
+      "type": "n8n-nodes-base.rabbitmq",
+      "typeVersion": 1,
+      "position": [1250, 300],
+      "name": "Publish FollowUp Event"
+    }
+  ],
+  "connections": {
+    "Lead Created Event": {
+      "main": [[{ "node": "Score Lead via AI", "type": "main", "index": 0 }]]
+    },
+    "Score Lead via AI": {
+      "main": [[{ "node": "High Score?", "type": "main", "index": 0 }]]
+    },
+    "High Score?": {
+      "main": [
+        [{ "node": "Notify Squad (High)", "type": "main", "index": 0 }],
+        [{ "node": "Notify Squad (Normal)", "type": "main", "index": 0 }]
+      ]
+    },
+    "Notify Squad (High)": {
+      "main": [[{ "node": "Publish FollowUp Event", "type": "main", "index": 0 }]]
+    },
+    "Notify Squad (Normal)": {
+      "main": [[{ "node": "Publish FollowUp Event", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": {
+    "saveExecutionProgress": true,
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "DLQ Handler",
+    "timezone": "America/Sao_Paulo"
+  }
+}

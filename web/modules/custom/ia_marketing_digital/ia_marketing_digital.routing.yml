@@ -1,0 +1,19 @@
+ia_marketing_digital.campaigns.collection:
+  path: '/api/v1/marketing/campaigns'
+  methods: [GET]
+  defaults:
+    _controller: '\Drupal\ia_marketing_digital\Controller\CampaignController::collection'
+    _title: 'Campaigns'
+  requirements:
+    _permission: 'access content'
+    _format: json
+
+ia_marketing_digital.campaigns.create:
+  path: '/api/v1/marketing/campaigns'
+  methods: [POST]
+  defaults:
+    _controller: '\Drupal\ia_marketing_digital\Controller\CampaignController::createCampaign'
+    _title: 'Create Campaign'
+  requirements:
+    _permission: 'create campaign content'
+    _format: json

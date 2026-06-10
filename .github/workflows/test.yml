@@ -3,8 +3,26 @@ name: Test
 on:
   push:
     branches: [main, develop]
+    paths:
+      - 'web/**'
+      - 'config/**'
+      - 'infrastructure/**'
+      - 'frontend/**'
+      - 'composer.json'
+      - 'composer.lock'
+      - 'scripts/**'
+      - '.github/workflows/test.yml'
   pull_request:
     branches: [main]
+    paths:
+      - 'web/**'
+      - 'config/**'
+      - 'infrastructure/**'
+      - 'frontend/**'
+      - 'composer.json'
+      - 'composer.lock'
+      - 'scripts/**'
+      - '.github/workflows/test.yml'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

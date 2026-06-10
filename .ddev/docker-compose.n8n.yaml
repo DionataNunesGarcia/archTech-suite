@@ -1,0 +1,41 @@
+# n8n workflow automation service
+services:
+  n8n:
+    container_name: ddev-${DDEV_SITENAME}-n8n
+    image: n8nio/n8n:1.82.0
+    labels:
+      com.ddev.site-name: ${DDEV_SITENAME}
+      com.ddev.approot: $DDEV_APPROOT
+    restart: 'no'
+    ports:
+      - '127.0.0.1::5678'
+    expose:
+      - '5678'
+    environment:
+      - N8N_HOST=localhost
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=http
+      - N8N_ENCRYPTION_KEY=dev-encryption-key-change-in-production
+      - N8N_DATABASE_TYPE=postgresdb
+      - N8N_DATABASE_POSTGRESDB_HOST=db
+      - N8N_DATABASE_POSTGRESDB_PORT=5432
+      - N8N_DATABASE_POSTGRESDB_DATABASE=db
+      - N8N_DATABASE_POSTGRESDB_USER=db
+      - N8N_DATABASE_POSTGRESDB_PASSWORD=db
+      - N8N_RABBITMQ_HOST=rabbitmq
+      - N8N_RABBITMQ_PORT=5672
+      - N8N_RABBITMQ_USER=archtech
+      - N8N_RABBITMQ_PASSWORD=archtech
+      - N8N_EXECUTIONS_DATA_SAVE_ON_ERROR=all
+      - N8N_EXECUTIONS_DATA_SAVE_ON_SUCCESS=all
+      - N8N_LOG_LEVEL=debug
+      - NODE_ENV=development
+      - WEBHOOK_URL=http://localhost:5678/
+      - N8N_SKIP_WEBHOOK_DEREGISTRATION_SHUTDOWN=true
+    volumes:
+      - ./n8n-data:/home/node/.n8n
+    healthcheck:
+      test: ['CMD', 'wget', '--spider', '-q', 'http://localhost:5678/healthz']
+      interval: 10s
+      timeout: 5s
+      retries: 10

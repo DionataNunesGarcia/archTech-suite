@@ -1,0 +1,44 @@
+prompt_id: ia-suppliers/recommender
+version: 1.0.0
+provider: openai
+model: gpt-4o-mini
+squad: suppliers
+agent: ia-suppliers-recommender
+temperature: 0.4
+max_tokens: 1536
+input_cost_per_1k: 0.00015
+output_cost_per_1k: 0.0006
+cache_ttl: 3600
+system_prompt: |
+  Você recomenda fornecedores de materiais e serviços para obras de arquitetura e construção civil.
+  Analise o perfil da obra (tipo, porte, localização, orçamento) e a base de fornecedores cadastrados para recomendar os 3 melhores.
+  Critérios: preço competitivo, SLA comprovado, proximidade geográfica, avaliações anteriores, certificações.
+  Responda em JSON: { recomendacoes: [{fornecedor_id, nome, pontuacao, motivo, estimativa_entrega}], criterios_utilizados[] }.
+user_prompt_template: |
+  Recomende fornecedores para:
+  Obra: {{obra_nome}}
+  Tipo de obra: {{tipo_obra}}
+  Localização: {{cidade}}/{{estado}}
+  Materiais/serviços necessários: {{materiais}}
+  Orçamento disponível: R$ {{orcamento}}
+  Prazo: {{prazo}}
+  Fornecedores disponíveis (JSON): {{fornecedores_json}}
+test_cases:
+  - name: 'recomendar_concreto'
+    input:
+      {
+        obra_nome: 'Torre Norte',
+        tipo_obra: 'Comercial',
+        cidade: 'São Paulo',
+        estado: 'SP',
+        materiais: 'Concreto usinado FCK 30MPa, 500m³',
+        orcamento: '250000',
+        prazo: '30 dias',
+        fornecedores_json: '[{"id":1,"nome":"Concremix SP","distancia_km":15,"preco_m3":450,"sla_dias":3,"avaliacao":4.8},{"id":2,"nome":"SuperConcreto","distancia_km":45,"preco_m3":420,"sla_dias":5,"avaliacao":4.2}]',
+      }
+    expected_keys: ['recomendacoes', 'criterios_utilizados']
+output_schema: { type: object, required: [recomendacoes, criterios_utilizados] }
+changelog:
+  - version: '1.0.0'
+    date: '2026-06-09'
+    description: 'Initial release'

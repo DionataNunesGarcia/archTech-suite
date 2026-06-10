@@ -1,0 +1,12 @@
+name: 'ArchTech Diary'
+type: module
+description: 'Diário de Obra — daily construction diary entries with REST API'
+core_version_requirement: ^11
+package: 'ArchTech'
+dependencies:
+  - drupal:node
+  - drupal:user
+  - drupal:datetime
+  - drupal:image
+  - drupal:file
+  - drupal:options

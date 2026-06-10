@@ -48,10 +48,10 @@ ddev ai                              # Comandos de IA
 
 ## Ambiente
 
-| Config | Valor |
-|--------|-------|
-| PHP | 8.4 |
-| Database | PostgreSQL 18 |
-| Webserver | nginx-fpm |
-| Docroot | `web/` |
-| URL | https://archtech.ddev.site |
+| Config    | Valor                      |
+| --------- | -------------------------- |
+| PHP       | 8.4                        |
+| Database  | PostgreSQL 18              |
+| Webserver | nginx-fpm                  |
+| Docroot   | `web/`                     |
+| URL       | https://archtech.ddev.site |

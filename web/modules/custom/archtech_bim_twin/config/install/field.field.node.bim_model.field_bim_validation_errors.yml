@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_bim_validation_errors
+    - node.type.bim_model
+id: node.bim_model.field_bim_validation_errors
+field_name: field_bim_validation_errors
+entity_type: node
+bundle: bim_model
+label: 'Validation Errors'
+description: 'Validation error messages from IFC processing'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

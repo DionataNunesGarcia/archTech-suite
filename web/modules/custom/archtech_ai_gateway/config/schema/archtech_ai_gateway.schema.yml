@@ -1,0 +1,44 @@
+# Schema for ArchTech AI Gateway configuration.
+archtech_ai_gateway.archtech_prompt.*:
+  type: config_entity
+  label: 'AI Prompt'
+  mapping:
+    id:
+      type: string
+      label: 'ID'
+    label:
+      type: label
+      label: 'Label'
+    provider:
+      type: string
+      label: 'AI Provider'
+    model:
+      type: string
+      label: 'Model'
+    squad:
+      type: string
+      label: 'Squad'
+    system_prompt:
+      type: text
+      label: 'System Prompt'
+    user_prompt_template:
+      type: text
+      label: 'User Prompt Template'
+    temperature:
+      type: float
+      label: 'Temperature'
+    max_tokens:
+      type: integer
+      label: 'Max Tokens'
+    input_cost_per_1k:
+      type: float
+      label: 'Input cost per 1K tokens'
+    output_cost_per_1k:
+      type: float
+      label: 'Output cost per 1K tokens'
+    cache_ttl:
+      type: integer
+      label: 'Cache TTL'
+    status:
+      type: boolean
+      label: 'Active'

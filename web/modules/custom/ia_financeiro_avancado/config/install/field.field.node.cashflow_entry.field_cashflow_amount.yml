@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_cashflow_amount
+    - node.type.cashflow_entry
+id: node.cashflow_entry.field_cashflow_amount
+field_name: field_cashflow_amount
+entity_type: node
+bundle: cashflow_entry
+label: 'Amount'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: decimal

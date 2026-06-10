@@ -1,7 +1,7 @@
 uuid: addfbc11-e729-4a1a-ad8c-645aac82614b
 langcode: pt-br
 status: true
-dependencies: {  }
+dependencies: {}
 _core:
   default_config_hash: aUG-EM9kKTKhcsdttoYmG5tug7pU2mNOQzcpp91jfFQ
 name: medium

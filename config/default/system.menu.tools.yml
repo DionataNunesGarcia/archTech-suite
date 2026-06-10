@@ -1,7 +1,7 @@
 uuid: ebe67437-ef6d-4042-bcd7-1b021d4dff9f
 langcode: pt-br
 status: true
-dependencies: {  }
+dependencies: {}
 _core:
   default_config_hash: BCM-vV1zzRaLHN18dqAR_CuGOj8AFJvTx7BKl_8Gcxc
 id: tools

@@ -8,12 +8,12 @@
 
 ## Políticas
 
-| Política | Acesso | Arquivo |
-|----------|--------|---------|
-| `drupal-service` | Leitura de secrets da aplicação | `infrastructure/vault/policies/drupal-service.hcl` |
-| `ci-policy` | Escrita dev/staging, leitura prod | `infrastructure/vault/policies/ci-policy.hcl` |
-| `audit-policy` | Leitura de audit logs | `infrastructure/vault/policies/audit-policy.hcl` |
-| `rabbitmq-rotation` | Rotação de credenciais RabbitMQ | `infrastructure/vault/policies/rabbitmq-rotation.hcl` |
+| Política            | Acesso                            | Arquivo                                               |
+| ------------------- | --------------------------------- | ----------------------------------------------------- |
+| `drupal-service`    | Leitura de secrets da aplicação   | `infrastructure/vault/policies/drupal-service.hcl`    |
+| `ci-policy`         | Escrita dev/staging, leitura prod | `infrastructure/vault/policies/ci-policy.hcl`         |
+| `audit-policy`      | Leitura de audit logs             | `infrastructure/vault/policies/audit-policy.hcl`      |
+| `rabbitmq-rotation` | Rotação de credenciais RabbitMQ   | `infrastructure/vault/policies/rabbitmq-rotation.hcl` |
 
 ## Operações
 
@@ -66,10 +66,10 @@ vault kv get secret/data/archtech/drupal
 
 ## Troubleshooting
 
-| Problema | Causa | Solução |
-|----------|-------|---------|
-| Permission denied | Política incorreta | Verificar `vault policy read <policy>` |
-| Token expirado | TTL excedido | `vault login -method=kubernetes` |
+| Problema             | Causa                    | Solução                                        |
+| -------------------- | ------------------------ | ---------------------------------------------- |
+| Permission denied    | Política incorreta       | Verificar `vault policy read <policy>`         |
+| Token expirado       | TTL excedido             | `vault login -method=kubernetes`               |
 | DB connection failed | Credenciais rotacionadas | `vault rotate database/rotate-root/postgresql` |
 
 ## Referências

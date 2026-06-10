@@ -1,7 +1,7 @@
 uuid: 95dab10a-05e5-48cd-ae76-615720c6f799
 langcode: pt-br
 status: true
-dependencies: {  }
+dependencies: {}
 _core:
   default_config_hash: iIBLu1j9n6Oo5PW-wpu5gdyNs9Kvv4LMRqtQUdJjRz8
 id: fallback

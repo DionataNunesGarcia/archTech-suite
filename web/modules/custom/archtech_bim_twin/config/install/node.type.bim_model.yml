@@ -1,0 +1,16 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: 'BIM Model'
+type: bim_model
+description: 'BIM digital twin model with IFC processing and validation'
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: false
