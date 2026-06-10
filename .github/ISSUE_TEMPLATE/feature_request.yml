@@ -1,0 +1,64 @@
+name: Feature Request
+description: Propose a new feature for ArchTech Suite
+title: "[FEATURE] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: "## Feature Request\nDescribe the feature and its business value."
+  - type: dropdown
+    id: squad
+    attributes:
+      label: Squad / Bounded Context
+      options:
+        - Platform / Core
+        - CRM (Atendimento)
+        - Proposals
+        - Financeiro
+        - Library (Suporte)
+        - Permits
+        - Suppliers
+        - Facilities
+        - BIM Twin
+        - Client Portal
+        - Frontend / UI
+        - Infrastructure / DevOps
+        - AI / Integration
+        - Cross-cutting
+    validations:
+      required: true
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      options:
+        - High — blocks squad goals
+        - Medium — important for roadmap
+        - Low — nice to have
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Statement
+      description: What problem does this feature solve?
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: How should it work?
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance Criteria (BDD)
+      description: Gherkin-style Given/When/Then criteria
+      value: |
+        Given [context]
+        When [action]
+        Then [expected outcome]
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
