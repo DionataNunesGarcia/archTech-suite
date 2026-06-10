@@ -1,0 +1,66 @@
+archtech_ai_gateway.execute:
+  path: '/api/v1/ai/execute'
+  methods: [POST]
+  defaults:
+    _controller: '\Drupal\archtech_ai_gateway\Controller\AiGatewayController::execute'
+    _title: 'Execute AI Prompt'
+  requirements:
+    _permission: 'access ai gateway'
+  options:
+    _auth: ['basic_auth', 'cookie']
+  formats:
+    json: application/json
+
+archtech_ai_gateway.prompts.collection:
+  path: '/api/v1/ai/prompts'
+  methods: [GET]
+  defaults:
+    _controller: '\Drupal\archtech_ai_gateway\Controller\AiGatewayController::listPrompts'
+    _title: 'List AI Prompts'
+  requirements:
+    _permission: 'access ai gateway'
+  options:
+    _auth: ['basic_auth', 'cookie']
+  formats:
+    json: application/json
+
+archtech_ai_gateway.cost_report:
+  path: '/api/v1/ai/cost-report'
+  methods: [GET]
+  defaults:
+    _controller: '\Drupal\archtech_ai_gateway\Controller\AiGatewayController::costReport'
+    _title: 'AI Cost Report'
+  requirements:
+    _permission: 'access ai gateway'
+  options:
+    _auth: ['basic_auth', 'cookie']
+  formats:
+    json: application/json
+
+archtech_ai_gateway.circuit_state:
+  path: '/api/v1/ai/circuit-state/{provider}'
+  methods: [GET]
+  defaults:
+    _controller: '\Drupal\archtech_ai_gateway\Controller\AiGatewayController::circuitState'
+    _title: 'AI Circuit Breaker State'
+  requirements:
+    _permission: 'access ai gateway'
+    provider: '^[a-z0-9_-]+$'
+  options:
+    _auth: ['basic_auth', 'cookie']
+  formats:
+    json: application/json
+
+archtech_ai_gateway.circuit_reset:
+  path: '/api/v1/ai/circuit-state/{provider}/reset'
+  methods: [POST]
+  defaults:
+    _controller: '\Drupal\archtech_ai_gateway\Controller\AiGatewayController::resetCircuit'
+    _title: 'Reset AI Circuit Breaker'
+  requirements:
+    _permission: 'administer ai prompts'
+    provider: '^[a-z0-9_-]+$'
+  options:
+    _auth: ['basic_auth', 'cookie']
+  formats:
+    json: application/json

@@ -1,0 +1,37 @@
+id: document_generator
+label: Permits Document Generator
+provider: openai
+model: gpt-4o
+squad: permits
+system_prompt: 'Você gera documentos oficiais para processos de alvará e licenciamento
+  de obras no Brasil.
+
+  Tipos de documento: Memorial Descritivo, ART/RRT, Requerimento de Alvará, Declaração
+  de Responsabilidade, EIV/RIV (Estudo/Relatório de Impacto de Vizinhança).
+
+  Siga os modelos oficiais de cada município e as normas da ABNT para documentos técnicos.
+
+  Responda em texto formatado (Markdown), seguindo a estrutura do documento solicitado.
+
+  '
+user_prompt_template: 'Gere o documento {{tipo_documento}} para:
+
+  Projeto: {{projeto_nome}}
+
+  Município: {{municipio}}/{{estado}}
+
+  Proprietário: {{proprietario}}
+
+  Responsável Técnico: {{responsavel_tecnico}} — {{registro_classe}}
+
+  Dados do imóvel: {{dados_imovel}}
+
+  Dados do projeto: {{dados_projeto}}
+
+  '
+temperature: 0.2
+max_tokens: 4096
+input_cost_per_1k: 0.005
+output_cost_per_1k: 0.015
+cache_ttl: 0
+status: true

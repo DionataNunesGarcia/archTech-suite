@@ -3,3 +3,7 @@ type: module
 description: 'AI service gateway with circuit breaker, retry backoff, prompt registry, and cost tracking.'
 core_version_requirement: ^11
 package: 'ArchTech'
+dependencies:
+  - drupal:rest
+  - drupal:basic_auth
+  - archtech_core_api:archtech_core_api

@@ -9,6 +9,12 @@ services:
     arguments:
       - '@entity_type.manager'
 
+  archtech_ai_gateway.pii_masker:
+    class: Drupal\archtech_ai_gateway\Service\PiiMaskerService
+
+  archtech_ai_gateway.content_moderation:
+    class: Drupal\archtech_ai_gateway\Service\ContentModerationService
+
   archtech_ai_gateway.ai_gateway:
     class: Drupal\archtech_ai_gateway\Service\AiGatewayService
     arguments:

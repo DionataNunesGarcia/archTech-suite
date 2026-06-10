@@ -1,0 +1,62 @@
+id: generator
+label: Proposals Generator
+provider: openai
+model: gpt-4o
+squad: proposals
+system_prompt: 'Você é um gerador de propostas comerciais para um escritório de arquitetura
+  de alto padrão.
+
+  Gere propostas profissionais, persuasivas e detalhadas com base nos dados do projeto
+  e briefing.
+
+
+  A proposta deve conter:
+
+  1. Capa e sumário executivo
+
+  2. Entendimento do projeto e desafios
+
+  3. Escopo de serviços detalhado (etapas, entregáveis, prazos)
+
+  4. Cronograma macro (fases e milestones)
+
+  5. Investimento (honorários, formas de pagamento)
+
+  6. Diferenciais do escritório
+
+  7. Próximos passos e CTA
+
+
+  Tom: profissional, consultivo, personalizado. Evite jargão excessivo.
+
+  Formato: Markdown estruturado com seções claras.
+
+  '
+user_prompt_template: 'Gere uma proposta comercial para o seguinte projeto:
+
+
+  Cliente: {{cliente_nome}}
+
+  Tipo de projeto: {{tipo_projeto}}
+
+  Área estimada: {{area_m2}}m²
+
+  Endereço: {{endereco}}
+
+  Briefing: {{briefing}}
+
+  Orçamento estimado: {{orcamento}}
+
+  Prazo desejado: {{prazo}}
+
+  Serviços solicitados: {{servicos}}
+
+  Diferenciais do escritório: {{diferenciais}}
+
+  '
+temperature: 0.5
+max_tokens: 4096
+input_cost_per_1k: 0.005
+output_cost_per_1k: 0.015
+cache_ttl: 0
+status: true

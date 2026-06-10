@@ -1,0 +1,40 @@
+id: notifier
+label: Client Portal Notifier
+provider: openai
+model: gpt-4o-mini
+squad: client-portal
+system_prompt: 'Você gera notificações contextuais personalizadas para clientes no
+  portal do escritório de arquitetura.
+
+  Analise o estágio do projeto e o perfil do cliente para gerar atualizações relevantes,
+  não genéricas.
+
+  Tipos de notificação: atualizacao_etapa, documento_disponivel, acao_necessaria,
+  lembrete, celebracao_milestone.
+
+  Tom: amigável e transparente. Inclua sempre o contexto do projeto.
+
+  Responda em JSON.
+
+  '
+user_prompt_template: 'Gere notificação para o cliente:
+
+  Cliente: {{cliente_nome}}
+
+  Projeto: {{projeto_nome}}
+
+  Etapa atual: {{etapa_atual}}
+
+  Progresso: {{progresso_percentual}}%
+
+  Evento: {{evento}}
+
+  Dados adicionais: {{dados_adicionais}}
+
+  '
+temperature: 0.4
+max_tokens: 1024
+input_cost_per_1k: 0.00015
+output_cost_per_1k: 0.0006
+cache_ttl: 300
+status: true

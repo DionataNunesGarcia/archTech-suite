@@ -1,0 +1,13 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - archtech_ai_gateway
+access ai gateway:
+  title: 'Access AI Gateway API'
+  description: 'Allow access to AI gateway endpoints for prompt execution and cost reports.'
+  restrict access: true
+administer ai prompts:
+  title: 'Administer AI Prompts'
+  description: 'Create, edit, and delete AI prompt configurations. Also allows resetting circuit breakers.'
+  restrict access: true

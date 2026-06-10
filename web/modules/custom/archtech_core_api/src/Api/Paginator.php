@@ -25,7 +25,7 @@ final class Paginator {
   /**
    * Private constructor — use named constructors.
    */
-  private function __construct(
+  public function __construct(
     private readonly string $cursorParam = 'cursor',
     private readonly string $limitParam = 'limit',
   ) {}

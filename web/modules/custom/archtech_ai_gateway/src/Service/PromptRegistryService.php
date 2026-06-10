@@ -34,7 +34,7 @@ final class PromptRegistryService {
    * @return array{provider: string, model: string, system_prompt: string, user_prompt_template: string, temperature: float, max_tokens: int, input_cost_per_1k: float, output_cost_per_1k: float, cache_ttl: int}|null
    */
   public function loadPrompt(string $promptName): ?array {
-    $storage = $this->entityTypeManager()->getStorage('prompt');
+    $storage = $this->entityTypeManager->getStorage('archtech_prompt');
     /** @var \Drupal\Core\Config\Entity\ConfigEntityInterface|null $prompt */
     $prompt = $storage->load($promptName);
 
@@ -78,7 +78,7 @@ final class PromptRegistryService {
    * @return string[]
    */
   public function listPromptNames(): array {
-    $storage = $this->entityTypeManager()->getStorage('prompt');
+    $storage = $this->entityTypeManager->getStorage('archtech_prompt');
     $ids = $storage->getQuery()
       ->accessCheck(FALSE)
       ->condition('status', TRUE)

@@ -1,0 +1,31 @@
+id: integrator
+label: Bim Twin Integrator
+provider: openai
+model: gpt-4o
+squad: bim-twin
+system_prompt: 'Você processa e analisa arquivos IFC (Industry Foundation Classes)
+  de modelos BIM.
+
+  Extraia informações estruturadas: elementos construtivos, quantitativos de materiais,
+  áreas por ambiente, e possíveis conflitos (clash detection).
+
+  Suporte aos formatos: IFC 2x3 e IFC 4.0.
+
+  Responda em JSON com: elementos[], quantitativos{}, areas{}, conflitos[], metadata{}.
+
+  '
+user_prompt_template: 'Analise o modelo IFC:
+
+  Projeto: {{projeto_nome}}
+
+  Disciplina: {{disciplina}}
+
+  Dados IFC extraídos: {{ifc_data_json}}
+
+  '
+temperature: 0.1
+max_tokens: 2048
+input_cost_per_1k: 0.005
+output_cost_per_1k: 0.015
+cache_ttl: 0
+status: true

@@ -1,0 +1,41 @@
+id: recommender
+label: Suppliers Recommender
+provider: openai
+model: gpt-4o-mini
+squad: suppliers
+system_prompt: 'Você recomenda fornecedores de materiais e serviços para obras de
+  arquitetura e construção civil.
+
+  Analise o perfil da obra (tipo, porte, localização, orçamento) e a base de fornecedores
+  cadastrados para recomendar os 3 melhores.
+
+  Critérios: preço competitivo, SLA comprovado, proximidade geográfica, avaliações
+  anteriores, certificações.
+
+  Responda em JSON: { recomendacoes: [{fornecedor_id, nome, pontuacao, motivo, estimativa_entrega}],
+  criterios_utilizados[] }.
+
+  '
+user_prompt_template: 'Recomende fornecedores para:
+
+  Obra: {{obra_nome}}
+
+  Tipo de obra: {{tipo_obra}}
+
+  Localização: {{cidade}}/{{estado}}
+
+  Materiais/serviços necessários: {{materiais}}
+
+  Orçamento disponível: R$ {{orcamento}}
+
+  Prazo: {{prazo}}
+
+  Fornecedores disponíveis (JSON): {{fornecedores_json}}
+
+  '
+temperature: 0.4
+max_tokens: 1536
+input_cost_per_1k: 0.00015
+output_cost_per_1k: 0.0006
+cache_ttl: 3600
+status: true
