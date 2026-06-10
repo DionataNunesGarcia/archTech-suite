@@ -1,0 +1,86 @@
+# ArchTech AI Cost Alerts
+# Alerts for AI provider cost thresholds, token volume, and circuit breaker state
+groups:
+  - name: archtech-ai-alerts
+    interval: 60s
+
+    rules:
+      - alert: AiCostDailyThresholdExceeded
+        expr: ai_cost_total{period="24h"} > 100
+        for: 5m
+        labels:
+          severity: warning
+          squad: ai-team
+        annotations:
+          summary: 'AI daily cost exceeds $100 ({{ $value | humanize }})'
+          description: 'Squad {{ $labels.squad }} has consumed ${{ $value }} in the last 24h across provider {{ $labels.provider }}. Review usage patterns.'
+
+      - alert: AiCostWeeklyThresholdExceeded
+        expr: ai_cost_total{period="7d"} > 500
+        for: 15m
+        labels:
+          severity: warning
+          squad: ai-team
+        annotations:
+          summary: 'AI weekly cost exceeds $500 ({{ $value | humanize }})'
+          description: 'Squad {{ $labels.squad }} has consumed ${{ $value }} in the last 7 days. Schedule cost review with squad lead.'
+
+      - alert: AiCostPerCallAnomaly
+        expr: ai_cost_per_call > 0.50
+        for: 10m
+        labels:
+          severity: warning
+          squad: ai-team
+        annotations:
+          summary: 'AI cost per call anomaly: ${{ $value }}'
+          description: 'Average AI call cost for prompt "{{ $labels.prompt_name }}" is ${{ $value }}, exceeding $0.50 threshold. Check model selection.'
+
+      - alert: AiTokenVolumeSpike
+        expr: rate(ai_tokens_total[1h]) > 1000000
+        for: 15m
+        labels:
+          severity: warning
+          squad: ai-team
+        annotations:
+          summary: 'AI token volume spike: {{ $value | humanize }} tokens/h'
+          description: 'Token consumption rate for provider {{ $labels.provider }} is abnormally high. Check for runaway loops or prompt issues.'
+
+      - alert: AiCircuitBreakerOpen
+        expr: ai_circuit_state == 1
+        for: 2m
+        labels:
+          severity: critical
+          squad: ai-team
+        annotations:
+          summary: 'AI circuit breaker OPEN for {{ $labels.provider }}'
+          description: 'Circuit breaker is open for provider {{ $labels.provider }}. All AI calls are being blocked. Check provider status and API health.'
+
+      - alert: AiErrorRateHigh
+        expr: rate(ai_calls_total{status="error"}[15m]) / rate(ai_calls_total[15m]) > 0.10
+        for: 10m
+        labels:
+          severity: warning
+          squad: ai-team
+        annotations:
+          summary: 'AI call error rate high: {{ $value | humanizePercentage }}'
+          description: 'Error rate for provider {{ $labels.provider }} is {{ $value | humanizePercentage }} in last 15min.'
+
+      - alert: AiLatencyP99High
+        expr: histogram_quantile(0.99, rate(ai_call_duration_seconds_bucket[10m])) > 30
+        for: 10m
+        labels:
+          severity: warning
+          squad: ai-team
+        annotations:
+          summary: 'AI call P99 latency > 30s ({{ $value }}s)'
+          description: 'P99 latency for {{ $labels.provider }}/{{ $labels.model }} is {{ $value }}s. Consider model fallback or circuit breaker activation.'
+
+      - alert: AiPromptRateLimitApproaching
+        expr: rate(ai_rate_limit_hits_total[5m]) > 0
+        for: 5m
+        labels:
+          severity: info
+          squad: ai-team
+        annotations:
+          summary: 'AI rate limit hit for {{ $labels.provider }}'
+          description: 'Provider {{ $labels.provider }} is returning rate limit errors. Consider adding request throttling.'
