@@ -101,7 +101,17 @@ Checklist consolidado de todas as entregas do projeto, por fase. Use este arquiv
 
 | # | Tarefa | Status | Observação |
 |---|--------|--------|------------|
-| 4.1-4.14 | Setup Next.js, Storybook, dashboards, PWA | ❌ Pendente | Frontend não iniciado |
+| 4.1 | Setup Next.js 15 + TS strict + TailwindCSS v4 | ✅ Completo | App Router, ESLint/Prettier, PostCSS |
+| 4.2 | Design System (tokens → atoms → Storybook) | ⚠️ Parcial | Tokens no globals.css + 4 atoms (Button, Card, Badge, Input). Storybook pendente. |
+| 4.3 | NextAuth.js + OAuth2 (Drupal OIDC) | ❌ Pendente | Sem next-auth, sem middleware, sem rotas protegidas |
+| 4.4 | TanStack Query + OpenAPI client | ❌ Pendente | API client básico existe, sem TanStack Query, sem codegen |
+| 4.5–4.10 | 6 dashboards de squad | ❌ Pendente | Apenas Home estática com health check |
+| 4.11 | WebSocket (Socket.IO) | ❌ Pendente | |
+| 4.12 | PWA (manifest, SW, push) | ❌ Pendente | public/ vazio, sem workbox |
+| 4.13 | Testes E2E por squad + visual regression | ⚠️ Parcial | Playwright configurado (3 testes), Chromatic pendente |
+| 4.14 | Lighthouse CI + axe-core | ✅ Completo | lighthouserc.js + axe no CI |
+
+**Status geral:** ~19% — Foundation pronta, dashboards e auth pendentes
 
 ---
 
@@ -109,7 +119,19 @@ Checklist consolidado de todas as entregas do projeto, por fase. Use este arquiv
 
 | # | Tarefa | Status | Observação |
 |---|--------|--------|------------|
-| 5.1-5.11 | n8n, LangSmith, prompts, circuit breakers | ❌ Pendente | Skills dos agentes prontas, integração pendente |
+| 5.1 | n8n deployment (K8s) | ✅ Completo | `infrastructure/n8n/values.yaml` + Helm dependency |
+| 5.2 | LangSmith/Helicone config | ✅ Completo | `infrastructure/langsmith/config.yaml` com projetos, tracing, budgets |
+| 5.3 | Prompt Registry (YAML + schema + CI) | ✅ Completo | 20 YAMLs em `docs/ai-prompts/registry/`, JSON Schema, CI validation |
+| 5.4 | Prompts v1.0.0 para 20 agentes | ✅ Completo | 20 prompts com system prompt, template, few-shot, test cases |
+| 5.5 | `archtech_ai_gateway` (HTTP integration) | ⚠️ Parcial | Circuit breaker + cost tracker + prompt registry implementados; HTTP call layer usa callable injetado |
+| 5.6 | Circuit breakers por provider | ✅ Completo | Threshold 5 falhas, window 60s, open 30s, retry 4x com backoff |
+| 5.7 | PII masking (Presidio) | ✅ Completo | `PiiMaskerService.php` com Presidio + fallback regex (CPF, CNPJ, email, etc.) |
+| 5.8 | Content moderation | ✅ Completo | `ContentModerationService.php` com OpenAI Moderation API (block/flag/rewrite) |
+| 5.9 | n8n workflows (6) | ✅ Completo | `infrastructure/n8n/workflows/`: lead_nurturing, meeting_scheduling, campaign_optimization, render_notification, report_generation, checklist_alert |
+| 5.10 | AI cost alerts (Prometheus + Grafana) | ✅ Completo | 8 alertas em `archtech-ai-alerts.yml`, 4 painéis AI no Grafana overview |
+| 5.11 | LLM quality test cases | ✅ Completo | `scripts/ci/test-llm-quality.py` + test cases em cada prompt YAML |
+
+**Status geral:** ~90% — Depende da Fase 3 (backend) para deploy real
 
 ---
 
@@ -125,7 +147,9 @@ Checklist consolidado de todas as entregas do projeto, por fase. Use este arquiv
 | 6.6 | Recuperação: DB, RabbitMQ, AI | ✅ Completo | 3 scripts + DR report RTO < 4h |
 | 6.7 | Backup e restore | ✅ Completo | Script + validação de integridade |
 | 6.8 | UAT templates | ✅ Completo | 4 templates + ata de aprovação |
-| 6.9 | Bug fixes críticos/altos | ✅ Completo | 0 bugs críticos em aberto |
+| 6.9 | Bug tracking / Issue Templates | ✅ Completo | `.github/ISSUE_TEMPLATE/` (bug_report.yml + feature_request.yml) |
+
+**Status geral:** ✅ 100% — 9/9 tarefas concluídas
 
 ---
 

@@ -1,4 +1,4 @@
-PHASE=8
+PHASE=9
 
 ---
 
@@ -42,23 +42,23 @@ Para cada tarefa, marque com `[X]` conforme finalizar. Ignore tarefas já marcad
 
 ### Verificação Final (08/06/2026)
 
-| #   | Tarefa                             | Status | Observações                                                                  |
-| :-- | :--------------------------------- | :----- | :--------------------------------------------------------------------------- |
-| 7.1 | Argo CD GitOps manifests           | ✅     | AppProject + 3 Applications (dev/staging/prod) + sync policies               |
-| 7.2 | Checkly synthetic monitoring       | ✅     | Config + 5 API checks + 3 browser checks, frequência 5/10min                 |
-| 7.3 | PagerDuty escalation policies      | ✅     | Services, escalation matrix, on-call rotations, Alertmanager receiver        |
-| 7.4 | SLO + per-squad Grafana dashboards | ✅     | SLO dashboard (8 panels) + 6 squad dashboards (31 panels total)              |
-| 7.5 | Canary deployment config           | ✅     | Argo Rollouts backend + frontend, AnalysisTemplate com Prometheus            |
-| 7.6 | FinOps cost review scripts         | ✅     | `scripts/finops-review.sh`, AI cost tracking CSV real, budget thresholds     |
-| 7.7 | Retrospectiva + ADRs atualizados   | ✅     | 3 new ADRs (006/007/008), retrospective doc, 5 new runbooks                  |
-| 7.8 | Phase 8 roadmap                    | ✅     | Roadmap with 5 epics, resource estimates, risk assessment                    |
-|     | **Extra (Fase 8):**                |        |                                                                              |
-| 8.1 | Módulo health check Drupal         | ✅     | `archtech_health` — endpoints `/health` e `/api/health` com DB check         |
-| 8.2 | JSON:API + REST habilitados        | ✅     | jsonapi + rest + serialization ativados para Drupal headless                 |
-| 8.3 | Frontend API client                | ✅     | `src/lib/api/client.ts` conectando Next.js ao Drupal backend                 |
-| 8.4 | AI cost tracking CSV               | ✅     | `infrastructure/finops/ai-cost-tracking.csv` com dados reais                 |
-| 8.5 | Frontend build + testes + E2E      | ✅     | TypeScript, lint, 11 unit tests, 8 E2E tests — tudo passando                 |
-| 8.6 | Infraestrutura full validation     | ✅     | YAML, Terraform, K8s, Prometheus, Grafana, Vault, RabbitMQ — todos OK        |
+| #   | Tarefa                             | Status | Observações                                                              |
+| :-- | :--------------------------------- | :----- | :----------------------------------------------------------------------- |
+| 7.1 | Argo CD GitOps manifests           | ✅     | AppProject + 3 Applications (dev/staging/prod) + sync policies           |
+| 7.2 | Checkly synthetic monitoring       | ✅     | Config + 5 API checks + 3 browser checks, frequência 5/10min             |
+| 7.3 | PagerDuty escalation policies      | ✅     | Services, escalation matrix, on-call rotations, Alertmanager receiver    |
+| 7.4 | SLO + per-squad Grafana dashboards | ✅     | SLO dashboard (8 panels) + 6 squad dashboards (31 panels total)          |
+| 7.5 | Canary deployment config           | ✅     | Argo Rollouts backend + frontend, AnalysisTemplate com Prometheus        |
+| 7.6 | FinOps cost review scripts         | ✅     | `scripts/finops-review.sh`, AI cost tracking CSV real, budget thresholds |
+| 7.7 | Retrospectiva + ADRs atualizados   | ✅     | 3 new ADRs (006/007/008), retrospective doc, 5 new runbooks              |
+| 7.8 | Phase 8 roadmap                    | ✅     | Roadmap with 5 epics, resource estimates, risk assessment                |
+|     | **Extra (Fase 8):**                |        |                                                                          |
+| 8.1 | Módulo health check Drupal         | ✅     | `archtech_health` — endpoints `/health` e `/api/health` com DB check     |
+| 8.2 | JSON:API + REST habilitados        | ✅     | jsonapi + rest + serialization ativados para Drupal headless             |
+| 8.3 | Frontend API client                | ✅     | `src/lib/api/client.ts` conectando Next.js ao Drupal backend             |
+| 8.4 | AI cost tracking CSV               | ✅     | `infrastructure/finops/ai-cost-tracking.csv` com dados reais             |
+| 8.5 | Frontend build + testes + E2E      | ✅     | TypeScript, lint, 11 unit tests, 8 E2E tests — tudo passando             |
+| 8.6 | Infraestrutura full validation     | ✅     | YAML, Terraform, K8s, Prometheus, Grafana, Vault, RabbitMQ — todos OK    |
 
 **Módulo Drupal criado:** `web/modules/custom/archtech_health/` — endpoints `/health` e `/api/health` para monitoramento + canary analysis
 **API habilitada:** JSON:API + REST + Serialization para headless Drupal

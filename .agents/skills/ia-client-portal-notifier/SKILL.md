@@ -25,6 +25,10 @@ Adapte o tom para ser profissional e tranquilizador. Destaque o que foi concluí
 - Push Notification (Web Push API)
 - In-app (Portal do Cliente)
 
+## Prompt Version
+
+`ia-client-portal/notifier@1.0.0`
+
 ## Dependencies
 
 - archtech_ai_gateway (circuit breaker, retry)
