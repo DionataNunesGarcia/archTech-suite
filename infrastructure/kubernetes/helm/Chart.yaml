@@ -18,3 +18,7 @@ dependencies:
     version: ~14.0
     repository: oci://registry-1.docker.io/bitnamicharts
     condition: rabbitmq.enabled
+  - name: n8n
+    version: ~1.0.0
+    repository: file://../../n8n
+    condition: n8n.enabled

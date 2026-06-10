@@ -1,0 +1,104 @@
+# LangSmith Configuration for ArchTech Suite
+# AI observability, tracing, and cost monitoring via LangSmith/Smith
+#
+# Prerequisites:
+#   1. LANGSMITH_API_KEY stored in Vault (secret/archtech/langsmith)
+#   2. LANGSMITH_PROJECT created per environment (archtech-dev, archtech-staging, archtech-prod)
+#
+# Setup:
+#   vault read secret/archtech/langsmith
+#   export LANGSMITH_API_KEY="..."
+
+# LangSmith project configuration
+langsmith:
+  # Base URL (SaaS or self-hosted)
+  endpoint: "https://api.smith.langchain.com"
+  
+  # Project per environment
+  projects:
+    dev: "archtech-dev"
+    staging: "archtech-staging"
+    production: "archtech-prod"
+
+  # Tracing configuration
+  tracing:
+    enabled: true
+    # Sample rate for traces (1.0 = 100%, 0.2 = 20% of staging calls)
+    sample_rate:
+      dev: 1.0
+      staging: 0.5
+      production: 0.2
+    # Tags applied to all traces
+    default_tags:
+      - "archtech"
+      - "drupal"
+      - "ai-gateway"
+
+  # Evaluation configuration
+  evaluation:
+    # Auto-evaluate on trace completion
+    auto_feedback:
+      enabled: true
+      evaluators:
+        - correctness
+        - helpfulness
+        - harmfulness
+      # Sample percentage per environment
+      sample_rate:
+        staging: 0.20
+        production: 0.05
+
+  # Cost tracking
+  cost:
+    # Track cost per run, aggregated by:
+    aggregation:
+      - squad
+      - agent
+      - model
+      - provider
+    # Daily budget alerts per squad (USD)
+    budget_alerts:
+      crm: 15
+      proposals: 20
+      financeiro: 10
+      library: 5
+      permits: 8
+      suppliers: 5
+      facilities: 5
+      bim-twin: 25
+      client-portal: 3
+      platform: 25
+
+  # Dashboard configuration
+  dashboards:
+    - name: "AI Cost Overview"
+      panels:
+        - cost_by_squad
+        - cost_by_model
+        - token_usage_trend
+        - top_expensive_runs
+    - name: "AI Quality"
+      panels:
+        - correctness_scores
+        - latency_p50_p95_p99
+        - error_rate_by_provider
+        - feedback_scores
+    - name: "Squad Performance"
+      panels:
+        - calls_per_squad
+        - avg_latency_per_squad
+        - token_efficiency
+
+# Vault integration
+vault:
+  path: "secret/archtech/langsmith"
+  keys:
+    - api_key
+    - endpoint  # For self-hosted instances
+
+# DDEV local overrides
+ddev:
+  enabled: false
+  endpoint: "http://host.docker.internal:3000"
+  project: "archtech-local"
+  sample_rate: 1.0

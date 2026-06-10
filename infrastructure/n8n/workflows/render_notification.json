@@ -1,0 +1,111 @@
+{
+  "name": "Render Notification Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "event": "RenderCompleted"
+      },
+      "type": "n8n-nodes-base.rabbitmqTrigger",
+      "typeVersion": 1,
+      "position": [250, 300],
+      "name": "Render Completed Event"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.renderUrl }}",
+        "method": "HEAD"
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [500, 300],
+      "name": "Verify Render File"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $response.statusCode }}",
+              "operation": "equals",
+              "value2": 200
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [750, 300],
+      "name": "File Accessible?"
+    },
+    {
+      "parameters": {
+        "jsCode": "const render = $input.first().json;\nconst project = await $http.get(`/api/v1/projetos/${render.projectId}`);\nconst client = await $http.get(`/api/v1/client-portal/projects/${render.projectId}/contacts`);\n\nreturn {\n  projectName: project.name,\n  renderType: render.type,\n  renderUrl: render.renderUrl,\n  clientEmail: client.primary.email,\n  clientName: client.primary.name,\n  message: `Olá ${client.primary.name},\n\nUma nova renderização do projeto *${project.name}* está disponível para visualização.\n\nTipo: ${render.type}\n\nAcesse o portal do cliente para visualizar e aprovar:\n${render.clientPortalUrl}\n\nEquipe ArchTech`\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1000, 200],
+      "name": "Prepare Notification"
+    },
+    {
+      "parameters": {
+        "template": "={{ $json.message }}",
+        "to": "={{ $json.clientEmail }}",
+        "subject": "ArchTech — Nova Renderização Disponível: {{ $json.projectName }}"
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2,
+      "position": [1250, 200],
+      "name": "Notify Client via Email"
+    },
+    {
+      "parameters": {
+        "webhookUri": "={{ $env.ARCHTECH_PORTAL_WEBHOOK }}",
+        "body": {
+          "type": "render_notification",
+          "projectId": "={{ $json.render.projectId }}",
+          "clientId": "={{ $json.render.clientId }}",
+          "renderType": "={{ $json.render.type }}"
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [1250, 400],
+      "name": "Push to Client Portal"
+    },
+    {
+      "parameters": {
+        "template": "⚠️ Render {{ $json.renderId }} do projeto {{ $json.projectId }} não está acessível (HTTP {{ $response.statusCode }}). Verificar storage.",
+        "channel": "projetos-alerts"
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2,
+      "position": [1000, 400],
+      "name": "Alert Squad (Error)"
+    }
+  ],
+  "connections": {
+    "Render Completed Event": {
+      "main": [[ { "node": "Verify Render File", "type": "main", "index": 0 } ]]
+    },
+    "Verify Render File": {
+      "main": [[ { "node": "File Accessible?", "type": "main", "index": 0 } ]]
+    },
+    "File Accessible?": {
+      "main": [
+        [ { "node": "Prepare Notification", "type": "main", "index": 0 } ],
+        [ { "node": "Alert Squad (Error)", "type": "main", "index": 0 } ]
+      ]
+    },
+    "Prepare Notification": {
+      "main": [
+        [ { "node": "Notify Client via Email", "type": "main", "index": 0 } ],
+        [ { "node": "Push to Client Portal", "type": "main", "index": 0 } ]
+      ]
+    }
+  },
+  "settings": {
+    "saveExecutionProgress": true,
+    "saveManualExecutions": true,
+    "timezone": "America/Sao_Paulo"
+  }
+}
