@@ -85,21 +85,21 @@
   ],
   "connections": {
     "Render Completed Event": {
-      "main": [[ { "node": "Verify Render File", "type": "main", "index": 0 } ]]
+      "main": [[{ "node": "Verify Render File", "type": "main", "index": 0 }]]
     },
     "Verify Render File": {
-      "main": [[ { "node": "File Accessible?", "type": "main", "index": 0 } ]]
+      "main": [[{ "node": "File Accessible?", "type": "main", "index": 0 }]]
     },
     "File Accessible?": {
       "main": [
-        [ { "node": "Prepare Notification", "type": "main", "index": 0 } ],
-        [ { "node": "Alert Squad (Error)", "type": "main", "index": 0 } ]
+        [{ "node": "Prepare Notification", "type": "main", "index": 0 }],
+        [{ "node": "Alert Squad (Error)", "type": "main", "index": 0 }]
       ]
     },
     "Prepare Notification": {
       "main": [
-        [ { "node": "Notify Client via Email", "type": "main", "index": 0 } ],
-        [ { "node": "Push to Client Portal", "type": "main", "index": 0 } ]
+        [{ "node": "Notify Client via Email", "type": "main", "index": 0 }],
+        [{ "node": "Push to Client Portal", "type": "main", "index": 0 }]
       ]
     }
   },

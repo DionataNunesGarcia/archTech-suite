@@ -31,14 +31,14 @@ user_prompt_template: |
 
 few_shot_examples:
   - input:
-      pergunta: "Qual a taxa de permeabilidade mínima exigida para terrenos em São Paulo?"
+      pergunta: 'Qual a taxa de permeabilidade mínima exigida para terrenos em São Paulo?'
       documentos: |
         [1] Plano Diretor SP 2024 - Art. 45: "Taxa de permeabilidade mínima de 15% para lotes acima de 500m² na Zona Mista"
         [2] Código de Obras SP - Seção 3.2: "Permeabilidade pode ser reduzida com sistema de drenagem compensatório aprovado"
     output: |
       De acordo com o Plano Diretor de São Paulo (2024), Art. 45, a taxa de permeabilidade mínima é de 15% para lotes acima de 500m² na Zona Mista. O Código de Obras permite redução dessa taxa mediante sistema de drenagem compensatório aprovado.
   - input:
-      pergunta: "Como calcular o custo médio de construção por m² em Curitiba?"
+      pergunta: 'Como calcular o custo médio de construção por m² em Curitiba?'
       documentos: |
         [1] CUB/PR Junho 2026 - Sinduscon-PR: "Custo Unitário Básico: R$ 1.892,45/m² para R8-N (Residencial Alto Padrão)"
         [2] SINAPI Maio 2026: "Custo médio nacional: R$ 1.756,30/m²; Região Sul: R$ 1.823,15/m²"
@@ -46,9 +46,9 @@ few_shot_examples:
       Segundo o CUB/PR de Junho de 2026 (Sinduscon-PR), o custo unitário básico para construção residencial alto padrão (R8-N) em Curitiba é de R$ 1.892,45/m². Para referência, o SINAPI de Maio/2026 indica R$ 1.823,15/m² como média da Região Sul.
 
 test_cases:
-  - name: "consulta_nbr"
+  - name: 'consulta_nbr'
     input:
-      pergunta: "Qual a largura mínima de corredor segundo a NBR 9050?"
+      pergunta: 'Qual a largura mínima de corredor segundo a NBR 9050?'
       documentos: "[1] NBR 9050/2020 - Item 6.11.2: 'Corredores de uso público devem ter largura mínima de 1,50m para circulação de cadeira de rodas'"
     expected_keys: []
 
@@ -68,6 +68,6 @@ output_schema:
       maximum: 1
 
 changelog:
-  - version: "1.0.0"
-    date: "2026-06-09"
-    description: "Initial release with RAG-based document retrieval"
+  - version: '1.0.0'
+    date: '2026-06-09'
+    description: 'Initial release with RAG-based document retrieval'

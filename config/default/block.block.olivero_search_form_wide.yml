@@ -20,4 +20,4 @@ settings:
   label_display: '0'
   provider: search
   page_id: null
-visibility: {  }
+visibility: {}

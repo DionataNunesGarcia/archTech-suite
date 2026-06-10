@@ -22,8 +22,17 @@ user_prompt_template: |
   Data da reclamação: {{data_reclamacao}}
   Evidências: {{evidencias}}
 test_cases:
-  - name: "vicio_estrutural"
-    input: { edificacao_nome: "Residencial Parque Verde", data_habitese: "2024-03-15", defeito: "Fissuras estruturais em paredes de concreto com abertura superior a 2mm, infiltração em laje de cobertura", data_reclamacao: "2026-06-01", evidencias: "Laudo técnico de engenheiro civil, fotos anexas, medição de abertura de fissuras" }
-    expected_keys: ["coberto_por_garantia", "responsavel", "prazo_legal", "acao_recomendada", "fundamentacao_legal"]
-output_schema: { type: object, required: [coberto_por_garantia, responsavel, prazo_legal, acao_recomendada, fundamentacao_legal] }
-changelog: [{ version: "1.0.0", date: "2026-06-09", description: "Initial release with Brazilian construction warranty law" }]
+  - name: 'vicio_estrutural'
+    input:
+      {
+        edificacao_nome: 'Residencial Parque Verde',
+        data_habitese: '2024-03-15',
+        defeito: 'Fissuras estruturais em paredes de concreto com abertura superior a 2mm, infiltração em laje de cobertura',
+        data_reclamacao: '2026-06-01',
+        evidencias: 'Laudo técnico de engenheiro civil, fotos anexas, medição de abertura de fissuras',
+      }
+    expected_keys: ['coberto_por_garantia', 'responsavel', 'prazo_legal', 'acao_recomendada', 'fundamentacao_legal']
+output_schema:
+  { type: object, required: [coberto_por_garantia, responsavel, prazo_legal, acao_recomendada, fundamentacao_legal] }
+changelog:
+  [{ version: '1.0.0', date: '2026-06-09', description: 'Initial release with Brazilian construction warranty law' }]

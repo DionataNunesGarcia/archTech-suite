@@ -6,7 +6,7 @@ replicaCount: 2
 
 image:
   repository: n8nio/n8n
-  tag: "1.82.0"
+  tag: '1.82.0'
   pullPolicy: IfNotPresent
 
 service:
@@ -17,9 +17,9 @@ ingress:
   enabled: true
   className: nginx
   annotations:
-    nginx.ingress.kubernetes.io/proxy-body-size: "50m"
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
-    nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-body-size: '50m'
+    nginx.ingress.kubernetes.io/proxy-read-timeout: '300'
+    nginx.ingress.kubernetes.io/proxy-send-timeout: '300'
     cert-manager.io/cluster-issuer: letsencrypt-prod
   hosts:
     - host: n8n.archtech.ddev.site
@@ -46,22 +46,22 @@ persistence:
   accessMode: ReadWriteOnce
 
 env:
-  N8N_HOST: "n8n.archtech.ddev.site"
-  N8N_PORT: "5678"
-  N8N_PROTOCOL: "https"
+  N8N_HOST: 'n8n.archtech.ddev.site'
+  N8N_PORT: '5678'
+  N8N_PROTOCOL: 'https'
   N8N_ENCRYPTION_KEY:
     valueFrom:
       secretKeyRef:
         name: n8n-secrets
         key: encryption-key
-  N8N_DATABASE_TYPE: "postgresdb"
+  N8N_DATABASE_TYPE: 'postgresdb'
   N8N_DATABASE_POSTGRESDB_HOST:
     valueFrom:
       secretKeyRef:
         name: archtech-db-credentials
         key: host
-  N8N_DATABASE_POSTGRESDB_PORT: "5432"
-  N8N_DATABASE_POSTGRESDB_DATABASE: "n8n"
+  N8N_DATABASE_POSTGRESDB_PORT: '5432'
+  N8N_DATABASE_POSTGRESDB_DATABASE: 'n8n'
   N8N_DATABASE_POSTGRESDB_USER:
     valueFrom:
       secretKeyRef:
@@ -87,19 +87,19 @@ env:
       secretKeyRef:
         name: archtech-rabbitmq-credentials
         key: password
-  N8N_EXECUTIONS_DATA_SAVE_ON_ERROR: "all"
-  N8N_EXECUTIONS_DATA_SAVE_ON_SUCCESS: "all"
-  N8N_EXECUTIONS_DATA_SAVE_MANUAL_EXECUTIONS: "true"
-  N8N_EXECUTIONS_DATA_PRUNE: "true"
-  N8N_EXECUTIONS_DATA_MAX_AGE: "336"
-  N8N_LOG_LEVEL: "info"
-  N8N_LOG_OUTPUT: "console"
-  NODE_ENV: "production"
-  N8N_SKIP_WEBHOOK_DEREGISTRATION_SHUTDOWN: "true"
+  N8N_EXECUTIONS_DATA_SAVE_ON_ERROR: 'all'
+  N8N_EXECUTIONS_DATA_SAVE_ON_SUCCESS: 'all'
+  N8N_EXECUTIONS_DATA_SAVE_MANUAL_EXECUTIONS: 'true'
+  N8N_EXECUTIONS_DATA_PRUNE: 'true'
+  N8N_EXECUTIONS_DATA_MAX_AGE: '336'
+  N8N_LOG_LEVEL: 'info'
+  N8N_LOG_OUTPUT: 'console'
+  NODE_ENV: 'production'
+  N8N_SKIP_WEBHOOK_DEREGISTRATION_SHUTDOWN: 'true'
 
 backup:
   enabled: true
-  schedule: "0 2 * * *"
+  schedule: '0 2 * * *'
   retentionDays: 30
   destination: s3://archtech-backups/n8n/
 
@@ -140,7 +140,7 @@ nodeSelector:
   workload: stateful
 
 tolerations:
-  - key: "workload"
-    operator: "Equal"
-    value: "stateful"
-    effect: "NoSchedule"
+  - key: 'workload'
+    operator: 'Equal'
+    value: 'stateful'
+    effect: 'NoSchedule'

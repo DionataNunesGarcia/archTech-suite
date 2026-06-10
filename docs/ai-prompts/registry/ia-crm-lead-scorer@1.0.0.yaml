@@ -34,45 +34,45 @@ user_prompt_template: |
 
 few_shot_examples:
   - input:
-      lead_nome: "Carlos Silva"
-      tipo_projeto: "Residencial Alto Padrão"
-      orcamento_range: ">R$500K"
-      prazo_desejado: "Imediato"
-      fonte: "Indicação"
-      descricao: "Deseja construir casa de 500m² em condomínio fechado"
+      lead_nome: 'Carlos Silva'
+      tipo_projeto: 'Residencial Alto Padrão'
+      orcamento_range: '>R$500K'
+      prazo_desejado: 'Imediato'
+      fonte: 'Indicação'
+      descricao: 'Deseja construir casa de 500m² em condomínio fechado'
     output: |
       {"score":10,"justificativa":"Lead excelente: projeto residencial alto padrão com orçamento elevado, urgência imediata e origem por indicação. Perfil ideal para o escritório.","fatores":["Projeto residencial alto padrão","Orçamento >R$500K","Urgência imediata","Origem por indicação"],"acoes_sugeridas":["Agendar reunião em até 24h","Preparar portfólio de projetos similares","Designar arquiteto sênior para atendimento"]}
   - input:
-      lead_nome: "Maria Souza"
-      tipo_projeto: "Reforma Simples"
-      orcamento_range: "<R$100K"
-      prazo_desejado: ">60 dias"
-      fonte: "Redes Sociais"
-      descricao: "Reforma de cozinha e banheiro em apartamento"
+      lead_nome: 'Maria Souza'
+      tipo_projeto: 'Reforma Simples'
+      orcamento_range: '<R$100K'
+      prazo_desejado: '>60 dias'
+      fonte: 'Redes Sociais'
+      descricao: 'Reforma de cozinha e banheiro em apartamento'
     output: |
       {"score":2,"justificativa":"Lead de baixo potencial: reforma simples com orçamento limitado e prazo longo. Pode ser atendido por equipe júnior ou redirecionado.","fatores":["Reforma simples","Orçamento <R$100K","Prazo longo","Origem redes sociais"],"acoes_sugeridas":["Enviar material informativo por email","Agendar follow-up em 30 dias","Avaliar redirecionamento para parceiro"]}
 
 test_cases:
-  - name: "lead_alto_potencial"
+  - name: 'lead_alto_potencial'
     input:
-      lead_nome: "Empresa Construtora XYZ"
-      tipo_projeto: "Comercial Corporativo"
-      orcamento_range: ">R$500K"
-      prazo_desejado: "Imediato"
-      fonte: "Indicação"
-      descricao: "Projeto de sede corporativa 2000m²"
-    expected_keys: ["score", "justificativa", "fatores", "acoes_sugeridas"]
+      lead_nome: 'Empresa Construtora XYZ'
+      tipo_projeto: 'Comercial Corporativo'
+      orcamento_range: '>R$500K'
+      prazo_desejado: 'Imediato'
+      fonte: 'Indicação'
+      descricao: 'Projeto de sede corporativa 2000m²'
+    expected_keys: ['score', 'justificativa', 'fatores', 'acoes_sugeridas']
     expected_values:
       score: 9
-  - name: "lead_baixo_potencial"
+  - name: 'lead_baixo_potencial'
     input:
-      lead_nome: "João Santos"
-      tipo_projeto: "Reforma Simples"
-      orcamento_range: "<R$100K"
-      prazo_desejado: ">60 dias"
-      fonte: "Redes Sociais"
-      descricao: "Pintura de parede externa"
-    expected_keys: ["score", "justificativa", "fatores", "acoes_sugeridas"]
+      lead_nome: 'João Santos'
+      tipo_projeto: 'Reforma Simples'
+      orcamento_range: '<R$100K'
+      prazo_desejado: '>60 dias'
+      fonte: 'Redes Sociais'
+      descricao: 'Pintura de parede externa'
+    expected_keys: ['score', 'justificativa', 'fatores', 'acoes_sugeridas']
 
 output_schema:
   type: object
@@ -98,6 +98,6 @@ fallback_prompt: |
   Atribua score de 1 a 10. Responda em JSON.
 
 changelog:
-  - version: "1.0.0"
-    date: "2026-06-09"
-    description: "Initial release with scoring criteria and few-shot examples"
+  - version: '1.0.0'
+    date: '2026-06-09'
+    description: 'Initial release with scoring criteria and few-shot examples'

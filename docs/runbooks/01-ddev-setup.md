@@ -25,15 +25,15 @@ ddev drush cr
 
 ## Serviços
 
-| Serviço | Acesso |
-|---------|--------|
-| Drupal | https://archtech.ddev.site |
-| Mailpit | https://archtech.ddev.site:8025 |
-| RabbitMQ | https://archtech.ddev.site:15672 (user: archtech, pass: archtech) |
-| Grafana | https://archtech.ddev.site:3001 (user: admin, pass: admin) |
-| Jaeger | https://archtech.ddev.site:16686 |
-| PostgreSQL | localhost:5432 (db: db, user: db, pass: db) |
-| Redis | localhost:6379 |
+| Serviço    | Acesso                                                            |
+| ---------- | ----------------------------------------------------------------- |
+| Drupal     | https://archtech.ddev.site                                        |
+| Mailpit    | https://archtech.ddev.site:8025                                   |
+| RabbitMQ   | https://archtech.ddev.site:15672 (user: archtech, pass: archtech) |
+| Grafana    | https://archtech.ddev.site:3001 (user: admin, pass: admin)        |
+| Jaeger     | https://archtech.ddev.site:16686                                  |
+| PostgreSQL | localhost:5432 (db: db, user: db, pass: db)                       |
+| Redis      | localhost:6379                                                    |
 
 ## Comandos Úteis
 

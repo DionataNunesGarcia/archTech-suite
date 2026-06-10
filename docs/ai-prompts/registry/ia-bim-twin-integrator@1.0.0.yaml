@@ -20,8 +20,13 @@ user_prompt_template: |
   Disciplina: {{disciplina}}
   Dados IFC extraídos: {{ifc_data_json}}
 test_cases:
-  - name: "ifc_arquitetonico"
-    input: { projeto_nome: "Hospital Regional", disciplina: "Arquitetura", ifc_data_json: '{"ifc_version":"IFC4","elements":[{"type":"IfcWall","name":"Parede Externa 01","length_m":12.5,"height_m":3.0,"thickness_mm":250,"material":"Concreto Armado"},{"type":"IfcSlab","name":"Laje Piso Tipo","area_m2":450,"thickness_mm":200}]}' }
-    expected_keys: ["elementos", "quantitativos", "areas", "conflitos", "metadata"]
+  - name: 'ifc_arquitetonico'
+    input:
+      {
+        projeto_nome: 'Hospital Regional',
+        disciplina: 'Arquitetura',
+        ifc_data_json: '{"ifc_version":"IFC4","elements":[{"type":"IfcWall","name":"Parede Externa 01","length_m":12.5,"height_m":3.0,"thickness_mm":250,"material":"Concreto Armado"},{"type":"IfcSlab","name":"Laje Piso Tipo","area_m2":450,"thickness_mm":200}]}',
+      }
+    expected_keys: ['elementos', 'quantitativos', 'areas', 'conflitos', 'metadata']
 output_schema: { type: object, required: [elementos, quantitativos, areas, conflitos, metadata] }
-changelog: [{ version: "1.0.0", date: "2026-06-09", description: "Initial release with IFC 2x3 and IFC4 support" }]
+changelog: [{ version: '1.0.0', date: '2026-06-09', description: 'Initial release with IFC 2x3 and IFC4 support' }]

@@ -1,7 +1,7 @@
 uuid: 228546a9-4ec9-46e0-a832-0c8a5b38817a
 langcode: pt-br
 status: true
-dependencies: {  }
+dependencies: {}
 id: en
 label: English
 direction: ltr

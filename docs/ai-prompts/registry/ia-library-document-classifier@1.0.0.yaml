@@ -18,12 +18,16 @@ user_prompt_template: |
   Título: {{titulo}}
   Conteúdo (primeiros 500 caracteres): {{conteudo}}
 test_cases:
-  - name: "classificar_projeto_estrutural"
-    input: { titulo: "Cálculo Estrutural - Bloco A", conteudo: "Memorial de cálculo estrutural contemplando lajes maciças, vigas de concreto armado fck 30MPa e pilares dimensionados conforme NBR 6118:2023." }
-    expected_keys: ["categoria", "subcategoria", "tags", "confianca"]
-    expected_values: { categoria: "projeto_estrutural" }
+  - name: 'classificar_projeto_estrutural'
+    input:
+      {
+        titulo: 'Cálculo Estrutural - Bloco A',
+        conteudo: 'Memorial de cálculo estrutural contemplando lajes maciças, vigas de concreto armado fck 30MPa e pilares dimensionados conforme NBR 6118:2023.',
+      }
+    expected_keys: ['categoria', 'subcategoria', 'tags', 'confianca']
+    expected_values: { categoria: 'projeto_estrutural' }
 output_schema: { type: object, required: [categoria, subcategoria, tags, confianca] }
 changelog:
-  - version: "1.0.0"
-    date: "2026-06-09"
-    description: "Initial release with 14 document categories"
+  - version: '1.0.0'
+    date: '2026-06-09'
+    description: 'Initial release with 14 document categories'

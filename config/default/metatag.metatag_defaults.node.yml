@@ -1,7 +1,7 @@
 uuid: d39d608c-cb82-48b1-9b13-004ba90319d2
 langcode: pt-br
 status: true
-dependencies: {  }
+dependencies: {}
 id: node
 label: Content
 tags:

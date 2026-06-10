@@ -1,9 +1,9 @@
 # ADR-001: Drupal 11 como Backend Headless
 
-| Campo | Valor |
-|-------|-------|
+| Campo  | Valor        |
+| ------ | ------------ |
 | Status | **accepted** |
-| Data | 2025-06 |
+| Data   | 2025-06      |
 
 **Decisão:** Usar Drupal 11 como CMS headless com JSON:API e GraphQL.
 

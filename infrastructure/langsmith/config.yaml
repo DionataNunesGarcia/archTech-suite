@@ -12,13 +12,13 @@
 # LangSmith project configuration
 langsmith:
   # Base URL (SaaS or self-hosted)
-  endpoint: "https://api.smith.langchain.com"
-  
+  endpoint: 'https://api.smith.langchain.com'
+
   # Project per environment
   projects:
-    dev: "archtech-dev"
-    staging: "archtech-staging"
-    production: "archtech-prod"
+    dev: 'archtech-dev'
+    staging: 'archtech-staging'
+    production: 'archtech-prod'
 
   # Tracing configuration
   tracing:
@@ -30,9 +30,9 @@ langsmith:
       production: 0.2
     # Tags applied to all traces
     default_tags:
-      - "archtech"
-      - "drupal"
-      - "ai-gateway"
+      - 'archtech'
+      - 'drupal'
+      - 'ai-gateway'
 
   # Evaluation configuration
   evaluation:
@@ -71,19 +71,19 @@ langsmith:
 
   # Dashboard configuration
   dashboards:
-    - name: "AI Cost Overview"
+    - name: 'AI Cost Overview'
       panels:
         - cost_by_squad
         - cost_by_model
         - token_usage_trend
         - top_expensive_runs
-    - name: "AI Quality"
+    - name: 'AI Quality'
       panels:
         - correctness_scores
         - latency_p50_p95_p99
         - error_rate_by_provider
         - feedback_scores
-    - name: "Squad Performance"
+    - name: 'Squad Performance'
       panels:
         - calls_per_squad
         - avg_latency_per_squad
@@ -91,14 +91,14 @@ langsmith:
 
 # Vault integration
 vault:
-  path: "secret/archtech/langsmith"
+  path: 'secret/archtech/langsmith'
   keys:
     - api_key
-    - endpoint  # For self-hosted instances
+    - endpoint # For self-hosted instances
 
 # DDEV local overrides
 ddev:
   enabled: false
-  endpoint: "http://host.docker.internal:3000"
-  project: "archtech-local"
+  endpoint: 'http://host.docker.internal:3000'
+  project: 'archtech-local'
   sample_rate: 1.0

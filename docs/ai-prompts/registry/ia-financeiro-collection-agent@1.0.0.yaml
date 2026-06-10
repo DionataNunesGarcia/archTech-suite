@@ -23,14 +23,28 @@ user_prompt_template: |
   Dias de atraso: {{dias_atraso}}
   Histórico de pagamentos: {{historico}}
 few_shot_examples:
-  - input: { cliente_nome: "Família Oliveira", projeto_nome: "Residência Alphaville", valor_aberto: "15000", dias_atraso: "10", historico: "Bom pagador, primeiro atraso" }
+  - input:
+      {
+        cliente_nome: 'Família Oliveira',
+        projeto_nome: 'Residência Alphaville',
+        valor_aberto: '15000',
+        dias_atraso: '10',
+        historico: 'Bom pagador, primeiro atraso',
+      }
     output: '{"estagio":"lembrete","mensagem":"Prezada Família Oliveira, esperamos que estejam bem! Verificamos que a parcela de R$15.000 do projeto Residência Alphaville está próxima do vencimento. Podemos contar com a confirmação do pagamento? Estamos à disposição para qualquer dúvida.","canal_recomendado":"email","acao_recomendada":"Enviar lembrete amigável e aguardar 5 dias"}'
 test_cases:
-  - name: "cobranca_inicial"
-    input: { cliente_nome: "Empresa ConstruLar", projeto_nome: "Galpão Industrial", valor_aberto: "85000", dias_atraso: "12", historico: "Cliente regular, ocasional atraso" }
-    expected_keys: ["estagio", "mensagem", "canal_recomendado", "acao_recomendada"]
+  - name: 'cobranca_inicial'
+    input:
+      {
+        cliente_nome: 'Empresa ConstruLar',
+        projeto_nome: 'Galpão Industrial',
+        valor_aberto: '85000',
+        dias_atraso: '12',
+        historico: 'Cliente regular, ocasional atraso',
+      }
+    expected_keys: ['estagio', 'mensagem', 'canal_recomendado', 'acao_recomendada']
 output_schema: { type: object, required: [estagio, mensagem, canal_recomendado, acao_recomendada] }
 changelog:
-  - version: "1.0.0"
-    date: "2026-06-09"
-    description: "Initial release with progressive collection stages"
+  - version: '1.0.0'
+    date: '2026-06-09'
+    description: 'Initial release with progressive collection stages'

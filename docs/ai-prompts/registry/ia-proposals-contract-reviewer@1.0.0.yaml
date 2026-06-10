@@ -23,11 +23,18 @@ user_prompt_template: |
   Cláusulas do contrato:
   {{clausulas}}
 test_cases:
-  - name: "contrato_residencial"
-    input: { tipo_contrato: "Prestação de Serviços de Arquitetura", partes: "Escritório ArchTech e Família Santos", valor: "45000", prazo: "6 meses", clausulas: "1. O contratante pagará 30% na assinatura, 30% na entrega do anteprojeto, 40% na entrega final.\n2. O prazo de entrega é de 6 meses, prorrogável por acordo.\n3. Alterações de escopo serão cobradas à parte conforme tabela em anexo." }
-    expected_keys: ["clausulas_risco", "recomendacoes", "indice_risco", "resumo_executivo"]
+  - name: 'contrato_residencial'
+    input:
+      {
+        tipo_contrato: 'Prestação de Serviços de Arquitetura',
+        partes: 'Escritório ArchTech e Família Santos',
+        valor: '45000',
+        prazo: '6 meses',
+        clausulas: "1. O contratante pagará 30% na assinatura, 30% na entrega do anteprojeto, 40% na entrega final.\n2. O prazo de entrega é de 6 meses, prorrogável por acordo.\n3. Alterações de escopo serão cobradas à parte conforme tabela em anexo.",
+      }
+    expected_keys: ['clausulas_risco', 'recomendacoes', 'indice_risco', 'resumo_executivo']
 output_schema: { type: object, required: [clausulas_risco, recomendacoes, indice_risco, resumo_executivo] }
 changelog:
-  - version: "1.0.0"
-    date: "2026-06-09"
-    description: "Initial release with Brazilian contract law analysis"
+  - version: '1.0.0'
+    date: '2026-06-09'
+    description: 'Initial release with Brazilian contract law analysis'

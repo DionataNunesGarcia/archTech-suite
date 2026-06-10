@@ -15,4 +15,4 @@ settings:
   label: 'Primary admin actions'
   label_display: '0'
   provider: core
-visibility: {  }
+visibility: {}

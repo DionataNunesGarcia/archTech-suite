@@ -69,22 +69,22 @@
   ],
   "connections": {
     "Lead Created Event": {
-      "main": [[ { "node": "Score Lead via AI", "type": "main", "index": 0 } ]]
+      "main": [[{ "node": "Score Lead via AI", "type": "main", "index": 0 }]]
     },
     "Score Lead via AI": {
-      "main": [[ { "node": "High Score?", "type": "main", "index": 0 } ]]
+      "main": [[{ "node": "High Score?", "type": "main", "index": 0 }]]
     },
     "High Score?": {
       "main": [
-        [ { "node": "Notify Squad (High)", "type": "main", "index": 0 } ],
-        [ { "node": "Notify Squad (Normal)", "type": "main", "index": 0 } ]
+        [{ "node": "Notify Squad (High)", "type": "main", "index": 0 }],
+        [{ "node": "Notify Squad (Normal)", "type": "main", "index": 0 }]
       ]
     },
     "Notify Squad (High)": {
-      "main": [[ { "node": "Publish FollowUp Event", "type": "main", "index": 0 } ]]
+      "main": [[{ "node": "Publish FollowUp Event", "type": "main", "index": 0 }]]
     },
     "Notify Squad (Normal)": {
-      "main": [[ { "node": "Publish FollowUp Event", "type": "main", "index": 0 } ]]
+      "main": [[{ "node": "Publish FollowUp Event", "type": "main", "index": 0 }]]
     }
   },
   "settings": {

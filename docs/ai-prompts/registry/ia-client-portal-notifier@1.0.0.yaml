@@ -24,8 +24,16 @@ user_prompt_template: |
   Evento: {{evento}}
   Dados adicionais: {{dados_adicionais}}
 test_cases:
-  - name: "milestone_atingido"
-    input: { cliente_nome: "Família Medeiros", projeto_nome: "Casa Condomínio Reserva", etapa_atual: "Projeto Executivo", progresso_percentual: "65", evento: "aprovacao_anteprojeto", dados_adicionais: "Anteprojeto aprovado pela prefeitura em 08/06/2026" }
-    expected_keys: ["tipo", "titulo", "mensagem", "acao_sugerida", "canal"]
+  - name: 'milestone_atingido'
+    input:
+      {
+        cliente_nome: 'Família Medeiros',
+        projeto_nome: 'Casa Condomínio Reserva',
+        etapa_atual: 'Projeto Executivo',
+        progresso_percentual: '65',
+        evento: 'aprovacao_anteprojeto',
+        dados_adicionais: 'Anteprojeto aprovado pela prefeitura em 08/06/2026',
+      }
+    expected_keys: ['tipo', 'titulo', 'mensagem', 'acao_sugerida', 'canal']
 output_schema: { type: object, required: [tipo, titulo, mensagem, acao_sugerida, canal] }
-changelog: [{ version: "1.0.0", date: "2026-06-09", description: "Initial release" }]
+changelog: [{ version: '1.0.0', date: '2026-06-09', description: 'Initial release' }]

@@ -2,12 +2,12 @@
 
 ## Severidade
 
-| Severidade | Exemplo | SLA | Notificação |
-|------------|---------|-----|-------------|
-| **Critical** | Site down, dados perdidos | < 15min resposta | PagerDuty + Slack |
-| **High** | Funcionalidade crítica quebrada | < 1h resposta | Slack @archtech-platform |
-| **Medium** | Bug não-bloqueante | < 4h | Slack #archtech-dev |
-| **Low** | Melhoria/feature request | < 1 sprint | GitHub Issue |
+| Severidade   | Exemplo                         | SLA              | Notificação              |
+| ------------ | ------------------------------- | ---------------- | ------------------------ |
+| **Critical** | Site down, dados perdidos       | < 15min resposta | PagerDuty + Slack        |
+| **High**     | Funcionalidade crítica quebrada | < 1h resposta    | Slack @archtech-platform |
+| **Medium**   | Bug não-bloqueante              | < 4h             | Slack #archtech-dev      |
+| **Low**      | Melhoria/feature request        | < 1 sprint       | GitHub Issue             |
 
 ## Incidente Crítico
 
@@ -36,8 +36,8 @@ helm history archnet -n archtech-prod
 
 ## Escalação
 
-| Nível | Quem | Meio |
-|-------|------|------|
-| L1 | Platform engineer on-call | PagerDuty |
-| L2 | Tech Lead | Telefone |
-| L3 | Engineering Manager | Telefone |
+| Nível | Quem                      | Meio      |
+| ----- | ------------------------- | --------- |
+| L1    | Platform engineer on-call | PagerDuty |
+| L2    | Tech Lead                 | Telefone  |
+| L3    | Engineering Manager       | Telefone  |

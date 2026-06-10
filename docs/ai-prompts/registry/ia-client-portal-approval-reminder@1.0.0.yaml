@@ -23,8 +23,16 @@ user_prompt_template: |
   Impacto do atraso: {{impacto}}
   Último lembrete: {{ultimo_lembrete}}
 test_cases:
-  - name: "aprovacao_critica"
-    input: { cliente_nome: "Construtora Horizonte", projeto_nome: "Sede Faria Lima", item_pendente: "Aprovação de planta executiva - Pavimento Tipo", dias_aguardando: "12", impacto: "Atraso de 2 semanas no cronograma de obra, risco de multa contratual", ultimo_lembrete: "2026-05-28" }
-    expected_keys: ["estagio", "mensagem", "canal", "escalar_para", "prazo_limite"]
+  - name: 'aprovacao_critica'
+    input:
+      {
+        cliente_nome: 'Construtora Horizonte',
+        projeto_nome: 'Sede Faria Lima',
+        item_pendente: 'Aprovação de planta executiva - Pavimento Tipo',
+        dias_aguardando: '12',
+        impacto: 'Atraso de 2 semanas no cronograma de obra, risco de multa contratual',
+        ultimo_lembrete: '2026-05-28',
+      }
+    expected_keys: ['estagio', 'mensagem', 'canal', 'escalar_para', 'prazo_limite']
 output_schema: { type: object, required: [estagio, mensagem, canal, prazo_limite] }
-changelog: [{ version: "1.0.0", date: "2026-06-09", description: "Initial release" }]
+changelog: [{ version: '1.0.0', date: '2026-06-09', description: 'Initial release' }]

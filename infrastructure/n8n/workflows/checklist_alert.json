@@ -4,7 +4,7 @@
     {
       "parameters": {
         "rule": {
-          "interval": [ { "field": "hours", "hoursInterval": 6 } ]
+          "interval": [{ "field": "hours", "hoursInterval": 6 }]
         }
       },
       "type": "n8n-nodes-base.scheduleTrigger",
@@ -80,25 +80,22 @@
   ],
   "connections": {
     "Every 6 Hours": {
-      "main": [[ { "node": "Fetch Pending Checklists", "type": "main", "index": 0 } ]]
+      "main": [[{ "node": "Fetch Pending Checklists", "type": "main", "index": 0 }]]
     },
     "Fetch Pending Checklists": {
-      "main": [[ { "node": "Has Pending?", "type": "main", "index": 0 } ]]
+      "main": [[{ "node": "Has Pending?", "type": "main", "index": 0 }]]
     },
     "Has Pending?": {
-      "main": [
-        [ { "node": "Categorize by Due Date", "type": "main", "index": 0 } ],
-        []
-      ]
+      "main": [[{ "node": "Categorize by Due Date", "type": "main", "index": 0 }], []]
     },
     "Categorize by Due Date": {
-      "main": [[ { "node": "Format Alert Message", "type": "main", "index": 0 } ]]
+      "main": [[{ "node": "Format Alert Message", "type": "main", "index": 0 }]]
     },
     "Format Alert Message": {
-      "main": [[ { "node": "Send to Slack", "type": "main", "index": 0 } ]]
+      "main": [[{ "node": "Send to Slack", "type": "main", "index": 0 }]]
     },
     "Send to Slack": {
-      "main": [[ { "node": "Publish Alert Event", "type": "main", "index": 0 } ]]
+      "main": [[{ "node": "Publish Alert Event", "type": "main", "index": 0 }]]
     }
   },
   "settings": {

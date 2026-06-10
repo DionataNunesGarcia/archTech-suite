@@ -14,133 +14,479 @@
       "item": [
         {
           "name": "Health Check",
-          "request": { "method": "GET", "header": [{ "key": "X-Trace-Id", "value": "{{trace_id}}" }], "url": { "raw": "{{base_url}}/health", "host": ["{{base_url}}"], "path": ["health"] } }
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-Trace-Id", "value": "{{trace_id}}" }],
+            "url": { "raw": "{{base_url}}/health", "host": ["{{base_url}}"], "path": ["health"] }
+          }
         },
         {
           "name": "API Health",
-          "request": { "method": "GET", "header": [{ "key": "X-Trace-Id", "value": "{{trace_id}}" }], "url": { "raw": "{{base_url}}/api/health", "host": ["{{base_url}}"], "path": ["api", "health"] } }
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-Trace-Id", "value": "{{trace_id}}" }],
+            "url": { "raw": "{{base_url}}/api/health", "host": ["{{base_url}}"], "path": ["api", "health"] }
+          }
         },
         {
           "name": "Feature Flags — List",
-          "request": { "method": "GET", "header": [{ "key": "X-Trace-Id", "value": "{{trace_id}}" }], "url": { "raw": "{{base_url}}/api/admin/feature-flags", "host": ["{{base_url}}"], "path": ["api", "admin", "feature-flags"] } }
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-Trace-Id", "value": "{{trace_id}}" }],
+            "url": {
+              "raw": "{{base_url}}/api/admin/feature-flags",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "feature-flags"]
+            }
+          }
         },
         {
           "name": "Audit Log",
-          "request": { "method": "GET", "header": [{ "key": "X-Trace-Id", "value": "{{trace_id}}" }], "url": { "raw": "{{base_url}}/api/admin/audit-log", "host": ["{{base_url}}"], "path": ["api", "admin", "audit-log"] } }
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-Trace-Id", "value": "{{trace_id}}" }],
+            "url": {
+              "raw": "{{base_url}}/api/admin/audit-log",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "audit-log"]
+            }
+          }
         }
       ]
     },
     {
       "name": "CRM (Atendimento)",
       "item": [
-        { "name": "List Leads", "request": { "method": "GET", "header": [{ "key": "X-Trace-Id", "value": "{{trace_id}}" }], "url": { "raw": "{{base_url}}/api/v1/leads", "host": ["{{base_url}}"], "path": ["api", "v1", "leads"] } } },
-        { "name": "Create Lead", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }, { "key": "X-Trace-Id", "value": "{{trace_id}}" }], "body": { "mode": "raw", "raw": "{\"name\":\"João Silva\",\"email\":\"joao@exemplo.com\",\"phone\":\"5511999999999\",\"company\":\"Construtora ABC\",\"score\":8,\"status\":\"new\"}" }, "url": { "raw": "{{base_url}}/api/v1/leads", "host": ["{{base_url}}"], "path": ["api", "v1", "leads"] } } },
-        { "name": "Update Lead Status", "request": { "method": "PATCH", "header": [{ "key": "Content-Type", "value": "application/json" }, { "key": "X-Trace-Id", "value": "{{trace_id}}" }], "body": { "mode": "raw", "raw": "{\"status\":\"contacted\"}" }, "url": { "raw": "{{base_url}}/api/v1/leads/{id}/status", "host": ["{{base_url}}"], "path": ["api", "v1", "leads", "{id}", "status"] } } }
+        {
+          "name": "List Leads",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-Trace-Id", "value": "{{trace_id}}" }],
+            "url": { "raw": "{{base_url}}/api/v1/leads", "host": ["{{base_url}}"], "path": ["api", "v1", "leads"] }
+          }
+        },
+        {
+          "name": "Create Lead",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Trace-Id", "value": "{{trace_id}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\":\"João Silva\",\"email\":\"joao@exemplo.com\",\"phone\":\"5511999999999\",\"company\":\"Construtora ABC\",\"score\":8,\"status\":\"new\"}"
+            },
+            "url": { "raw": "{{base_url}}/api/v1/leads", "host": ["{{base_url}}"], "path": ["api", "v1", "leads"] }
+          }
+        },
+        {
+          "name": "Update Lead Status",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Trace-Id", "value": "{{trace_id}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{\"status\":\"contacted\"}" },
+            "url": {
+              "raw": "{{base_url}}/api/v1/leads/{id}/status",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "leads", "{id}", "status"]
+            }
+          }
+        }
       ]
     },
     {
       "name": "Proposals (Projetos)",
       "item": [
-        { "name": "List Proposals", "request": { "method": "GET", "header": [{ "key": "X-Trace-Id", "value": "{{trace_id}}" }], "url": { "raw": "{{base_url}}/api/v1/proposals", "host": ["{{base_url}}"], "path": ["api", "v1", "proposals"] } } },
-        { "name": "Create Proposal", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }, { "key": "X-Trace-Id", "value": "{{trace_id}}" }], "body": { "mode": "raw", "raw": "{\"client\":\"João Silva\",\"title\":\"Projeto Residencial\",\"description\":\"Casa 250m²\",\"budget\":500000,\"status\":\"draft\"}" }, "url": { "raw": "{{base_url}}/api/v1/proposals", "host": ["{{base_url}}"], "path": ["api", "v1", "proposals"] } } }
+        {
+          "name": "List Proposals",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-Trace-Id", "value": "{{trace_id}}" }],
+            "url": {
+              "raw": "{{base_url}}/api/v1/proposals",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "proposals"]
+            }
+          }
+        },
+        {
+          "name": "Create Proposal",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Trace-Id", "value": "{{trace_id}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"client\":\"João Silva\",\"title\":\"Projeto Residencial\",\"description\":\"Casa 250m²\",\"budget\":500000,\"status\":\"draft\"}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/proposals",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "proposals"]
+            }
+          }
+        }
       ]
     },
     {
       "name": "Financeiro",
       "item": [
-        { "name": "List Invoices", "request": { "method": "GET", "header": [{ "key": "X-Trace-Id", "value": "{{trace_id}}" }], "url": { "raw": "{{base_url}}/api/v1/invoices", "host": ["{{base_url}}"], "path": ["api", "v1", "invoices"] } } },
-        { "name": "List Reimbursements", "request": { "method": "GET", "header": [{ "key": "X-Trace-Id", "value": "{{trace_id}}" }], "url": { "raw": "{{base_url}}/api/v1/finance/reimbursements", "host": ["{{base_url}}"], "path": ["api", "v1", "finance", "reimbursements"] } } },
-        { "name": "Cashflow by Project", "request": { "method": "GET", "header": [{ "key": "X-Trace-Id", "value": "{{trace_id}}" }], "url": { "raw": "{{base_url}}/api/v1/finance/cashflow/project/{id}", "host": ["{{base_url}}"], "path": ["api", "v1", "finance", "cashflow", "project", "{id}"] } } }
+        {
+          "name": "List Invoices",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-Trace-Id", "value": "{{trace_id}}" }],
+            "url": {
+              "raw": "{{base_url}}/api/v1/invoices",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "invoices"]
+            }
+          }
+        },
+        {
+          "name": "List Reimbursements",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-Trace-Id", "value": "{{trace_id}}" }],
+            "url": {
+              "raw": "{{base_url}}/api/v1/finance/reimbursements",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "finance", "reimbursements"]
+            }
+          }
+        },
+        {
+          "name": "Cashflow by Project",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-Trace-Id", "value": "{{trace_id}}" }],
+            "url": {
+              "raw": "{{base_url}}/api/v1/finance/cashflow/project/{id}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "finance", "cashflow", "project", "{id}"]
+            }
+          }
+        }
       ]
     },
     {
       "name": "Library (Suporte)",
       "item": [
-        { "name": "Search Documents", "request": { "method": "GET", "header": [{ "key": "X-Trace-Id", "value": "{{trace_id}}" }], "url": { "raw": "{{base_url}}/api/v1/library/search?q=norma", "host": ["{{base_url}}"], "path": ["api", "v1", "library", "search"], "query": [{ "key": "q", "value": "norma" }] } } }
+        {
+          "name": "Search Documents",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-Trace-Id", "value": "{{trace_id}}" }],
+            "url": {
+              "raw": "{{base_url}}/api/v1/library/search?q=norma",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "library", "search"],
+              "query": [{ "key": "q", "value": "norma" }]
+            }
+          }
+        }
       ]
     },
     {
       "name": "Permits (Obras)",
       "item": [
-        { "name": "List Permits", "request": { "method": "GET", "header": [{ "key": "X-Trace-Id", "value": "{{trace_id}}" }], "url": { "raw": "{{base_url}}/api/v1/permits", "host": ["{{base_url}}"], "path": ["api", "v1", "permits"] } } }
+        {
+          "name": "List Permits",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-Trace-Id", "value": "{{trace_id}}" }],
+            "url": { "raw": "{{base_url}}/api/v1/permits", "host": ["{{base_url}}"], "path": ["api", "v1", "permits"] }
+          }
+        }
       ]
     },
     {
       "name": "Suppliers",
       "item": [
-        { "name": "List Suppliers", "request": { "method": "GET", "header": [{ "key": "X-Trace-Id", "value": "{{trace_id}}" }], "url": { "raw": "{{base_url}}/api/v1/suppliers", "host": ["{{base_url}}"], "path": ["api", "v1", "suppliers"] } } },
-        { "name": "SLA Check", "request": { "method": "GET", "header": [{ "key": "X-Trace-Id", "value": "{{trace_id}}" }], "url": { "raw": "{{base_url}}/api/v1/suppliers/{id}/sla", "host": ["{{base_url}}"], "path": ["api", "v1", "suppliers", "{id}", "sla"] } } }
+        {
+          "name": "List Suppliers",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-Trace-Id", "value": "{{trace_id}}" }],
+            "url": {
+              "raw": "{{base_url}}/api/v1/suppliers",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "suppliers"]
+            }
+          }
+        },
+        {
+          "name": "SLA Check",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-Trace-Id", "value": "{{trace_id}}" }],
+            "url": {
+              "raw": "{{base_url}}/api/v1/suppliers/{id}/sla",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "suppliers", "{id}", "sla"]
+            }
+          }
+        }
       ]
     },
     {
       "name": "Facilities",
       "item": [
-        { "name": "List Maintenance", "request": { "method": "GET", "header": [{ "key": "X-Trace-Id", "value": "{{trace_id}}" }], "url": { "raw": "{{base_url}}/api/v1/facilities/maintenance", "host": ["{{base_url}}"], "path": ["api", "v1", "facilities", "maintenance"] } } }
+        {
+          "name": "List Maintenance",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-Trace-Id", "value": "{{trace_id}}" }],
+            "url": {
+              "raw": "{{base_url}}/api/v1/facilities/maintenance",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "facilities", "maintenance"]
+            }
+          }
+        }
       ]
     },
     {
       "name": "BIM Twin",
       "item": [
-        { "name": "List BIM Models", "request": { "method": "GET", "header": [{ "key": "X-Trace-Id", "value": "{{trace_id}}" }], "url": { "raw": "{{base_url}}/api/v1/bim/models", "host": ["{{base_url}}"], "path": ["api", "v1", "bim", "models"] } } },
-        { "name": "Validate Model", "request": { "method": "POST", "header": [{ "key": "X-Trace-Id", "value": "{{trace_id}}" }], "url": { "raw": "{{base_url}}/api/v1/bim/models/{id}/validate", "host": ["{{base_url}}"], "path": ["api", "v1", "bim", "models", "{id}", "validate"] } } }
+        {
+          "name": "List BIM Models",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-Trace-Id", "value": "{{trace_id}}" }],
+            "url": {
+              "raw": "{{base_url}}/api/v1/bim/models",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "bim", "models"]
+            }
+          }
+        },
+        {
+          "name": "Validate Model",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "X-Trace-Id", "value": "{{trace_id}}" }],
+            "url": {
+              "raw": "{{base_url}}/api/v1/bim/models/{id}/validate",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "bim", "models", "{id}", "validate"]
+            }
+          }
+        }
       ]
     },
     {
       "name": "Diary (Diário de Obra)",
       "item": [
-        { "name": "List Entries", "request": { "method": "GET", "header": [{ "key": "X-Trace-Id", "value": "{{trace_id}}" }], "url": { "raw": "{{base_url}}/api/v1/diary/entries", "host": ["{{base_url}}"], "path": ["api", "v1", "diary", "entries"] } } }
+        {
+          "name": "List Entries",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-Trace-Id", "value": "{{trace_id}}" }],
+            "url": {
+              "raw": "{{base_url}}/api/v1/diary/entries",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "diary", "entries"]
+            }
+          }
+        }
       ]
     },
     {
       "name": "Meetings (Atas)",
       "item": [
-        { "name": "List Meetings", "request": { "method": "GET", "header": [{ "key": "X-Trace-Id", "value": "{{trace_id}}" }], "url": { "raw": "{{base_url}}/api/v1/meetings", "host": ["{{base_url}}"], "path": ["api", "v1", "meetings"] } } },
-        { "name": "Add Transcript", "request": { "method": "PATCH", "header": [{ "key": "Content-Type", "value": "application/json" }, { "key": "X-Trace-Id", "value": "{{trace_id}}" }], "body": { "mode": "raw", "raw": "{\"transcript\":\"Ata da reunião...\"}" }, "url": { "raw": "{{base_url}}/api/v1/meetings/{id}/transcript", "host": ["{{base_url}}"], "path": ["api", "v1", "meetings", "{id}", "transcript"] } } }
+        {
+          "name": "List Meetings",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-Trace-Id", "value": "{{trace_id}}" }],
+            "url": {
+              "raw": "{{base_url}}/api/v1/meetings",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "meetings"]
+            }
+          }
+        },
+        {
+          "name": "Add Transcript",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Trace-Id", "value": "{{trace_id}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{\"transcript\":\"Ata da reunião...\"}" },
+            "url": {
+              "raw": "{{base_url}}/api/v1/meetings/{id}/transcript",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "meetings", "{id}", "transcript"]
+            }
+          }
+        }
       ]
     },
     {
       "name": "Teams",
       "item": [
-        { "name": "List Members", "request": { "method": "GET", "header": [{ "key": "X-Trace-Id", "value": "{{trace_id}}" }], "url": { "raw": "{{base_url}}/api/v1/teams/members", "host": ["{{base_url}}"], "path": ["api", "v1", "teams", "members"] } } },
-        { "name": "Squad Members", "request": { "method": "GET", "header": [{ "key": "X-Trace-Id", "value": "{{trace_id}}" }], "url": { "raw": "{{base_url}}/api/v1/teams/squad/projetos", "host": ["{{base_url}}"], "path": ["api", "v1", "teams", "squad", "projetos"] } } }
+        {
+          "name": "List Members",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-Trace-Id", "value": "{{trace_id}}" }],
+            "url": {
+              "raw": "{{base_url}}/api/v1/teams/members",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "teams", "members"]
+            }
+          }
+        },
+        {
+          "name": "Squad Members",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-Trace-Id", "value": "{{trace_id}}" }],
+            "url": {
+              "raw": "{{base_url}}/api/v1/teams/squad/projetos",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "teams", "squad", "projetos"]
+            }
+          }
+        }
       ]
     },
     {
       "name": "Compliance",
       "item": [
-        { "name": "Audit Trail", "request": { "method": "GET", "header": [{ "key": "X-Trace-Id", "value": "{{trace_id}}" }], "url": { "raw": "{{base_url}}/api/v1/compliance/audit", "host": ["{{base_url}}"], "path": ["api", "v1", "compliance", "audit"] } } }
+        {
+          "name": "Audit Trail",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-Trace-Id", "value": "{{trace_id}}" }],
+            "url": {
+              "raw": "{{base_url}}/api/v1/compliance/audit",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "compliance", "audit"]
+            }
+          }
+        }
       ]
     },
     {
       "name": "Marketing Digital",
       "item": [
-        { "name": "List Campaigns", "request": { "method": "GET", "header": [{ "key": "X-Trace-Id", "value": "{{trace_id}}" }], "url": { "raw": "{{base_url}}/api/v1/marketing/campaigns", "host": ["{{base_url}}"], "path": ["api", "v1", "marketing", "campaigns"] } } }
+        {
+          "name": "List Campaigns",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-Trace-Id", "value": "{{trace_id}}" }],
+            "url": {
+              "raw": "{{base_url}}/api/v1/marketing/campaigns",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "marketing", "campaigns"]
+            }
+          }
+        }
       ]
     },
     {
       "name": "Budget Construction",
       "item": [
-        { "name": "Project Budget", "request": { "method": "GET", "header": [{ "key": "X-Trace-Id", "value": "{{trace_id}}" }], "url": { "raw": "{{base_url}}/api/v1/budget/projects/{id}", "host": ["{{base_url}}"], "path": ["api", "v1", "budget", "projects", "{id}"] } } },
-        { "name": "Create Measurement", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }, { "key": "X-Trace-Id", "value": "{{trace_id}}" }], "body": { "mode": "raw", "raw": "{\"project\":1,\"item\":\"Concreto\",\"quantity\":15,\"unit\":\"m³\",\"unit_price\":350,\"total\":5250}" }, "url": { "raw": "{{base_url}}/api/v1/budget/measurements", "host": ["{{base_url}}"], "path": ["api", "v1", "budget", "measurements"] } } }
+        {
+          "name": "Project Budget",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-Trace-Id", "value": "{{trace_id}}" }],
+            "url": {
+              "raw": "{{base_url}}/api/v1/budget/projects/{id}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "budget", "projects", "{id}"]
+            }
+          }
+        },
+        {
+          "name": "Create Measurement",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-Trace-Id", "value": "{{trace_id}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"project\":1,\"item\":\"Concreto\",\"quantity\":15,\"unit\":\"m³\",\"unit_price\":350,\"total\":5250}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/budget/measurements",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "budget", "measurements"]
+            }
+          }
+        }
       ]
     },
     {
       "name": "Deliverables",
       "item": [
-        { "name": "List Deliverables", "request": { "method": "GET", "header": [{ "key": "X-Trace-Id", "value": "{{trace_id}}" }], "url": { "raw": "{{base_url}}/api/v1/deliverables", "host": ["{{base_url}}"], "path": ["api", "v1", "deliverables"] } } }
+        {
+          "name": "List Deliverables",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-Trace-Id", "value": "{{trace_id}}" }],
+            "url": {
+              "raw": "{{base_url}}/api/v1/deliverables",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "deliverables"]
+            }
+          }
+        }
       ]
     },
     {
       "name": "Tasks",
       "item": [
-        { "name": "List Tasks", "request": { "method": "GET", "header": [{ "key": "X-Trace-Id", "value": "{{trace_id}}" }], "url": { "raw": "{{base_url}}/api/v1/tasks", "host": ["{{base_url}}"], "path": ["api", "v1", "tasks"] } } },
-        { "name": "Kanban Board", "request": { "method": "GET", "header": [{ "key": "X-Trace-Id", "value": "{{trace_id}}" }], "url": { "raw": "{{base_url}}/api/v1/tasks/kanban", "host": ["{{base_url}}"], "path": ["api", "v1", "tasks", "kanban"] } } }
+        {
+          "name": "List Tasks",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-Trace-Id", "value": "{{trace_id}}" }],
+            "url": { "raw": "{{base_url}}/api/v1/tasks", "host": ["{{base_url}}"], "path": ["api", "v1", "tasks"] }
+          }
+        },
+        {
+          "name": "Kanban Board",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-Trace-Id", "value": "{{trace_id}}" }],
+            "url": {
+              "raw": "{{base_url}}/api/v1/tasks/kanban",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "tasks", "kanban"]
+            }
+          }
+        }
       ]
     },
     {
       "name": "Client Portal",
       "item": [
-        { "name": "Project Updates", "request": { "method": "GET", "header": [{ "key": "X-Trace-Id", "value": "{{trace_id}}" }], "url": { "raw": "{{base_url}}/api/v1/client/updates", "host": ["{{base_url}}"], "path": ["api", "v1", "client", "updates"] } } }
+        {
+          "name": "Project Updates",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-Trace-Id", "value": "{{trace_id}}" }],
+            "url": {
+              "raw": "{{base_url}}/api/v1/client/updates",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "client", "updates"]
+            }
+          }
+        }
       ]
     }
   ]

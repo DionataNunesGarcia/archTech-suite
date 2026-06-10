@@ -2,20 +2,20 @@
 
 ## Módulos
 
-| Módulo | Diretório | Descrição |
-|--------|-----------|-----------|
-| VPC | `infrastructure/terraform/modules/vpc/` | VPC, subnets, NAT gateway |
-| EKS | `infrastructure/terraform/modules/eks/` | Cluster EKS, node groups |
-| RDS | `infrastructure/terraform/modules/rds/` | PostgreSQL 18 gerenciado |
-| Redis | `infrastructure/terraform/modules/redis/` | ElastiCache Redis |
+| Módulo | Diretório                                 | Descrição                 |
+| ------ | ----------------------------------------- | ------------------------- |
+| VPC    | `infrastructure/terraform/modules/vpc/`   | VPC, subnets, NAT gateway |
+| EKS    | `infrastructure/terraform/modules/eks/`   | Cluster EKS, node groups  |
+| RDS    | `infrastructure/terraform/modules/rds/`   | PostgreSQL 18 gerenciado  |
+| Redis  | `infrastructure/terraform/modules/redis/` | ElastiCache Redis         |
 
 ## Ambientes
 
-| Ambiente | Workspace | TFVars |
-|----------|-----------|--------|
-| Dev | `dev` | `environments/dev/terraform.tfvars` |
-| Staging | `staging` | `environments/staging/terraform.tfvars` |
-| Production | `prod` | `environments/prod/terraform.tfvars` |
+| Ambiente   | Workspace | TFVars                                  |
+| ---------- | --------- | --------------------------------------- |
+| Dev        | `dev`     | `environments/dev/terraform.tfvars`     |
+| Staging    | `staging` | `environments/staging/terraform.tfvars` |
+| Production | `prod`    | `environments/prod/terraform.tfvars`    |
 
 ## Workflow
 
@@ -56,11 +56,11 @@ O Terraform é executado via workflow manual ou automático em `main`.
 
 ## Troubleshooting
 
-| Problema | Solução |
-|----------|---------|
-| State lock | `terraform force-unlock <lock_id>` |
-| Credenciais AWS | Verificar `AWS_PROFILE` ou `~/.aws/credentials` |
-| Dependência circular | Revisar `depends_on` nos módulos |
+| Problema             | Solução                                         |
+| -------------------- | ----------------------------------------------- |
+| State lock           | `terraform force-unlock <lock_id>`              |
+| Credenciais AWS      | Verificar `AWS_PROFILE` ou `~/.aws/credentials` |
+| Dependência circular | Revisar `depends_on` nos módulos                |
 
 ## Referências
 

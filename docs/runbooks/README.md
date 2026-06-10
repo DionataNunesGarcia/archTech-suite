@@ -17,12 +17,12 @@ runbooks/
 
 ## Runbooks Planejados
 
-| Runbook | Prioridade |
-|---------|------------|
-| Deploy procedure | High |
-| Backup e restore | High |
-| Disaster recovery | High |
-| Database migration | High |
-| RabbitMQ recovery | Medium |
-| AI provider failover | Medium |
-| Incident response | Medium |
+| Runbook              | Prioridade |
+| -------------------- | ---------- |
+| Deploy procedure     | High       |
+| Backup e restore     | High       |
+| Disaster recovery    | High       |
+| Database migration   | High       |
+| RabbitMQ recovery    | Medium     |
+| AI provider failover | Medium     |
+| Incident response    | Medium     |

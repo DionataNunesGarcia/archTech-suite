@@ -24,11 +24,21 @@ user_prompt_template: |
   Prazo: {{prazo}}
   Fornecedores disponíveis (JSON): {{fornecedores_json}}
 test_cases:
-  - name: "recomendar_concreto"
-    input: { obra_nome: "Torre Norte", tipo_obra: "Comercial", cidade: "São Paulo", estado: "SP", materiais: "Concreto usinado FCK 30MPa, 500m³", orcamento: "250000", prazo: "30 dias", fornecedores_json: '[{"id":1,"nome":"Concremix SP","distancia_km":15,"preco_m3":450,"sla_dias":3,"avaliacao":4.8},{"id":2,"nome":"SuperConcreto","distancia_km":45,"preco_m3":420,"sla_dias":5,"avaliacao":4.2}]' }
-    expected_keys: ["recomendacoes", "criterios_utilizados"]
+  - name: 'recomendar_concreto'
+    input:
+      {
+        obra_nome: 'Torre Norte',
+        tipo_obra: 'Comercial',
+        cidade: 'São Paulo',
+        estado: 'SP',
+        materiais: 'Concreto usinado FCK 30MPa, 500m³',
+        orcamento: '250000',
+        prazo: '30 dias',
+        fornecedores_json: '[{"id":1,"nome":"Concremix SP","distancia_km":15,"preco_m3":450,"sla_dias":3,"avaliacao":4.8},{"id":2,"nome":"SuperConcreto","distancia_km":45,"preco_m3":420,"sla_dias":5,"avaliacao":4.2}]',
+      }
+    expected_keys: ['recomendacoes', 'criterios_utilizados']
 output_schema: { type: object, required: [recomendacoes, criterios_utilizados] }
 changelog:
-  - version: "1.0.0"
-    date: "2026-06-09"
-    description: "Initial release"
+  - version: '1.0.0'
+    date: '2026-06-09'
+    description: 'Initial release'

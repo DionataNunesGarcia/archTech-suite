@@ -21,8 +21,15 @@ user_prompt_template: |
   Benchmarks de referência: {{benchmark}}
   Restrições de projeto: {{restricoes}}
 test_cases:
-  - name: "otimizacao_energetica"
-    input: { projeto_nome: "Edifício Comercial Green", performance_json: '{"consumo_energetico_kwh_m2_ano":180,"horas_conforto_termico_anual":6200,"iluminancia_media_lux":350,"fator_solar":0.45}', benchmark: "LEED v4 Energy & Atmosphere", restricoes: "Fachada principal voltada para oeste (avenida), pé-direito mínimo 3.0m por exigência municipal" }
-    expected_keys: ["recomendacoes", "economia_estimada", "impacto_conforto", "pontuacao_certificacao"]
+  - name: 'otimizacao_energetica'
+    input:
+      {
+        projeto_nome: 'Edifício Comercial Green',
+        performance_json: '{"consumo_energetico_kwh_m2_ano":180,"horas_conforto_termico_anual":6200,"iluminancia_media_lux":350,"fator_solar":0.45}',
+        benchmark: 'LEED v4 Energy & Atmosphere',
+        restricoes: 'Fachada principal voltada para oeste (avenida), pé-direito mínimo 3.0m por exigência municipal',
+      }
+    expected_keys: ['recomendacoes', 'economia_estimada', 'impacto_conforto', 'pontuacao_certificacao']
 output_schema: { type: object, required: [recomendacoes, economia_estimada, impacto_conforto, pontuacao_certificacao] }
-changelog: [{ version: "1.0.0", date: "2026-06-09", description: "Initial release with energy performance optimization" }]
+changelog:
+  [{ version: '1.0.0', date: '2026-06-09', description: 'Initial release with energy performance optimization' }]

@@ -20,4 +20,4 @@ selection_criteria:
       article: article
 selection_logic: and
 weight: -10
-relationships: {  }
+relationships: {}

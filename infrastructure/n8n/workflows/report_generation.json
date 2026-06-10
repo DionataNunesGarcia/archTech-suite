@@ -4,7 +4,7 @@
     {
       "parameters": {
         "rule": {
-          "interval": [ { "field": "weeks", "weeksInterval": 1 } ]
+          "interval": [{ "field": "weeks", "weeksInterval": 1 }]
         }
       },
       "type": "n8n-nodes-base.scheduleTrigger",
@@ -73,18 +73,18 @@
   ],
   "connections": {
     "Weekly (Monday 7am BRT)": {
-      "main": [[ { "node": "Collect Squad Data", "type": "main", "index": 0 } ]]
+      "main": [[{ "node": "Collect Squad Data", "type": "main", "index": 0 }]]
     },
     "Collect Squad Data": {
-      "main": [[ { "node": "Generate via AI", "type": "main", "index": 0 } ]]
+      "main": [[{ "node": "Generate via AI", "type": "main", "index": 0 }]]
     },
     "Generate via AI": {
-      "main": [[ { "node": "Generate PDF & Archive", "type": "main", "index": 0 } ]]
+      "main": [[{ "node": "Generate PDF & Archive", "type": "main", "index": 0 }]]
     },
     "Generate PDF & Archive": {
       "main": [
-        [ { "node": "Notify on Slack", "type": "main", "index": 0 } ],
-        [ { "node": "Email to Executives", "type": "main", "index": 0 } ]
+        [{ "node": "Notify on Slack", "type": "main", "index": 0 }],
+        [{ "node": "Email to Executives", "type": "main", "index": 0 }]
       ]
     }
   },

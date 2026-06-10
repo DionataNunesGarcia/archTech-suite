@@ -1,7 +1,7 @@
 uuid: cb981797-f07d-443d-814f-862e1ca94dcf
 langcode: pt-br
 status: true
-dependencies: {  }
+dependencies: {}
 _core:
   default_config_hash: vbPSqe3wbFSkaEY0zGy3NVpofBxcTZYrT6N2YPQX7nI
 name: wide

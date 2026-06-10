@@ -21,8 +21,14 @@ user_prompt_template: |
   Participantes: {{participantes}}
   Transcrição: {{transcricao}}
 test_cases:
-  - name: "ata_reuniao"
-    input: { projeto_nome: "Residência Família Costa", data_reuniao: "2026-06-09", participantes: "Arq. Roberto (ArchTech), Sr. Costa (Cliente), Sra. Costa (Cliente)", transcricao: "[00:00] Arq. Roberto: Vamos revisar o layout da cozinha. [00:15] Sr. Costa: Gostaríamos de ilha central com cooktop. [01:30] Sra. Costa: E a despensa precisa ser maior. [03:00] Arq. Roberto: Posso redesenhar com despensa de 4m² e ilha de 3m. Entrego revisão em 5 dias." }
-    expected_keys: ["ata", "participantes", "decisoes", "action_items", "proximos_passos"]
+  - name: 'ata_reuniao'
+    input:
+      {
+        projeto_nome: 'Residência Família Costa',
+        data_reuniao: '2026-06-09',
+        participantes: 'Arq. Roberto (ArchTech), Sr. Costa (Cliente), Sra. Costa (Cliente)',
+        transcricao: '[00:00] Arq. Roberto: Vamos revisar o layout da cozinha. [00:15] Sr. Costa: Gostaríamos de ilha central com cooktop. [01:30] Sra. Costa: E a despensa precisa ser maior. [03:00] Arq. Roberto: Posso redesenhar com despensa de 4m² e ilha de 3m. Entrego revisão em 5 dias.',
+      }
+    expected_keys: ['ata', 'participantes', 'decisoes', 'action_items', 'proximos_passos']
 output_schema: { type: object, required: [ata, participantes, decisoes, action_items, proximos_passos] }
-changelog: [{ version: "1.0.0", date: "2026-06-09", description: "Initial release" }]
+changelog: [{ version: '1.0.0', date: '2026-06-09', description: 'Initial release' }]

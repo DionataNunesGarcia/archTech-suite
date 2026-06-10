@@ -39,33 +39,34 @@ user_prompt_template: |
 
 few_shot_examples:
   - input:
-      municipio: "São Paulo"
-      estado: "SP"
-      tipo_projeto: "Residencial Multifamiliar"
-      area_m2: "3500"
-      uso: "Residencial"
-      zoneamento: "ZM-3b (Zona Mista)"
-      caracteristicas: "8 pavimentos, 24 unidades, 2 subsolos, área permeável 25%"
+      municipio: 'São Paulo'
+      estado: 'SP'
+      tipo_projeto: 'Residencial Multifamiliar'
+      area_m2: '3500'
+      uso: 'Residencial'
+      zoneamento: 'ZM-3b (Zona Mista)'
+      caracteristicas: '8 pavimentos, 24 unidades, 2 subsolos, área permeável 25%'
     output: |
       {"documentos_necessarios":["Alvará de Aprovação e Execução (SMUL)","Estudo de Impacto de Vizinhança (EIV)","Alvará de Execução de Demolição (se aplicável)","Outorga Onerosa (acima do coeficiente básico)","AVCB (Corpo de Bombeiros)","Certidão de Diretrizes (Sabesp/Eletropaulo)"],"prazos_estimados":{"aprovacao_previa":"60-90 dias","alvara_execucao":"30-45 dias apos aprovacao","avcb":"15-30 dias","total_estimado":"120-180 dias"},"taxas_aplicaveis":["Taxa de análise de projeto (R$ por m²)","Outorga Onerosa do Direito de Construir","ISSQN Construção Civil","ITBI (se transferência de propriedade)"],"observacoes":["Projeto com mais de 3.000m² requer EIV obrigatório","8 pavimentos pode exigir EIV mesmo abaixo de 3.000m²","Verificar gabarito máximo da ZM-3b","Subsolo >1 nível requer estudo geotécnico"],"nivel_complexidade":"alto"}
 
 test_cases:
-  - name: "casa_unifamiliar"
+  - name: 'casa_unifamiliar'
     input:
-      municipio: "Curitiba"
-      estado: "PR"
-      tipo_projeto: "Residencial Unifamiliar"
-      area_m2: "250"
-      uso: "Residencial"
-      zoneamento: "ZR-2 (Zona Residencial 2)"
-      caracteristicas: "2 pavimentos, sem subsolo, área permeável 40%"
-    expected_keys: ["documentos_necessarios", "prazos_estimados", "taxas_aplicaveis", "observacoes", "nivel_complexidade"]
+      municipio: 'Curitiba'
+      estado: 'PR'
+      tipo_projeto: 'Residencial Unifamiliar'
+      area_m2: '250'
+      uso: 'Residencial'
+      zoneamento: 'ZR-2 (Zona Residencial 2)'
+      caracteristicas: '2 pavimentos, sem subsolo, área permeável 40%'
+    expected_keys:
+      ['documentos_necessarios', 'prazos_estimados', 'taxas_aplicaveis', 'observacoes', 'nivel_complexidade']
 
 output_schema:
   type: object
   required: [documentos_necessarios, prazos_estimados, taxas_aplicaveis, observacoes, nivel_complexidade]
 
 changelog:
-  - version: "1.0.0"
-    date: "2026-06-09"
-    description: "Initial release with Brazilian municipal permit requirements"
+  - version: '1.0.0'
+    date: '2026-06-09'
+    description: 'Initial release with Brazilian municipal permit requirements'

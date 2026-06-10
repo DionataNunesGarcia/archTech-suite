@@ -10,12 +10,12 @@ Diretrizes de segurança do ArchTech Suite.
 
 ## Ferramentas
 
-| Ferramenta | Uso | Fase |
-|------------|-----|------|
-| Snyk | SAST (vulnerabilidades em dependências) | CI |
-| OWASP ZAP | DAST (pentest automatizado) | CI / Staging |
-| HashiCorp Vault | Gestão de secrets | Infra |
-| STRIDE | Threat modeling | Design |
+| Ferramenta      | Uso                                     | Fase         |
+| --------------- | --------------------------------------- | ------------ |
+| Snyk            | SAST (vulnerabilidades em dependências) | CI           |
+| OWASP ZAP       | DAST (pentest automatizado)             | CI / Staging |
+| HashiCorp Vault | Gestão de secrets                       | Infra        |
+| STRIDE          | Threat modeling                         | Design       |
 
 ## Documentos Planejados
 

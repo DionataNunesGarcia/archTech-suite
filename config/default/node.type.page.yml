@@ -1,7 +1,7 @@
 uuid: 3090395c-711b-4115-afab-91e8c3a83888
 langcode: pt-br
 status: true
-dependencies: {  }
+dependencies: {}
 _core:
   default_config_hash: i0snV8Wj--OkRW12UdachUiYiz3FbeMwHu_pZYfzKLc
 name: 'Basic page'

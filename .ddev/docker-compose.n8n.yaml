@@ -6,11 +6,11 @@ services:
     labels:
       com.ddev.site-name: ${DDEV_SITENAME}
       com.ddev.approot: $DDEV_APPROOT
-    restart: "no"
+    restart: 'no'
     ports:
-      - "127.0.0.1::5678"
+      - '127.0.0.1::5678'
     expose:
-      - "5678"
+      - '5678'
     environment:
       - N8N_HOST=localhost
       - N8N_PORT=5678
@@ -35,7 +35,7 @@ services:
     volumes:
       - ./n8n-data:/home/node/.n8n
     healthcheck:
-      test: ["CMD", "wget", "--spider", "-q", "http://localhost:5678/healthz"]
+      test: ['CMD', 'wget', '--spider', '-q', 'http://localhost:5678/healthz']
       interval: 10s
       timeout: 5s
       retries: 10

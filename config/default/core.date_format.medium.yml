@@ -1,7 +1,7 @@
 uuid: 5c5c99c6-73b3-41ac-ba45-5087765847dc
 langcode: pt-br
 status: true
-dependencies: {  }
+dependencies: {}
 _core:
   default_config_hash: q7pDV2d9qFh1IVqvymOxUUYGSziZDeg961wURC0cSLs
 id: medium

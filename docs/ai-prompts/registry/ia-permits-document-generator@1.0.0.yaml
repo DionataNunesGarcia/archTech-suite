@@ -23,11 +23,22 @@ user_prompt_template: |
   Dados do imóvel: {{dados_imovel}}
   Dados do projeto: {{dados_projeto}}
 test_cases:
-  - name: "memorial_descritivo"
-    input: { tipo_documento: "Memorial Descritivo", projeto_nome: "Edifício Horizonte", municipio: "São Paulo", estado: "SP", proprietario: "Construtora ABC Ltda", responsavel_tecnico: "Arq. Maria Santos", registro_classe: "CAU A12345-6", dados_imovel: "Lote 45, Quadra 12, Rua das Flores, 100 - Jardins", dados_projeto: "Edifício residencial 12 pavimentos, 48 unidades, 2 subsolos, área total 6.200m²" }
+  - name: 'memorial_descritivo'
+    input:
+      {
+        tipo_documento: 'Memorial Descritivo',
+        projeto_nome: 'Edifício Horizonte',
+        municipio: 'São Paulo',
+        estado: 'SP',
+        proprietario: 'Construtora ABC Ltda',
+        responsavel_tecnico: 'Arq. Maria Santos',
+        registro_classe: 'CAU A12345-6',
+        dados_imovel: 'Lote 45, Quadra 12, Rua das Flores, 100 - Jardins',
+        dados_projeto: 'Edifício residencial 12 pavimentos, 48 unidades, 2 subsolos, área total 6.200m²',
+      }
     expected_keys: []
 output_schema: { type: string }
 changelog:
-  - version: "1.0.0"
-    date: "2026-06-09"
-    description: "Initial release with Brazilian permit document templates"
+  - version: '1.0.0'
+    date: '2026-06-09'
+    description: 'Initial release with Brazilian permit document templates'

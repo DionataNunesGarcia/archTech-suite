@@ -1,7 +1,7 @@
 uuid: 613fe48c-d950-456c-b9f4-70189ac917e0
 langcode: pt-br
 status: true
-dependencies: {  }
+dependencies: {}
 _core:
   default_config_hash: QiKqQS_YGAT3Qr4vaAgZICJknm-MGCzt_xBAMqg-tRM
 name: 'Restricted HTML'
@@ -13,7 +13,7 @@ filters:
     provider: filter
     status: true
     weight: 0
-    settings: {  }
+    settings: {}
   filter_html:
     id: filter_html
     provider: filter

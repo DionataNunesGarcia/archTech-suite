@@ -6,17 +6,17 @@ Workshop de Event Storming realizado para mapear os domínios, bounded contexts,
 
 ## Contextos e Eventos Mapeados
 
-| Bounded Context | Aggregate Root | Domain Events |
-|----------------|---------------|---------------|
-| Client Portal | Project, ClientApprovalRequest | ClientPortalAccessGranted, ApprovalRequested, ApprovalResponded, DocumentUploadedByClient |
-| Architecture CRM | Lead, Opportunity, Contract | BriefingCreated, OpportunityWon, OpportunityLost, ContractSigned |
-| Commercial Proposals | CommercialProposal, DigitalSignature | ProposalCreated, ProposalSent, ProposalApproved, ProposalSigned |
-| Financial Management | AccountReceivable, AccountPayable | InvoiceCreated, PaymentReceived, InvoiceOverdue, BudgetDeviationFinancial |
-| Technical Library | TechnicalDocument, Standard | DocumentIndexed, StandardUpdated |
-| Permit Approval | PermitProcess, Requirement | PermitProcessCreated, RequirementReceived, PermitApproved |
-| Supplier Management | Supplier, ServiceLevelAgreement | SupplierActivated, SLAViolated, SupplierRated |
-| Facilities | Warranty, MaintenanceSchedule | ProjectDelivered, MaintenanceScheduled, WarrantyExpiring, RenovationOpportunity |
-| BIM Digital Twin | BIMModel, DigitalTwinAsset | BIMModelProcessed, SensorAnomalyDetected |
+| Bounded Context      | Aggregate Root                       | Domain Events                                                                             |
+| -------------------- | ------------------------------------ | ----------------------------------------------------------------------------------------- |
+| Client Portal        | Project, ClientApprovalRequest       | ClientPortalAccessGranted, ApprovalRequested, ApprovalResponded, DocumentUploadedByClient |
+| Architecture CRM     | Lead, Opportunity, Contract          | BriefingCreated, OpportunityWon, OpportunityLost, ContractSigned                          |
+| Commercial Proposals | CommercialProposal, DigitalSignature | ProposalCreated, ProposalSent, ProposalApproved, ProposalSigned                           |
+| Financial Management | AccountReceivable, AccountPayable    | InvoiceCreated, PaymentReceived, InvoiceOverdue, BudgetDeviationFinancial                 |
+| Technical Library    | TechnicalDocument, Standard          | DocumentIndexed, StandardUpdated                                                          |
+| Permit Approval      | PermitProcess, Requirement           | PermitProcessCreated, RequirementReceived, PermitApproved                                 |
+| Supplier Management  | Supplier, ServiceLevelAgreement      | SupplierActivated, SLAViolated, SupplierRated                                             |
+| Facilities           | Warranty, MaintenanceSchedule        | ProjectDelivered, MaintenanceScheduled, WarrantyExpiring, RenovationOpportunity           |
+| BIM Digital Twin     | BIMModel, DigitalTwinAsset           | BIMModelProcessed, SensorAnomalyDetected                                                  |
 
 ## Regras de Comunicação Cross-Context
 

@@ -6,10 +6,10 @@ Load tests validate SLOs under simulated traffic using k6.
 
 ## Scripts
 
-| Script | Purpose | Target |
-|--------|---------|--------|
-| `infrastructure/k6/load-test.js` | General ramp-up to 10K concurrent users | Frontend (static + SSR) |
-| `infrastructure/k6/ai-agent-load.js` | 100 parallel requests per AI agent | AI API endpoints |
+| Script                               | Purpose                                 | Target                  |
+| ------------------------------------ | --------------------------------------- | ----------------------- |
+| `infrastructure/k6/load-test.js`     | General ramp-up to 10K concurrent users | Frontend (static + SSR) |
+| `infrastructure/k6/ai-agent-load.js` | 100 parallel requests per AI agent      | AI API endpoints        |
 
 ## Running Locally
 
@@ -30,12 +30,12 @@ BASE_URL=https://archtech.ddev.site k6 run infrastructure/k6/load-test.js
 
 ## SLOs
 
-| Metric | Threshold |
-|--------|-----------|
-| Latency p95 | < 200ms |
-| Latency p99 | < 500ms |
-| Error rate | < 1% |
-| Circuit breaker rate | < 10% |
+| Metric               | Threshold |
+| -------------------- | --------- |
+| Latency p95          | < 200ms   |
+| Latency p99          | < 500ms   |
+| Error rate           | < 1%      |
+| Circuit breaker rate | < 10%     |
 
 ## Load Profile
 

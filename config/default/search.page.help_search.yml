@@ -11,4 +11,4 @@ label: Help
 path: help
 weight: 0
 plugin: help_search
-configuration: {  }
+configuration: {}

@@ -9,23 +9,23 @@
 
 ## Regras OWASP CRS
 
-| Categoria | Ação | Descrição |
-|-----------|------|-----------|
-| SQL Injection | Block | `942100-942999` |
-| XSS | Block | `941100-941999` |
-| LFI/RFI | Block | `931100-931999` |
-| RCE | Block | `932100-932999` |
-| PHP Injection | Block | `933100-933999` |
+| Categoria        | Ação  | Descrição       |
+| ---------------- | ----- | --------------- |
+| SQL Injection    | Block | `942100-942999` |
+| XSS              | Block | `941100-941999` |
+| LFI/RFI          | Block | `931100-931999` |
+| RCE              | Block | `932100-932999` |
+| PHP Injection    | Block | `933100-933999` |
 | Session Fixation | Block | `943100-943999` |
-| Java Injection | Block | `944100-944999` |
+| Java Injection   | Block | `944100-944999` |
 
 ## Rate Limiting
 
-| Endpoint | Limite | Janela | Ação |
-|----------|--------|--------|------|
-| `/api/v1/*` | 1000 requests | 10 minutos | Block por 1h |
-| `/api/v1/auth/*` | 50 requests | 10 minutos | Block por 1h |
-| `/api/v1/leads` | 100 requests | 10 minutos | Block por 1h |
+| Endpoint         | Limite        | Janela     | Ação         |
+| ---------------- | ------------- | ---------- | ------------ |
+| `/api/v1/*`      | 1000 requests | 10 minutos | Block por 1h |
+| `/api/v1/auth/*` | 50 requests   | 10 minutos | Block por 1h |
+| `/api/v1/leads`  | 100 requests  | 10 minutos | Block por 1h |
 
 ## DDoS Protection
 
@@ -35,12 +35,12 @@
 
 ## Bot Management
 
-| Tipo | Ação |
-|------|------|
-| Verified bots (Google, Bing) | Allow |
-| Known malicious | Block |
-| Spoofed UA | Block |
-| Headless browsers | Challenge |
+| Tipo                         | Ação      |
+| ---------------------------- | --------- |
+| Verified bots (Google, Bing) | Allow     |
+| Known malicious              | Block     |
+| Spoofed UA                   | Block     |
+| Headless browsers            | Challenge |
 
 ## Operações
 
@@ -60,11 +60,11 @@ O WAF é gerenciado via Terraform em `infrastructure/waf/cloudflare-waf.tf`.
 
 ## Troubleshooting
 
-| Problema | Causa | Solução |
-|----------|-------|---------|
-| Falso positivo | Regra muito restritiva | Adicionar exceção no WAF |
-| Rate limit atingido | Bug ou ataque | Verificar logs, ajustar limite |
-| Bot legítimo bloqueado | UA não reconhecido | Adicionar à allowlist |
+| Problema               | Causa                  | Solução                        |
+| ---------------------- | ---------------------- | ------------------------------ |
+| Falso positivo         | Regra muito restritiva | Adicionar exceção no WAF       |
+| Rate limit atingido    | Bug ou ataque          | Verificar logs, ajustar limite |
+| Bot legítimo bloqueado | UA não reconhecido     | Adicionar à allowlist          |
 
 ## Referências
 

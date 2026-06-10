@@ -9,40 +9,48 @@
       "title": "Projetos Ativos",
       "type": "stat",
       "gridPos": { "h": 6, "w": 4, "x": 0, "y": 0 },
-      "targets": [{
-        "expr": "sum(projects_active_total)",
-        "legendFormat": "Ativos"
-      }],
+      "targets": [
+        {
+          "expr": "sum(projects_active_total)",
+          "legendFormat": "Ativos"
+        }
+      ],
       "datasource": "Prometheus"
     },
     {
       "title": "Validações Normativas (7d)",
       "type": "stat",
       "gridPos": { "h": 6, "w": 4, "x": 4, "y": 0 },
-      "targets": [{
-        "expr": "sum(increase(validations_completed_total[7d]))",
-        "legendFormat": "Validações"
-      }],
+      "targets": [
+        {
+          "expr": "sum(increase(validations_completed_total[7d]))",
+          "legendFormat": "Validações"
+        }
+      ],
       "datasource": "Prometheus"
     },
     {
       "title": "Renders Solicitados (24h)",
       "type": "stat",
       "gridPos": { "h": 6, "w": 4, "x": 8, "y": 0 },
-      "targets": [{
-        "expr": "sum(increase(renders_requested_total[24h]))",
-        "legendFormat": "Renders"
-      }],
+      "targets": [
+        {
+          "expr": "sum(increase(renders_requested_total[24h]))",
+          "legendFormat": "Renders"
+        }
+      ],
       "datasource": "Prometheus"
     },
     {
       "title": "Conformidade Normativa (28d)",
       "type": "gauge",
       "gridPos": { "h": 8, "w": 6, "x": 0, "y": 6 },
-      "targets": [{
-        "expr": "sum(validations_passed_total[28d]) / sum(validations_completed_total[28d]) * 100",
-        "legendFormat": "Conformidade %"
-      }],
+      "targets": [
+        {
+          "expr": "sum(validations_passed_total[28d]) / sum(validations_completed_total[28d]) * 100",
+          "legendFormat": "Conformidade %"
+        }
+      ],
       "datasource": "Prometheus",
       "thresholds": {
         "steps": [
@@ -56,10 +64,12 @@
       "title": "BIM Integrations (30d)",
       "type": "graph",
       "gridPos": { "h": 8, "w": 12, "x": 6, "y": 6 },
-      "targets": [{
-        "expr": "increase(bim_integrations_total[30d])",
-        "legendFormat": "Integrações BIM"
-      }],
+      "targets": [
+        {
+          "expr": "increase(bim_integrations_total[30d])",
+          "legendFormat": "Integrações BIM"
+        }
+      ],
       "datasource": "Prometheus"
     }
   ],

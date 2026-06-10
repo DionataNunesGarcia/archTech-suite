@@ -2,8 +2,8 @@
 # Managed via GitHub Actions - Settings Sync
 
 repository:
-  name: "drupal-recipes-base"
-  description: "Drupal base configuration with Composer and recipes"
+  name: 'drupal-recipes-base'
+  description: 'Drupal base configuration with Composer and recipes'
   private: false
   has_issues: true
   has_wiki: false

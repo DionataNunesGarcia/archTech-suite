@@ -1,15 +1,16 @@
 # ADR-011 · Synthetic Monitoring with Checkly
 
-| Campo | Valor |
-|-------|-------|
+| Campo  | Valor        |
+| ------ | ------------ |
 | Status | **accepted** |
-| Data | 2026-06-08 |
+| Data   | 2026-06-08   |
 
 **Decisão:** Usar Checkly para synthetic monitoring dos endpoints críticos.
 
 **Contexto:** Testes E2E pós-deploy precisam validar continuamente que os serviços estão respondendo corretamente.
 
 **Justificativa:**
+
 - Configuração como código (IaC) via CLI
 - Browser checks com Playwright para fluxos E2E
 - API checks para endpoints REST
@@ -17,6 +18,7 @@
 - Integração com PagerDuty para alertas
 
 **Alternativas descartadas:**
+
 - **Datadog Synthetics** — Vendor lock-in, custo mais alto
 - **Pingdom** — Sem browser checks, sem IaC
 - **Custom Prometheus blackbox exporter** — Sem browser checks, sem alerting nativo

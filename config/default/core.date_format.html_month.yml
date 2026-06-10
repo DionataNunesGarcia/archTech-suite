@@ -1,7 +1,7 @@
 uuid: 4d7d8561-2074-4d71-b5d8-bc38f11de058
 langcode: pt-br
 status: true
-dependencies: {  }
+dependencies: {}
 _core:
   default_config_hash: Z7KuCUwM_WdTNvLcoltuX3_8d-s-8FZkTN6KgNwF0eM
 id: html_month

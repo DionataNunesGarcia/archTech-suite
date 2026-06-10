@@ -36,40 +36,40 @@ user_prompt_template: |
 
 few_shot_examples:
   - input:
-      periodo_inicio: "2026-07-01"
-      periodo_fim: "2026-09-30"
-      saldo_atual: "150000"
+      periodo_inicio: '2026-07-01'
+      periodo_fim: '2026-09-30'
+      saldo_atual: '150000'
       receitas_json: '[{"mes":"2026-07","valor":120000},{"mes":"2026-08","valor":180000},{"mes":"2026-09","valor":95000}]'
-      despesas_fixas: "85000"
+      despesas_fixas: '85000'
       despesas_variaveis_json: '[{"mes":"2026-07","valor":25000},{"mes":"2026-08","valor":30000},{"mes":"2026-09","valor":20000}]'
       inadimplencia_json: '[{"cliente":"Construtora ABC","valor":45000,"dias_atraso":60},{"cliente":"Família Silva","valor":12000,"dias_atraso":15}]'
-      pipeline_valor: "350000"
+      pipeline_valor: '350000'
     output: |
       {"periodo":"2026-07-01 a 2026-09-30","saldo_projetado":[{"mes":"2026-07","entrada":120000,"saida":110000,"saldo":160000},{"mes":"2026-08","entrada":180000,"saida":115000,"saldo":225000},{"mes":"2026-09","entrada":95000,"saida":105000,"saldo":215000}],"alertas":[{"tipo":"inadimplencia","severidade":"alta","detalhe":"Construtora ABC: R$45.000 atrasados há 60 dias","acao":"Iniciar cobrança extrajudicial"}],"recomendacoes":["Negociar recebimento da Construtora ABC em até 15 dias","Reservar 10% do saldo para contingências","Acelerar fechamento de propostas do pipeline de R$350K"],"indicadores":{"margem_media":0.32,"liquidez_corrente":2.1,"inadimplencia_percentual":0.08}}
 
 test_cases:
-  - name: "fluxo_saudavel"
+  - name: 'fluxo_saudavel'
     input:
-      periodo_inicio: "2026-08-01"
-      periodo_fim: "2026-10-31"
-      saldo_atual: "500000"
+      periodo_inicio: '2026-08-01'
+      periodo_fim: '2026-10-31'
+      saldo_atual: '500000'
       receitas_json: '[{"mes":"2026-08","valor":200000},{"mes":"2026-09","valor":250000},{"mes":"2026-10","valor":220000}]'
-      despesas_fixas: "100000"
+      despesas_fixas: '100000'
       despesas_variaveis_json: '[{"mes":"2026-08","valor":30000},{"mes":"2026-09","valor":35000},{"mes":"2026-10","valor":28000}]'
       inadimplencia_json: '[]'
-      pipeline_valor: "600000"
-    expected_keys: ["periodo", "saldo_projetado", "alertas", "recomendacoes", "indicadores"]
-  - name: "fluxo_risco"
+      pipeline_valor: '600000'
+    expected_keys: ['periodo', 'saldo_projetado', 'alertas', 'recomendacoes', 'indicadores']
+  - name: 'fluxo_risco'
     input:
-      periodo_inicio: "2026-06-01"
-      periodo_fim: "2026-08-31"
-      saldo_atual: "50000"
+      periodo_inicio: '2026-06-01'
+      periodo_fim: '2026-08-31'
+      saldo_atual: '50000'
       receitas_json: '[{"mes":"2026-06","valor":60000},{"mes":"2026-07","valor":40000},{"mes":"2026-08","valor":35000}]'
-      despesas_fixas: "90000"
+      despesas_fixas: '90000'
       despesas_variaveis_json: '[{"mes":"2026-06","valor":20000},{"mes":"2026-07","valor":25000},{"mes":"2026-08","valor":18000}]'
       inadimplencia_json: '[{"cliente":"Empresa XYZ","valor":85000,"dias_atraso":90}]'
-      pipeline_valor: "80000"
-    expected_keys: ["periodo", "saldo_projetado", "alertas", "recomendacoes", "indicadores"]
+      pipeline_valor: '80000'
+    expected_keys: ['periodo', 'saldo_projetado', 'alertas', 'recomendacoes', 'indicadores']
 
 output_schema:
   type: object
@@ -90,6 +90,6 @@ output_schema:
       type: object
 
 changelog:
-  - version: "1.0.0"
-    date: "2026-06-09"
-    description: "Initial release with cashflow analysis and risk alerts"
+  - version: '1.0.0'
+    date: '2026-06-09'
+    description: 'Initial release with cashflow analysis and risk alerts'

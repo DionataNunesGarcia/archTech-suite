@@ -24,7 +24,7 @@ display:
     position: 0
     display_options:
       title: 'Monthly archive'
-      fields: {  }
+      fields: {}
       pager:
         type: mini
         options:
@@ -60,8 +60,8 @@ display:
           perm: 'access content'
       cache:
         type: tag
-        options: {  }
-      empty: {  }
+        options: {}
+      empty: {}
       sorts:
         created:
           id: created
@@ -112,7 +112,7 @@ display:
           expose:
             operator: '0'
             operator_limit_selection: false
-            operator_list: {  }
+            operator_list: {}
         langcode:
           id: langcode
           table: node_field_data
@@ -135,7 +135,7 @@ display:
             use_operator: false
             operator: ''
             operator_limit_selection: false
-            operator_list: {  }
+            operator_list: {}
             identifier: ''
             required: false
             remember: false
@@ -153,12 +153,12 @@ display:
             multiple: false
             remember: false
             default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
+            default_group_multiple: {}
+            group_items: {}
       style:
         type: default
         options:
-          grouping: {  }
+          grouping: {}
           row_class: ''
           default_row_class: true
           uses_fields: false
@@ -173,11 +173,11 @@ display:
           disable_sql_rewrite: false
           distinct: false
           replica: false
-          query_tags: {  }
-      relationships: {  }
-      header: {  }
-      footer: {  }
-      display_extenders: {  }
+          query_tags: {}
+      relationships: {}
+      header: {}
+      footer: {}
+      display_extenders: {}
     cache_metadata:
       max-age: -1
       contexts:
@@ -186,7 +186,7 @@ display:
         - url.query_args
         - 'user.node_grants:view'
         - user.permissions
-      tags: {  }
+      tags: {}
   block_1:
     id: block_1
     display_title: Block
@@ -213,10 +213,10 @@ display:
           specify_validation: true
       query:
         type: views_query
-        options: {  }
+        options: {}
       defaults:
         arguments: false
-      display_extenders: {  }
+      display_extenders: {}
     cache_metadata:
       max-age: -1
       contexts:
@@ -225,7 +225,7 @@ display:
         - url.query_args
         - 'user.node_grants:view'
         - user.permissions
-      tags: {  }
+      tags: {}
   page_1:
     id: page_1
     display_title: Page
@@ -234,8 +234,8 @@ display:
     display_options:
       query:
         type: views_query
-        options: {  }
-      display_extenders: {  }
+        options: {}
+      display_extenders: {}
       path: archive
     cache_metadata:
       max-age: -1
@@ -245,4 +245,4 @@ display:
         - url.query_args
         - 'user.node_grants:view'
         - user.permissions
-      tags: {  }
+      tags: {}

@@ -40,30 +40,30 @@ user_prompt_template: |
 
 few_shot_examples:
   - input:
-      cliente_nome: "Família Oliveira"
-      tipo_projeto: "Residencial Alto Padrão"
-      area_m2: "450"
-      endereco: "Alphaville, São Paulo"
-      briefing: "Casa contemporânea com 4 suítes, home theater, piscina e paisagismo tropical"
-      orcamento: "R$ 2.500.000"
-      prazo: "18 meses"
-      servicos: "Projeto Arquitetônico, Interiores, Paisagismo, Gerenciamento de Obra"
-      diferenciais: "20 anos de experiência, 50+ premiações, equipe BIM integrada"
+      cliente_nome: 'Família Oliveira'
+      tipo_projeto: 'Residencial Alto Padrão'
+      area_m2: '450'
+      endereco: 'Alphaville, São Paulo'
+      briefing: 'Casa contemporânea com 4 suítes, home theater, piscina e paisagismo tropical'
+      orcamento: 'R$ 2.500.000'
+      prazo: '18 meses'
+      servicos: 'Projeto Arquitetônico, Interiores, Paisagismo, Gerenciamento de Obra'
+      diferenciais: '20 anos de experiência, 50+ premiações, equipe BIM integrada'
     output: |
       # Proposta Comercial — Residência Família Oliveira
 
       ## Sumário Executivo
       ...
   - input:
-      cliente_nome: "Construtora Horizonte"
-      tipo_projeto: "Comercial Corporativo"
-      area_m2: "3500"
-      endereco: "Av. Faria Lima, São Paulo"
-      briefing: "Sede corporativa com certificação LEED Platinum, 8 pavimentos, estacionamento subterrâneo"
-      orcamento: "R$ 45.000.000"
-      prazo: "30 meses"
-      servicos: "Projeto Arquitetônico, Estrutural, Instalações, Consultoria LEED"
-      diferenciais: "Certificação LEED AP, BIM nível 3, projetos corporativos para Fortune 500"
+      cliente_nome: 'Construtora Horizonte'
+      tipo_projeto: 'Comercial Corporativo'
+      area_m2: '3500'
+      endereco: 'Av. Faria Lima, São Paulo'
+      briefing: 'Sede corporativa com certificação LEED Platinum, 8 pavimentos, estacionamento subterrâneo'
+      orcamento: 'R$ 45.000.000'
+      prazo: '30 meses'
+      servicos: 'Projeto Arquitetônico, Estrutural, Instalações, Consultoria LEED'
+      diferenciais: 'Certificação LEED AP, BIM nível 3, projetos corporativos para Fortune 500'
     output: |
       # Proposta Comercial — Sede Construtora Horizonte
 
@@ -71,32 +71,32 @@ few_shot_examples:
       ...
 
 test_cases:
-  - name: "proposta_residencial"
+  - name: 'proposta_residencial'
     input:
-      cliente_nome: "Casal Medeiros"
-      tipo_projeto: "Residencial Alto Padrão"
-      area_m2: "320"
-      endereco: "Condomínio Reserva, Curitiba"
-      briefing: "Casa em estilo minimalista com integração indoor-outdoor"
-      orcamento: "R$ 1.800.000"
-      prazo: "14 meses"
-      servicos: "Projeto Arquitetônico, Interiores"
-      diferenciais: "Especialistas em arquitetura biofílica"
+      cliente_nome: 'Casal Medeiros'
+      tipo_projeto: 'Residencial Alto Padrão'
+      area_m2: '320'
+      endereco: 'Condomínio Reserva, Curitiba'
+      briefing: 'Casa em estilo minimalista com integração indoor-outdoor'
+      orcamento: 'R$ 1.800.000'
+      prazo: '14 meses'
+      servicos: 'Projeto Arquitetônico, Interiores'
+      diferenciais: 'Especialistas em arquitetura biofílica'
     expected_keys: []
-  - name: "proposta_comercial"
+  - name: 'proposta_comercial'
     input:
-      cliente_nome: "TechCorp Brasil"
-      tipo_projeto: "Comercial Corporativo"
-      area_m2: "1200"
-      endereco: "Av. Paulista, São Paulo"
-      briefing: "Escritório open concept para 200 colaboradores"
-      orcamento: "R$ 8.500.000"
-      prazo: "12 meses"
-      servicos: "Projeto Arquitetônico, Interiores Corporativos, Consultoria Acústica"
-      diferenciais: "Portfólio com 30+ escritórios corporativos"
+      cliente_nome: 'TechCorp Brasil'
+      tipo_projeto: 'Comercial Corporativo'
+      area_m2: '1200'
+      endereco: 'Av. Paulista, São Paulo'
+      briefing: 'Escritório open concept para 200 colaboradores'
+      orcamento: 'R$ 8.500.000'
+      prazo: '12 meses'
+      servicos: 'Projeto Arquitetônico, Interiores Corporativos, Consultoria Acústica'
+      diferenciais: 'Portfólio com 30+ escritórios corporativos'
     expected_keys: []
 
 changelog:
-  - version: "1.0.0"
-    date: "2026-06-09"
-    description: "Initial release with structured proposal template"
+  - version: '1.0.0'
+    date: '2026-06-09'
+    description: 'Initial release with structured proposal template'

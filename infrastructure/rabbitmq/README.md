@@ -9,16 +9,16 @@ Implementa comunicação assíncrona entre squads via domain events.
 
 ### Exchanges
 
-| Exchange | Type | Propósito |
-|----------|------|-----------|
-| `archtech.leads` | topic | Eventos de leads e reuniões |
-| `archtech.marketing` | topic | Eventos de conteúdo e campanhas |
-| `archtech.projects` | topic | Eventos de projetos e renders |
-| `archtech.construction` | topic | Eventos de obra e orçamento |
-| `archtech.internal` | topic | Eventos internos (documentos, insights) |
-| `archtech.ai.jobs` | direct | Jobs assíncronos de IA |
-| `archtech.dlq` | fanout | Dead letter queue (alertas) |
-| `archtech.retry` | direct | Retry queue (backoff exponencial) |
+| Exchange                | Type   | Propósito                               |
+| ----------------------- | ------ | --------------------------------------- |
+| `archtech.leads`        | topic  | Eventos de leads e reuniões             |
+| `archtech.marketing`    | topic  | Eventos de conteúdo e campanhas         |
+| `archtech.projects`     | topic  | Eventos de projetos e renders           |
+| `archtech.construction` | topic  | Eventos de obra e orçamento             |
+| `archtech.internal`     | topic  | Eventos internos (documentos, insights) |
+| `archtech.ai.jobs`      | direct | Jobs assíncronos de IA                  |
+| `archtech.dlq`          | fanout | Dead letter queue (alertas)             |
+| `archtech.retry`        | direct | Retry queue (backoff exponencial)       |
 
 ### Filas
 

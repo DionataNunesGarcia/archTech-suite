@@ -39,16 +39,16 @@ aws rds start-export-task \
 
 ## Recovery Point Objective (RPO)
 
-| Ambiente | RPO | Método |
-|----------|-----|--------|
-| Dev | 24h | DDEV snapshot |
-| Staging | 24h | RDS automated backup |
-| Production | 1h | RDS automated backup + WAL streaming |
+| Ambiente   | RPO | Método                               |
+| ---------- | --- | ------------------------------------ |
+| Dev        | 24h | DDEV snapshot                        |
+| Staging    | 24h | RDS automated backup                 |
+| Production | 1h  | RDS automated backup + WAL streaming |
 
 ## Recovery Time Objective (RTO)
 
-| Ambiente | RTO | Método |
-|----------|-----|--------|
-| Dev | 15min | DDEV restore |
-| Staging | 2h | RDS restore |
-| Production | 4h | RDS point-in-time recovery |
+| Ambiente   | RTO   | Método                     |
+| ---------- | ----- | -------------------------- |
+| Dev        | 15min | DDEV restore               |
+| Staging    | 2h    | RDS restore                |
+| Production | 4h    | RDS point-in-time recovery |

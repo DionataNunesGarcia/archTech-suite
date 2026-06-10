@@ -69,19 +69,19 @@
   ],
   "connections": {
     "Lead Scored Event": {
-      "main": [[ { "node": "Score >= 7?", "type": "main", "index": 0 } ]]
+      "main": [[{ "node": "Score >= 7?", "type": "main", "index": 0 }]]
     },
     "Score >= 7?": {
       "main": [
-        [ { "node": "Get Available Slots", "type": "main", "index": 0 } ],
-        [ { "node": "Enqueue for CRM", "type": "main", "index": 0 } ]
+        [{ "node": "Get Available Slots", "type": "main", "index": 0 }],
+        [{ "node": "Enqueue for CRM", "type": "main", "index": 0 }]
       ]
     },
     "Get Available Slots": {
-      "main": [[ { "node": "Send Scheduling Email", "type": "main", "index": 0 } ]]
+      "main": [[{ "node": "Send Scheduling Email", "type": "main", "index": 0 }]]
     },
     "Enqueue for CRM": {
-      "main": [[ { "node": "Notify Squad", "type": "main", "index": 0 } ]]
+      "main": [[{ "node": "Notify Squad", "type": "main", "index": 0 }]]
     }
   },
   "settings": {

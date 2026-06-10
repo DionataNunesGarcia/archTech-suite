@@ -1,7 +1,7 @@
 uuid: 6d58dd5a-2e29-4306-843b-7f92b343490f
 langcode: pt-br
 status: true
-dependencies: {  }
+dependencies: {}
 _core:
   default_config_hash: JXYDC3SLZUXSwnTjR9rBo6uZF3vDSZd8S7EA5ZOH7kM
 name: thumbnail

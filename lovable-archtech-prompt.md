@@ -12,67 +12,69 @@ All colors must be expressed as CSS custom properties matching the existing `_co
 
 ```css
 :root {
-  /* Primary — deep teal-blue (trust, architecture) */
-  --color-primary:           oklch(45% .098 248.5);   /* #1A5C8A */
-  --color-primary-light:     oklch(62% .118 248.5);
-  --color-primary-dark:      oklch(35% .078 248.5);
-  --color-primary-subtle:    oklch(96% .018 248.5);
-  --color-primary-muted:     oklch(92% .038 248.5);
-  --color-primary-foreground: #ffffff;
+	/* Primary — deep teal-blue (trust, architecture) */
+	--color-primary: oklch(45% 0.098 248.5); /* #1A5C8A */
+	--color-primary-light: oklch(62% 0.118 248.5);
+	--color-primary-dark: oklch(35% 0.078 248.5);
+	--color-primary-subtle: oklch(96% 0.018 248.5);
+	--color-primary-muted: oklch(92% 0.038 248.5);
+	--color-primary-foreground: #ffffff;
 
-  /* Secondary — warm gold (premium, highlights) */
-  --color-secondary:           oklch(72% .118 82.5);   /* #E8C87A */
-  --color-secondary-light:     oklch(82% .078 82.5);
-  --color-secondary-dark:      oklch(62% .098 82.5);
-  --color-secondary-subtle:    oklch(98% .018 82.5);
-  --color-secondary-muted:     oklch(95% .048 82.5);
-  --color-secondary-foreground: #1a1a18;
+	/* Secondary — warm gold (premium, highlights) */
+	--color-secondary: oklch(72% 0.118 82.5); /* #E8C87A */
+	--color-secondary-light: oklch(82% 0.078 82.5);
+	--color-secondary-dark: oklch(62% 0.098 82.5);
+	--color-secondary-subtle: oklch(98% 0.018 82.5);
+	--color-secondary-muted: oklch(95% 0.048 82.5);
+	--color-secondary-foreground: #1a1a18;
 
-  /* Neutrals — warm off-white */
-  --color-neutral-50:   oklch(99% .004 85);
-  --color-neutral-100:  oklch(97% .006 85);
-  --color-neutral-200:  oklch(93% .008 85);
-  --color-neutral-300:  oklch(87% .008 85);
-  --color-neutral-400:  oklch(72% .008 85);
-  --color-neutral-500:  oklch(58% .008 85);
-  --color-neutral-600:  oklch(46% .008 85);
-  --color-neutral-700:  oklch(38% .008 85);
-  --color-neutral-800:  oklch(28% .008 85);
-  --color-neutral-900:  oklch(18% .008 85);
+	/* Neutrals — warm off-white */
+	--color-neutral-50: oklch(99% 0.004 85);
+	--color-neutral-100: oklch(97% 0.006 85);
+	--color-neutral-200: oklch(93% 0.008 85);
+	--color-neutral-300: oklch(87% 0.008 85);
+	--color-neutral-400: oklch(72% 0.008 85);
+	--color-neutral-500: oklch(58% 0.008 85);
+	--color-neutral-600: oklch(46% 0.008 85);
+	--color-neutral-700: oklch(38% 0.008 85);
+	--color-neutral-800: oklch(28% 0.008 85);
+	--color-neutral-900: oklch(18% 0.008 85);
 
-  /* Semantic */
-  --background:          #FCFCF9;
-  --foreground:          var(--color-neutral-900);
-  --muted:               #F2F1ED;
-  --muted-foreground:    #6B6A66;
-  --border:              rgba(0, 0, 0, 0.08);
+	/* Semantic */
+	--background: #fcfcf9;
+	--foreground: var(--color-neutral-900);
+	--muted: #f2f1ed;
+	--muted-foreground: #6b6a66;
+	--border: rgba(0, 0, 0, 0.08);
 }
 ```
 
-### Typography (MUST match _typography.scss tokens)
+### Typography (MUST match \_typography.scss tokens)
 
 ```css
 :root {
-  --font-family:       "Instrument Sans", system-ui, sans-serif;
-  --font-family-serif: "PT Serif", Georgia, serif;
-  --font-size-base:    1rem;        /* 16px */
-  --text-sm:   0.875rem;
-  --text-base: 1rem;
-  --text-lg:   1.125rem;
-  --text-xl:   1.25rem;
-  --text-2xl:  1.5rem;
-  --text-3xl:  1.875rem;
-  --text-4xl:  2.25rem;
-  --text-5xl:  3rem;
-  --text-6xl:  3.75rem;
-  --text-7xl:  4.5rem;
+	--font-family: 'Instrument Sans', system-ui, sans-serif;
+	--font-family-serif: 'PT Serif', Georgia, serif;
+	--font-size-base: 1rem; /* 16px */
+	--text-sm: 0.875rem;
+	--text-base: 1rem;
+	--text-lg: 1.125rem;
+	--text-xl: 1.25rem;
+	--text-2xl: 1.5rem;
+	--text-3xl: 1.875rem;
+	--text-4xl: 2.25rem;
+	--text-5xl: 3rem;
+	--text-6xl: 3.75rem;
+	--text-7xl: 4.5rem;
 }
 ```
 
-### Spacing (MUST match _spacing.scss tokens)
+### Spacing (MUST match \_spacing.scss tokens)
+
 `--space-1` through `--space-16` (0.25rem increments). Max content width: 1200px.
 
-### Effects (MUST match _effects.scss tokens)
+### Effects (MUST match \_effects.scss tokens)
+
 `--radius: 0.5rem`, `--shadow-sm`, `--shadow-md`, `--blur-sm: 4px`.
 
 ---

@@ -7,4 +7,3 @@ dependencies:
   - drupal:media
   - drupal:image
   - drupal:responsive_image
-

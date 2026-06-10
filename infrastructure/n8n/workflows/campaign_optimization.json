@@ -4,7 +4,7 @@
     {
       "parameters": {
         "rule": {
-          "interval": [ { "field": "hours", "hoursInterval": 24 } ]
+          "interval": [{ "field": "hours", "hoursInterval": 24 }]
         }
       },
       "type": "n8n-nodes-base.scheduleTrigger",
@@ -99,21 +99,21 @@
   ],
   "connections": {
     "Daily at 8am BRT": {
-      "main": [[ { "node": "Fetch Active Campaigns", "type": "main", "index": 0 } ]]
+      "main": [[{ "node": "Fetch Active Campaigns", "type": "main", "index": 0 }]]
     },
     "Fetch Active Campaigns": {
-      "main": [[ { "node": "Enrich with Analytics", "type": "main", "index": 0 } ]]
+      "main": [[{ "node": "Enrich with Analytics", "type": "main", "index": 0 }]]
     },
     "Enrich with Analytics": {
-      "main": [[ { "node": "AI Optimization", "type": "main", "index": 0 } ]]
+      "main": [[{ "node": "AI Optimization", "type": "main", "index": 0 }]]
     },
     "AI Optimization": {
-      "main": [[ { "node": "Action = Adjust?", "type": "main", "index": 0 } ]]
+      "main": [[{ "node": "Action = Adjust?", "type": "main", "index": 0 }]]
     },
     "Action = Adjust?": {
       "main": [
-        [ { "node": "Notify Marketing Squad", "type": "main", "index": 0 } ],
-        [ { "node": "Notify Status OK", "type": "main", "index": 0 } ]
+        [{ "node": "Notify Marketing Squad", "type": "main", "index": 0 }],
+        [{ "node": "Notify Status OK", "type": "main", "index": 0 }]
       ]
     }
   },

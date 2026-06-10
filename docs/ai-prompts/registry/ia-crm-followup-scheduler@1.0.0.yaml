@@ -22,14 +22,28 @@ user_prompt_template: |
   Canal preferido: {{canal_preferido}}
   Status atual: {{status}}
 few_shot_examples:
-  - input: { lead_nome: "Carlos Silva", score: "9", ultimo_contato: "2026-06-08", canal_preferido: "whatsapp", status: "qualificado" }
+  - input:
+      {
+        lead_nome: 'Carlos Silva',
+        score: '9',
+        ultimo_contato: '2026-06-08',
+        canal_preferido: 'whatsapp',
+        status: 'qualificado',
+      }
     output: '{"proximo_contato":"2026-06-09T10:00:00-03:00","canal":"whatsapp","mensagem_template":"Olá Carlos, obrigado pelo interesse! Temos disponibilidade para reunião amanhã às 10h ou 15h. Qual prefere?","prioridade":"alta"}'
 test_cases:
-  - name: "followup_prioridade_alta"
-    input: { lead_nome: "Construtora Beta", score: "9", ultimo_contato: "2026-06-08", canal_preferido: "telefone", status: "qualificado" }
-    expected_keys: ["proximo_contato", "canal", "mensagem_template", "prioridade"]
+  - name: 'followup_prioridade_alta'
+    input:
+      {
+        lead_nome: 'Construtora Beta',
+        score: '9',
+        ultimo_contato: '2026-06-08',
+        canal_preferido: 'telefone',
+        status: 'qualificado',
+      }
+    expected_keys: ['proximo_contato', 'canal', 'mensagem_template', 'prioridade']
 output_schema: { type: object, required: [proximo_contato, canal, mensagem_template, prioridade] }
 changelog:
-  - version: "1.0.0"
-    date: "2026-06-09"
-    description: "Initial release"
+  - version: '1.0.0'
+    date: '2026-06-09'
+    description: 'Initial release'

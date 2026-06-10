@@ -20,8 +20,13 @@ user_prompt_template: |
   Equipe disponível: {{equipe_json}}
   Restrições: {{restricoes}}
 test_cases:
-  - name: "alocar_equipe"
-    input: { projetos_json: '[{"id":1,"nome":"Torre Sul","etapa":"Projeto Executivo","prazo":"2026-08-15","horas_estimadas":320,"senioridade":"senior"},{"id":2,"nome":"Galpão Industrial","etapa":"Anteprojeto","prazo":"2026-07-30","horas_estimadas":120,"senioridade":"pleno"}]', equipe_json: '[{"id":1,"nome":"Ana","cargo":"Arquiteta Sênior","horas_disponiveis_semana":20,"competencias":["comercial","residencial"]},{"id":2,"nome":"Bruno","cargo":"Arquiteto Pleno","horas_disponiveis_semana":30,"competencias":["industrial","estrutural"]}]', restricoes: "Ana de férias 01-15/07. Bruno não pode trabalhar em mais de 2 projetos simultâneos." }
-    expected_keys: ["alocacoes", "conflitos", "recomendacoes", "carga_media_equipe"]
+  - name: 'alocar_equipe'
+    input:
+      {
+        projetos_json: '[{"id":1,"nome":"Torre Sul","etapa":"Projeto Executivo","prazo":"2026-08-15","horas_estimadas":320,"senioridade":"senior"},{"id":2,"nome":"Galpão Industrial","etapa":"Anteprojeto","prazo":"2026-07-30","horas_estimadas":120,"senioridade":"pleno"}]',
+        equipe_json: '[{"id":1,"nome":"Ana","cargo":"Arquiteta Sênior","horas_disponiveis_semana":20,"competencias":["comercial","residencial"]},{"id":2,"nome":"Bruno","cargo":"Arquiteto Pleno","horas_disponiveis_semana":30,"competencias":["industrial","estrutural"]}]',
+        restricoes: 'Ana de férias 01-15/07. Bruno não pode trabalhar em mais de 2 projetos simultâneos.',
+      }
+    expected_keys: ['alocacoes', 'conflitos', 'recomendacoes', 'carga_media_equipe']
 output_schema: { type: object, required: [alocacoes, conflitos, recomendacoes, carga_media_equipe] }
-changelog: [{ version: "1.0.0", date: "2026-06-09", description: "Initial release" }]
+changelog: [{ version: '1.0.0', date: '2026-06-09', description: 'Initial release' }]
